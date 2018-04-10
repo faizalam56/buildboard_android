@@ -28,7 +28,7 @@ else
  git push origin $appversionname
 
  # upload the build on hockey app
- fastlane developers
+ fastlane production
  echo "Successfully uploaded on hockey app."
 
 fi
