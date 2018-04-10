@@ -3,6 +3,7 @@
     package="com.buildboard">
 
     <application
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.buildboard.MainActivity" />
+        <activity android:name=".modules.login.MainActivity" />
 
-        <activity android:name="com.buildboard.SplashActivity"
+        <activity android:name=".modules.splash.SplashActivity"
             android:theme="@style/_NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
