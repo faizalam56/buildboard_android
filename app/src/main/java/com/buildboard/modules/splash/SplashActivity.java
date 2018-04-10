@@ -1,9 +1,12 @@
-package com.buildboard;
+package com.buildboard.modules.splash;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import com.buildboard.R;
+import com.buildboard.modules.login.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

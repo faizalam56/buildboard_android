@@ -15,7 +15,11 @@ GEM
     declarative-option (0.1.0)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
+<<<<<<< HEAD
+    dotenv (2.2.2)
+=======
     dotenv (2.2.1)
+>>>>>>> dev
     excon (0.62.0)
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
