@@ -26,6 +26,7 @@ Runs all the tests
 fastlane android beta
 ```
 Submit a new Beta Build to Crashlytics Beta
+<<<<<<< HEAD
 ### android production
 ```
 fastlane android production
@@ -36,6 +37,13 @@ Upload a new production Build to Hockey App
 fastlane android developers
 ```
 Upload a new development Build to Hockey App
+=======
+### android hockey_build
+```
+fastlane android hockey_build
+```
+Upload a new Beta Build to Hockey App
+>>>>>>> dev
 ### android deploy
 ```
 fastlane android deploy
