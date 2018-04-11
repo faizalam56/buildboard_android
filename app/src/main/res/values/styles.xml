@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -12,6 +10,93 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="_NoActionBar_" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="_NoActionBar_transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="background">@null</item>
+    </style>
+
+    //10px
+
+    <style name="textSize_smallest" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+    //12px
+
+    <style name="textSize_smaller" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+    //14px
+
+    <style name="textSize_small" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_14ssp</item>
+    </style>
+
+    //16px
+
+    <style name="textSize_medium" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_16ssp</item>
+    </style>
+
+    //18px
+
+    <style name="textSize_large" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_18ssp</item>
+    </style>
+
+    //22px
+
+    <style name="textSize_header" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/_22ssp</item>
+    </style>
+
+    //10px
+
+    <style name="edit_text_size_smallest" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+    //12px
+
+    <style name="edit_text_size_smaller" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+    //14px
+
+    <style name="edit_text_size_small" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_14ssp</item>
+    </style>
+
+    //16px
+
+    <style name="edit_text_size_medium" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_16ssp</item>
+    </style>
+
+    //18px
+
+    <style name="edit_text_size_large" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_18ssp</item>
+    </style>
+
+    //22px
+
+    <style name="edit_text_size_header" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_22ssp</item>
     </style>
 
 </resources>
