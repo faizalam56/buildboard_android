@@ -1,4 +1,4 @@
-package com.buildboard.preferences;
+package com.buildboard.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 public class AppPreference {
 
     private static final String APP_SHARED_PREFERENCE = "App_Preference";
-
     private static SharedPreferences.Editor editor;
 
     public static AppPreference create(Context context) {
