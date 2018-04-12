@@ -11,8 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".modules.login.MainActivity" />
-
         <activity
             android:name=".modules.splash.SplashActivity"
             android:theme="@style/_NoActionBar_">
