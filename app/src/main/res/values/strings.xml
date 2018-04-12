@@ -21,4 +21,6 @@
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="login_with_google">Login with Google</string>
     <string name="sign_in">Sign In</string>
+    <string name="contractor">Contractor</string>
+    <string name="consumer">Consumer</string>
 </resources>
