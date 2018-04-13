@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/image_app_icon"
-            android:layout_width="200dp"
-            android:layout_height="130dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_130sdp"
             android:src="@drawable/logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -40,28 +40,27 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textinputlayout_username"
-            style="@style/_textinputlayout_login_screen"
+            style="@style/textinputlayout_style"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/linear_spinner_holder">
 
             <EditText
                 android:id="@+id/edit_username"
-                style="@style/_edittext_login_screen"
+                style="@style/edittext_style"
                 android:hint="@string/username" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textinputlayout_password"
-            style="@style/_textinputlayout_login_screen"
+            style="@style/textinputlayout_style"
             android:layout_marginTop="@dimen/_5sdp"
             app:layout_constraintTop_toBottomOf="@+id/textinputlayout_username">
 
             <EditText
                 android:id="@+id/edit_password"
-                style="@style/_edittext_login_screen"
+                style="@style/edittext_style"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
@@ -82,7 +81,7 @@
 
         <Button
             android:id="@+id/button_signin"
-            style="@style/_button_login_screen"
+            style="@style/button_style"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/green_button_background"
             android:text="@string/sign_in"
@@ -117,7 +116,7 @@
 
         <Button
             android:id="@+id/button_login_facebook"
-            style="@style/_button_login_screen"
+            style="@style/button_style"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/blue_button_background"
             android:text="@string/login_with_facebook"
@@ -126,7 +125,7 @@
 
         <Button
             android:id="@+id/button_login_google"
-            style="@style/_button_login_screen"
+            style="@style/button_style"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/red_button_background"
             android:text="@string/login_with_google"
