@@ -23,4 +23,7 @@
     <string name="sign_in">Sign In</string>
     <string name="contractor">Contractor</string>
     <string name="consumer">Consumer</string>
+
+    <string name="error_password_msg">Please enter password</string>
+    <string name="error_username_msg">Please enter username</string>
 </resources>
