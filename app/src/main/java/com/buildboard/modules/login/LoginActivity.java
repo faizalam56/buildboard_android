@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
 
         setFont();
         setSpinnerAdapter();
-        isFieldsValid();
     }
 
     private void setSpinnerAdapter() {
