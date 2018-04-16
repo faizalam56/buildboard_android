@@ -34,6 +34,8 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="other">Other</string>
+    <string name="type_of_contractor">Type of contractor</string>
+    <string name="working_area">Working area/radius</string>
 
     <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
 
@@ -42,4 +44,7 @@
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
+    <string name="business_name">Business name</string>
+    <string name="business_address">Business address</string>
+    <string name="brief_summary_of_your_company">Brief summary of your company...</string>
 </resources>
