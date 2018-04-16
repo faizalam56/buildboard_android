@@ -55,7 +55,8 @@
 
             <Spinner
                 android:id="@+id/spinner_gender"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:overlapAnchor="false"
+                style="@style/OverflowMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -128,7 +129,8 @@
 
             <Spinner
                 android:id="@+id/spinner_contact_mode"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:overlapAnchor="false"
+                style="@style/OverflowMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

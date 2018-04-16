@@ -55,7 +55,8 @@
 
             <Spinner
                 android:id="@+id/spinner_gender"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:overlapAnchor="false"
+                style="@style/OverflowMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -100,7 +101,8 @@
 
         <Spinner
             android:id="@+id/spinner_contractor_type"
-            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            android:overlapAnchor="false"
+            style="@style/OverflowMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         </LinearLayout>
@@ -144,7 +146,8 @@
 
             <Spinner
                 android:id="@+id/spinner_working_area"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:overlapAnchor="false"
+                style="@style/OverflowMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
