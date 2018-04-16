@@ -2,7 +2,6 @@
     <string name="app_name">BuildBoard</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -24,6 +23,28 @@
     <string name="contractor">Contractor</string>
     <string name="consumer">Consumer</string>
 
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="address">Address</string>
+    <string name="phone_no">Phone no.</string>
+    <string name="preferred_contact_mode">Preferred contact mode</string>
+
+    <string name="gender">Gender</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="other">Other</string>
+    <string name="type_of_contractor">Type of contractor</string>
+    <string name="working_area">Working area/radius</string>
+
+    <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
+
     <string name="error_password_msg">Please enter password</string>
     <string name="error_username_msg">Please enter username</string>
+    <string name="next">Next</string>
+    <string name="by_signing_up">By signing up, you agree with the</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="business_name">Business name</string>
+    <string name="business_address">Business address</string>
+    <string name="brief_summary_of_your_company">Brief summary of your company...</string>
 </resources>
