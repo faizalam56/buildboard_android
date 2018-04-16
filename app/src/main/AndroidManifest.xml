@@ -11,10 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".modules.login.MainActivity" />
-
-        <activity android:name=".modules.splash.SplashActivity"
-            android:theme="@style/_NoActionBar">
+        <activity
+            android:name=".modules.splash.SplashActivity"
+            android:theme="@style/_NoActionBar_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +21,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".modules.login.LoginActivity"
+            android:theme="@style/_NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.buildboard.modules.splash.SplashActivity" />
+        </activity>
     </application>
 
 </manifest>
