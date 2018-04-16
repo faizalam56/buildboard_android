@@ -18,6 +18,7 @@ import com.buildboard.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,13 +71,13 @@ public class SignUpActivity extends AppCompatActivity {
         SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
-        styledString.setSpan(clickableSpan, 34, 50, 0);
-        styledString.setSpan(clickableSpan1, 55, 69, 0);
+        styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
+        styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
         textTermsOfService.setText(styledString);
         textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    ClickableSpan clickableSpan = new ClickableSpan() {
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
@@ -89,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     };
 
-    ClickableSpan clickableSpan1 = new ClickableSpan() {
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();

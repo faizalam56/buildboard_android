@@ -92,8 +92,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void gotoSignUpScreen(View view) {
         if (spinnerUserType.getSelectedItem().equals(stringContractor))
-            startActivity(new Intent(LoginActivity.this, SignUpContractorActivity.class));
+            openActivity(SignUpContractorActivity.class);
         else
-            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            openActivity(SignUpActivity.class);
+    }
+
+    private void openActivity(Class classToReplace){
+        startActivity(new Intent(LoginActivity.this, classToReplace));
+        LoginActivity.this.finish();
     }
 }
