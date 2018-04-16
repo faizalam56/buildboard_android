@@ -1,4 +1,4 @@
-package com.buildboard.modules.login;
+package com.buildboard.modules.signup;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

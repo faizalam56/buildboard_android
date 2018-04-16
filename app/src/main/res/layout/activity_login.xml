@@ -90,6 +90,7 @@
         <TextView
             android:id="@+id/text_signup"
             style="@style/textSize_smaller"
+            android:onClick="gotoSignUpScreen"
             android:layout_width="@dimen/_230sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
