@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.buildboard.R;
+import com.buildboard.utils.FontHelper;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,7 @@ public class SignUpActivity extends SignUpBaseActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        setFont();
         setSpinnerGenderAdapter();
         setSpinnerContactModeAdapter();
 
@@ -50,5 +52,9 @@ public class SignUpActivity extends SignUpBaseActivity {
         userTypeList.add(stringPreferredContactMode);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
         spinnerContactMode.setAdapter(arrayAdapter);
+    }
+
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
     }
 }
