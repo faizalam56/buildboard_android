@@ -5,28 +5,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.modules.selection.UserTypeLoginActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.SignUpContractorActivity;
+import com.buildboard.utils.AppConstant;
 import com.buildboard.utils.FontHelper;
 import com.buildboard.utils.SnackBarFactory;
-
-import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
-
-    @BindView(R.id.spinner_usertype)
-    Spinner spinnerUserType;
+public class LoginActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.edit_username)
     EditText editUserName;
@@ -37,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView textForgotPassword;
     @BindView(R.id.text_signup)
     TextView textSignUp;
+    @BindView(R.id.text_user_type)
+    EditText textUserType;
 
     @BindView(R.id.button_signin)
     Button buttonSignIn;
@@ -61,15 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setFont();
-        setSpinnerAdapter();
-    }
-
-    private void setSpinnerAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringContractor);
-        userTypeList.add(stringConsumer);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerUserType.setAdapter(arrayAdapter);
     }
 
     private void setFont() {
@@ -91,14 +79,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void gotoSignUpScreen(View view) {
-        if (spinnerUserType.getSelectedItem().equals(stringContractor))
-            openActivity(SignUpContractorActivity.class);
+        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
+            openActivity(SignUpContractorActivity.class, false);
         else
-            openActivity(SignUpActivity.class);
+            openActivity(SignUpActivity.class, false);
     }
 
-    private void openActivity(Class classToReplace){
-        startActivity(new Intent(LoginActivity.this, classToReplace));
-        LoginActivity.this.finish();
+    private void openActivity(Class classToReplace, boolean isStartForResult) {
+        Intent intent = new Intent(LoginActivity.this, classToReplace);
+        if (isStartForResult)
+            startActivityForResult(intent, ACTIVITY_RESULT_CODE);
+        else startActivity(intent);
+    }
+
+    public void openUserTypeSelection(View view) {
+        openActivity(UserTypeLoginActivity.class, true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+
+        if (requestCode == ACTIVITY_RESULT_CODE) {
+            if (data.hasExtra(INTENT_SELECTION))
+                textUserType.setText(data.getStringExtra(INTENT_SELECTION));
+        }
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="user_type_array">
+        <item>@string/consumer</item>
+        <item>@string/contractor</item>
+    </string-array>
+</resources>

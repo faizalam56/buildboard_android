@@ -1,10 +1,13 @@
 package com.buildboard.modules.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.view.View;
+import android.widget.EditText;
 
 import com.buildboard.R;
+import com.buildboard.modules.selection.UserTypeLoginActivity;
+import com.buildboard.utils.AppConstant;
 import com.buildboard.utils.FontHelper;
 
 import java.util.ArrayList;
@@ -12,12 +15,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignUpContractorActivity extends SignUpBaseActivity {
+public class SignUpContractorActivity extends SignUpBaseActivity implements AppConstant {
 
-    @BindView(R.id.spinner_contractor_type)
-    Spinner spinnerContractorType;
-    @BindView(R.id.spinner_working_area)
-    Spinner spinnerWorkingArea;
+    @BindView(R.id.edit_contractor_type)
+    EditText editContractorType;
+    @BindView(R.id.edit_working_area)
+    EditText editWorkingArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,27 +30,45 @@ public class SignUpContractorActivity extends SignUpBaseActivity {
 
         setFont();
         setSpinnerGenderAdapter();
-        setSpinnerContractorTypeAdapter();
-        setSpinnerWorkingAreaAdapter();
 
         setTermsServiceText();
     }
 
-    protected void setSpinnerContractorTypeAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringContractorType);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerContractorType.setAdapter(arrayAdapter);
-    }
-
-    protected void setSpinnerWorkingAreaAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringWorkingArea);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerWorkingArea.setAdapter(arrayAdapter);
-    }
-
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editEmail, editFirstName, editLastName);
+    }
+
+    private void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> selectionList, int resultCode, String title) {
+        Intent intent = new Intent(SignUpContractorActivity.this, classToReplace);
+        intent.putExtra(DATA, selectionList);
+        intent.putExtra(INTENT_TITLE, title);
+
+        if (isStartForResult)
+            startActivityForResult(intent, resultCode);
+        else startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        if (!data.hasExtra(INTENT_SELECTION)) return;
+
+        if (requestCode == WORKING_AREA_RESULT_CODE)
+            editWorkingArea.setText(data.getStringExtra(INTENT_SELECTION));
+        else if (requestCode == CONTRACTOR_TYPE_RESULT_CODE)
+            editContractorType.setText(data.getStringExtra(INTENT_SELECTION));
+    }
+
+    public void openWorkingAreaSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringWorkingArea);
+        openActivity(SignUpSelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
+    }
+
+    public void openContractorTypeSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringContractorType);
+        openActivity(SignUpSelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
     }
 }

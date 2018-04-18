@@ -47,4 +47,5 @@
     <string name="business_name">Business name</string>
     <string name="business_address">Business address</string>
     <string name="brief_summary_of_your_company">Brief summary of your company...</string>
+    <string name="user_type">User Type</string>
 </resources>
