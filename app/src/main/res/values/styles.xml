@@ -131,12 +131,13 @@
     <style name="OverflowMenu" parent="Base.Widget.AppCompat.Spinner.Underlined">
         <item name="android:windowDisablePreview">true</item>
         <item name="overlapAnchor">false</item>
-        <item name="android:dropDownVerticalOffset">5.0dp</item>
+        <item name="android:dropDownVerticalOffset">0dp</item>
         <item name="android:popupBackground">@color/colorGrayLight</item>
         <item name="android:layout_height">@dimen/_40sdp</item>
         <item name="android:layout_width">0dp</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="android:layout_marginTop">@dimen/_3sdp</item>
+        <item name="android:dropDownWidth">@dimen/_260sdp</item>
     </style>
 </resources>
