@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.text_signup)
     TextView textSignUp;
     @BindView(R.id.text_user_type)
-    EditText textUserType;
+    EditText editUserType;
 
     @BindView(R.id.button_signin)
     Button buttonSignIn;
@@ -79,10 +79,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void gotoSignUpScreen(View view) {
-        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
+        if (editUserType.getText().toString().equalsIgnoreCase(stringContractor))
             openActivity(SignUpContractorActivity.class, false);
-        else
+        else if (editUserType.getText().toString().equalsIgnoreCase(stringConsumer))
             openActivity(SignUpActivity.class, false);
+        else
+            SnackBarFactory.createSnackBar(this, editUserType.getRootView(), getString(R.string.error_select_user_type));
     }
 
     private void openActivity(Class classToReplace, boolean isStartForResult) {
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
         if (requestCode == ACTIVITY_RESULT_CODE) {
             if (data.hasExtra(INTENT_SELECTION))
-                textUserType.setText(data.getStringExtra(INTENT_SELECTION));
+                editUserType.setText(data.getStringExtra(INTENT_SELECTION));
         }
     }
 }
