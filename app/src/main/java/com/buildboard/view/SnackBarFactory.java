@@ -1,4 +1,4 @@
-package com.buildboard.utils;
+package com.buildboard.view;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;

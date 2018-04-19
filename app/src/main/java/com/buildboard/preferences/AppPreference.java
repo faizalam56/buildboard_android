@@ -1,4 +1,4 @@
-package com.buildboard.utils;
+package com.buildboard.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,48 +1,29 @@
 package com.buildboard.modules.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 
 import java.util.ArrayList;
 
-import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
 
-    @BindView(R.id.edit_first_name)
-    EditText editFirstName;
-    @BindView(R.id.edit_last_name)
-    EditText editLastName;
-    @BindView(R.id.spinner_gender)
-    Spinner spinnerGender;
-    @BindView(R.id.edit_email)
-    EditText editEmail;
-    @BindView(R.id.edit_password)
-    EditText editPassword;
     @BindView(R.id.edit_address)
     EditText editAddress;
     @BindView(R.id.edit_phoneno)
     EditText editPhoneNo;
-    @BindView(R.id.spinner_contact_mode)
-    Spinner spinnerContactMode;
-    @BindView(R.id.text_terms_of_service)
-    TextView textTermsOfService;
+    @BindView(R.id.edit_contact_mode)
+    EditText editContactMode;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -61,62 +42,43 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        setFont();
         setSpinnerGenderAdapter();
-        setSpinnerContactModeAdapter();
 
         setTermsServiceText();
     }
 
-    private void setTermsServiceText() {
-        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
-        styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
-        styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
-        textTermsOfService.setText(styledString);
-        textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
     }
 
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
-        }
+    private void openActivity(Class classToReplace, boolean isStartForResult, String title) {
+        Intent intent = new Intent(SignUpActivity.this, classToReplace);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringPreferredContactMode);
+        intent.putExtra(DATA, arrayList);
+        intent.putExtra(INTENT_TITLE, title);
 
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    private void setSpinnerGenderAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringGender);
-        userTypeList.add(stringFemale);
-        userTypeList.add(stringMale);
-        userTypeList.add(stringOther);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerGender.setAdapter(arrayAdapter);
+        if (isStartForResult)
+            startActivityForResult(intent, ACTIVITY_RESULT_CODE);
+        else startActivity(intent);
     }
 
-    private void setSpinnerContactModeAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringPreferredContactMode);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerContactMode.setAdapter(arrayAdapter);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (data == null) return;
+
+            if (requestCode == ACTIVITY_RESULT_CODE) {
+                if (data.hasExtra(INTENT_SELECTED_ITEM))
+                    editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+            }
+        }
+    }
+
+    public void openContactModeSelection(View view) {
+        openActivity(SelectionActivity.class, true, stringPreferredContactMode);
     }
 }

@@ -1,60 +1,26 @@
 package com.buildboard.modules.signup;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 
 import java.util.ArrayList;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignUpContractorActivity extends AppCompatActivity {
+public class SignUpContractorActivity extends SignUpBaseActivity implements AppConstant {
 
-    @BindView(R.id.edit_first_name)
-    EditText editFirstName;
-    @BindView(R.id.edit_last_name)
-    EditText editLastName;
-    @BindView(R.id.spinner_gender)
-    Spinner spinnerGender;
-    @BindView(R.id.edit_email)
-    EditText editEmail;
-    @BindView(R.id.edit_password)
-    EditText editPassword;
-    @BindView(R.id.text_terms_of_service)
-    TextView textTermsOfService;
-    @BindView(R.id.spinner_contractor_type)
-    Spinner spinnerContractorType;
-    @BindView(R.id.spinner_working_area)
-    Spinner spinnerWorkingArea;
-
-    @BindString(R.string.gender)
-    String stringGender;
-    @BindString(R.string.female)
-    String stringFemale;
-    @BindString(R.string.male)
-    String stringMale;
-    @BindString(R.string.other)
-    String stringOther;
-    @BindString(R.string.preferred_contact_mode)
-    String stringPreferredContactMode;
-    @BindString(R.string.type_of_contractor)
-    String stringContractorType;
-    @BindString(R.string.working_area)
-    String stringWorkingArea;
+    @BindView(R.id.edit_contractor_type)
+    EditText editContractorType;
+    @BindView(R.id.edit_working_area)
+    EditText editWorkingArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,70 +28,57 @@ public class SignUpContractorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_contractor);
         ButterKnife.bind(this);
 
+        setFont();
         setSpinnerGenderAdapter();
-        setSpinnerContractorTypeAdapter();
-        setSpinnerWorkingAreaAdapter();
 
         setTermsServiceText();
     }
 
-    private void setTermsServiceText() {
-        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
-        styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
-        styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
-        textTermsOfService.setText(styledString);
-        textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editEmail, editFirstName, editLastName);
     }
 
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpContractorActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
-        }
+    private void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> selectionList, int resultCode, String title) {
+        Intent intent = new Intent(SignUpContractorActivity.this, classToReplace);
+        intent.putExtra(DATA, selectionList);
+        intent.putExtra(INTENT_TITLE, title);
 
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpContractorActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    private void setSpinnerGenderAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringGender);
-        userTypeList.add(stringFemale);
-        userTypeList.add(stringMale);
-        userTypeList.add(stringOther);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerGender.setAdapter(arrayAdapter);
+        if (isStartForResult)
+            startActivityForResult(intent, resultCode);
+        else startActivity(intent);
     }
 
-    private void setSpinnerContractorTypeAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringContractorType);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerContractorType.setAdapter(arrayAdapter);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (data == null) return;
+
+            switch (requestCode) {
+
+                case WORKING_AREA_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case CONTRACTOR_TYPE_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+            }
+        }
     }
 
-    private void setSpinnerWorkingAreaAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringWorkingArea);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerWorkingArea.setAdapter(arrayAdapter);
+    public void openWorkingAreaSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringWorkingArea);
+        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
+    }
+
+    public void openContractorTypeSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringContractorType);
+        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
     }
 }

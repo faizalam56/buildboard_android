@@ -39,12 +39,14 @@
 
     <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
 
-    <string name="error_password_msg">Please enter password</string>
-    <string name="error_username_msg">Please enter username</string>
+    <string name="error_password">Please enter password</string>
+    <string name="error_username">Please enter username</string>
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
     <string name="business_name">Business name</string>
     <string name="business_address">Business address</string>
     <string name="brief_summary_of_your_company">Brief summary of your company...</string>
+    <string name="user_type">User Type</string>
+    <string name="error_select_user_type">Please select user type</string>
 </resources>

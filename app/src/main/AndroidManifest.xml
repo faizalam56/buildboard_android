@@ -4,12 +4,13 @@
 
     <application
         android:name=".app.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".modules.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".modules.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -28,12 +30,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.buildboard.modules.splash.SplashActivity" />
         </activity>
-        <activity android:name=".modules.signup.SignUpActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/sign_up"/>
-        <activity android:name=".modules.signup.SignUpContractorActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/sign_up"/>
-    </application>
 
+        <activity
+            android:name=".modules.signup.SignUpActivity"
+            android:label="@string/sign_up"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.buildboard.modules.login.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".modules.signup.SignUpContractorActivity"
+            android:label="@string/sign_up"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".modules.selection.SelectionActivity"
+            android:screenOrientation="portrait"/>
+
+    </application>
 </manifest>
