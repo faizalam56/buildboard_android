@@ -10,12 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.buildboard.R;
-import com.buildboard.modules.selection.UserTypeLoginActivity;
+import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.SignUpContractorActivity;
 import com.buildboard.utils.AppConstant;
 import com.buildboard.utils.FontHelper;
 import com.buildboard.utils.SnackBarFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -46,9 +50,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     String stringContractor;
     @BindString(R.string.consumer)
     String stringConsumer;
-    @BindString(R.string.error_password_msg)
+    @BindString(R.string.error_password)
     String stringPasswordEmptyMsg;
-    @BindString(R.string.error_username_msg)
+    @BindString(R.string.error_username)
     String stringUsernameEmptyMsg;
 
     @Override
@@ -78,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         return true;
     }
 
-    public void gotoSignUpScreen(View view) {
+    public void openSignUpScreen(View view) {
         if (editUserType.getText().toString().equalsIgnoreCase(stringContractor))
             openActivity(SignUpContractorActivity.class, false);
         else if (editUserType.getText().toString().equalsIgnoreCase(stringConsumer))
@@ -89,13 +93,15 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
     private void openActivity(Class classToReplace, boolean isStartForResult) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
-        if (isStartForResult)
+        if (isStartForResult) {
+
+            intent.putExtra(DATA, getUserTypes());
             startActivityForResult(intent, ACTIVITY_RESULT_CODE);
-        else startActivity(intent);
+        }else startActivity(intent);
     }
 
     public void openUserTypeSelection(View view) {
-        openActivity(UserTypeLoginActivity.class, true);
+        openActivity(SelectionActivity.class, true);
     }
 
     @Override
@@ -107,5 +113,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
             if (data.hasExtra(INTENT_SELECTION))
                 editUserType.setText(data.getStringExtra(INTENT_SELECTION));
         }
+    }
+
+    private ArrayList<String> getUserTypes(){
+        String[] stringArray = getResources().getStringArray(R.array.user_type_array);
+        return new ArrayList<>(Arrays.asList(stringArray));
     }
 }
