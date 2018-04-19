@@ -8,23 +8,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.utils.IRecyclerItemClickListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.ViewHolder> {
 
     private Context mContext;
     private List<String> mArrayList;
     private LayoutInflater layoutInflater;
-    private IItemClick iItemClick;
+    private IRecyclerItemClickListener mClickListener;
 
-    public SelectionAdapter(Context context, List<String> arrayList, IItemClick iItemClick) {
+    public SelectionAdapter(Context context, List<String> arrayList, IRecyclerItemClickListener clickListener) {
         mContext = context;
         mArrayList = arrayList;
-        this.iItemClick = iItemClick;
+        mClickListener = clickListener;
         layoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -52,18 +54,11 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            textSelection.setOnClickListener(clickListener);
         }
 
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iItemClick.onItemClick(getAdapterPosition());
-            }
-        };
-    }
-
-    public interface IItemClick {
-        void onItemClick(int position);
+        @OnClick(R.id.text_selection_item)
+        void rowTapped(View view) {
+            mClickListener.onItemClick(view, getAdapterPosition(), mArrayList.get(getAdapterPosition()));
+        }
     }
 }

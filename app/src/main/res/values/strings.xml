@@ -39,8 +39,8 @@
 
     <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
 
-    <string name="error_password_msg">Please enter password</string>
-    <string name="error_username_msg">Please enter username</string>
+    <string name="error_password">Please enter password</string>
+    <string name="error_username">Please enter username</string>
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>

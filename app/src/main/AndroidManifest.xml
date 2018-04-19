@@ -42,7 +42,7 @@
             android:label="@string/sign_up"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.selection.UserTypeLoginActivity"
+        <activity android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".modules.signup.SignUpSelectionActivity"

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.buildboard.R;
-import com.buildboard.modules.selection.UserTypeLoginActivity;
 import com.buildboard.utils.AppConstant;
 import com.buildboard.utils.FontHelper;
 
@@ -51,13 +50,15 @@ public class SignUpContractorActivity extends SignUpBaseActivity implements AppC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) return;
-        if (!data.hasExtra(INTENT_SELECTION)) return;
+        if(resultCode == RESULT_OK) {
+            if (data == null) return;
+            if (!data.hasExtra(INTENT_SELECTION)) return;
 
-        if (requestCode == WORKING_AREA_RESULT_CODE)
-            editWorkingArea.setText(data.getStringExtra(INTENT_SELECTION));
-        else if (requestCode == CONTRACTOR_TYPE_RESULT_CODE)
-            editContractorType.setText(data.getStringExtra(INTENT_SELECTION));
+            if (requestCode == WORKING_AREA_RESULT_CODE)
+                editWorkingArea.setText(data.getStringExtra(INTENT_SELECTION));
+            else if (requestCode == CONTRACTOR_TYPE_RESULT_CODE)
+                editContractorType.setText(data.getStringExtra(INTENT_SELECTION));
+        }
     }
 
     public void openWorkingAreaSelection(View view) {

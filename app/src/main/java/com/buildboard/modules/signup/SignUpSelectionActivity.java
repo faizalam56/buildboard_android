@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.buildboard.R;
 import com.buildboard.modules.selection.adapters.SelectionAdapter;
 import com.buildboard.utils.AppConstant;
+import com.buildboard.utils.IRecyclerItemClickListener;
 import com.buildboard.utils.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignUpSelectionActivity extends AppCompatActivity implements AppConstant {
+public class SignUpSelectionActivity extends AppCompatActivity implements AppConstant, IRecyclerItemClickListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -38,17 +40,17 @@ public class SignUpSelectionActivity extends AppCompatActivity implements AppCon
 
         final ArrayList<String> arrayList = getIntent().getStringArrayListExtra(DATA);
 
-        SelectionAdapter userTypeAdapter = new SelectionAdapter(this, arrayList, new SelectionAdapter.IItemClick() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent();
-                intent.putExtra(INTENT_SELECTION, arrayList.get(position));
-                setResult(ACTIVITY_RESULT_CODE, intent);
-                SignUpSelectionActivity.this.finish();
-            }
-        });
+        SelectionAdapter userTypeAdapter = new SelectionAdapter(this, arrayList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerView.setAdapter(userTypeAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object data) {
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_SELECTION, (String)data);
+        setResult(ACTIVITY_RESULT_CODE, intent);
+        SignUpSelectionActivity.this.finish();
     }
 }
