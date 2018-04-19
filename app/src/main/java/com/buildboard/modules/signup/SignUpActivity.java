@@ -2,15 +2,18 @@ package com.buildboard.modules.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.EditText;
 
 import com.buildboard.R;
-import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -43,25 +46,12 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
         ButterKnife.bind(this);
 
         setFont();
-        setSpinnerGenderAdapter();
-
         setTermsServiceText();
+        checkUserType();
     }
 
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
-    }
-
-    private void openActivity(Class classToReplace, boolean isStartForResult, String title) {
-        Intent intent = new Intent(SignUpActivity.this, classToReplace);
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringPreferredContactMode);
-        intent.putExtra(DATA, arrayList);
-        intent.putExtra(INTENT_TITLE, title);
-
-        if (isStartForResult)
-            startActivityForResult(intent, ACTIVITY_RESULT_CODE);
-        else startActivity(intent);
     }
 
     @Override
@@ -71,14 +61,52 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
         if (resultCode == RESULT_OK) {
             if (data == null) return;
 
-            if (requestCode == ACTIVITY_RESULT_CODE) {
-                if (data.hasExtra(INTENT_SELECTED_ITEM))
-                    editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+            switch (requestCode) {
+
+                case WORKING_AREA_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case CONTRACTOR_TYPE_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case CONTACT_MODE_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case USER_TYPE_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM)) {
+                        textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                        checkUserType();
+                    }
+                    break;
             }
         }
     }
 
+    public void openUserTypeSelection(View view) {
+        openActivity(SelectionActivity.class, true, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_RESULT_CODE, stringUserType);
+    }
+
     public void openContactModeSelection(View view) {
-        openActivity(SelectionActivity.class, true, stringPreferredContactMode);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringPreferredContactMode);
+        openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_RESULT_CODE, stringPreferredContactMode);
+    }
+
+    public void openWorkingAreaSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringWorkingArea);
+        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
+    }
+
+    public void openContractorTypeSelection(View view) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(stringContractorType);
+        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
     }
 }

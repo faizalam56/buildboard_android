@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
-import com.buildboard.modules.signup.SignUpContractorActivity;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.view.SnackBarFactory;
@@ -88,12 +87,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void openSignUpScreen(View view) {
-        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
+        openActivity(SignUpActivity.class, false);
+
+        /*if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
             openActivity(SignUpContractorActivity.class, false);
         else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer))
             openActivity(SignUpActivity.class, false);
         else
-            SnackBarFactory.createSnackBar(this, textUserType.getRootView(), getString(R.string.error_select_user_type));
+            SnackBarFactory.createSnackBar(this, textUserType.getRootView(), getString(R.string.error_select_user_type));*/
     }
 
     private void openActivity(Class classToReplace, boolean isStartForResult) {
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         if (isStartForResult) {
             intent.putExtra(DATA, getUserTypesList());
             intent.putExtra(INTENT_TITLE, stringUserType);
-            startActivityForResult(intent, ACTIVITY_RESULT_CODE);
+            startActivityForResult(intent, USER_TYPE_RESULT_CODE);
         } else startActivity(intent);
     }
 
@@ -116,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         if (resultCode == RESULT_OK) {
             if (data == null) return;
 
-            if (requestCode == ACTIVITY_RESULT_CODE) {
+            if (requestCode == USER_TYPE_RESULT_CODE) {
                 if (data.hasExtra(INTENT_SELECTED_ITEM))
                     textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }

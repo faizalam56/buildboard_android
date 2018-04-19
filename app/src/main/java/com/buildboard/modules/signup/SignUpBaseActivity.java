@@ -1,5 +1,7 @@
 package com.buildboard.modules.signup;
 
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -7,20 +9,21 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 
 import java.util.ArrayList;
 
+import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 
-public class SignUpBaseActivity extends AppCompatActivity {
+public class SignUpBaseActivity extends AppCompatActivity implements AppConstant {
+
     @BindView(R.id.text_terms_of_service)
     TextView textTermsOfService;
 
@@ -33,6 +36,19 @@ public class SignUpBaseActivity extends AppCompatActivity {
     EditText editEmail;
     @BindView(R.id.edit_password)
     EditText editPassword;
+
+    @BindView(R.id.edit_contractor_type)
+    EditText editContractorType;
+    @BindView(R.id.edit_working_area)
+    EditText editWorkingArea;
+
+    @BindView(R.id.text_user_type)
+    TextView textUserType;
+
+    @BindView(R.id.constraint_consumer_address_container)
+    ConstraintLayout constraintConsumerAddressContainer;
+    @BindView(R.id.constraint_contractor_address_container)
+    ConstraintLayout constraintContractorAddressContainer;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -48,9 +64,15 @@ public class SignUpBaseActivity extends AppCompatActivity {
     String stringContractorType;
     @BindString(R.string.working_area)
     String stringWorkingArea;
+    @BindString(R.string.user_type)
+    String stringUserType;
+    @BindString(R.string.contractor)
+    String stringContractor;
+    @BindString(R.string.consumer)
+    String stringConsumer;
 
-    @BindView(R.id.spinner_gender)
-    Spinner spinnerGender;
+    @BindArray(R.array.user_type_array)
+    String[] arrayUserType;
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
@@ -78,16 +100,6 @@ public class SignUpBaseActivity extends AppCompatActivity {
         }
     };
 
-    protected void setSpinnerGenderAdapter() {
-        ArrayList<String> userTypeList = new ArrayList<>();
-        userTypeList.add(stringGender);
-        userTypeList.add(stringFemale);
-        userTypeList.add(stringMale);
-        userTypeList.add(stringOther);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.spinner_usertype_item, userTypeList);
-        spinnerGender.setAdapter(arrayAdapter);
-    }
-
     protected void setTermsServiceText() {
         SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
@@ -96,5 +108,28 @@ public class SignUpBaseActivity extends AppCompatActivity {
         styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
         textTermsOfService.setText(styledString);
         textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    protected void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> arrayList, int requestCode, String title) {
+        Intent intent = new Intent(SignUpBaseActivity.this, classToReplace);
+        intent.putExtra(DATA, arrayList);
+        intent.putExtra(INTENT_TITLE, title);
+
+        if (isStartForResult)
+            startActivityForResult(intent, requestCode);
+        else startActivity(intent);
+    }
+
+    protected void checkUserType() {
+        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
+            constraintContractorAddressContainer.setVisibility(View.VISIBLE);
+            constraintConsumerAddressContainer.setVisibility(View.GONE);
+        } else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer)) {
+            constraintConsumerAddressContainer.setVisibility(View.VISIBLE);
+            constraintContractorAddressContainer.setVisibility(View.GONE);
+        } else {
+            constraintContractorAddressContainer.setVisibility(View.GONE);
+            constraintConsumerAddressContainer.setVisibility(View.GONE);
+        }
     }
 }

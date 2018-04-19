@@ -34,15 +34,6 @@
         <activity
             android:name=".modules.signup.SignUpActivity"
             android:label="@string/sign_up"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.buildboard.modules.login.LoginActivity" />
-        </activity>
-
-        <activity
-            android:name=".modules.signup.SignUpContractorActivity"
-            android:label="@string/sign_up"
             android:screenOrientation="portrait" />
 
         <activity android:name=".modules.selection.SelectionActivity"
