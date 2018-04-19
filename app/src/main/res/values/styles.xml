@@ -126,6 +126,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/_14ssp</item>
         <item name="android:paddingLeft">@dimen/_5sdp</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="OverflowMenu" parent="Base.Widget.AppCompat.Spinner.Underlined">

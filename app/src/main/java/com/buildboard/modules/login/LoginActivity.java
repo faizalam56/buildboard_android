@@ -31,9 +31,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     EditText editUserName;
     @BindView(R.id.edit_password)
     EditText editPassword;
-    @BindView(R.id.text_user_type)
-    EditText editUserType;
 
+    @BindView(R.id.text_user_type)
+    TextView textUserType;
     @BindView(R.id.text_forgot_password)
     TextView textForgotPassword;
     @BindView(R.id.text_signup)
@@ -88,12 +88,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void openSignUpScreen(View view) {
-        if (editUserType.getText().toString().equalsIgnoreCase(stringContractor))
+        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
             openActivity(SignUpContractorActivity.class, false);
-        else if (editUserType.getText().toString().equalsIgnoreCase(stringConsumer))
+        else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer))
             openActivity(SignUpActivity.class, false);
         else
-            SnackBarFactory.createSnackBar(this, editUserType.getRootView(), getString(R.string.error_select_user_type));
+            SnackBarFactory.createSnackBar(this, textUserType.getRootView(), getString(R.string.error_select_user_type));
     }
 
     private void openActivity(Class classToReplace, boolean isStartForResult) {
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
             if (requestCode == ACTIVITY_RESULT_CODE) {
                 if (data.hasExtra(INTENT_SELECTED_ITEM))
-                    editUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }
         }
     }
