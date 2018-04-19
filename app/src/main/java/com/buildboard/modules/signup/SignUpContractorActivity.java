@@ -52,12 +52,12 @@ public class SignUpContractorActivity extends SignUpBaseActivity implements AppC
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (data == null) return;
-            if (!data.hasExtra(INTENT_SELECTION)) return;
+            if (!data.hasExtra(INTENT_SELECTED_ITEM)) return;
 
             if (requestCode == WORKING_AREA_RESULT_CODE)
-                editWorkingArea.setText(data.getStringExtra(INTENT_SELECTION));
+                editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             else if (requestCode == CONTRACTOR_TYPE_RESULT_CODE)
-                editContractorType.setText(data.getStringExtra(INTENT_SELECTION));
+                editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
         }
     }
 

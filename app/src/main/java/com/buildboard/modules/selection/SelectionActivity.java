@@ -9,14 +9,11 @@ import android.view.View;
 
 import com.buildboard.R;
 import com.buildboard.modules.selection.adapters.SelectionAdapter;
-import com.buildboard.modules.signup.SignUpSelectionActivity;
 import com.buildboard.utils.AppConstant;
 import com.buildboard.utils.IRecyclerItemClickListener;
 import com.buildboard.utils.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -57,7 +54,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
     @Override
     public void onItemClick(View view, int position, Object data) {
         Intent intent = new Intent();
-        intent.putExtra(INTENT_SELECTION, (String) data);
+        intent.putExtra(INTENT_SELECTED_ITEM, (String) data);
         setResult(ACTIVITY_RESULT_CODE, intent);
         SelectionActivity.this.finish();
     }

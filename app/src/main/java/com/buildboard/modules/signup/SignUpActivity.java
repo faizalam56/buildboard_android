@@ -21,6 +21,8 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
     EditText editAddress;
     @BindView(R.id.edit_phoneno)
     EditText editPhoneNo;
+    @BindView(R.id.edit_contact_mode)
+    EditText editContactMode;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -32,8 +34,6 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
     String stringOther;
     @BindString(R.string.preferred_contact_mode)
     String stringPreferredContactMode;
-    @BindView(R.id.edit_contact_mode)
-    EditText editContactMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,11 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (data == null) return;
-            if (!data.hasExtra(INTENT_SELECTION)) return;
+            if (!data.hasExtra(INTENT_SELECTED_ITEM)) return;
 
             if (requestCode == ACTIVITY_RESULT_CODE) {
-                if (data.hasExtra(INTENT_SELECTION))
-                    editContactMode.setText(data.getStringExtra(INTENT_SELECTION));
+                if (data.hasExtra(INTENT_SELECTED_ITEM))
+                    editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }
         }
     }

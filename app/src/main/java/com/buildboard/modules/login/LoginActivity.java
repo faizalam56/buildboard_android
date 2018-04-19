@@ -20,6 +20,7 @@ import com.buildboard.utils.SnackBarFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,13 +31,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     EditText editUserName;
     @BindView(R.id.edit_password)
     EditText editPassword;
+    @BindView(R.id.text_user_type)
+    EditText editUserType;
 
     @BindView(R.id.text_forgot_password)
     TextView textForgotPassword;
     @BindView(R.id.text_signup)
     TextView textSignUp;
-    @BindView(R.id.text_user_type)
-    EditText editUserType;
 
     @BindView(R.id.button_signin)
     Button buttonSignIn;
@@ -53,6 +54,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     String stringPasswordEmptyMsg;
     @BindString(R.string.error_username)
     String stringUsernameEmptyMsg;
+
+    @BindArray(R.array.user_type_array)
+    String[] arrayUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +97,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     private void openActivity(Class classToReplace, boolean isStartForResult) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
         if (isStartForResult) {
-
             intent.putExtra(DATA, getUserTypesList());
             startActivityForResult(intent, ACTIVITY_RESULT_CODE);
         } else startActivity(intent);
@@ -106,18 +109,18 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             if (data == null) return;
 
             if (requestCode == ACTIVITY_RESULT_CODE) {
-                if (data.hasExtra(INTENT_SELECTION))
-                    editUserType.setText(data.getStringExtra(INTENT_SELECTION));
+                if (data.hasExtra(INTENT_SELECTED_ITEM))
+                    editUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }
         }
     }
 
     private ArrayList<String> getUserTypesList() {
-        String[] stringArray = getResources().getStringArray(R.array.user_type_array);
-        return new ArrayList<>(Arrays.asList(stringArray));
+        return new ArrayList<>(Arrays.asList(arrayUserType));
     }
 }

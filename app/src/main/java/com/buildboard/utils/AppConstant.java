@@ -1,7 +1,7 @@
 package com.buildboard.utils;
 
 public interface AppConstant {
-    String INTENT_SELECTION = "intent_selection";
+    String INTENT_SELECTED_ITEM = "intent_selected_item";
     String INTENT_TITLE = "intent_title";
     String DATA = "data";
     int ACTIVITY_RESULT_CODE = 12;
