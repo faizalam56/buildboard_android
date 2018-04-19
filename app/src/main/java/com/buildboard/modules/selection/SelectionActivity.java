@@ -56,7 +56,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
     public void onItemClick(View view, int position, Object data) {
         Intent intent = new Intent();
         intent.putExtra(INTENT_SELECTED_ITEM, (String) data);
-        setResult(ACTIVITY_RESULT_CODE, intent);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }
