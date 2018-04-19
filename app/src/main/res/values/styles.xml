@@ -119,7 +119,7 @@
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
-    <style name="edittext_style" parent="textSize_small">
+    <style name="edittext_style" parent="edit_text_size_small">
         <item name="android:textColorHint">@color/colorText</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_40sdp</item>

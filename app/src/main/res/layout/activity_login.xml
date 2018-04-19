@@ -1,250 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-
     android:background="@drawable/login_bg"
-
     android:scrollbars="none">
 
-
-
     <android.support.constraint.ConstraintLayout
-
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-
         android:paddingLeft="@dimen/_25sdp"
-
         android:paddingRight="@dimen/_25sdp"
-
         tools:context="com.buildboard.modules.login.LoginActivity">
 
-
-
         <ImageView
-
             android:id="@+id/image_app_icon"
-
             android:layout_width="@dimen/_200sdp"
-
             android:layout_height="@dimen/_130sdp"
-
             android:src="@drawable/logo"
-
             app:layout_constraintLeft_toLeftOf="parent"
-
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toTopOf="parent" />
 
-
-
         <TextView
-
             android:id="@+id/text_user_type"
-
             style="@style/textSize_small"
-
             android:layout_width="match_parent"
-
             android:layout_height="@dimen/_40sdp"
-
             android:layout_marginTop="@dimen/_3sdp"
-
             android:background="@drawable/drawable_border"
-
             android:gravity="center_vertical"
-
             android:onClick="openUserTypeSelection"
-
             android:paddingEnd="@dimen/_5sdp"
-
             android:paddingStart="@dimen/_5sdp"
-
             android:text="@string/user_type"
             android:textColor="@android:color/black"
-
             app:layout_constraintTop_toBottomOf="@+id/image_app_icon" />
 
-
-
         <EditText
-
             android:id="@+id/edit_username"
-
             style="@style/edittext_style"
-
             android:layout_marginTop="@dimen/_3sdp"
-
             android:hint="@string/username"
-
             app:layout_constraintTop_toBottomOf="@+id/text_user_type" />
 
-
-
         <EditText
-
             android:id="@+id/edit_password"
-
             style="@style/edittext_style"
-
             android:layout_marginTop="@dimen/_3sdp"
-
             android:hint="@string/password"
-
             android:inputType="textPassword"
-
             app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
-
-
         <TextView
-
             android:id="@+id/text_forgot_password"
-
             style="@style/textSize_smaller"
-
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
-
             android:layout_marginEnd="@dimen/_3sdp"
-
             android:layout_marginRight="@dimen/_3sdp"
-
             android:gravity="end"
-
             android:text="@string/forgot_password"
-
             android:textColor="@color/colorGray"
-
             app:layout_constraintLeft_toLeftOf="parent"
-
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
-
-
         <Button
-
             android:id="@+id/button_signin"
-
             style="@style/button_style"
-
             android:layout_marginTop="@dimen/_20sdp"
-
             android:background="@drawable/green_button_background"
-
             android:text="@string/sign_in"
-
             app:layout_constraintTop_toBottomOf="@+id/text_forgot_password" />
 
-
-
         <TextView
-
             android:id="@+id/text_signup"
-
             style="@style/textSize_small"
-
             android:layout_width="@dimen/_200sdp"
-
             android:layout_height="wrap_content"
-
             android:layout_marginTop="@dimen/_10sdp"
-
             android:background="?attr/selectableItemBackground"
-
             android:gravity="center"
-
-            android:onClick="gotoSignUpScreen"
-
+            android:onClick="openSignUpScreen"
             android:padding="@dimen/_5sdp"
-
             android:text="@string/sign_up"
-
             android:textAllCaps="true"
-
             android:textColor="@color/colorGray"
-
             app:layout_constraintLeft_toLeftOf="parent"
-
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/button_signin" />
 
-
-
         <View
-
             android:id="@+id/view_divider"
-
             android:layout_width="@dimen/_200sdp"
-
             android:layout_height="0.8dp"
-
             android:layout_marginTop="@dimen/_10sdp"
-
             android:background="@color/colorGray"
-
             app:layout_constraintLeft_toLeftOf="parent"
-
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/text_signup" />
 
-
-
         <Button
-
             android:id="@+id/button_login_facebook"
-
             style="@style/button_style"
-
             android:layout_marginTop="@dimen/_20sdp"
-
             android:background="@drawable/blue_button_background"
-
             android:text="@string/login_with_facebook"
-
             android:textAllCaps="false"
-
             app:layout_constraintTop_toBottomOf="@+id/view_divider" />
 
-
-
         <Button
-
             android:id="@+id/button_login_google"
-
             style="@style/button_style"
-
             android:layout_marginBottom="@dimen/_10sdp"
-
             android:layout_marginTop="@dimen/_15sdp"
-
             android:background="@drawable/red_button_background"
-
             android:text="@string/login_with_google"
-
             android:textAllCaps="false"
-
             app:layout_constraintBottom_toBottomOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/button_login_facebook" />
-
-
-
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
