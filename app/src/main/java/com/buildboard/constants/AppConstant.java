@@ -1,4 +1,4 @@
-package com.buildboard.utils;
+package com.buildboard.constants;
 
 public interface AppConstant {
     String INTENT_SELECTED_ITEM = "intent_selected_item";

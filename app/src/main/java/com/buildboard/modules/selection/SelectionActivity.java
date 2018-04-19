@@ -9,9 +9,9 @@ import android.view.View;
 
 import com.buildboard.R;
 import com.buildboard.modules.selection.adapters.SelectionAdapter;
-import com.buildboard.utils.AppConstant;
-import com.buildboard.utils.IRecyclerItemClickListener;
-import com.buildboard.utils.SimpleDividerItemDecoration;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.interfaces.IRecyclerItemClickListener;
+import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 
@@ -32,23 +32,24 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_type_login);
         ButterKnife.bind(this);
-        getSupportActionBar().setTitle(stringUserType);
 
-        setRecyclerView();
+        getIntentData();
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerView(ArrayList<String> datas) {
+        SelectionAdapter selectionAdapter = new SelectionAdapter(this, datas, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
+        recyclerView.setAdapter(selectionAdapter);
+    }
+
+    private void getIntentData() {
         if (getIntent().hasExtra(INTENT_TITLE))
             getSupportActionBar().setTitle(getIntent().getStringExtra(INTENT_TITLE));
 
-        if (!getIntent().hasExtra(DATA)) return;
-
-        final ArrayList<String> arrayList = getIntent().getStringArrayListExtra(DATA);
-
-        SelectionAdapter userTypeAdapter = new SelectionAdapter(this, arrayList, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
-        recyclerView.setAdapter(userTypeAdapter);
+        if (getIntent().hasExtra(DATA)) {
+            setRecyclerView(getIntent().getStringArrayListExtra(DATA));
+        }
     }
 
     @Override
@@ -56,6 +57,6 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
         Intent intent = new Intent();
         intent.putExtra(INTENT_SELECTED_ITEM, (String) data);
         setResult(ACTIVITY_RESULT_CODE, intent);
-        SelectionActivity.this.finish();
+        finish();
     }
 }

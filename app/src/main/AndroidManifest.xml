@@ -48,7 +48,5 @@
         <activity android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".modules.signup.SignUpSelectionActivity"
-            android:screenOrientation="portrait"/>
     </application>
 </manifest>

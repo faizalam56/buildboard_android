@@ -1,7 +1,7 @@
 package com.buildboard.http;
 
 import com.buildboard.BuildConfig;
-import com.buildboard.utils.AppConstant;
+import com.buildboard.constants.AppConstant;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

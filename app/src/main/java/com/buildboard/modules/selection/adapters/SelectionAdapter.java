@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
-import com.buildboard.utils.IRecyclerItemClickListener;
+import com.buildboard.interfaces.IRecyclerItemClickListener;
 
 import java.util.List;
 

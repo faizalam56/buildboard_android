@@ -13,9 +13,9 @@ import com.buildboard.R;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.SignUpContractorActivity;
-import com.buildboard.utils.AppConstant;
-import com.buildboard.utils.FontHelper;
-import com.buildboard.utils.SnackBarFactory;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +54,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     String stringPasswordEmptyMsg;
     @BindString(R.string.error_username)
     String stringUsernameEmptyMsg;
+    @BindString(R.string.user_type)
+    String stringUserType;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
         if (isStartForResult) {
             intent.putExtra(DATA, getUserTypesList());
+            intent.putExtra(INTENT_TITLE, stringUserType);
             startActivityForResult(intent, ACTIVITY_RESULT_CODE);
         } else startActivity(intent);
     }

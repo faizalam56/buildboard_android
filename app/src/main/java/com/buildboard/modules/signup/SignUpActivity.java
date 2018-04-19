@@ -6,8 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.buildboard.R;
-import com.buildboard.utils.AppConstant;
-import com.buildboard.utils.FontHelper;
+import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,6 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
     }
 
     public void openContactModeSelection(View view) {
-        openActivity(SignUpSelectionActivity.class, true, stringPreferredContactMode);
+        openActivity(SelectionActivity.class, true, stringPreferredContactMode);
     }
 }

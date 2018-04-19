@@ -1,4 +1,4 @@
-package com.buildboard.utils;
+package com.buildboard.constants;
 
 public interface PrefConstant {
 }

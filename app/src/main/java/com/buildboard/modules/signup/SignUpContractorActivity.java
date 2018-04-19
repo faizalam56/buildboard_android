@@ -6,8 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.buildboard.R;
-import com.buildboard.utils.AppConstant;
-import com.buildboard.utils.FontHelper;
+import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 
 import java.util.ArrayList;
 
@@ -64,12 +65,12 @@ public class SignUpContractorActivity extends SignUpBaseActivity implements AppC
     public void openWorkingAreaSelection(View view) {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringWorkingArea);
-        openActivity(SignUpSelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
+        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
     }
 
     public void openContractorTypeSelection(View view) {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringContractorType);
-        openActivity(SignUpSelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
+        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
     }
 }

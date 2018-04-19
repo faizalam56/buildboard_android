@@ -1,4 +1,4 @@
-package com.buildboard.utils;
+package com.buildboard.fonts;
 
 import android.graphics.Typeface;
 import android.support.v7.widget.SwitchCompat;
