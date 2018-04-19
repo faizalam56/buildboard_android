@@ -19,7 +19,6 @@ import com.buildboard.utils.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -95,9 +94,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
         if (isStartForResult) {
 
-            intent.putExtra(DATA, getUserTypes());
+            intent.putExtra(DATA, getUserTypesList());
             startActivityForResult(intent, ACTIVITY_RESULT_CODE);
-        }else startActivity(intent);
+        } else startActivity(intent);
     }
 
     public void openUserTypeSelection(View view) {
@@ -107,15 +106,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) return;
+        if (resultCode == RESULT_OK) {
+            if (data == null) return;
 
-        if (requestCode == ACTIVITY_RESULT_CODE) {
-            if (data.hasExtra(INTENT_SELECTION))
-                editUserType.setText(data.getStringExtra(INTENT_SELECTION));
+            if (requestCode == ACTIVITY_RESULT_CODE) {
+                if (data.hasExtra(INTENT_SELECTION))
+                    editUserType.setText(data.getStringExtra(INTENT_SELECTION));
+            }
         }
     }
 
-    private ArrayList<String> getUserTypes(){
+    private ArrayList<String> getUserTypesList() {
         String[] stringArray = getResources().getStringArray(R.array.user_type_array);
         return new ArrayList<>(Arrays.asList(stringArray));
     }

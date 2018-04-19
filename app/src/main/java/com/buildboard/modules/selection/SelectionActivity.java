@@ -57,7 +57,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
     @Override
     public void onItemClick(View view, int position, Object data) {
         Intent intent = new Intent();
-        intent.putExtra(INTENT_SELECTION, (String)data);
+        intent.putExtra(INTENT_SELECTION, (String) data);
         setResult(ACTIVITY_RESULT_CODE, intent);
         SelectionActivity.this.finish();
     }

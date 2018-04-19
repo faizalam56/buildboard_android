@@ -49,7 +49,7 @@ public class SignUpSelectionActivity extends AppCompatActivity implements AppCon
     @Override
     public void onItemClick(View view, int position, Object data) {
         Intent intent = new Intent();
-        intent.putExtra(INTENT_SELECTION, (String)data);
+        intent.putExtra(INTENT_SELECTION, (String) data);
         setResult(ACTIVITY_RESULT_CODE, intent);
         SignUpSelectionActivity.this.finish();
     }

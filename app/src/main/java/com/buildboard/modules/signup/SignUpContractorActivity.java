@@ -50,7 +50,7 @@ public class SignUpContractorActivity extends SignUpBaseActivity implements AppC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (data == null) return;
             if (!data.hasExtra(INTENT_SELECTION)) return;
 
