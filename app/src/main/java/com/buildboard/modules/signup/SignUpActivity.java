@@ -67,9 +67,9 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             if (data == null) return;
-            if (!data.hasExtra(INTENT_SELECTED_ITEM)) return;
 
             if (requestCode == ACTIVITY_RESULT_CODE) {
                 if (data.hasExtra(INTENT_SELECTED_ITEM))

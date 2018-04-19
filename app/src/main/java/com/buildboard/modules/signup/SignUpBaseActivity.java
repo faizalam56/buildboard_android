@@ -1,6 +1,5 @@
 package com.buildboard.modules.signup;
 
-import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import butterknife.BindString;
 import butterknife.BindView;
 
-@SuppressLint("Registered")
 public class SignUpBaseActivity extends AppCompatActivity {
     @BindView(R.id.text_terms_of_service)
     TextView textTermsOfService;

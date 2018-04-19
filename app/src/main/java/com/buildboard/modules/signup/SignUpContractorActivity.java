@@ -51,14 +51,22 @@ public class SignUpContractorActivity extends SignUpBaseActivity implements AppC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             if (data == null) return;
-            if (!data.hasExtra(INTENT_SELECTED_ITEM)) return;
 
-            if (requestCode == WORKING_AREA_RESULT_CODE)
-                editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-            else if (requestCode == CONTRACTOR_TYPE_RESULT_CODE)
-                editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+            switch (requestCode) {
+
+                case WORKING_AREA_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case CONTRACTOR_TYPE_RESULT_CODE:
+                    if (data.hasExtra(INTENT_SELECTED_ITEM))
+                        editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+            }
         }
     }
 
