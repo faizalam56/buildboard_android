@@ -58,14 +58,14 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     }
 
     @OnClick(R.id.edit_card_type)
-    public void openCardTypeSelection(View view) {
+    void openCardTypeSelection() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringCardType);
         openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_RESULT_CODE, stringCardType);
     }
 
     @OnClick(R.id.button_next)
-    public void nextButtonTapped(View view) {
+    void nextButtonTapped(View view) {
         if (validateFields(view))
             finish();
     }
@@ -74,37 +74,31 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
         if (TextUtils.isEmpty(editName.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_name)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editAddress.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_address)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editCity.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_city)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editCardNumber.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_card_number)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editExpire.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_expire_date)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editCvv.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_cvv)).show();
             return false;
-
         } else if (TextUtils.isEmpty(editNameOnCard.getText())) {
             SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_card_name)).show();
             return false;
-
         }
+
         return true;
     }
 
     @OnClick(R.id.text_skip)
-    public void skipTextTapped(View view) {
+    void skipTextTapped() {
         openActivity(LoginActivity.class, false, null, 0, null);
     }
 
@@ -128,7 +122,6 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
             switch (requestCode) {
 
                 case WORKING_AREA_RESULT_CODE:
-                    if (data.hasExtra(INTENT_SELECTED_ITEM))
                         editCardType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     break;
             }

@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     String stringUsernameEmptyMsg;
     @BindString(R.string.user_type)
     String stringUserType;
+    @BindString(R.string.error_incorrect_password)
+    String stringIncorrectPassword;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -78,23 +80,23 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
             if (data == null) return;
 
             if (requestCode == USER_TYPE_RESULT_CODE) {
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }
         }
     }
 
     @OnClick(R.id.text_signup)
-    public void openSignUpScreen(View view) {
+    void openSignUpScreen() {
         openActivity(SignUpActivity.class, false);
     }
 
     @OnClick(R.id.text_user_type)
-    public void openUserTypeSelection(View view) {
+    void openUserTypeSelection() {
         openActivity(SelectionActivity.class, true);
     }
 
     @OnClick(R.id.button_signin)
-    public void signinTapped(View view) {
+    void signinTapped() {
         isFieldsValid();
     }
 
@@ -107,9 +109,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         if (TextUtils.isEmpty(editUserName.getText()) || editPassword.getText().length() < 3) {
             SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringUsernameEmptyMsg);
             return false;
-        }
-        if (TextUtils.isEmpty(editPassword.getText()) || editPassword.getText().length() < 8) {
-            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringPasswordEmptyMsg);
+        } else if (TextUtils.isEmpty(editPassword.getText())) {
+            if (editPassword.getText().length() < 8)
+                SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringIncorrectPassword);
+            else
+                SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringPasswordEmptyMsg);
             return false;
         }
 
