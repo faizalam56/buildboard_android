@@ -39,8 +39,6 @@
 
     <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
 
-    <string name="error_password">Please enter password</string>
-    <string name="error_username">Please enter username</string>
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
@@ -48,5 +46,32 @@
     <string name="business_address">Business address</string>
     <string name="brief_summary_of_your_company">Brief summary of your company...</string>
     <string name="user_type">User Type</string>
+    <string name="payment_details">Payment Details</string>
+    <string name="card_type">Card Type</string>
+    <string name="city">City</string>
+    <string name="card_number">Card Number</string>
+    <string name="cvv">Cvv</string>
+    <string name="name_on_card">Name on Card</string>
+    <string name="skip">SKIP</string>
+    <string name="expire">Expire</string>
+
+    <string name="error_password">Please enter password</string>
+    <string name="error_username">Please enter username</string>
     <string name="error_select_user_type">Please select user type</string>
+    <string name="error_enter_name">Please enter name</string>
+    <string name="error_enter_first_name">Please enter first name</string>
+    <string name="error_enter_last_name">Please enter last name</string>
+    <string name="error_enter_address">Please enter address</string>
+    <string name="error_enter_phone_number">Please enter phone number</string>
+    <string name="error_enter_valid_phone_number">Please enter valid phone number</string>
+    <string name="error_enter_city">Please enter city</string>
+    <string name="error_enter_email">Please enter email</string>
+    <string name="error_enter_valid_email">Please enter valid email</string>
+    <string name="error_enter_business_name">Please enter business name</string>
+    <string name="error_enter_business_address">Please enter business address</string>
+    <string name="error_enter_summary">Please enter summary</string>
+    <string name="error_enter_card_name">Please enter name on card</string>
+    <string name="error_enter_card_number">Please enter card number</string>
+    <string name="error_enter_expire_date">Please enter expire date</string>
+    <string name="error_enter_cvv">Please enter Cvv number</string>
 </resources>
