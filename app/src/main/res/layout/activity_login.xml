@@ -27,11 +27,8 @@
         <TextView
             android:id="@+id/text_user_type"
             style="@style/textview_style"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_3sdp"
             android:background="@drawable/drawable_border"
-            android:gravity="center_vertical"
             android:onClick="openUserTypeSelection"
             android:paddingEnd="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"

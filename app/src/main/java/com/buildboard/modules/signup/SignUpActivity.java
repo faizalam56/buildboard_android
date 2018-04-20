@@ -2,42 +2,19 @@ package com.buildboard.modules.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.widget.EditText;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.selection.SelectionActivity;
-import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import butterknife.BindString;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
-
-    @BindView(R.id.edit_address)
-    EditText editAddress;
-    @BindView(R.id.edit_phoneno)
-    EditText editPhoneNo;
-    @BindView(R.id.edit_contact_mode)
-    EditText editContactMode;
-
-    @BindString(R.string.gender)
-    String stringGender;
-    @BindString(R.string.female)
-    String stringFemale;
-    @BindString(R.string.male)
-    String stringMale;
-    @BindString(R.string.other)
-    String stringOther;
-    @BindString(R.string.preferred_contact_mode)
-    String stringPreferredContactMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

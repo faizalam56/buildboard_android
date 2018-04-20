@@ -26,24 +26,27 @@ public class SignUpBaseActivity extends AppCompatActivity implements AppConstant
 
     @BindView(R.id.text_terms_of_service)
     TextView textTermsOfService;
+    @BindView(R.id.text_user_type)
+    TextView textUserType;
 
     @BindView(R.id.edit_first_name)
     EditText editFirstName;
     @BindView(R.id.edit_last_name)
     EditText editLastName;
-
+    @BindView(R.id.edit_address)
+    EditText editAddress;
+    @BindView(R.id.edit_phoneno)
+    EditText editPhoneNo;
+    @BindView(R.id.edit_contact_mode)
+    EditText editContactMode;
     @BindView(R.id.edit_email)
     EditText editEmail;
     @BindView(R.id.edit_password)
     EditText editPassword;
-
     @BindView(R.id.edit_contractor_type)
     EditText editContractorType;
     @BindView(R.id.edit_working_area)
     EditText editWorkingArea;
-
-    @BindView(R.id.text_user_type)
-    TextView textUserType;
 
     @BindView(R.id.constraint_consumer_address_container)
     ConstraintLayout constraintConsumerAddressContainer;
