@@ -2,7 +2,17 @@ package com.buildboard.modules.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -12,9 +22,66 @@ import com.buildboard.modules.selection.SelectionActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindArray;
+import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
+public class SignUpActivity extends AppCompatActivity implements AppConstant {
+
+    @BindView(R.id.text_terms_of_service)
+    TextView textTermsOfService;
+    @BindView(R.id.text_user_type)
+    TextView textUserType;
+
+    @BindView(R.id.edit_first_name)
+    EditText editFirstName;
+    @BindView(R.id.edit_last_name)
+    EditText editLastName;
+    @BindView(R.id.edit_address)
+    EditText editAddress;
+    @BindView(R.id.edit_phoneno)
+    EditText editPhoneNo;
+    @BindView(R.id.edit_contact_mode)
+    EditText editContactMode;
+    @BindView(R.id.edit_email)
+    EditText editEmail;
+    @BindView(R.id.edit_password)
+    EditText editPassword;
+    @BindView(R.id.edit_contractor_type)
+    EditText editContractorType;
+    @BindView(R.id.edit_working_area)
+    EditText editWorkingArea;
+
+    @BindView(R.id.constraint_consumer_address_container)
+    ConstraintLayout constraintConsumerAddressContainer;
+    @BindView(R.id.constraint_contractor_address_container)
+    ConstraintLayout constraintContractorAddressContainer;
+
+    @BindString(R.string.gender)
+    String stringGender;
+    @BindString(R.string.female)
+    String stringFemale;
+    @BindString(R.string.male)
+    String stringMale;
+    @BindString(R.string.other)
+    String stringOther;
+    @BindString(R.string.preferred_contact_mode)
+    String stringPreferredContactMode;
+    @BindString(R.string.type_of_contractor)
+    String stringContractorType;
+    @BindString(R.string.working_area)
+    String stringWorkingArea;
+    @BindString(R.string.user_type)
+    String stringUserType;
+    @BindString(R.string.contractor)
+    String stringContractor;
+    @BindString(R.string.consumer)
+    String stringConsumer;
+
+    @BindArray(R.array.user_type_array)
+    String[] arrayUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +92,6 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
         setFont();
         setTermsServiceText();
         checkUserType();
-    }
-
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
     }
 
     @Override
@@ -65,25 +128,92 @@ public class SignUpActivity extends SignUpBaseActivity implements AppConstant {
         }
     }
 
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
+    }
+
+    @OnClick(R.id.text_user_type)
     public void openUserTypeSelection(View view) {
         openActivity(SelectionActivity.class, true, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_RESULT_CODE, stringUserType);
     }
 
+    @OnClick(R.id.edit_contact_mode)
     public void openContactModeSelection(View view) {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringPreferredContactMode);
         openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_RESULT_CODE, stringPreferredContactMode);
     }
 
+    @OnClick(R.id.edit_working_area)
     public void openWorkingAreaSelection(View view) {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringWorkingArea);
         openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
     }
 
+    @OnClick(R.id.edit_contractor_type)
     public void openContractorTypeSelection(View view) {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringContractorType);
         openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
+    }
+
+    private void setTermsServiceText() {
+        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
+        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
+        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
+        styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
+        styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
+        textTermsOfService.setText(styledString);
+        textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> arrayList, int requestCode, String title) {
+        Intent intent = new Intent(SignUpActivity.this, classToReplace);
+        intent.putExtra(DATA, arrayList);
+        intent.putExtra(INTENT_TITLE, title);
+
+        if (isStartForResult)
+            startActivityForResult(intent, requestCode);
+        else startActivity(intent);
+    }
+
+    private void checkUserType() {
+        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
+            constraintContractorAddressContainer.setVisibility(View.VISIBLE);
+            constraintConsumerAddressContainer.setVisibility(View.GONE);
+        } else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer)) {
+            constraintConsumerAddressContainer.setVisibility(View.VISIBLE);
+            constraintContractorAddressContainer.setVisibility(View.GONE);
+        } else {
+            constraintContractorAddressContainer.setVisibility(View.GONE);
+            constraintConsumerAddressContainer.setVisibility(View.GONE);
+        }
     }
 }

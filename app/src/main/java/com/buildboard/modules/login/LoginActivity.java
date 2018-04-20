@@ -20,9 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
+import butterknife.BindFont;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements AppConstant {
 
@@ -68,48 +70,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         setFont();
     }
 
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editUserName, textForgotPassword, textSignUp,
-                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
-    }
-
-    private boolean isFieldsValid() {
-        if (TextUtils.isEmpty(editUserName.getText())) {
-            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringUsernameEmptyMsg);
-            return false;
-        }
-        if (TextUtils.isEmpty(editPassword.getText())) {
-            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringPasswordEmptyMsg);
-            return false;
-        }
-
-        return true;
-    }
-
-    public void openSignUpScreen(View view) {
-        openActivity(SignUpActivity.class, false);
-
-        /*if (textUserType.getText().toString().equalsIgnoreCase(stringContractor))
-            openActivity(SignUpContractorActivity.class, false);
-        else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer))
-            openActivity(SignUpActivity.class, false);
-        else
-            SnackBarFactory.createSnackBar(this, textUserType.getRootView(), getString(R.string.error_select_user_type));*/
-    }
-
-    private void openActivity(Class classToReplace, boolean isStartForResult) {
-        Intent intent = new Intent(LoginActivity.this, classToReplace);
-        if (isStartForResult) {
-            intent.putExtra(DATA, getUserTypesList());
-            intent.putExtra(INTENT_TITLE, stringUserType);
-            startActivityForResult(intent, USER_TYPE_RESULT_CODE);
-        } else startActivity(intent);
-    }
-
-    public void openUserTypeSelection(View view) {
-        openActivity(SelectionActivity.class, true);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -118,13 +78,50 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
             if (data == null) return;
 
             if (requestCode == USER_TYPE_RESULT_CODE) {
-                if (data.hasExtra(INTENT_SELECTED_ITEM))
                     textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
             }
         }
     }
 
-    private ArrayList<String> getUserTypesList() {
-        return new ArrayList<>(Arrays.asList(arrayUserType));
+    @OnClick(R.id.text_signup)
+    public void openSignUpScreen(View view) {
+        openActivity(SignUpActivity.class, false);
+    }
+
+    @OnClick(R.id.text_user_type)
+    public void openUserTypeSelection(View view) {
+        openActivity(SelectionActivity.class, true);
+    }
+
+    @OnClick(R.id.button_signin)
+    public void signinTapped(View view) {
+        isFieldsValid();
+    }
+
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editUserName, textForgotPassword, textSignUp,
+                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
+    }
+
+    private boolean isFieldsValid() {
+        if (TextUtils.isEmpty(editUserName.getText()) || editPassword.getText().length() < 3) {
+            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringUsernameEmptyMsg);
+            return false;
+        }
+        if (TextUtils.isEmpty(editPassword.getText()) || editPassword.getText().length() < 8) {
+            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringPasswordEmptyMsg);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void openActivity(Class classToReplace, boolean isStartForResult) {
+        Intent intent = new Intent(LoginActivity.this, classToReplace);
+        if (isStartForResult) {
+            intent.putExtra(DATA, new ArrayList<>(Arrays.asList(arrayUserType)));
+            intent.putExtra(INTENT_TITLE, stringUserType);
+            startActivityForResult(intent, USER_TYPE_RESULT_CODE);
+        } else startActivity(intent);
     }
 }
