@@ -58,7 +58,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     EditText editContractorType;
     @BindView(R.id.edit_working_area)
     EditText editWorkingArea;
-
     @BindView(R.id.edit_business_name)
     EditText editBusinessName;
     @BindView(R.id.edit_business_address)
@@ -118,7 +117,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.error_enter_phone_number)
     String stringPhoneNumber;
 
-
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
@@ -138,24 +136,25 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (data == null) return;
+
         if (resultCode == RESULT_OK) {
-            if (data == null) return;
 
             switch (requestCode) {
 
-                case WORKING_AREA_RESULT_CODE:
+                case WORKING_AREA_REQUEST_CODE:
                     editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     break;
 
-                case CONTRACTOR_TYPE_RESULT_CODE:
+                case CONTRACTOR_TYPE_REQUEST_CODE:
                     editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     break;
 
-                case CONTACT_MODE_RESULT_CODE:
+                case CONTACT_MODE_REQUEST_CODE:
                     editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     break;
 
-                case USER_TYPE_RESULT_CODE:
+                case USER_TYPE_REQUEST_CODE:
                     textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     checkUserType();
                     break;
@@ -194,33 +193,33 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     @OnClick(R.id.text_user_type)
-    void openUserTypeSelection() {
-        openActivity(SelectionActivity.class, true, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_RESULT_CODE, stringUserType);
+    void userTypeTapped() {
+        openActivity(SelectionActivity.class, true, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_REQUEST_CODE, stringUserType);
     }
 
     @OnClick(R.id.edit_contact_mode)
-    void openContactModeSelection() {
+    void contactModeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringPreferredContactMode);
-        openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_RESULT_CODE, stringPreferredContactMode);
+        openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
     }
 
     @OnClick(R.id.edit_working_area)
-    void openWorkingAreaSelection() {
+    void workingAreaTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringWorkingArea);
-        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_RESULT_CODE, stringWorkingArea);
+        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
     }
 
     @OnClick(R.id.edit_contractor_type)
-    void openContractorTypeSelection() {
+    void contractorTypeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringContractorType);
-        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_RESULT_CODE, stringContractorType);
+        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_REQUEST_CODE, stringContractorType);
     }
 
     @OnClick(R.id.button_next)
-    void openPaymentDetails(View view) {
+    void nextButtonTapped(View view) {
         if (checkUserType()) {
             if (validateFields(view))
                 openActivity(PaymentDetailsActivity.class, false, null, 0, null);

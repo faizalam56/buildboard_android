@@ -7,17 +7,14 @@ public class StringUtils {
     private static final String NUMBER_PATTERN = "^[0-9]+$";
 
     public static boolean isValidEmailId(String emailId) {
-
         return emailId.trim().matches(EMAIL_PATTERN);
     }
 
     public static boolean isValidName(String name) {
-
         return name.trim().matches(NAME_PATTERN);
     }
 
     public static boolean isValidNumber(String number) {
-
         return number.trim().matches(NUMBER_PATTERN);
     }
 }

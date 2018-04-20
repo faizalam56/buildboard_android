@@ -28,6 +28,20 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     String stringPaymentDetails;
     @BindString(R.string.card_type)
     String stringCardType;
+    @BindString(R.string.error_enter_name)
+    String stringName;
+    @BindString(R.string.error_enter_address)
+    String stringAddress;
+    @BindString(R.string.error_enter_city)
+    String stringCity;
+    @BindString(R.string.error_enter_card_number)
+    String stringCardNumber;
+    @BindString(R.string.error_enter_expire_date)
+    String stringExpireDate;
+    @BindString(R.string.error_enter_cvv)
+    String stringCvv;
+    @BindString(R.string.error_enter_card_name)
+    String stringCarsName;
 
     @BindView(R.id.edit_name)
     EditText editName;
@@ -58,10 +72,10 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     }
 
     @OnClick(R.id.edit_card_type)
-    void openCardTypeSelection() {
+    void cardTypeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringCardType);
-        openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_RESULT_CODE, stringCardType);
+        openActivity(SelectionActivity.class, true, arrayList, CARD_TYPE_REQUEST_CODE, stringCardType);
     }
 
     @OnClick(R.id.button_next)
@@ -72,25 +86,25 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     private boolean validateFields(View view) {
         if (TextUtils.isEmpty(editName.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_name)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringName).show();
             return false;
         } else if (TextUtils.isEmpty(editAddress.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_address)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringAddress).show();
             return false;
         } else if (TextUtils.isEmpty(editCity.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_city)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCity).show();
             return false;
         } else if (TextUtils.isEmpty(editCardNumber.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_card_number)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCardNumber).show();
             return false;
         } else if (TextUtils.isEmpty(editExpire.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_expire_date)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringExpireDate).show();
             return false;
         } else if (TextUtils.isEmpty(editCvv.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_cvv)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCvv).show();
             return false;
         } else if (TextUtils.isEmpty(editNameOnCard.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_enter_card_name)).show();
+            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCarsName).show();
             return false;
         }
 
@@ -116,15 +130,10 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (data == null) return;
+        if (data == null) return;
 
-            switch (requestCode) {
-
-                case WORKING_AREA_RESULT_CODE:
-                        editCardType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
-            }
+        if (resultCode == RESULT_OK && requestCode == CARD_TYPE_REQUEST_CODE) {
+            editCardType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
         }
     }
 }

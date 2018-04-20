@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
-import butterknife.BindFont;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,28 +74,26 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (data == null) return;
+        if (data == null) return;
 
-            if (requestCode == USER_TYPE_RESULT_CODE) {
-                textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-            }
+        if (resultCode == RESULT_OK && requestCode == USER_TYPE_REQUEST_CODE) {
+            textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
         }
     }
 
     @OnClick(R.id.text_signup)
-    void openSignUpScreen() {
+    void signUpTapped() {
         openActivity(SignUpActivity.class, false);
     }
 
     @OnClick(R.id.text_user_type)
-    void openUserTypeSelection() {
+    void userTypeTapped() {
         openActivity(SelectionActivity.class, true);
     }
 
     @OnClick(R.id.button_signin)
     void signinTapped() {
-        isFieldsValid();
+        validateFields();
     }
 
     private void setFont() {
@@ -105,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
                 buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
     }
 
-    private boolean isFieldsValid() {
+    private boolean validateFields() {
         if (TextUtils.isEmpty(editUserName.getText()) || editPassword.getText().length() < 3) {
             SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringUsernameEmptyMsg);
             return false;
@@ -125,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         if (isStartForResult) {
             intent.putExtra(DATA, new ArrayList<>(Arrays.asList(arrayUserType)));
             intent.putExtra(INTENT_TITLE, stringUserType);
-            startActivityForResult(intent, USER_TYPE_RESULT_CODE);
+            startActivityForResult(intent, USER_TYPE_REQUEST_CODE);
         } else startActivity(intent);
     }
 }
