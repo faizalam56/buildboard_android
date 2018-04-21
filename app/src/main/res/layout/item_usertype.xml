@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/textview_style"
+    style="@style/text_view_style"
     android:id="@+id/text_selection_item"
     android:text="@string/contractor"
     android:paddingLeft="@dimen/_5sdp"

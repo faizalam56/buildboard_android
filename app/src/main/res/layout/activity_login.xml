@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/text_user_type"
-            style="@style/textview_style"
+            style="@style/text_view_style"
             android:layout_marginTop="@dimen/_3sdp"
             android:background="@drawable/drawable_border"
             android:paddingEnd="@dimen/_5sdp"
@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/edit_username"
-            style="@style/edittext_style"
+            style="@style/edit_text_style"
             android:layout_marginTop="@dimen/_3sdp"
             android:hint="@string/username"
             android:inputType="textEmailAddress"
@@ -45,7 +45,7 @@
 
         <EditText
             android:id="@+id/edit_password"
-            style="@style/edittext_style"
+            style="@style/edit_text_style"
             android:layout_marginTop="@dimen/_3sdp"
             android:hint="@string/password"
             android:inputType="textPassword"

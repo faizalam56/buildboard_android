@@ -112,14 +112,14 @@
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
-    <style name="textinputlayout_style">
+    <style name="text_input_layout_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/_50sdp</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
-    <style name="edittext_style" parent="edit_text_size_small">
+    <style name="edit_text_style" parent="edit_text_size_small">
         <item name="android:textColorHint">@color/colorText</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_40sdp</item>
@@ -129,7 +129,7 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="textview_style" parent="textSize_small">
+    <style name="text_view_style" parent="textSize_small">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_40sdp</item>
         <item name="android:textColor">@color/colorAccent</item>
