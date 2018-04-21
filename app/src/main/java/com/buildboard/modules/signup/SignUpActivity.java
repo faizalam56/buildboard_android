@@ -103,11 +103,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.error_enter_email)
     String stringEmail;
     @BindString(R.string.error_password)
-    String stringPassword;
+    String stringPasswordEmptyMsg;
     @BindString(R.string.error_enter_business_name)
-    String stringBusinessName;
+    String stringErrorBusinessName;
     @BindString(R.string.error_enter_business_address)
-    String stringBusinessAddress;
+    String stringErrorBusinessAddress;
     @BindString(R.string.error_enter_summary)
     String stringSummary;
     @BindString(R.string.error_enter_address)
@@ -115,14 +115,25 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.error_enter_valid_phone_number)
     String stringValidPhoneNumber;
     @BindString(R.string.error_enter_phone_number)
-    String stringPhoneNumber;
+    String stringErrorPhoneNumber;
+    @BindString(R.string.error_select_user_type)
+    String stringSelectUserType;
+    @BindString(R.string.error_first_name_short)
+    String stringFirstnameTooShort;
+    @BindString(R.string.error_incorrect_password_length)
+    String stringErrorPasswordLength;
+    @BindString(R.string.error_user_type)
+    String stringErrorUserType;
+    @BindString(R.string.error_working_area)
+    String stringErrorWorkingArea;
+    @BindString(R.string.error_summary)
+    String stringErrorSummary;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +143,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         setFont();
         setTermsServiceText();
-        checkUserType();
     }
 
     @Override
@@ -159,7 +169,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
                 case USER_TYPE_REQUEST_CODE:
                     textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    checkUserType();
+                    showUserTypeUI(textUserType.getText().toString());
                     break;
             }
         }
@@ -198,37 +208,50 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.text_user_type)
     void userTypeTapped() {
-        openActivity(SelectionActivity.class, true, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_REQUEST_CODE, stringUserType);
+        openActivity(SelectionActivity.class, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_REQUEST_CODE, stringUserType);
     }
 
     @OnClick(R.id.edit_contact_mode)
     void contactModeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringPreferredContactMode);
-        openActivity(SelectionActivity.class, true, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
+        openActivity(SelectionActivity.class, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
     }
 
     @OnClick(R.id.edit_working_area)
     void workingAreaTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringWorkingArea);
-        openActivity(SelectionActivity.class, true, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
+        openActivity(SelectionActivity.class, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
     }
 
     @OnClick(R.id.edit_contractor_type)
     void contractorTypeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringContractorType);
-        openActivity(SelectionActivity.class, true, arrayList, CONTRACTOR_TYPE_REQUEST_CODE, stringContractorType);
+        openActivity(SelectionActivity.class, arrayList, CONTRACTOR_TYPE_REQUEST_CODE, stringContractorType);
     }
 
     @OnClick(R.id.button_next)
-    void nextButtonTapped(View view) {
-        if (checkUserType()) {
-            if (validateFields())
-                openActivity(PaymentDetailsActivity.class, false, null, 0, null);
-        } else
-            SnackBarFactory.createSnackBar(this, constraintRoot, getString(R.string.error_select_user_type)).show();
+    void nextButtonTapped() {
+        String userType = textUserType.getText().toString();
+        String firstName = editFirstName.getText().toString();
+        String lastName = editLastName.getText().toString();
+        String email = editEmail.getText().toString();
+        String password = editPassword.getText().toString();
+        String address = editAddress.getText().toString();
+        String phoneNo = editPhoneNo.getText().toString();
+        String contactMode = editContactMode.getText().toString();
+
+        String typeOfContractor = editContractorType.getText().toString();
+        String businessName = editBusinessName.getText().toString();
+        String businessAddress = editBusinessAddress.getText().toString();
+        String workingArea = editWorkingArea.getText().toString();
+        String summary = editSummary.getText().toString();
+
+        if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+                businessName, businessAddress, workingArea, summary))
+            startActivity(new Intent(this, PaymentDetailsActivity.class));
     }
 
     private void setTermsServiceText() {
@@ -241,98 +264,98 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    private void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> arrayList, int requestCode, String title) {
+    private void openActivity(Class classToReplace, ArrayList<String> arrayList, int requestCode, String title) {
         Intent intent = new Intent(SignUpActivity.this, classToReplace);
-
-        if (isStartForResult) {
-            intent.putExtra(DATA, arrayList);
-            intent.putExtra(INTENT_TITLE, title);
-            startActivityForResult(intent, requestCode);
-        } else startActivity(intent);
+        intent.putExtra(DATA, arrayList);
+        intent.putExtra(INTENT_TITLE, title);
+        startActivityForResult(intent, requestCode);
     }
 
-    private boolean checkUserType() {
-        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
-            constraintContractorAddressContainer.setVisibility(View.VISIBLE);
-            constraintConsumerAddressContainer.setVisibility(View.GONE);
-            return true;
-        } else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer)) {
-            constraintConsumerAddressContainer.setVisibility(View.VISIBLE);
-            constraintContractorAddressContainer.setVisibility(View.GONE);
-            return true;
-        } else {
-            constraintContractorAddressContainer.setVisibility(View.GONE);
-            constraintConsumerAddressContainer.setVisibility(View.GONE);
-        }
-
-        return false;
+    private void showUserTypeUI(String userType) {
+        constraintContractorAddressContainer.setVisibility(userType.equalsIgnoreCase(stringContractor) ? View.VISIBLE : View.GONE);
+        constraintConsumerAddressContainer.setVisibility(userType.equalsIgnoreCase(stringConsumer) ? View.VISIBLE : View.GONE);
     }
 
-    private boolean validateFields() {
-        if (TextUtils.isEmpty(editFirstName.getText())) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstName).show();
+    private boolean validateFields(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
+        if (userType.equals(stringUserType)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectUserType);
             return false;
         }
 
-        if (TextUtils.isEmpty(editLastName.getText())) {
+        if (TextUtils.isEmpty(firstName)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstName);
+            return false;
+        } else if (firstName.length() < 3) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstnameTooShort);
+            return false;
+        }
+
+        if (TextUtils.isEmpty(lastName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringLastName).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editEmail.getText())) {
-            if (!StringUtils.isValidEmailId(editEmail.getText().toString()))
-                SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail).show();
-            else
-                SnackBarFactory.createSnackBar(this, constraintRoot, stringEmail).show();
+        if (TextUtils.isEmpty(email)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringEmail).show();
+            return false;
+        } else if (!StringUtils.isValidEmailId(email)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editPassword.getText())) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringPassword).show();
+        if (TextUtils.isEmpty(password)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringPasswordEmptyMsg);
+            return false;
+        } else if (password.length() < 8) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
             return false;
         }
 
-        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
-            if (!validateContractorFields())
-                return false;
-        } else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer)) {
-            if (!validateConsumerFields())
-                return false;
+        return userType.equals(stringConsumer) ?
+                validateConsumerFields(address, phoneNo, contactMode) :
+                validateContractorFields(typeOfContractor, businessName, businessAddress, workingArea, summary);
+    }
+
+    private boolean validateContractorFields(String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
+//        if (typeOfContractor.equals(stringContractorType)) {
+//            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUserType).show();
+//            return false;
+//        }
+
+        if (TextUtils.isEmpty(businessName)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(businessAddress)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessAddress).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(workingArea)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorWorkingArea).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(summary)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSummary).show();
+            return false;
         }
 
         return true;
     }
 
-    private boolean validateContractorFields() {
-        if (TextUtils.isEmpty(editBusinessName.getText())) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringBusinessName).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(editBusinessAddress.getText())) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringBusinessAddress).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(editSummary.getText())) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringSummary).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean validateConsumerFields() {
-        if (TextUtils.isEmpty(editAddress.getText())) {
+    private boolean validateConsumerFields(String address, String phoneNo, String contactMode) {
+        if (TextUtils.isEmpty(address)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editPhoneNo.getText())) {
-            if (!StringUtils.isValidNumber(editPhoneNo.getText().toString()))
-                SnackBarFactory.createSnackBar(this, constraintRoot, stringValidPhoneNumber).show();
-            else
-                SnackBarFactory.createSnackBar(this, constraintRoot, stringPhoneNumber).show();
+        if (TextUtils.isEmpty(phoneNo)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
+            return false;
+        } else if (phoneNo.length() < 10) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringValidPhoneNumber).show();
             return false;
         }
 
