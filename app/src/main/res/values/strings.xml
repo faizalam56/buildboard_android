@@ -84,4 +84,5 @@
     <string name="error_user_type">Please select user type</string>
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
+    <string name="name">Name</string>
 </resources>

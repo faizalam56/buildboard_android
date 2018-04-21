@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    android:id="@+id/constraint_root"
     tools:context="com.buildboard.modules.paymentdetails.PaymentDetailsActivity">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/_15sdp"
@@ -21,7 +21,7 @@
             style="@style/edit_text_style"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/drawable_border"
-            android:hint="@string/first_name"
+            android:hint="@string/name"
             android:imeOptions="actionNext"
             android:inputType="textPersonName" />
 

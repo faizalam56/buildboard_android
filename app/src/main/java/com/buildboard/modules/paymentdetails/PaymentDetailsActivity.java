@@ -87,42 +87,50 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.button_next)
     void nextButtonTapped(View view) {
-        if (validateFields())
+        String name = editName.getText().toString();
+        String address = editAddress.getText().toString();
+        String city = editCity.getText().toString();
+        String cardNumber = editCardNumber.getText().toString();
+        String expire = editExpire.getText().toString();
+        String cvv = editCvv.getText().toString();
+        String nameOnCard = editNameOnCard.getText().toString();
+
+        if (validateFields(name, address, city, cardNumber, expire, cvv, nameOnCard))
             finish();
     }
 
-    private boolean validateFields() {
-        if (TextUtils.isEmpty(editName.getText())) {
+    private boolean validateFields(String name, String address, String city, String cardNumber, String expire, String cvv, String nameOnCard) {
+        if (TextUtils.isEmpty(name)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringName).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editAddress.getText())) {
+        if (TextUtils.isEmpty(address)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editCity.getText())) {
+        if (TextUtils.isEmpty(city)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringCity).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editCardNumber.getText())) {
+        if (TextUtils.isEmpty(cardNumber)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringCardNumber).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editExpire.getText())) {
+        if (TextUtils.isEmpty(expire)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringExpireDate).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editCvv.getText())) {
+        if (TextUtils.isEmpty(cvv)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringCvv).show();
             return false;
         }
 
-        if (TextUtils.isEmpty(editNameOnCard.getText())) {
+        if (TextUtils.isEmpty(nameOnCard)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringCarsName).show();
             return false;
         }
