@@ -5,17 +5,16 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
-import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.FontHelper;
 import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     TextView textUserType;
     @BindView(R.id.text_forgot_password)
     TextView textForgotPassword;
-    @BindView(R.id.text_signup)
+    @BindView(R.id.text_sign_up)
     TextView textSignUp;
 
     @BindView(R.id.button_signin)
@@ -91,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    @OnClick(R.id.text_signup)
+    @OnClick(R.id.text_sign_up)
     void signUpTapped() {
         openActivity(SignUpActivity.class, false);
     }
@@ -102,8 +101,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     @OnClick(R.id.button_signin)
-    void signinTapped() {
-        validateFields();
+    void signInTapped() {
+        String userName = editUserName.getText().toString();
+        String password = editPassword.getText().toString();
+        String userType = textUserType.getText().toString();
+
+        if (validateFields(userName, password, userType)) {
+            // TODO: 4/21/18
+        }
     }
 
     @OnClick(R.id.text_forgot_password)
@@ -116,23 +121,23 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
                 buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
     }
 
-    private boolean validateFields() {
-        if (textUserType.getText().toString().equalsIgnoreCase(stringUserType)) {
+    private boolean validateFields(String userName, String password, String userType) {
+        if (userType.equals(stringUserType)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectUserType);
             return false;
         }
-        if (TextUtils.isEmpty(editUserName.getText())) {
+        if (TextUtils.isEmpty(userName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameEmptyMsg);
             return false;
-        } else if (editUserName.getText().length() < 3) {
+        } else if (userName.length() < 3) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameTooShort);
             return false;
         }
 
-        if (TextUtils.isEmpty(editPassword.getText())) {
+        if (TextUtils.isEmpty(password)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringPasswordEmptyMsg);
             return false;
-        } else if (editPassword.getText().length() < 8) {
+        } else if (password.length() < 8) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringIncorrectPassword);
             return false;
         }

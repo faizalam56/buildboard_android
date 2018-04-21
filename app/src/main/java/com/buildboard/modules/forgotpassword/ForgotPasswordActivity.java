@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,14 +26,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     EditText editEmail;
     @BindView(R.id.button_send_mail)
     Button buttonSendMail;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.error_enter_email)
     String stringEnterEmail;
     @BindString(R.string.error_invalid_email)
     String stringInvalidEmail;
-
-    @BindView(R.id.constraint_root)
-    ConstraintLayout constraintRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +45,24 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_send_mail)
     void sendEmailTapped() {
-        if (TextUtils.isEmpty(editEmail.getText()))
+        String email = editEmail.getText().toString();
+        if (validateFields(email)) forgotPassword();
+    }
+
+    private boolean validateFields(String email) {
+        if (TextUtils.isEmpty(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterEmail);
-        else if (!StringUtils.isValidEmailId(editEmail.getText().toString()))
+            return false;
+        } else if (!StringUtils.isValidEmailId(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void forgotPassword() {
+        // TODO: 4/21/18
     }
 
     private void setFont() {

@@ -10,6 +10,8 @@ import com.buildboard.modules.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final int SPLASH_TIME = 2000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 SplashActivity.this.finish();
             }
-        }, 2000);
+        }, SPLASH_TIME);
     }
 }

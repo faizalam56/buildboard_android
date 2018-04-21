@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.buildboard.R;
-import com.buildboard.modules.selection.adapters.SelectionAdapter;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
+import com.buildboard.modules.selection.adapters.SelectionAdapter;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_type_login);
+        setContentView(R.layout.activity_selection);
         ButterKnife.bind(this);
 
         getIntentData();
@@ -45,7 +45,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
 
     private void getIntentData() {
         if (getIntent().hasExtra(INTENT_TITLE))
-            getSupportActionBar().setTitle(getIntent().getStringExtra(INTENT_TITLE));
+            if (getSupportActionBar() != null) getSupportActionBar().setTitle(getIntent().getStringExtra(INTENT_TITLE));
 
         if (getIntent().hasExtra(DATA)) {
             setRecyclerView(getIntent().getStringArrayListExtra(DATA));
