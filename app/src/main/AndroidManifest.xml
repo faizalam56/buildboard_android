@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".modules.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -34,19 +33,19 @@
         <activity
             android:name=".modules.signup.SignUpActivity"
             android:label="@string/sign_up"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.buildboard.modules.login.LoginActivity" />
-        </activity>
-
-        <activity
-            android:name=".modules.signup.SignUpContractorActivity"
-            android:label="@string/sign_up"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.selection.SelectionActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.selection.SelectionActivity"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".modules.paymentdetails.PaymentDetailsActivity"
+            android:label="@string/payment_details" />
+
+        <activity
+            android:name=".modules.forgotpassword.ForgotPasswordActivity"
+            android:label="@string/title_forgot_password" />
     </application>
+
 </manifest>
