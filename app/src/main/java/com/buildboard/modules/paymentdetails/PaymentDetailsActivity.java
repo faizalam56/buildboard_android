@@ -82,7 +82,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     void cardTypeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(stringCardType);
-        openActivity(SelectionActivity.class, true, arrayList, CARD_TYPE_REQUEST_CODE, stringCardType);
+        openActivity(SelectionActivity.class, arrayList, CARD_TYPE_REQUEST_CODE, stringCardType);
     }
 
     @OnClick(R.id.button_next)
@@ -96,7 +96,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
         String nameOnCard = editNameOnCard.getText().toString();
 
         if (validateFields(name, address, city, cardNumber, expire, cvv, nameOnCard))
-            finish();
+            startActivity(new Intent(this, LoginActivity.class));
     }
 
     private boolean validateFields(String name, String address, String city, String cardNumber, String expire, String cvv, String nameOnCard) {
@@ -140,17 +140,15 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.text_skip)
     void skipTextTapped() {
-        openActivity(LoginActivity.class, false, null, 0, null);
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private void openActivity(Class classToReplace, boolean isStartForResult, ArrayList<String> arrayList, int requestCode, String title) {
+    private void openActivity(Class classToReplace, ArrayList<String> arrayList, int requestCode, String title) {
         Intent intent = new Intent(PaymentDetailsActivity.this, classToReplace);
 
-        if (isStartForResult) {
-            intent.putExtra(DATA, arrayList);
-            intent.putExtra(INTENT_TITLE, title);
-            startActivityForResult(intent, requestCode);
-        } else startActivity(intent);
+        intent.putExtra(DATA, arrayList);
+        intent.putExtra(INTENT_TITLE, title);
+        startActivityForResult(intent, requestCode);
     }
 
     @Override

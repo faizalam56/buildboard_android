@@ -68,7 +68,6 @@
     <string name="error_enter_last_name">Please enter last name</string>
     <string name="error_enter_address">Please enter address</string>
     <string name="error_enter_phone_number">Please enter phone number</string>
-    <string name="error_enter_valid_phone_number">Please enter valid phone number</string>
     <string name="error_enter_city">Please enter city</string>
     <string name="error_enter_email">Please enter email</string>
     <string name="error_enter_valid_email">Please enter valid email</string>
@@ -85,4 +84,5 @@
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
     <string name="name">Name</string>
+    <string name="error_enter_valid_phone_number">Password must have atleast 10 digit</string>
 </resources>
