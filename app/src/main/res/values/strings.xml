@@ -9,7 +9,7 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_incorrect_password_length">Password must have atleast 8 characters</string>
+    <string name="error_incorrect_password_length">Password must have at-least 8 characters</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -61,7 +61,7 @@
 
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
-    <string name="error_username_short">Username must have atleast 3 characters</string>
+    <string name="error_username_short">Username must have at-least 3 characters</string>
     <string name="error_select_user_type">Please select user type</string>
     <string name="error_enter_name">Please enter name</string>
     <string name="error_enter_first_name">Please enter first name</string>
@@ -80,4 +80,8 @@
     <string name="error_enter_expire_date">Please enter expire date</string>
     <string name="error_enter_cvv">Please enter Cvv number</string>
     <string name="send_email">Send Email</string>
+    <string name="error_first_name_short">First name must have at-least 3 characters</string>
+    <string name="error_user_type">Please select user type</string>
+    <string name="error_working_area">Please select working area</string>
+    <string name="error_summary">Please enter summary</string>
 </resources>
