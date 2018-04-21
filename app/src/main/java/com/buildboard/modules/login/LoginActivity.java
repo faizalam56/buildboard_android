@@ -2,13 +2,16 @@ package com.buildboard.modules.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.constants.AppConstant;
@@ -55,11 +58,18 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     String stringUsernameEmptyMsg;
     @BindString(R.string.user_type)
     String stringUserType;
-    @BindString(R.string.error_incorrect_password)
+    @BindString(R.string.error_incorrect_password_length)
     String stringIncorrectPassword;
+    @BindString(R.string.error_select_user_type)
+    String stringSelectUserType;
+    @BindString(R.string.error_username_short)
+    String stringUsernameTooShort;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
+
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,20 +106,34 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         validateFields();
     }
 
+    @OnClick(R.id.text_forgot_password)
+    void forgotPasswordTapped() {
+        openActivity(ForgotPasswordActivity.class, false);
+    }
+
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editUserName, textForgotPassword, textSignUp,
                 buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
     }
 
     private boolean validateFields() {
-        if (TextUtils.isEmpty(editUserName.getText()) || editPassword.getText().length() < 3) {
-            SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringUsernameEmptyMsg);
+        if (textUserType.getText().toString().equalsIgnoreCase(stringUserType)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectUserType);
             return false;
-        } else if (TextUtils.isEmpty(editPassword.getText())) {
-            if (editPassword.getText().length() < 8)
-                SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringIncorrectPassword);
-            else
-                SnackBarFactory.createSnackBar(this, editPassword.getRootView(), stringPasswordEmptyMsg);
+        }
+        if (TextUtils.isEmpty(editUserName.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameEmptyMsg);
+            return false;
+        } else if (editUserName.getText().length() < 3) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameTooShort);
+            return false;
+        }
+
+        if (TextUtils.isEmpty(editPassword.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringPasswordEmptyMsg);
+            return false;
+        } else if (editPassword.getText().length() < 8) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringIncorrectPassword);
             return false;
         }
 

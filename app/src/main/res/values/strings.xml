@@ -9,6 +9,7 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password_length">Password must have atleast 8 characters</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -44,7 +45,7 @@
     <string name="terms_of_service">Terms of Service</string>
     <string name="business_name">Business name</string>
     <string name="business_address">Business address</string>
-    <string name="brief_summary_of_your_company">Brief summary of your company...</string>
+    <string name="brief_summary_of_your_company">Brief summary of your company…</string>
     <string name="user_type">User Type</string>
     <string name="payment_details">Payment Details</string>
     <string name="card_type">Card Type</string>
@@ -54,9 +55,13 @@
     <string name="name_on_card">Name on Card</string>
     <string name="skip">SKIP</string>
     <string name="expire">Expire</string>
+    <string name="title_forgot_password">Forgot Password</string>
+    <string name="msg_enter_email_address">Enter Your Email Address</string>
+    <string name="msg_reset_password">Don\'t Worry! Just fill in your Email and we will help you to reset your password</string>
 
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
+    <string name="error_username_short">Username must have atleast 3 characters</string>
     <string name="error_select_user_type">Please select user type</string>
     <string name="error_enter_name">Please enter name</string>
     <string name="error_enter_first_name">Please enter first name</string>
@@ -74,4 +79,5 @@
     <string name="error_enter_card_number">Please enter card number</string>
     <string name="error_enter_expire_date">Please enter expire date</string>
     <string name="error_enter_cvv">Please enter Cvv number</string>
+    <string name="send_email">Send Email</string>
 </resources>

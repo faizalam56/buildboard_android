@@ -2,6 +2,7 @@ package com.buildboard.modules.paymentdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.view.SnackBarFactory;
@@ -64,11 +66,16 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     @BindView(R.id.text_skip)
     TextView textSkip;
 
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_details);
         ButterKnife.bind(this);
+
+        setFont();
     }
 
     @OnClick(R.id.edit_card_type)
@@ -80,31 +87,43 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.button_next)
     void nextButtonTapped(View view) {
-        if (validateFields(view))
+        if (validateFields())
             finish();
     }
 
-    private boolean validateFields(View view) {
+    private boolean validateFields() {
         if (TextUtils.isEmpty(editName.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringName).show();
             return false;
-        } else if (TextUtils.isEmpty(editAddress.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringAddress).show();
+        }
+
+        if (TextUtils.isEmpty(editAddress.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
             return false;
-        } else if (TextUtils.isEmpty(editCity.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCity).show();
+        }
+
+        if (TextUtils.isEmpty(editCity.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringCity).show();
             return false;
-        } else if (TextUtils.isEmpty(editCardNumber.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCardNumber).show();
+        }
+
+        if (TextUtils.isEmpty(editCardNumber.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringCardNumber).show();
             return false;
-        } else if (TextUtils.isEmpty(editExpire.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringExpireDate).show();
+        }
+
+        if (TextUtils.isEmpty(editExpire.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringExpireDate).show();
             return false;
-        } else if (TextUtils.isEmpty(editCvv.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCvv).show();
+        }
+
+        if (TextUtils.isEmpty(editCvv.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringCvv).show();
             return false;
-        } else if (TextUtils.isEmpty(editNameOnCard.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringCarsName).show();
+        }
+
+        if (TextUtils.isEmpty(editNameOnCard.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringCarsName).show();
             return false;
         }
 
@@ -135,5 +154,10 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
         if (resultCode == RESULT_OK && requestCode == CARD_TYPE_REQUEST_CODE) {
             editCardType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
         }
+    }
+
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editName, editAddress, editCity, editCardType, editCardNumber,
+                editExpire, editCvv, editNameOnCard, buttonNext, textSkip);
     }
 }

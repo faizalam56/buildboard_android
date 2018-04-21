@@ -120,6 +120,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +192,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     };
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName, editContactMode,
+                editContractorType, editWorkingArea, editBusinessName, editBusinessAddress, editSummary, textTermsOfService, textUserType, buttonNext);
     }
 
     @OnClick(R.id.text_user_type)
@@ -221,10 +225,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @OnClick(R.id.button_next)
     void nextButtonTapped(View view) {
         if (checkUserType()) {
-            if (validateFields(view))
+            if (validateFields())
                 openActivity(PaymentDetailsActivity.class, false, null, 0, null);
         } else
-            SnackBarFactory.createSnackBar(this, view.getRootView(), getString(R.string.error_select_user_type)).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, getString(R.string.error_select_user_type)).show();
     }
 
     private void setTermsServiceText() {
@@ -264,57 +268,71 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         return false;
     }
 
-    private boolean validateFields(View view) {
+    private boolean validateFields() {
         if (TextUtils.isEmpty(editFirstName.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringFirstName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstName).show();
             return false;
-        } else if (TextUtils.isEmpty(editLastName.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringLastName).show();
+        }
+
+        if (TextUtils.isEmpty(editLastName.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringLastName).show();
             return false;
-        } else if (TextUtils.isEmpty(editEmail.getText())) {
+        }
+
+        if (TextUtils.isEmpty(editEmail.getText())) {
             if (!StringUtils.isValidEmailId(editEmail.getText().toString()))
-                SnackBarFactory.createSnackBar(this, view.getRootView(), stringInvalidEmail).show();
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail).show();
             else
-                SnackBarFactory.createSnackBar(this, view.getRootView(), stringEmail).show();
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringEmail).show();
             return false;
-        } else if (TextUtils.isEmpty(editPassword.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringPassword).show();
+        }
+
+        if (TextUtils.isEmpty(editPassword.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringPassword).show();
             return false;
-        } else if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
-            if (!validateContractorFields(view))
+        }
+
+        if (textUserType.getText().toString().equalsIgnoreCase(stringContractor)) {
+            if (!validateContractorFields())
                 return false;
         } else if (textUserType.getText().toString().equalsIgnoreCase(stringConsumer)) {
-            if (!validateConsumerFields(view))
+            if (!validateConsumerFields())
                 return false;
         }
 
         return true;
     }
 
-    private boolean validateContractorFields(View view) {
+    private boolean validateContractorFields() {
         if (TextUtils.isEmpty(editBusinessName.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringBusinessName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringBusinessName).show();
             return false;
-        } else if (TextUtils.isEmpty(editBusinessAddress.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringBusinessAddress).show();
+        }
+
+        if (TextUtils.isEmpty(editBusinessAddress.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringBusinessAddress).show();
             return false;
-        } else if (TextUtils.isEmpty(editSummary.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringSummary).show();
+        }
+
+        if (TextUtils.isEmpty(editSummary.getText())) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringSummary).show();
             return false;
         }
 
         return true;
     }
 
-    private boolean validateConsumerFields(View view) {
+    private boolean validateConsumerFields() {
         if (TextUtils.isEmpty(editAddress.getText())) {
-            SnackBarFactory.createSnackBar(this, view.getRootView(), stringAddress).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
             return false;
-        } else if (TextUtils.isEmpty(editPhoneNo.getText())) {
-            if (StringUtils.isValidNumber(editPhoneNo.getText().toString()))
-                SnackBarFactory.createSnackBar(this, view.getRootView(), stringValidPhoneNumber).show();
+        }
+
+        if (TextUtils.isEmpty(editPhoneNo.getText())) {
+            if (!StringUtils.isValidNumber(editPhoneNo.getText().toString()))
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringValidPhoneNumber).show();
             else
-                SnackBarFactory.createSnackBar(this, view.getRootView(), stringPhoneNumber).show();
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringPhoneNumber).show();
             return false;
         }
 
