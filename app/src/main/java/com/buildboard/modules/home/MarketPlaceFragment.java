@@ -20,7 +20,6 @@ public class MarketPlaceFragment extends Fragment {
     @BindView(R.id.text_fragment)
     TextView textFragment;
 
-
     Unbinder unbinder;
     private String mTitle;
 
