@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".modules.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -28,23 +27,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.buildboard.modules.splash.SplashActivity" />
         </activity>
-
         <activity
             android:name=".modules.signup.SignUpActivity"
             android:label="@string/sign_up"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".modules.paymentdetails.PaymentDetailsActivity"
             android:label="@string/payment_details" />
-
         <activity
             android:name=".modules.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password" />
+        <activity
+            android:name=".modules.home.HomeActivity"
+            android:label="@string/title_activity_home"></activity>
     </application>
 
 </manifest>

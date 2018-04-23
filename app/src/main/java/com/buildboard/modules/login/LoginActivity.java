@@ -13,6 +13,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
+import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.view.SnackBarFactory;
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
         if (validateFields(userName, password, userType)) {
             // TODO: 4/21/18
+            openActivity(HomeActivity.class, false);
         }
     }
 
