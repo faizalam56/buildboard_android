@@ -52,17 +52,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.consumer)
     String stringConsumer;
     @BindString(R.string.error_password)
-    String stringPasswordEmptyMsg;
+    String stringErrorPasswordEmptyMsg;
     @BindString(R.string.error_username)
-    String stringUsernameEmptyMsg;
+    String stringErrorUsernameEmptyMsg;
     @BindString(R.string.user_type)
     String stringUserType;
     @BindString(R.string.error_incorrect_password_length)
-    String stringIncorrectPassword;
+    String stringErrorIncorrectPassword;
     @BindString(R.string.error_select_user_type)
-    String stringSelectUserType;
+    String stringErrorSelectUserType;
     @BindString(R.string.error_username_short)
-    String stringUsernameTooShort;
+    String stringErrorUsernameTooShort;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -123,22 +123,22 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
     private boolean validateFields(String userName, String password, String userType) {
         if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectUserType);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
             return false;
         }
         if (TextUtils.isEmpty(userName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameEmptyMsg);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
         } else if (userName.length() < 3) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringUsernameTooShort);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameTooShort);
             return false;
         }
 
         if (TextUtils.isEmpty(password)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringPasswordEmptyMsg);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
             return false;
         } else if (password.length() < 8) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringIncorrectPassword);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorIncorrectPassword);
             return false;
         }
 

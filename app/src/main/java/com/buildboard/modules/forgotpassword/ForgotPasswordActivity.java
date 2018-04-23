@@ -30,9 +30,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     ConstraintLayout constraintRoot;
 
     @BindString(R.string.error_enter_email)
-    String stringEnterEmail;
+    String stringErrorEnterEmail;
     @BindString(R.string.error_invalid_email)
-    String stringInvalidEmail;
+    String stringErrorInvalidEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private boolean validateFields(String email) {
         if (TextUtils.isEmpty(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterEmail);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEnterEmail);
             return false;
         } else if (!StringUtils.isValidEmailId(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail);
             return false;
         }
 

@@ -95,15 +95,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringConsumer;
 
     @BindString(R.string.error_enter_first_name)
-    String stringFirstName;
+    String stringErrorFirstName;
     @BindString(R.string.error_enter_last_name)
-    String stringLastName;
+    String stringErrorLastName;
     @BindString(R.string.error_invalid_email)
-    String stringInvalidEmail;
+    String stringErrorInvalidEmail;
     @BindString(R.string.error_enter_email)
-    String stringEmail;
+    String stringErrorEmail;
     @BindString(R.string.error_password)
-    String stringPasswordEmptyMsg;
+    String stringErrorPasswordEmptyMsg;
     @BindString(R.string.error_enter_business_name)
     String stringErrorBusinessName;
     @BindString(R.string.error_enter_business_address)
@@ -111,15 +111,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.error_enter_summary)
     String stringSummary;
     @BindString(R.string.error_enter_address)
-    String stringAddress;
+    String stringErrorAddress;
     @BindString(R.string.error_enter_valid_phone_number)
-    String stringValidPhoneNumber;
+    String stringErrorValidPhoneNumber;
     @BindString(R.string.error_enter_phone_number)
     String stringErrorPhoneNumber;
     @BindString(R.string.error_select_user_type)
-    String stringSelectUserType;
+    String stringErrorSelectUserType;
     @BindString(R.string.error_first_name_short)
-    String stringFirstnameTooShort;
+    String stringErrorFirstnameTooShort;
     @BindString(R.string.error_incorrect_password_length)
     String stringErrorPasswordLength;
     @BindString(R.string.error_user_type)
@@ -278,33 +278,33 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private boolean validateFields(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
         if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectUserType);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
             return false;
         }
 
         if (TextUtils.isEmpty(firstName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstName);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorFirstName);
             return false;
         } else if (firstName.length() < 3) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringFirstnameTooShort);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorFirstnameTooShort);
             return false;
         }
 
         if (TextUtils.isEmpty(lastName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringLastName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastName).show();
             return false;
         }
 
         if (TextUtils.isEmpty(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringEmail).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEmail).show();
             return false;
         } else if (!StringUtils.isValidEmailId(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringInvalidEmail).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail).show();
             return false;
         }
 
         if (TextUtils.isEmpty(password)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringPasswordEmptyMsg);
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
             return false;
         } else if (password.length() < 8) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
@@ -347,7 +347,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private boolean validateConsumerFields(String address, String phoneNo, String contactMode) {
         if (TextUtils.isEmpty(address)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorAddress).show();
             return false;
         }
 
@@ -355,7 +355,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
             return false;
         } else if (phoneNo.length() < 10) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringValidPhoneNumber).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
 
