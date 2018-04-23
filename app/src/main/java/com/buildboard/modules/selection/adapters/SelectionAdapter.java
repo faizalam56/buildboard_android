@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
 
 import java.util.List;
@@ -54,11 +55,16 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            setFont();
         }
 
         @OnClick(R.id.text_selection_item)
         void rowTapped(View view) {
             mClickListener.onItemClick(view, getAdapterPosition(), mArrayList.get(getAdapterPosition()));
+        }
+
+        private void setFont() {
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textSelection);
         }
     }
 }

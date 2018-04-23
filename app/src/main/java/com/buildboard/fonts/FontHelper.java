@@ -16,7 +16,8 @@ public class FontHelper {
 
         FONT_BOLD("fonts/Roboto-Bold.ttf"),
         FONT_MEDIUM("fonts/Roboto-Medium.ttf"),
-        FONT_REGULAR("fonts/Roboto-Regular.ttf");
+        FONT_REGULAR("fonts/Roboto-Regular.ttf"),
+        FONT_LIGHT("fonts/Roboto-Light.ttf");
 
         private final String type;
 
