@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,19 +30,19 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     @BindString(R.string.card_type)
     String stringCardType;
     @BindString(R.string.error_enter_name)
-    String stringName;
+    String stringErrorName;
     @BindString(R.string.error_enter_address)
-    String stringAddress;
+    String stringErrorAddress;
     @BindString(R.string.error_enter_city)
-    String stringCity;
+    String stringErrorCity;
     @BindString(R.string.error_enter_card_number)
-    String stringCardNumber;
+    String stringErrorCardNumber;
     @BindString(R.string.error_enter_expire_date)
-    String stringExpireDate;
+    String stringErrorExpireDate;
     @BindString(R.string.error_enter_cvv)
-    String stringCvv;
+    String stringErrorCvv;
     @BindString(R.string.error_enter_card_name)
-    String stringCarsName;
+    String stringErrorCarsName;
 
     @BindView(R.id.edit_name)
     EditText editName;
@@ -86,7 +85,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     }
 
     @OnClick(R.id.button_next)
-    void nextButtonTapped(View view) {
+    void nextButtonTapped() {
         String name = editName.getText().toString();
         String address = editAddress.getText().toString();
         String city = editCity.getText().toString();
@@ -101,37 +100,37 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     private boolean validateFields(String name, String address, String city, String cardNumber, String expire, String cvv, String nameOnCard) {
         if (TextUtils.isEmpty(name)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorName).show();
             return false;
         }
 
         if (TextUtils.isEmpty(address)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringAddress).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorAddress).show();
             return false;
         }
 
         if (TextUtils.isEmpty(city)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringCity).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorCity).show();
             return false;
         }
 
         if (TextUtils.isEmpty(cardNumber)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringCardNumber).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorCardNumber).show();
             return false;
         }
 
         if (TextUtils.isEmpty(expire)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringExpireDate).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorExpireDate).show();
             return false;
         }
 
         if (TextUtils.isEmpty(cvv)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringCvv).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorCvv).show();
             return false;
         }
 
         if (TextUtils.isEmpty(nameOnCard)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringCarsName).show();
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorCarsName).show();
             return false;
         }
 
