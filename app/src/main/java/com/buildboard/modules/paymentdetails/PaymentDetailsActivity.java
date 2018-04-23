@@ -162,7 +162,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editName, editAddress, editCity, editCardType, editCardNumber,
+        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editName, editAddress, editCity, editCardType, editCardNumber,
                 editExpire, editCvv, editNameOnCard, buttonNext, textSkip);
     }
 }

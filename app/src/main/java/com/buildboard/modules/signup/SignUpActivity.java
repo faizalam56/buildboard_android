@@ -202,7 +202,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     };
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName, editContactMode,
+        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName, editContactMode,
                 editContractorType, editWorkingArea, editBusinessName, editBusinessAddress, editSummary, textTermsOfService, textUserType, buttonNext);
     }
 

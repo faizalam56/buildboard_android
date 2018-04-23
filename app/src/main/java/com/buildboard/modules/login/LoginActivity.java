@@ -117,8 +117,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editPassword, editUserName, textForgotPassword, textSignUp,
-                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
+                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
     }
 
     private boolean validateFields(String userName, String password, String userType) {
