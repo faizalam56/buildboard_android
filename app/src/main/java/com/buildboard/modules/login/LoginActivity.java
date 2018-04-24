@@ -103,14 +103,15 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        String userName = editUserName.getText().toString();
+        /*String userName = editUserName.getText().toString();
         String password = editPassword.getText().toString();
         String userType = textUserType.getText().toString();
 
         if (validateFields(userName, password, userType)) {
             // TODO: 4/21/18
             openActivity(HomeActivity.class, false);
-        }
+        }*/
+        openActivity(HomeActivity.class, false);
     }
 
     @OnClick(R.id.text_forgot_password)
