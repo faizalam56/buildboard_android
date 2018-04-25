@@ -3,6 +3,7 @@ package com.buildboard.modules.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
+import com.buildboard.modules.home.modules.projects.ProjectsFragment;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -41,10 +43,12 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_marketplace:
                     setTitle(stringMarketPlace);
+                    navigateFragment(MarketPlaceFragment.newInstance());
                     return true;
 
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
+                    navigateFragment(ProjectsFragment.newInstance());
                     return true;
 
                 case R.id.navigation_mailbox:
@@ -70,12 +74,12 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.removeShiftMode(navigation);
         setTitle(stringMarketPlace);
-        navigateFragment(stringMarketPlace);
+        navigateFragment(MarketPlaceFragment.newInstance());
     }
 
-    private void navigateFragment(String title) {
+    private void navigateFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_home_container, MarketPlaceFragment.newInstance(title)).commit();
+        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
     }
 
     private void setTitle(String title) {
