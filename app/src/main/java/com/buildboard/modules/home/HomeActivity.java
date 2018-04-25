@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.buildboard.R;
+import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 
 import butterknife.BindString;
 import butterknife.BindView;

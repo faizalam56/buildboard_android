@@ -1,4 +1,4 @@
-package com.buildboard.modules.home;
+package com.buildboard.modules.home.modules.marketplace;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
+import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
+import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
+import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;

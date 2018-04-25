@@ -1,4 +1,4 @@
-package com.buildboard.modules.home;
+package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,20 +11,19 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> {
+public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
 
     private Context mContext;
     private List<String> mArrayList;
     private LayoutInflater layoutInflater;
     private IRecyclerItemClickListener mClickListener;
 
-    public ContractorByProjectTypeAdapter(Context context, List<String> arrayList, IRecyclerItemClickListener clickListener) {
+    public ServicesAdapter(Context context, List<String> arrayList, IRecyclerItemClickListener clickListener) {
         mContext = context;
         mArrayList = arrayList;
         mClickListener = clickListener;
@@ -32,13 +31,13 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
     }
 
     @Override
-    public ContractorByProjectTypeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_contractor_by_project, parent, false);
+    public ServicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = layoutInflater.inflate(R.layout.item_services, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ContractorByProjectTypeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ServicesAdapter.ViewHolder holder, int position) {
 //        holder.textSelection.setText(mArrayList.get(position));
     }
 
@@ -49,8 +48,10 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_name)
-        TextView textName;
+        @BindView(R.id.text_service_name)
+        TextView textServiceName;
+        @BindView(R.id.text_service_provider_name)
+        TextView textServiceProviderName;
 
         @BindView(R.id.image_service)
         ImageView imageService;
@@ -59,6 +60,11 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+            /*Glide.with(mContext)
+                    .load(R.drawable.supplies)
+                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(5)))
+                    .into(imageService);*/
+//            Picasso.get().load(R.drawable.supplies).transform(new CircleTransform(15, 2)).into(imageService);
         }
 
         /*@OnClick(R.id.text_selection_item)
@@ -67,7 +73,8 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         }*/
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textServiceProviderName);
         }
     }
 }
