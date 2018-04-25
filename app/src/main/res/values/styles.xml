@@ -159,11 +159,4 @@
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
-
-    <style name="text_view_style_marketplace" parent="text_view_style">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/_5ssp</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-    </style>
 </resources>

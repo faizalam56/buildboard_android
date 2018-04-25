@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
-import com.buildboard.modules.selection.adapters.SelectionAdapter;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -24,15 +24,19 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
 
     private static final String ARG_PARAM1 = "param1";
 
-    @BindView(R.id.text_fragment)
-    TextView textFragment;
-
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
     @BindView(R.id.recycler_nearby_contractors)
     RecyclerView recyclerNearbyContractors;
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorsByProjecttype;
+
+    @BindView(R.id.text_trending_service)
+    TextView textTrendingService;
+    @BindView(R.id.text_nearby_contractors)
+    TextView textNearbyContractors;
+    @BindView(R.id.text_contractors_by_projecttype)
+    TextView textContractorsByProjecttype;
 
     private String mTitle;
     Unbinder unbinder;
@@ -60,7 +64,7 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        textFragment.setText(mTitle);
+        setFont();
         setServicesRecycler();
         setNearbyContractorsRecycler();
         setContractorByProjectRecycler();
@@ -119,5 +123,9 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerContractorsByProjecttype.setAdapter(selectionAdapter);
+    }
+
+    private void setFont() {
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
     }
 }

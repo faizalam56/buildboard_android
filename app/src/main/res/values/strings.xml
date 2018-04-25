@@ -94,4 +94,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="trending_services">Trending Services</string>
+    <string name="near_by_contractors">Near by Contractors</string>
+    <string name="contractors_by_project_type">Contractors by Project Type</string>
 </resources>

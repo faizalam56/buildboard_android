@@ -39,19 +39,15 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_marketplace:
                     setTitle(stringMarketPlace);
-                    navigateFragment(stringMarketPlace);
                     return true;
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
-                    navigateFragment(stringProjects);
                     return true;
                 case R.id.navigation_mailbox:
                     setTitle(stringMailbox);
-                    navigateFragment(stringMailbox);
                     return true;
                 case R.id.navigation_profile:
                     setTitle(stringProfile);
-                    navigateFragment(stringProfile);
                     return true;
             }
             return false;
@@ -68,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.removeShiftMode(navigation);
         setTitle(stringMarketPlace);
+        navigateFragment(stringMarketPlace);
     }
 
     private void navigateFragment(String title) {
