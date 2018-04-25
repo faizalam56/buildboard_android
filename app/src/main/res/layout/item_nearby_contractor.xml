@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/text_name"
-        style="@style/text_view_style"
+        style="@style/textSize_small"
         android:text="John"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_12ssp"

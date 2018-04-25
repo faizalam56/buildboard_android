@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/text_user_type"
-            style="@style/text_view_style"
+            style="@style/textSize_small"
             android:background="@drawable/green_drawable_border"
             android:paddingEnd="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
@@ -26,7 +26,7 @@
 
         <EditText
             android:id="@+id/edit_first_name"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/first_name"
@@ -36,7 +36,7 @@
 
         <EditText
             android:id="@+id/edit_last_name"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/last_name"
@@ -46,7 +46,7 @@
 
         <EditText
             android:id="@+id/edit_email"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/email"
@@ -55,7 +55,7 @@
 
         <EditText
             android:id="@+id/edit_password"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/password"
@@ -75,7 +75,7 @@
 
             <EditText
                 android:id="@+id/edit_address"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/address"
                 android:imeOptions="actionNext"
@@ -83,7 +83,7 @@
 
             <EditText
                 android:id="@+id/edit_phoneno"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/phone_no"
@@ -94,7 +94,7 @@
 
             <EditText
                 android:id="@+id/edit_contact_mode"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:cursorVisible="false"
@@ -117,7 +117,7 @@
 
             <EditText
                 android:id="@+id/edit_contractor_type"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:background="@drawable/green_drawable_border"
                 android:cursorVisible="false"
                 android:editable="false"
@@ -126,7 +126,7 @@
 
             <EditText
                 android:id="@+id/edit_business_name"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/business_name"
@@ -136,7 +136,7 @@
 
             <EditText
                 android:id="@+id/edit_business_address"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/business_address"
@@ -146,7 +146,7 @@
 
             <EditText
                 android:id="@+id/edit_working_area"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:cursorVisible="false"
@@ -157,7 +157,7 @@
 
             <EditText
                 android:id="@+id/edit_summary"
-                style="@style/edit_text_style"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/brief_summary_of_your_company"
