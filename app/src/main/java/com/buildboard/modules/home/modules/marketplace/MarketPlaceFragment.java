@@ -23,9 +23,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickListener {
+public class MarketPlaceFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
+    private String mTitle;
+    private Unbinder mUnbinder;
 
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
@@ -41,31 +42,16 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
     @BindView(R.id.text_contractors_by_projecttype)
     TextView textContractorsByProjecttype;
 
-    private String mTitle;
-    Unbinder unbinder;
-
-    public MarketPlaceFragment() {
-    }
-
-    public static MarketPlaceFragment newInstance(String param1) {
+    public static MarketPlaceFragment newInstance() {
         MarketPlaceFragment fragment = new MarketPlaceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) mTitle = getArguments().getString(ARG_PARAM1);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         setFont();
         setServicesRecycler();
@@ -78,43 +64,31 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onItemClick(View view, int position, Object data) {
-
+        mUnbinder.unbind();
     }
 
     private void setServicesRecycler() {
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("Service 1");
-        datas.add("Service 2");
-        datas.add("Service 3");
-        datas.add("Service 4");
-        datas.add("Service 5");
-
-        ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), datas, this);
+        ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), getDatas());
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerServices.setAdapter(selectionAdapter);
     }
 
     private void setNearbyContractorsRecycler() {
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("Service 1");
-        datas.add("Service 2");
-        datas.add("Service 3");
-        datas.add("Service 4");
-        datas.add("Service 5");
-
-        NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), datas, this);
+        NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), getDatas());
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerNearbyContractors.setAdapter(selectionAdapter);
     }
 
     private void setContractorByProjectRecycler() {
+        ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), getDatas());
+        recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        recyclerContractorsByProjecttype.setAdapter(selectionAdapter);
+    }
+
+    private ArrayList<String> getDatas() {
         ArrayList<String> datas = new ArrayList<>();
         datas.add("Service 1");
         datas.add("Service 2");
@@ -122,10 +96,7 @@ public class MarketPlaceFragment extends Fragment implements IRecyclerItemClickL
         datas.add("Service 4");
         datas.add("Service 5");
 
-        ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), datas, this);
-        recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        recyclerContractorsByProjecttype.setAdapter(selectionAdapter);
+        return datas;
     }
 
     private void setFont() {

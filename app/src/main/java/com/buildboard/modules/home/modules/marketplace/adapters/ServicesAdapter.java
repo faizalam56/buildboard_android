@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.interfaces.IRecyclerItemClickListener;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,25 +20,22 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     private Context mContext;
     private List<String> mArrayList;
-    private LayoutInflater layoutInflater;
-    private IRecyclerItemClickListener mClickListener;
+    private LayoutInflater mLayoutInflater;
 
-    public ServicesAdapter(Context context, List<String> arrayList, IRecyclerItemClickListener clickListener) {
+    public ServicesAdapter(Context context, List<String> arrayList) {
         mContext = context;
         mArrayList = arrayList;
-        mClickListener = clickListener;
-        layoutInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public ServicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_services, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_services, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ServicesAdapter.ViewHolder holder, int position) {
-//        holder.textSelection.setText(mArrayList.get(position));
     }
 
     @Override
@@ -60,17 +57,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
-            /*Glide.with(mContext)
-                    .load(R.drawable.supplies)
-                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(5)))
-                    .into(imageService);*/
-//            Picasso.get().load(R.drawable.supplies).transform(new CircleTransform(15, 2)).into(imageService);
         }
-
-        /*@OnClick(R.id.text_selection_item)
-        void rowTapped(View view) {
-            mClickListener.onItemClick(view, getAdapterPosition(), mArrayList.get(getAdapterPosition()));
-        }*/
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.interfaces.IRecyclerItemClickListener;
 
 import java.util.List;
 
@@ -21,25 +20,22 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
 
     private Context mContext;
     private List<String> mArrayList;
-    private LayoutInflater layoutInflater;
-    private IRecyclerItemClickListener mClickListener;
+    private LayoutInflater mLayoutInflater;
 
-    public NearByContractorAdapter(Context context, List<String> arrayList, IRecyclerItemClickListener clickListener) {
+    public NearByContractorAdapter(Context context, List<String> arrayList) {
         mContext = context;
         mArrayList = arrayList;
-        mClickListener = clickListener;
-        layoutInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public NearByContractorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(NearByContractorAdapter.ViewHolder holder, int position) {
-//        holder.textSelection.setText(mArrayList.get(position));
     }
 
     @Override
@@ -60,11 +56,6 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             ButterKnife.bind(this, itemView);
             setFont();
         }
-
-        /*@OnClick(R.id.text_selection_item)
-        void rowTapped(View view) {
-            mClickListener.onItemClick(view, getAdapterPosition(), mArrayList.get(getAdapterPosition()));
-        }*/
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);

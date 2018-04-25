@@ -36,21 +36,26 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             switch (item.getItemId()) {
 
                 case R.id.navigation_marketplace:
                     setTitle(stringMarketPlace);
                     return true;
+
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
                     return true;
+
                 case R.id.navigation_mailbox:
                     setTitle(stringMailbox);
                     return true;
+
                 case R.id.navigation_profile:
                     setTitle(stringProfile);
                     return true;
             }
+
             return false;
         }
     };
