@@ -18,7 +18,7 @@
 
         <EditText
             android:id="@+id/edit_name"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/name"
@@ -27,7 +27,7 @@
 
         <EditText
             android:id="@+id/edit_address"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/address"
@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/edit_city"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/city"
@@ -47,7 +47,7 @@
 
         <EditText
             android:id="@+id/edit_card_type"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:cursorVisible="false"
@@ -58,7 +58,7 @@
 
         <EditText
             android:id="@+id/edit_card_number"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/card_number"
@@ -69,7 +69,7 @@
 
         <EditText
             android:id="@+id/edit_expire"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
@@ -83,7 +83,7 @@
 
         <EditText
             android:id="@+id/edit_cvv"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_width="0dp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
@@ -100,7 +100,7 @@
 
         <EditText
             android:id="@+id/edit_name_on_card"
-            style="@style/edit_text_style"
+            style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/name_on_card"
