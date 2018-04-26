@@ -3,6 +3,7 @@ package com.buildboard.modules.forgotpassword;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,9 @@ import butterknife.OnClick;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.text_reset_password_msg)
     TextView textResetPasswordMsg;
     @BindView(R.id.edit_email)
@@ -33,6 +37,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     String stringErrorEnterEmail;
     @BindString(R.string.error_invalid_email)
     String stringErrorInvalidEmail;
+    @BindString(R.string.title_forgot_password)
+    String stringFrogotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
 
+        toolbar.setTitle(stringFrogotPassword);
         setFont();
     }
 

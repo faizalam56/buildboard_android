@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,12 +69,16 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_details);
         ButterKnife.bind(this);
 
+        toolbar.setTitle(stringPaymentDetails);
         setFont();
     }
 

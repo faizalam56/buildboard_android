@@ -43,7 +43,7 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         return mArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView textName;
