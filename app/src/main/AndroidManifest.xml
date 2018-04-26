@@ -8,7 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/_NoActionBar">
         <activity
             android:name=".modules.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -21,8 +21,7 @@
         </activity>
         <activity
             android:name=".modules.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/_NoActionBar">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.buildboard.modules.splash.SplashActivity" />
@@ -42,7 +41,7 @@
             android:label="@string/title_forgot_password" />
         <activity
             android:name=".modules.home.HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home"/>
     </application>
 
 </manifest>

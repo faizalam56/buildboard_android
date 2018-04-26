@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -23,6 +24,9 @@ public class HomeActivity extends AppCompatActivity {
     FrameLayout frameHomeContainer;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindString(R.string.title_marketplace)
     String stringMarketPlace;
@@ -70,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.removeShiftMode(navigation);
         setTitle(stringMarketPlace);
@@ -83,6 +87,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
+        toolbar.setTitle(title);
     }
 }

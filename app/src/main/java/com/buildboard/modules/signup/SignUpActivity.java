@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -34,6 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.text_terms_of_service)
     TextView textTermsOfService;
@@ -128,6 +132,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringErrorWorkingArea;
     @BindString(R.string.error_summary)
     String stringErrorSummary;
+    @BindString(R.string.sign_up)
+    String stringSignUp;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -141,6 +147,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        toolbar.setTitle(stringSignUp);
         setFont();
         setTermsServiceText();
     }
