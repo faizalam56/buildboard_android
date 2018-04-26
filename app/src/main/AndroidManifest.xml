@@ -34,13 +34,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.paymentdetails.PaymentDetailsActivity"
-            android:label="@string/payment_details" />
+            android:label="@string/payment_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.forgotpassword.ForgotPasswordActivity"
-            android:label="@string/title_forgot_password" />
+            android:label="@string/title_forgot_password"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.home.HomeActivity"
-            android:label="@string/title_activity_home"/>
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
