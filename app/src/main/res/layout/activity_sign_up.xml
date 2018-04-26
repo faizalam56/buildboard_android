@@ -1,196 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     tools:context="com.buildboard.modules.signup.SignUpActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraint_root"
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/_15sdp"
-        android:paddingLeft="@dimen/_15sdp"
-        android:paddingRight="@dimen/_15sdp"
-        android:paddingTop="@dimen/_15sdp">
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/text_user_type"
-            style="@style/textSize_small"
-            android:background="@drawable/green_drawable_border"
-            android:paddingEnd="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp"
-            android:text="@string/user_type" />
-
-        <EditText
-            android:id="@+id/edit_first_name"
-            style="@style/edit_text_size_small"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/green_drawable_border"
-            android:hint="@string/first_name"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/text_user_type" />
-
-        <EditText
-            android:id="@+id/edit_last_name"
-            style="@style/edit_text_size_small"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/green_drawable_border"
-            android:hint="@string/last_name"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/edit_first_name" />
-
-        <EditText
-            android:id="@+id/edit_email"
-            style="@style/edit_text_size_small"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/green_drawable_border"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintTop_toBottomOf="@+id/edit_last_name" />
-
-        <EditText
-            android:id="@+id/edit_password"
-            style="@style/edit_text_size_small"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/green_drawable_border"
-            android:hint="@string/password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_consumer_address_container"
+            android:id="@+id/constraint_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_password">
+            android:paddingBottom="@dimen/_15sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingTop="@dimen/_15sdp">
+
+            <TextView
+                android:id="@+id/text_user_type"
+                style="@style/textSize_small"
+                android:background="@drawable/green_drawable_border"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:text="@string/user_type" />
 
             <EditText
-                android:id="@+id/edit_address"
+                android:id="@+id/edit_first_name"
                 style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
-                android:hint="@string/address"
+                android:hint="@string/first_name"
                 android:imeOptions="actionNext"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/text_user_type" />
 
             <EditText
-                android:id="@+id/edit_phoneno"
+                android:id="@+id/edit_last_name"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
-                android:hint="@string/phone_no"
-                android:imeOptions="actionDone"
-                android:inputType="phone"
-                android:maxLength="14"
-                app:layout_constraintTop_toBottomOf="@+id/edit_address" />
+                android:hint="@string/last_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/edit_first_name" />
 
             <EditText
-                android:id="@+id/edit_contact_mode"
+                android:id="@+id/edit_email"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
-                android:cursorVisible="false"
-                android:editable="false"
-                android:focusable="false"
-                android:text="@string/preferred_contact_mode"
-                app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintTop_toBottomOf="@+id/edit_last_name" />
+
+            <EditText
+                android:id="@+id/edit_password"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_consumer_address_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_password">
+
+                <EditText
+                    android:id="@+id/edit_address"
+                    style="@style/edit_text_size_small"
+                    android:background="@drawable/green_drawable_border"
+                    android:hint="@string/address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPostalAddress" />
+
+                <EditText
+                    android:id="@+id/edit_phoneno"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:hint="@string/phone_no"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="14"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address" />
+
+                <EditText
+                    android:id="@+id/edit_contact_mode"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:cursorVisible="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="@string/preferred_contact_mode"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_contractor_address_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container">
+
+                <EditText
+                    android:id="@+id/edit_contractor_type"
+                    style="@style/edit_text_size_small"
+                    android:background="@drawable/green_drawable_border"
+                    android:cursorVisible="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="@string/type_of_contractor" />
+
+                <EditText
+                    android:id="@+id/edit_business_name"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:hint="@string/business_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPostalAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type" />
+
+                <EditText
+                    android:id="@+id/edit_business_address"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:hint="@string/business_address"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPostalAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_name" />
+
+                <EditText
+                    android:id="@+id/edit_working_area"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:cursorVisible="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="@string/working_area"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_address" />
+
+                <EditText
+                    android:id="@+id/edit_summary"
+                    style="@style/edit_text_size_small"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/green_drawable_border"
+                    android:hint="@string/brief_summary_of_your_company"
+                    android:maxLines="5"
+                    android:singleLine="false"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_working_area" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/button_next"
+                style="@style/button_style"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/gray_button_background"
+                android:text="@string/next"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container" />
+
+            <TextView
+                android:id="@+id/text_terms_of_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:autoLink="all"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="@string/privacy_policy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_next" />
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_contractor_address_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container">
-
-            <EditText
-                android:id="@+id/edit_contractor_type"
-                style="@style/edit_text_size_small"
-                android:background="@drawable/green_drawable_border"
-                android:cursorVisible="false"
-                android:editable="false"
-                android:focusable="false"
-                android:text="@string/type_of_contractor" />
-
-            <EditText
-                android:id="@+id/edit_business_name"
-                style="@style/edit_text_size_small"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/green_drawable_border"
-                android:hint="@string/business_name"
-                android:imeOptions="actionNext"
-                android:inputType="textPostalAddress"
-                app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type" />
-
-            <EditText
-                android:id="@+id/edit_business_address"
-                style="@style/edit_text_size_small"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/green_drawable_border"
-                android:hint="@string/business_address"
-                android:imeOptions="actionDone"
-                android:inputType="textPostalAddress"
-                app:layout_constraintTop_toBottomOf="@+id/edit_business_name" />
-
-            <EditText
-                android:id="@+id/edit_working_area"
-                style="@style/edit_text_size_small"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/green_drawable_border"
-                android:cursorVisible="false"
-                android:editable="false"
-                android:focusable="false"
-                android:text="@string/working_area"
-                app:layout_constraintTop_toBottomOf="@+id/edit_business_address" />
-
-            <EditText
-                android:id="@+id/edit_summary"
-                style="@style/edit_text_size_small"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/green_drawable_border"
-                android:hint="@string/brief_summary_of_your_company"
-                android:maxLines="5"
-                android:singleLine="false"
-                app:layout_constraintTop_toBottomOf="@+id/edit_working_area" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <Button
-            android:id="@+id/button_next"
-            style="@style/button_style"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/gray_button_background"
-            android:text="@string/next"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container" />
-
-        <TextView
-            android:id="@+id/text_terms_of_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:autoLink="all"
-            android:gravity="center"
-            android:linksClickable="true"
-            android:text="@string/privacy_policy"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_next" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</ScrollView>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

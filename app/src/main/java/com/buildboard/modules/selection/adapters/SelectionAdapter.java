@@ -47,7 +47,7 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
         return mArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_selection_item)
         TextView textSelection;

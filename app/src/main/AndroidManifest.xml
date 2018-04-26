@@ -11,8 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".modules.splash.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/_NoActionBar_">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,8 +20,7 @@
         </activity>
         <activity
             android:name=".modules.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/_NoActionBar">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.buildboard.modules.splash.SplashActivity" />
@@ -36,13 +34,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.paymentdetails.PaymentDetailsActivity"
-            android:label="@string/payment_details" />
+            android:label="@string/payment_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.forgotpassword.ForgotPasswordActivity"
-            android:label="@string/title_forgot_password" />
+            android:label="@string/title_forgot_password"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.home.HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

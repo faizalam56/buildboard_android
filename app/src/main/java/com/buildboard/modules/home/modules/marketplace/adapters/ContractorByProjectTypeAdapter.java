@@ -43,7 +43,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         return mArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
         TextView textName;
