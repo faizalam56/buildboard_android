@@ -102,4 +102,7 @@
     <string name="open_projects">Open\nProjects</string>
     <string name="saved_projects">Saved\nProjects</string>
     <string name="current_projects">Current\nProjects</string>
+    <string name="inbox">Inbox</string>
+    <string name="draft">Draft</string>
+    <string name="bin">Bin</string>
 </resources>
