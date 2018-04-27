@@ -104,6 +104,7 @@
     <string name="current_projects">Current\nProjects</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
+    <string name="drafts">Drafts</string>
     <string name="bin">Bin</string>
     <string name="compose">Compose</string>
 </resources>
