@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
