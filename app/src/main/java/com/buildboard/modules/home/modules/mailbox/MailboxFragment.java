@@ -16,6 +16,8 @@ import butterknife.Unbinder;
 
 public class MailboxFragment extends Fragment {
 
+    private Unbinder mUnbinder;
+
     @BindView(R.id.text_compose)
     TextView textCompose;
     @BindView(R.id.text_inbox)
@@ -24,8 +26,6 @@ public class MailboxFragment extends Fragment {
     TextView textDraft;
     @BindView(R.id.text_bin)
     TextView textBin;
-
-    private Unbinder unbinder;
 
     public static MailboxFragment newInstance() {
         MailboxFragment fragment = new MailboxFragment();
@@ -36,7 +36,7 @@ public class MailboxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mailbox, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         setFont();
 
         return view;
@@ -45,7 +45,7 @@ public class MailboxFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
     private void setFont() {
