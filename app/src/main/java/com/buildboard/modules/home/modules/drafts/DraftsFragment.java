@@ -20,10 +20,10 @@ import butterknife.Unbinder;
 
 public class DraftsFragment extends Fragment {
 
+    private Unbinder mUnbinder;
+
     @BindView(R.id.recycler_drafts)
     RecyclerView recyclerDrafts;
-
-    Unbinder unbinder;
 
     public static DraftsFragment newInstance() {
         DraftsFragment fragment = new DraftsFragment();
@@ -34,7 +34,7 @@ public class DraftsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drafts, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         setServicesRecycler();
 
         return view;
@@ -43,7 +43,7 @@ public class DraftsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 
     private void setServicesRecycler() {
