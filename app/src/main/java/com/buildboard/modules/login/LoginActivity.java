@@ -109,7 +109,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
 
         if (validateFields(userName, password, userType)) {
             // TODO: 4/21/18
-            openActivity(HomeActivity.class, false);
+            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(homeIntent);
+            finish();
         }
     }
 
