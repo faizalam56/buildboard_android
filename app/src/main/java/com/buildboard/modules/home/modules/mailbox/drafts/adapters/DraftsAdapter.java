@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.mailbox.drafts.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +11,22 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.mailbox.drafts_reply.DraftsReplyActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DraftsAdapter extends RecyclerView.Adapter<DraftsAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mArrayList;
+    private ArrayList<String> mArrayList;
     private LayoutInflater mLayoutInflater;
 
-    public DraftsAdapter(Context context, List<String> arrayList) {
+    public DraftsAdapter(Context context, ArrayList<String> arrayList) {
         mContext = context;
         mArrayList = arrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -53,6 +58,11 @@ public class DraftsAdapter extends RecyclerView.Adapter<DraftsAdapter.ViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.constraint_drafts_row)
+        void rowTapped() {
+            mContext.startActivity(new Intent(mContext, DraftsReplyActivity.class));
         }
 
         private void setFont() {

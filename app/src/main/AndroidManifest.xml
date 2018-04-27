@@ -44,7 +44,10 @@
             android:name=".modules.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
-        <activity android:name=".modules.home.modules.mailbox.drafts.DraftsActivity"
+        <activity
+            android:name=".modules.home.modules.mailbox.drafts.DraftsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".modules.home.modules.mailbox.drafts_reply.DraftsReplyActivity"
             android:screenOrientation="portrait"/>
     </application>
 
