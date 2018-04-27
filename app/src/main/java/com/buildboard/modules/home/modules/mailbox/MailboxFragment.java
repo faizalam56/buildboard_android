@@ -24,7 +24,8 @@ public class MailboxFragment extends Fragment {
     TextView textDraft;
     @BindView(R.id.text_bin)
     TextView textBin;
-    Unbinder unbinder;
+
+    private Unbinder unbinder;
 
     public static MailboxFragment newInstance() {
         MailboxFragment fragment = new MailboxFragment();

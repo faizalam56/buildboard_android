@@ -14,6 +14,7 @@ import com.buildboard.R;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
+import com.buildboard.view.BottomNavigationViewHelper;
 
 import butterknife.BindString;
 import butterknife.BindView;
