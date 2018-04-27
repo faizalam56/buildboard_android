@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.drafts.adapters;
+package com.buildboard.modules.home.modules.mailbox.drafts.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
