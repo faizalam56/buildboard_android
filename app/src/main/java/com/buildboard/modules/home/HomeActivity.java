@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.buildboard.R;
+import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
+import com.buildboard.view.BottomNavigationViewHelper;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -57,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_mailbox:
                     setTitle(stringMailbox);
+                    navigateFragment(MailboxFragment.newInstance());
                     return true;
 
                 case R.id.navigation_profile:

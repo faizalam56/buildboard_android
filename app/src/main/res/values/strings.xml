@@ -84,7 +84,7 @@
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
     <string name="name">Name</string>
-    <string name="error_enter_valid_phone_number">Password must have atleast 10 digit</string>
+    <string name="error_enter_valid_phone_number">Phone Number must have atleast 10 digit</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
@@ -102,5 +102,10 @@
     <string name="open_projects">Open\nProjects</string>
     <string name="saved_projects">Saved\nProjects</string>
     <string name="current_projects">Current\nProjects</string>
+    <string name="inbox">Inbox</string>
+    <string name="draft">Draft</string>
+    <string name="drafts">Drafts</string>
+    <string name="bin">Bin</string>
+    <string name="compose">Compose</string>
     <string name="send">Send</string>
 </resources>
