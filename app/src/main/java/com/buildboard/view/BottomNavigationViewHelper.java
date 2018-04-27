@@ -1,4 +1,4 @@
-package com.buildboard.modules.home;
+package com.buildboard.view;
 
 import android.annotation.SuppressLint;
 import android.support.design.internal.BottomNavigationItemView;
