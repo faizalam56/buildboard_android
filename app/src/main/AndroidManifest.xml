@@ -45,10 +45,11 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".modules.home.modules.mailbox.drafts.DraftsActivity"
+            android:name=".modules.home.modules.mailbox.draft.drafts.DraftsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".modules.home.modules.mailbox.drafts_reply.DraftsReplyActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

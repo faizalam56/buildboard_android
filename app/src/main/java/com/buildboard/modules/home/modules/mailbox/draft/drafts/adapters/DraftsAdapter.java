@@ -1,8 +1,7 @@
-package com.buildboard.modules.home.modules.mailbox.drafts.adapters;
+package com.buildboard.modules.home.modules.mailbox.draft.drafts.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,9 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.drafts_reply.DraftsReplyActivity;
+import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
