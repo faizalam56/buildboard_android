@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.buildboard.modules.home.modules.mailbox.drafts.DraftsActivity">
+    tools:context=".modules.home.modules.mailbox.draft.drafts.DraftsActivity">
 
     <include
         layout="@layout/toolbar"
