@@ -108,4 +108,6 @@
     <string name="bin">Bin</string>
     <string name="compose">Compose</string>
     <string name="send">Send</string>
+
+    <string name="facebook_app_id">198528860761125</string>
 </resources>

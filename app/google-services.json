@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "222614016590",
+    "firebase_url": "https://buildboardandroid-202312.firebaseio.com",
+    "project_id": "buildboardandroid-202312",
+    "storage_bucket": "buildboardandroid-202312.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222614016590:android:4caa595dbb406e01",
+        "android_client_info": {
+          "package_name": "com.buildboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222614016590-1f5upusrivhbbedgkk6lkta1p6k259o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.buildboard",
+            "certificate_hash": "1808f7e2843309c450369bace0eee37eb858ef97"
+          }
+        },
+        {
+          "client_id": "222614016590-01ucbevav444v2esc37sl2ml1k8uitmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5t6T-k9o1n8cOdA1mU9791ya5yuw-JsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222614016590-01ucbevav444v2esc37sl2ml1k8uitmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

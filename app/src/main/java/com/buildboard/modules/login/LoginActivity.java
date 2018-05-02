@@ -3,7 +3,6 @@ package com.buildboard.modules.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements AppConstant {
+public class LoginActivity extends SocialActivity implements AppConstant {
 
     @BindView(R.id.edit_username)
     EditText editUserName;
@@ -81,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null) return;
@@ -125,6 +124,16 @@ public class LoginActivity extends AppCompatActivity implements AppConstant {
         FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
                 buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
+    }
+
+    @OnClick(R.id.button_login_facebook)
+    void userFacebookLoginTapped() {
+        signInFaceBook();
+    }
+
+    @OnClick(R.id.button_login_google)
+    void userGoogleLoginTapped() {
+        signInGoogle();
     }
 
     private boolean validateFields(String userName, String password, String userType) {
