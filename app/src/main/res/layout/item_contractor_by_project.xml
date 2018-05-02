@@ -17,17 +17,19 @@
             android:src="@drawable/roofing_experts"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/text_name"
+            style="@style/textSize_small"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@color/colorOverlay"
+            android:gravity="center"
+            android:text="John"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_12ssp"/>
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/text_name"
-        style="@style/textSize_small"
-        android:text="John"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/_12ssp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_service"
-        android:layout_marginStart="@dimen/_5sdp" />
 </android.support.constraint.ConstraintLayout>

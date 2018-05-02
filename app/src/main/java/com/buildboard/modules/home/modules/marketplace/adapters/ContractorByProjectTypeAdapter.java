@@ -58,7 +58,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
         }
     }
 }

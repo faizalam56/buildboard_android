@@ -21,10 +21,9 @@
 
     <TextView
         android:id="@+id/text_service_name"
-        style="@style/textSize_small"
+        style="@style/textSize_smaller"
         android:text="Wood Work"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_12ssp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_5sdp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,10 +32,9 @@
 
     <TextView
         android:id="@+id/text_service_provider_name"
-        style="@style/textSize_small"
+        style="@style/textSize_smaller"
         android:text="John"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_12ssp"
         android:layout_marginLeft="@dimen/_5sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_service_name"
