@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.home.modules.mailbox.drafts.DraftsActivity;
+import com.buildboard.modules.home.modules.mailbox.draft.drafts.DraftsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

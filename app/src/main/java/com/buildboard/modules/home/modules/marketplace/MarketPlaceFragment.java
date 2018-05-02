@@ -99,6 +99,6 @@ public class MarketPlaceFragment extends Fragment {
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
     }
 }
