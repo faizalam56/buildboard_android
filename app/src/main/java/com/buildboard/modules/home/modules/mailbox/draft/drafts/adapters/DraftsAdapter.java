@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.drafts_reply.DraftsReplyActivity;
+import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
 
 import java.util.ArrayList;
 

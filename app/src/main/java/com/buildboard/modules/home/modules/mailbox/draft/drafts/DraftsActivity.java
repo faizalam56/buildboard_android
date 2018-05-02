@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.buildboard.R;
-import com.buildboard.modules.home.modules.mailbox.drafts.adapters.DraftsAdapter;
+import com.buildboard.modules.home.modules.mailbox.draft.drafts.adapters.DraftsAdapter;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
