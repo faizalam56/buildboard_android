@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.mailbox.drafts_reply;
+package com.buildboard.modules.home.modules.mailbox.draft.drafts_reply;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
