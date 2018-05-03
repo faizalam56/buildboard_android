@@ -219,7 +219,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     public void signInFaceBook() {
-//        mSocialLoginInterface = socialLoginInterface;
         FacebookSdk.sdkInitialize(getApplicationContext());
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "user_photos", "public_profile"));
         mCallbackManager = CallbackManager.Factory.create();
@@ -286,6 +285,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        //TODO: 3/05/18
     }
 }
