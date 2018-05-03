@@ -72,7 +72,9 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/green_button_background"
             android:text="@string/sign_in"
-            app:layout_constraintTop_toBottomOf="@+id/text_forgot_password" />
+            app:layout_constraintTop_toBottomOf="@+id/text_forgot_password"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
             android:id="@+id/text_sign_up"
@@ -107,7 +109,9 @@
             android:background="@drawable/blue_button_background"
             android:text="@string/login_with_facebook"
             android:textAllCaps="false"
-            app:layout_constraintTop_toBottomOf="@+id/view_divider" />
+            app:layout_constraintTop_toBottomOf="@+id/view_divider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <Button
             android:id="@+id/button_login_google"
@@ -118,7 +122,9 @@
             android:text="@string/login_with_google"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_login_facebook" />
+            app:layout_constraintTop_toBottomOf="@+id/button_login_facebook"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

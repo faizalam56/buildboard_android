@@ -83,8 +83,6 @@
         <item name="android:layout_width">@dimen/_200sdp</item>
         <item name="android:layout_height">@dimen/_35sdp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
     <style name="edit_text_style" parent="@android:style/Widget.EditText">
