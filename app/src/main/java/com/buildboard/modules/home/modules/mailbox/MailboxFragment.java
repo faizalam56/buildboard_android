@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.mailbox.draft.drafts.DraftsActivity;
+import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +49,11 @@ public class MailboxFragment extends Fragment {
     @OnClick(R.id.text_draft)
     void draftsTapped() {
         startActivity(new Intent(getActivity(), DraftsActivity.class));
+    }
+
+    @OnClick(R.id.text_inbox)
+    void inboxTapped() {
+        startActivity(new Intent(getActivity(), InboxActivity.class));
     }
 
     @Override
