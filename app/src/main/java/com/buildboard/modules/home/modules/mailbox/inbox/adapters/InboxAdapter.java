@@ -59,19 +59,18 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
 
         private void setData() {
             InboxActivity.MessageModel messageModel = mArrayList.get(getAdapterPosition());
-            if (messageModel.isSentMsg()) {
+
+            textSentMsg.setVisibility(messageModel.isSentMsg() ? View.VISIBLE : View.GONE);
+            textReceiveMsg.setVisibility(messageModel.isSentMsg() ? View.GONE : View.VISIBLE);
+
+            if (messageModel.isSentMsg())
                 textSentMsg.setText(messageModel.getMsg());
-                textSentMsg.setVisibility(View.VISIBLE);
-                textReceiveMsg.setVisibility(View.GONE);
-            } else {
+            else
                 textReceiveMsg.setText(messageModel.getMsg());
-                textReceiveMsg.setVisibility(View.VISIBLE);
-                textSentMsg.setVisibility(View.GONE);
-            }
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textSentMsg, textReceiveMsg);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textSentMsg, textReceiveMsg);
         }
     }
 }

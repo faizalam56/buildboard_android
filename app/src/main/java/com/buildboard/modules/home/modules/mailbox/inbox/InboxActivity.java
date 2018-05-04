@@ -54,8 +54,8 @@ public class InboxActivity extends AppCompatActivity {
         setInboxRecycler();
     }
 
-    @OnClick(R.id.linear_image_reply)
-    void replyMsgTapped() {
+    @OnClick(R.id.linear_reply)
+    void replyTapped() {
         if (!TextUtils.isEmpty(editWriteMsg.getText())) {
             datas.add(new MessageModel(editWriteMsg.getText().toString(), true));
             inboxAdapter.notifyDataSetChanged();

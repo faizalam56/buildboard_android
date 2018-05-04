@@ -208,9 +208,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             intent.putExtra(DATA, new ArrayList<>(Arrays.asList(arrayUserType)));
             intent.putExtra(INTENT_TITLE, stringUserType);
             startActivityForResult(intent, USER_TYPE_REQUEST_CODE);
-        }
-
-        if (isClearStack) {
+        } else if (isClearStack) {
             Intent homeIntent = new Intent(LoginActivity.this, classToReplace);
             homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(homeIntent);
