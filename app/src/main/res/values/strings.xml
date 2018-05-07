@@ -23,23 +23,19 @@
     <string name="sign_in">Sign In</string>
     <string name="contractor">Contractor</string>
     <string name="consumer">Consumer</string>
-
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
     <string name="address">Address</string>
     <string name="phone_no">Phone no.</string>
     <string name="preferred_contact_mode">Preferred contact mode</string>
-
     <string name="gender">Gender</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="other">Other</string>
     <string name="type_of_contractor">Type of contractor</string>
     <string name="working_area">Working area/radius</string>
-
     <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
-
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
@@ -58,7 +54,6 @@
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
     <string name="msg_reset_password">Don\'t Worry! Just fill in your Email and we will help you to reset your password</string>
-
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
     <string name="error_username_short">Username must have at-least 3 characters</string>
@@ -85,15 +80,11 @@
     <string name="error_summary">Please enter summary</string>
     <string name="name">Name</string>
     <string name="error_enter_valid_phone_number">Phone Number must have atleast 10 digit</string>
-
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="trending_services">Trending Services</string>
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
@@ -108,11 +99,9 @@
     <string name="bin">Bin</string>
     <string name="compose">Compose</string>
     <string name="send">Send</string>
-
     <string name="facebook_app_id">198528860761125</string>
     <string name="write_message">Write message</string>
     <string name="save_as_draft">Save as Draft</string>
-
     <string name="contractors">Contractors</string>
     <string name="by_project_type">by project type</string>
     <string name="view_all">View all</string>
