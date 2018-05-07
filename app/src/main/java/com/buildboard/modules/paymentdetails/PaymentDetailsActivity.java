@@ -99,8 +99,9 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
         String cvv = editCvv.getText().toString();
         String nameOnCard = editNameOnCard.getText().toString();
 
-        if (validateFields(name, address, city, cardNumber, expire, cvv, nameOnCard))
-            startActivity(new Intent(this, LoginActivity.class));
+        if (validateFields(name, address, city, cardNumber, expire, cvv, nameOnCard)) {
+            openLoginActivity();
+        }
     }
 
     private boolean validateFields(String name, String address, String city, String cardNumber, String expire, String cvv, String nameOnCard) {
@@ -144,12 +145,11 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.text_skip)
     void skipTextTapped() {
-        startActivity(new Intent(this, LoginActivity.class));
+        openLoginActivity();
     }
 
     private void openActivity(Class classToReplace, ArrayList<String> arrayList, int requestCode, String title) {
         Intent intent = new Intent(PaymentDetailsActivity.this, classToReplace);
-
         intent.putExtra(DATA, arrayList);
         intent.putExtra(INTENT_TITLE, title);
         startActivityForResult(intent, requestCode);
@@ -169,5 +169,11 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editName, editAddress, editCity, editCardType, editCardNumber,
                 editExpire, editCvv, editNameOnCard, buttonNext, textSkip);
+    }
+
+    private void openLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

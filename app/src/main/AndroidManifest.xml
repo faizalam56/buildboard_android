@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".modules.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -18,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".modules.login.LoginActivity"
             android:screenOrientation="portrait">
@@ -25,41 +27,55 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.buildboard.modules.splash.SplashActivity" />
         </activity>
+
         <activity
             android:name=".modules.signup.SignUpActivity"
             android:label="@string/sign_up"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.paymentdetails.PaymentDetailsActivity"
             android:label="@string/payment_details"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.home.modules.mailbox.draft.drafts.DraftsActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity"
             android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".modules.home.modules.mailbox.inbox.InboxActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
