@@ -76,6 +76,10 @@
         <activity
             android:name=".modules.home.modules.mailbox.inbox.InboxActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
