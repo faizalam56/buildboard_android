@@ -102,7 +102,7 @@
     </style>
 
     <style name="card_view_style_marketplace" parent="CardView">
-        <item name="cardCornerRadius">@dimen/_5sdp</item>
+        <item name="cardCornerRadius">5dp</item>
         <item name="cardElevation">3dp</item>
         <item name="android:layout_margin">@dimen/_5sdp</item>
         <item name="android:layout_width">wrap_content</item>
@@ -120,5 +120,10 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="actionMenuTextColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="RatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@color/com_facebook_blue</item>
     </style>
 </resources>
