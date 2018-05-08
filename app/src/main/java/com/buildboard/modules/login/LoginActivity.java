@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.ApiClient;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.view.SnackBarFactory;
@@ -284,5 +286,19 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         //TODO: 3/05/18
+    }
+
+    private void getAccessToken() {
+        ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                //todo: save token in sharepref
+            }
+
+            @Override
+            public void onError(Object error) {
+
+            }
+        });
     }
 }
