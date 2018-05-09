@@ -51,7 +51,7 @@ public class ApiClient implements AppConstant {
             @Override
             public void onResponse(Call<GetAccessTokenResponse> call, Response<GetAccessTokenResponse> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus().equals(SUCCESS))
+                    if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body() != null)
                         dataManagerListener.onSuccess(response.body().getData());
                     else dataManagerListener.onError(response.errorBody());
                 } else dataManagerListener.onError(response.errorBody());
