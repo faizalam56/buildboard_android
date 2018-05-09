@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class Error {
 
     @SerializedName("code")
-    private String code = null;
-    @SerializedName("code")
-    private ArrayList<Object> message = new ArrayList<Object>();
+    private String code;
+    @SerializedName("message")
+    private ArrayList<String> message = new ArrayList<>();
 
     public String getCode() {
         return code;
