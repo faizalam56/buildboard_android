@@ -23,7 +23,7 @@ android {
             buildConfigField 'String', 'BASE_URL', '"http://api.buildboardinc.biz/v1/"'
         }
         developers {
-            buildConfigField 'String', 'BASE_URL', '"http://dev.buildboardinc.biz/"'
+            buildConfigField 'String', 'BASE_URL', '"http://dev.buildboardinc.biz/v1/"'
         }
     }
 }

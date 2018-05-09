@@ -24,8 +24,10 @@ import com.buildboard.http.ApiClient;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
-import com.buildboard.modules.signup.apimodels.ContractorListResponse;
-import com.buildboard.modules.signup.apimodels.ContractorTypeDetail;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorTypeDetail;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -138,6 +140,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringErrorSummary;
     @BindString(R.string.sign_up)
     String stringSignUp;
+    @BindString(R.string.error_contractor_type)
+    String stringErrorContractorType;
 
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -145,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
-    private ContractorTypeDetail datum;
+    private ContractorTypeDetail contractorTypeDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,8 +177,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
 
                 case CONTRACTOR_TYPE_REQUEST_CODE:
-                    datum = data.getParcelableExtra(INTENT_SELECTED_ITEM);
-                    editContractorType.setText(datum.getTitle());
+                    contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
+                    editContractorType.setText(contractorTypeDetail.getTitle());
                     break;
 
                 case CONTACT_MODE_REQUEST_CODE:
@@ -241,9 +245,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.edit_contractor_type)
     void contractorTypeTapped() {
-        if (datum == null)
+        if (contractorTypeDetail == null)
             getContractorList();
-        else editContractorType.setText(datum.getTitle());
+        else editContractorType.setText(contractorTypeDetail.getTitle());
     }
 
     @OnClick(R.id.button_next)
@@ -256,7 +260,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
-
         String typeOfContractor = editContractorType.getText().toString();
         String businessName = editBusinessName.getText().toString();
         String businessAddress = editBusinessAddress.getText().toString();
@@ -264,8 +267,33 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String summary = editSummary.getText().toString();
 
         if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                businessName, businessAddress, workingArea, summary))
-            startActivity(new Intent(this, PaymentDetailsActivity.class));
+                businessName, businessAddress, workingArea, summary)) {
+
+            Intent intent = new Intent(SignUpActivity.this, PaymentDetailsActivity.class);
+            intent.putExtra(DATA, getContractorDetails(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+                    businessName, businessAddress, workingArea, summary));
+            startActivity(intent);
+        }
+    }
+
+    private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
+                                                         String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea,
+                                                         String summary) {
+
+        CreateContractorRequest createContractorRequest = new CreateContractorRequest();
+        createContractorRequest.setFirstName(firstName);
+        if (!TextUtils.isEmpty(lastName)) createContractorRequest.setLastName(lastName);
+        createContractorRequest.setEmail(email);
+        createContractorRequest.setPassword(password);
+        if (!TextUtils.isEmpty(phoneNo)) createContractorRequest.setPhoneNo(phoneNo);
+        if (contractorTypeDetail != null && contractorTypeDetail.getIdentifier() != null)
+        createContractorRequest.setTypeOfContractorId(contractorTypeDetail.getIdentifier());
+        createContractorRequest.setBusinessName(businessName);
+        createContractorRequest.setBusinessAddress(businessAddress);
+        if (!TextUtils.isEmpty(summary)) createContractorRequest.setSummary(summary);
+        createContractorRequest.setWorkingAreaRadius(workingArea);
+
+        return createContractorRequest;
     }
 
     private void setTermsServiceText() {
@@ -304,10 +332,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(lastName)) {
+        /*if (TextUtils.isEmpty(lastName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastName).show();
             return false;
-        }
+        }*/
 
         if (TextUtils.isEmpty(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEmail).show();
@@ -332,6 +360,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private boolean validateContractorFields(String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
 
+        if (typeOfContractor.equalsIgnoreCase(stringContractorType)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorContractorType).show();
+            return false;
+        }
+
         if (TextUtils.isEmpty(businessName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
             return false;
@@ -347,10 +380,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(summary)) {
+        /*if (TextUtils.isEmpty(summary)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSummary).show();
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -361,10 +394,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(phoneNo)) {
+        /*if (TextUtils.isEmpty(phoneNo)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
             return false;
-        } else if (phoneNo.length() < 10) {
+        } */
+        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
@@ -373,10 +407,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void getContractorList() {
+
+        ProgressHelper.start(this, "Please wait...");
         ApiClient.getInstance().getContractorList(this, new ApiClient.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+                ProgressHelper.stop();
                 ContractorListResponse contractorListResponse = (ContractorListResponse) response;
+                if (contractorListResponse.getData() == null) return;
+
                 ArrayList<ContractorTypeDetail> arrayList = contractorListResponse.getData();
                 Intent intent = new Intent(SignUpActivity.this, ContractorTypeSelectionActivity.class);
                 intent.putParcelableArrayListExtra(DATA, arrayList);
@@ -386,8 +425,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                if(error != null)
-                SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
+                ProgressHelper.stop();
+                if (error != null)
+                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
             }
         });
     }

@@ -22,6 +22,7 @@ import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -289,16 +290,22 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void getAccessToken() {
+
+//        ProgressHelper.start(this, "Please wait...");
         ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+//                ProgressHelper.stop();
                 GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
-                AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
+                if (getAccessTokenResponse.getData().getAccessToken() != null && getAccessTokenResponse.getData() != null)
+                    AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
             }
 
             @Override
             public void onError(Object error) {
-
+//                ProgressHelper.stop();
+                if (error != null)
+                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, error.toString()).show();
             }
         });
     }

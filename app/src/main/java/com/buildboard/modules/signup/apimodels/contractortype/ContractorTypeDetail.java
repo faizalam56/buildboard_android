@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.apimodels;
+package com.buildboard.modules.signup.apimodels.contractortype;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,15 +7,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class ContractorTypeDetail implements Parcelable {
 
-    @SerializedName("identifier")
+    @SerializedName("id")
     private String identifier;
     @SerializedName("title")
     private String title;
     @SerializedName("description")
     private String description;
-    @SerializedName("creationDate")
+    @SerializedName("created_at")
     private String creationDate;
-    @SerializedName("lastChange")
+    @SerializedName("updated_at")
     private String lastChange;
 
     protected ContractorTypeDetail(Parcel in) {

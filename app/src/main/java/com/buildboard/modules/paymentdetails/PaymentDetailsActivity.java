@@ -13,8 +13,11 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.ApiClient;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
@@ -72,6 +75,8 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private CreateContractorRequest createContractorRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
         toolbar.setTitle(stringPaymentDetails);
         setFont();
+        getIntentData();
     }
 
     @OnClick(R.id.edit_card_type)
@@ -91,7 +97,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
-        String name = editName.getText().toString();
+        /*String name = editName.getText().toString();
         String address = editAddress.getText().toString();
         String city = editCity.getText().toString();
         String cardNumber = editCardNumber.getText().toString();
@@ -101,7 +107,8 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
         if (validateFields(name, address, city, cardNumber, expire, cvv, nameOnCard)) {
             openLoginActivity();
-        }
+        }*/
+        createContractor();
     }
 
     private boolean validateFields(String name, String address, String city, String cardNumber, String expire, String cvv, String nameOnCard) {
@@ -145,7 +152,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     @OnClick(R.id.text_skip)
     void skipTextTapped() {
-        openLoginActivity();
+        createContractor();
     }
 
     private void openActivity(Class classToReplace, ArrayList<String> arrayList, int requestCode, String title) {
@@ -175,5 +182,30 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    private void createContractor() {
+        ProgressHelper.start(this, "Please wait...");
+        ApiClient.getInstance().createContractor(PaymentDetailsActivity.this, createContractorRequest, new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                openLoginActivity();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                if (error != null)
+                    SnackBarFactory.createSnackBar(PaymentDetailsActivity.this, constraintRoot, error.toString()).show();
+            }
+        });
+    }
+
+    private void getIntentData() {
+
+        if (getIntent().hasExtra(DATA)) {
+            createContractorRequest = getIntent().getParcelableExtra(DATA);
+        }
     }
 }

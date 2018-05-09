@@ -7,7 +7,9 @@ import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
 import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
-import com.buildboard.modules.signup.apimodels.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorResponse;
 import com.buildboard.preferences.AppPreference;
 
 import okhttp3.OkHttpClient;
@@ -88,6 +90,27 @@ public class ApiClient implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(Call<ContractorListResponse> call, Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void createContractor(Activity activity, CreateContractorRequest createContractorRequest, final DataManagerListener dataManagerListener) {
+        Call<CreateContractorResponse> call = getClient().createContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createContractorRequest);
+        call.enqueue(new Callback<CreateContractorResponse>() {
+            @Override
+            public void onResponse(Call<CreateContractorResponse> call, Response<CreateContractorResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
+            }
+
+            @Override
+            public void onFailure(Call<CreateContractorResponse> call, Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
-import com.buildboard.modules.signup.apimodels.ContractorTypeDetail;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorTypeDetail;
 
 import java.util.List;
 
