@@ -249,9 +249,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-//                Bundle bFacebookData = getFacebookData(object);
-                Log.i("accessToken", response + "");
-
                 openActivity(HomeActivity.class, false, true);
             }
         });

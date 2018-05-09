@@ -7,7 +7,7 @@ public class GetAccessTokenResponse {
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private Data DataObject;
+    private TokenData tokenDataObject;
     @SerializedName("error")
     private Error ErrorObject;
 
@@ -15,8 +15,8 @@ public class GetAccessTokenResponse {
         return status;
     }
 
-    public Data getData() {
-        return DataObject;
+    public TokenData getData() {
+        return tokenDataObject;
     }
 
     public Error getError() {
@@ -27,8 +27,8 @@ public class GetAccessTokenResponse {
         this.status = status;
     }
 
-    public void setData(Data dataObject) {
-        this.DataObject = dataObject;
+    public void setData(TokenData tokenDataObject) {
+        this.tokenDataObject = tokenDataObject;
     }
 
     public void setError(Error errorObject) {

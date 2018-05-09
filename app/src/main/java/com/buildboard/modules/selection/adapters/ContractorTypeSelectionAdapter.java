@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
-import com.buildboard.modules.signup.apimodels.Datum;
+import com.buildboard.modules.signup.apimodels.ContractorTypeDetail;
 
 import java.util.List;
 
@@ -21,11 +21,11 @@ import butterknife.OnClick;
 public class ContractorTypeSelectionAdapter extends RecyclerView.Adapter<ContractorTypeSelectionAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<Datum> mArrayList;
+    private List<ContractorTypeDetail> mArrayList;
     private LayoutInflater layoutInflater;
     private IRecyclerItemClickListener mClickListener;
 
-    public ContractorTypeSelectionAdapter(Context context, List<Datum> arrayList, IRecyclerItemClickListener clickListener) {
+    public ContractorTypeSelectionAdapter(Context context, List<ContractorTypeDetail> arrayList, IRecyclerItemClickListener clickListener) {
         mContext = context;
         mArrayList = arrayList;
         mClickListener = clickListener;
@@ -65,7 +65,7 @@ public class ContractorTypeSelectionAdapter extends RecyclerView.Adapter<Contrac
         }
 
         private void setData(){
-            Datum datum = mArrayList.get(getAdapterPosition());
+            ContractorTypeDetail datum = mArrayList.get(getAdapterPosition());
             textSelection.setText(datum.getTitle());
         }
 

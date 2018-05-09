@@ -1,13 +1,14 @@
 package com.buildboard.modules.login.apimodels;
 
+import com.buildboard.constants.AppConfiguration;
 import com.google.gson.annotations.SerializedName;
 
-public class GetAccessTokenRequest {
+public class GetAccessTokenRequest implements AppConfiguration {
 
     @SerializedName("email")
-    private String email = "token@crownstack.com";
+    private String email = EMAIL;
     @SerializedName("password")
-    private String password = "password";
+    private String password = PASSWORD;
 
     public String getEmail() {
         return email;

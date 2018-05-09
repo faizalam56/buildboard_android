@@ -2,7 +2,7 @@ package com.buildboard.modules.login.apimodels;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Data {
+public class TokenData {
 
     @SerializedName("name")
     private String name;

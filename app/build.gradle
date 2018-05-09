@@ -20,10 +20,10 @@ android {
     flavorDimensions "default"
     productFlavors {
         production {
-            buildConfigField 'String', 'BASE_URL', '"http://production.com"'
+            buildConfigField 'String', 'BASE_URL', '"http://api.buildboardinc.biz/v1/"'
         }
         developers {
-            buildConfigField 'String', 'BASE_URL', '"http://developer.com"'
+            buildConfigField 'String', 'BASE_URL', '"http://dev.buildboardinc.biz/"'
         }
     }
 }

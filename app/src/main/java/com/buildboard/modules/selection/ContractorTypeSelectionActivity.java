@@ -12,8 +12,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.selection.adapters.ContractorTypeSelectionAdapter;
-import com.buildboard.modules.selection.adapters.SelectionAdapter;
-import com.buildboard.modules.signup.apimodels.Datum;
+import com.buildboard.modules.signup.apimodels.ContractorTypeDetail;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class ContractorTypeSelectionActivity extends AppCompatActivity implement
         getIntentData();
     }
 
-    private void setRecyclerView(ArrayList<Datum> datas) {
+    private void setRecyclerView(ArrayList<ContractorTypeDetail> datas) {
         ContractorTypeSelectionAdapter selectionAdapter = new ContractorTypeSelectionAdapter(this, datas, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
@@ -53,8 +52,7 @@ public class ContractorTypeSelectionActivity extends AppCompatActivity implement
             toolbar.setTitle(getIntent().getStringExtra(INTENT_TITLE));
 
         if (getIntent().hasExtra(DATA)) {
-//            setRecyclerView(getIntent().getParcelableArrayListExtra(DATA));
-            ArrayList<Datum> data = getIntent().getParcelableArrayListExtra(DATA);
+            ArrayList<ContractorTypeDetail> data = getIntent().getParcelableArrayListExtra(DATA);
             setRecyclerView(data);
         }
     }
@@ -62,7 +60,7 @@ public class ContractorTypeSelectionActivity extends AppCompatActivity implement
     @Override
     public void onItemClick(View view, int position, Object data) {
         Intent intent = new Intent();
-        intent.putExtra(INTENT_SELECTED_ITEM, (Datum) data);
+        intent.putExtra(INTENT_SELECTED_ITEM, (ContractorTypeDetail) data);
         setResult(RESULT_OK, intent);
         finish();
     }

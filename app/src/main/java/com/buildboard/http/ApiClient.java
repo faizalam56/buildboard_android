@@ -2,6 +2,7 @@ package com.buildboard.http;
 
 import android.app.Activity;
 
+import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
@@ -34,7 +35,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     public static IApiInterface getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -54,11 +55,13 @@ public class ApiClient implements AppConstant, AppConfiguration {
         call.enqueue(new Callback<GetAccessTokenResponse>() {
             @Override
             public void onResponse(Call<GetAccessTokenResponse> call, Response<GetAccessTokenResponse> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body() != null)
-                        dataManagerListener.onSuccess(response.body());
-                    else dataManagerListener.onError(response.errorBody());
-                } else dataManagerListener.onError(response.errorBody());
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
             }
 
             @Override
@@ -73,11 +76,13 @@ public class ApiClient implements AppConstant, AppConfiguration {
         call.enqueue(new Callback<ContractorListResponse>() {
             @Override
             public void onResponse(Call<ContractorListResponse> call, Response<ContractorListResponse> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body() != null)
-                        dataManagerListener.onSuccess(response.body());
-                    else dataManagerListener.onError(response.errorBody());
-                } else dataManagerListener.onError(response.errorBody());
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
             }
 
             @Override
