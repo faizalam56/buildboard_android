@@ -61,7 +61,8 @@ public class ApiClient implements AppConstant, AppConfiguration {
                 }
                 if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
                     dataManagerListener.onSuccess(response.body());
-                else dataManagerListener.onError(response.errorBody());
+                else
+                    dataManagerListener.onError(response.errorBody());
             }
 
             @Override
