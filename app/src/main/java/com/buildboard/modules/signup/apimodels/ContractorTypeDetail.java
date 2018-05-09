@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Datum implements Parcelable {
+public class ContractorTypeDetail implements Parcelable {
 
     @SerializedName("identifier")
     private String identifier;
@@ -18,7 +18,7 @@ public class Datum implements Parcelable {
     @SerializedName("lastChange")
     private String lastChange;
 
-    protected Datum(Parcel in) {
+    protected ContractorTypeDetail(Parcel in) {
         identifier = in.readString();
         title = in.readString();
         description = in.readString();
@@ -26,15 +26,15 @@ public class Datum implements Parcelable {
         lastChange = in.readString();
     }
 
-    public static final Creator<Datum> CREATOR = new Creator<Datum>() {
+    public static final Creator<ContractorTypeDetail> CREATOR = new Creator<ContractorTypeDetail>() {
         @Override
-        public Datum createFromParcel(Parcel in) {
-            return new Datum(in);
+        public ContractorTypeDetail createFromParcel(Parcel in) {
+            return new ContractorTypeDetail(in);
         }
 
         @Override
-        public Datum[] newArray(int size) {
-            return new Datum[size];
+        public ContractorTypeDetail[] newArray(int size) {
+            return new ContractorTypeDetail[size];
         }
     };
 

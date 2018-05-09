@@ -25,7 +25,7 @@ import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.apimodels.ContractorListResponse;
-import com.buildboard.modules.signup.apimodels.Datum;
+import com.buildboard.modules.signup.apimodels.ContractorTypeDetail;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -145,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
-    private Datum datum;
+    private ContractorTypeDetail datum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,10 +331,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private boolean validateContractorFields(String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
-//        if (typeOfContractor.equals(stringContractorType)) {
-//            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUserType).show();
-//            return false;
-//        }
 
         if (TextUtils.isEmpty(businessName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
@@ -381,8 +377,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 ContractorListResponse contractorListResponse = (ContractorListResponse) response;
-                ArrayList<Datum> arrayList = contractorListResponse.getData();
-//                arrayList.add(stringContractorType);
+                ArrayList<ContractorTypeDetail> arrayList = contractorListResponse.getData();
                 Intent intent = new Intent(SignUpActivity.this, ContractorTypeSelectionActivity.class);
                 intent.putParcelableArrayListExtra(DATA, arrayList);
                 intent.putExtra(INTENT_TITLE, stringContractorType);
@@ -391,7 +386,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-
+                if(error != null)
+                SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
             }
         });
     }
