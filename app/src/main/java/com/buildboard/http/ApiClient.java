@@ -1,9 +1,13 @@
 package com.buildboard.http;
 
-import com.buildboard.BuildConfig;
+import android.app.Activity;
+
+import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
 import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
+import com.buildboard.modules.signup.apimodels.ContractorListResponse;
+import com.buildboard.preferences.AppPreference;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -13,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient implements AppConstant {
+public class ApiClient implements AppConstant, AppConfiguration {
 
     private static Retrofit retrofit = null;
     private static HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -30,7 +34,7 @@ public class ApiClient implements AppConstant {
     public static IApiInterface getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BuildConfig.BASE_URL)
+                    .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -52,13 +56,32 @@ public class ApiClient implements AppConstant {
             public void onResponse(Call<GetAccessTokenResponse> call, Response<GetAccessTokenResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body() != null)
-                        dataManagerListener.onSuccess(response.body().getData());
+                        dataManagerListener.onSuccess(response.body());
                     else dataManagerListener.onError(response.errorBody());
                 } else dataManagerListener.onError(response.errorBody());
             }
 
             @Override
             public void onFailure(Call<GetAccessTokenResponse> call, Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getContractorList(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<ContractorListResponse> call = getClient().getContractorList(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN));
+        call.enqueue(new Callback<ContractorListResponse>() {
+            @Override
+            public void onResponse(Call<ContractorListResponse> call, Response<ContractorListResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body() != null)
+                        dataManagerListener.onSuccess(response.body());
+                    else dataManagerListener.onError(response.errorBody());
+                } else dataManagerListener.onError(response.errorBody());
+            }
+
+            @Override
+            public void onFailure(Call<ContractorListResponse> call, Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

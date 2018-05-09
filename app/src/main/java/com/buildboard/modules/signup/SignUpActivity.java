@@ -20,8 +20,12 @@ import android.widget.Toast;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.ApiClient;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
+import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.modules.signup.apimodels.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.Datum;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -141,6 +145,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    private Datum datum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +173,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
 
                 case CONTRACTOR_TYPE_REQUEST_CODE:
-                    editContractorType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    datum = data.getParcelableExtra(INTENT_SELECTED_ITEM);
+                    editContractorType.setText(datum.getTitle());
                     break;
 
                 case CONTACT_MODE_REQUEST_CODE:
@@ -234,9 +241,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.edit_contractor_type)
     void contractorTypeTapped() {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringContractorType);
-        openActivity(SelectionActivity.class, arrayList, CONTRACTOR_TYPE_REQUEST_CODE, stringContractorType);
+        if (datum == null)
+            getContractorList();
+        else editContractorType.setText(datum.getTitle());
     }
 
     @OnClick(R.id.button_next)
@@ -367,5 +374,25 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
 
         return true;
+    }
+
+    private void getContractorList() {
+        ApiClient.getInstance().getContractorList(this, new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ContractorListResponse contractorListResponse = (ContractorListResponse) response;
+                ArrayList<Datum> arrayList = contractorListResponse.getData();
+//                arrayList.add(stringContractorType);
+                Intent intent = new Intent(SignUpActivity.this, ContractorTypeSelectionActivity.class);
+                intent.putParcelableArrayListExtra(DATA, arrayList);
+                intent.putExtra(INTENT_TITLE, stringContractorType);
+                startActivityForResult(intent, CONTRACTOR_TYPE_REQUEST_CODE);
+            }
+
+            @Override
+            public void onError(Object error) {
+
+            }
+        });
     }
 }

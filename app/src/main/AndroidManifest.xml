@@ -73,6 +73,9 @@
 
         <activity android:name=".modules.home.modules.marketplace.contractors.ContractorsActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".modules.selection.ContractorTypeSelectionActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
