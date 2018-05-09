@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         ButterKnife.bind(this);
 
         setFont();
+        getAccessToken();
     }
 
     @Override
@@ -295,7 +296,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
-                AppPreference.setString(ACCESS_TOKEN, getAccessTokenResponse.getData().getAccessToken());
+                AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
             }
 
             @Override
