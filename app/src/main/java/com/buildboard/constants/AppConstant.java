@@ -9,4 +9,7 @@ public interface AppConstant {
     int CONTRACTOR_TYPE_REQUEST_CODE = 10;
     int WORKING_AREA_REQUEST_CODE = 11;
     int CARD_TYPE_REQUEST_CODE = 12;
+
+    String SUCCESS = "success";
+    String ACCESS_TOKEN = "access_token";
 }

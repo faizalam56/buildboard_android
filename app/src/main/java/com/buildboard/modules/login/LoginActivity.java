@@ -14,10 +14,14 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.ApiClient;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
+import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -100,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         ButterKnife.bind(this);
 
         setFont();
+        getAccessToken();
     }
 
     @Override
@@ -284,5 +289,20 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         //TODO: 3/05/18
+    }
+
+    private void getAccessToken() {
+        ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
+                AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
+            }
+
+            @Override
+            public void onError(Object error) {
+
+            }
+        });
     }
 }

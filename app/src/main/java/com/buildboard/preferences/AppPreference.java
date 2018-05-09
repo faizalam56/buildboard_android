@@ -1,46 +1,53 @@
 package com.buildboard.preferences;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class AppPreference {
 
     private static final String APP_SHARED_PREFERENCE = "App_Preference";
-    private static SharedPreferences.Editor editor;
+    private static SharedPreferences sSharedPreferences;
+    private static AppPreference sAppPreference;
+    private SharedPreferences.Editor mEditor;
 
-    public static AppPreference create(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        AppPreference userSharedPreferences = new AppPreference();
-        userSharedPreferences.editor = sharedPreferences.edit();
-
-        return userSharedPreferences;
+    @SuppressLint("CommitPrefEdits")
+    private AppPreference(Context mContext) {
+        sSharedPreferences = mContext.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        mEditor = sSharedPreferences.edit();
     }
 
-    public static boolean getBoolean(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(key, false);
+    public static AppPreference getAppPreference(Context mContext) {
+        if (sAppPreference == null) sAppPreference = new AppPreference(mContext);
+
+        return sAppPreference;
+    }
+    
+    public boolean getBoolean(String key) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sSharedPreferences.getBoolean(key, false);
     }
 
-    public static void setBoolean(boolean loggedin, String key) {
-        editor.putBoolean(key, loggedin);
-        editor.apply();
+    public void setBoolean(boolean loggedin, String key) {
+        mEditor.putBoolean(key, loggedin).apply();
     }
 
-    public static String getString(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(key, null);
+    public String getString(String key) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sSharedPreferences.getString(key, "");
     }
 
-    public static void setString(String sessionId, String key) {
-        editor.putString(key, sessionId).apply();
+    public void setString(String sessionId, String key) {
+        mEditor.putString(key, sessionId);
+        mEditor.apply();
     }
 
-    public static void setInteger(int activeJobPosition, String key) {
-        editor.putInt(key, activeJobPosition).apply();
+    public void setInteger(int activeJobPosition, String key) {
+        mEditor.putInt(key, activeJobPosition).apply();
     }
 
-    public static int getInteger(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(key, 0);
+    public int getInteger(String key) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sSharedPreferences.getInt(key, 0);
     }
 }
