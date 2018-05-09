@@ -18,8 +18,10 @@ import com.buildboard.http.ApiClient;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
+import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -292,7 +294,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                //todo: save token in sharepref
+                GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
+                AppPreference.setString(ACCESS_TOKEN, getAccessTokenResponse.getData().getAccessToken());
             }
 
             @Override

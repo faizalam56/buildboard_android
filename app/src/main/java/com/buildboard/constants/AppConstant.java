@@ -11,4 +11,5 @@ public interface AppConstant {
     int CARD_TYPE_REQUEST_CODE = 12;
 
     String SUCCESS = "success";
+    String ACCESS_TOKEN = "access_token";
 }
