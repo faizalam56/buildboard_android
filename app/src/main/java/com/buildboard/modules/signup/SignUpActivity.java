@@ -26,6 +26,8 @@ import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.apimodels.contractortype.ContractorTypeDetail;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
 import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
@@ -268,12 +270,59 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                 businessName, businessAddress, workingArea, summary)) {
+            signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+                    businessName, businessAddress, workingArea, summary);
+        }
+    }
 
+    private void signUpMethod(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
+
+        if (userType.equals(stringContractor)) {
             Intent intent = new Intent(SignUpActivity.this, PaymentDetailsActivity.class);
             intent.putExtra(DATA, getContractorDetails(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                     businessName, businessAddress, workingArea, summary));
             startActivity(intent);
+        } else {
+            createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode);
         }
+
+    }
+
+    private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
+        ProgressHelper.start(this, "Please wait...");
+        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode );
+        ApiClient.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                CreateConsumerResponse consumerResponse = (CreateConsumerResponse) response;
+
+
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                if (error != null)
+                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
+            }
+        });
+
+    }
+
+    private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
+        CreateConsumerRequest consumerRequest = new CreateConsumerRequest();
+        consumerRequest.setFirstName(firstName);
+        consumerRequest.setLastName(lastName);
+        consumerRequest.setEmail(email);
+        consumerRequest.setPassword(password);
+        consumerRequest.setAddress(address);
+        consumerRequest.setPhoneNo(phoneNo);
+        consumerRequest.setContactMode(contactMode);
+
+        return consumerRequest;
     }
 
     private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
@@ -287,7 +336,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         createContractorRequest.setPassword(password);
         if (!TextUtils.isEmpty(phoneNo)) createContractorRequest.setPhoneNo(phoneNo);
         if (contractorTypeDetail != null && contractorTypeDetail.getIdentifier() != null)
-        createContractorRequest.setTypeOfContractorId(contractorTypeDetail.getIdentifier());
+            createContractorRequest.setTypeOfContractorId(contractorTypeDetail.getIdentifier());
         createContractorRequest.setBusinessName(businessName);
         createContractorRequest.setBusinessAddress(businessAddress);
         if (!TextUtils.isEmpty(summary)) createContractorRequest.setSummary(summary);
