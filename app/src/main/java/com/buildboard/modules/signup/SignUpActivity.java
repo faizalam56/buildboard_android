@@ -20,15 +20,15 @@ import android.widget.Toast;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.http.ApiClient;
+import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
-import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
-import com.buildboard.modules.signup.apimodels.contractortype.ContractorTypeDetail;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.view.SnackBarFactory;
@@ -289,24 +289,22 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
-        ProgressHelper.start(this, "Please wait...");
-        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode );
-        ApiClient.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new ApiClient.DataManagerListener() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode);
+        DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 if (response == null) return;
 
-                CreateConsumerResponse consumerResponse = (CreateConsumerResponse) response;
-
-
+                CreateConsumerData createConsumerData = (CreateConsumerData) response;
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                if (error != null)
-                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
+                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
 
@@ -457,15 +455,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private void getContractorList() {
 
-        ProgressHelper.start(this, "Please wait...");
-        ApiClient.getInstance().getContractorList(this, new ApiClient.DataManagerListener() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                ContractorListResponse contractorListResponse = (ContractorListResponse) response;
-                if (contractorListResponse.getData() == null) return;
+                if (response == null) return;
 
-                ArrayList<ContractorTypeDetail> arrayList = contractorListResponse.getData();
+                ArrayList<ContractorTypeDetail> arrayList = (ArrayList<ContractorTypeDetail>) response;
                 Intent intent = new Intent(SignUpActivity.this, ContractorTypeSelectionActivity.class);
                 intent.putParcelableArrayListExtra(DATA, arrayList);
                 intent.putExtra(INTENT_TITLE, stringContractorType);
@@ -475,8 +472,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                if (error != null)
-                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, error.toString()).show();
+                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }

@@ -1,13 +1,15 @@
-package com.buildboard.modules.signup.apimodels.createconsumer;
+package com.buildboard.modules.login.models.login;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CreateConsumerResponse {
+import java.util.ArrayList;
+
+public class LoginResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private CreateConsumerData data;
+    private ArrayList<LoginData> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
 
@@ -19,19 +21,19 @@ public class CreateConsumerResponse {
         this.status = status;
     }
 
-    public CreateConsumerData getData() {
-        return data;
-    }
-
-    public void setData(CreateConsumerData data) {
-        this.data = data;
-    }
-
     public Error getError() {
         return error;
     }
 
     public void setError(Error error) {
         this.error = error;
+    }
+
+    public ArrayList<LoginData> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(ArrayList<LoginData> datas) {
+        this.datas = datas;
     }
 }

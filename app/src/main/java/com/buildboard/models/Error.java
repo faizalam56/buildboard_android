@@ -1,4 +1,4 @@
-package com.buildboard.modules.login.apimodels;
+package com.buildboard.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ public class Error {
 
     @SerializedName("code")
     private String code;
-    @SerializedName("message")
+    @SerializedName("messages")
     private ArrayList<String> message = new ArrayList<>();
 
     public String getCode() {
@@ -17,5 +17,13 @@ public class Error {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public ArrayList<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(ArrayList<String> message) {
+        this.message = message;
     }
 }

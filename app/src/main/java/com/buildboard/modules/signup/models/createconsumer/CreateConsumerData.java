@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.apimodels.createconsumer;
+package com.buildboard.modules.signup.models.createconsumer;
 
 import com.google.gson.annotations.SerializedName;
 

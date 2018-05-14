@@ -1,22 +1,21 @@
-package com.buildboard.modules.login.apimodels;
+package com.buildboard.modules.login.models.getAccessToken;
 
+import com.buildboard.models.Error;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class GetAccessTokenResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private TokenData tokenDataObject;
+    private ArrayList<TokenData> tokenDataObject= new ArrayList<>();
     @SerializedName("error")
     private Error ErrorObject;
 
     public String getStatus() {
         return status;
-    }
-
-    public TokenData getData() {
-        return tokenDataObject;
     }
 
     public Error getError() {
@@ -27,11 +26,15 @@ public class GetAccessTokenResponse {
         this.status = status;
     }
 
-    public void setData(TokenData tokenDataObject) {
-        this.tokenDataObject = tokenDataObject;
-    }
-
     public void setError(Error errorObject) {
         this.ErrorObject = errorObject;
+    }
+
+    public ArrayList<TokenData> getTokenDataObject() {
+        return tokenDataObject;
+    }
+
+    public void setTokenDataObject(ArrayList<TokenData> tokenDataObject) {
+        this.tokenDataObject = tokenDataObject;
     }
 }
