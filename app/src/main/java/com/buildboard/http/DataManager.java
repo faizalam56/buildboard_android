@@ -98,8 +98,8 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body().getData());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas());
                 else dataManagerListener.onError(response.body().getError());
             }
 
@@ -141,8 +141,8 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body().getData());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }
 
