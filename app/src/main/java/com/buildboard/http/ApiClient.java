@@ -1,14 +1,21 @@
 package com.buildboard.http;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
 import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
-import com.buildboard.modules.signup.apimodels.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorResponse;
 import com.buildboard.preferences.AppPreference;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -32,17 +39,24 @@ public class ApiClient implements AppConstant, AppConfiguration {
         return ApiClientSingleton.INSTANCE;
     }
 
-    public static IApiInterface getClient() {
+    public IApiInterface getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.BASE_URL)
-                    .client(client)
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
 
         return retrofit.create(IApiInterface.class);
     }
+
+    private final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+//            .addInterceptor(interceptor)
+            .build();
+
 
     public interface DataManagerListener {
         void onSuccess(Object response);
@@ -92,4 +106,47 @@ public class ApiClient implements AppConstant, AppConfiguration {
             }
         });
     }
+
+    public void createContractor(Activity activity, CreateContractorRequest createContractorRequest, final DataManagerListener dataManagerListener) {
+        Call<CreateContractorResponse> call = getClient().createContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createContractorRequest);
+        call.enqueue(new Callback<CreateContractorResponse>() {
+            @Override
+            public void onResponse(Call<CreateContractorResponse> call, Response<CreateContractorResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CreateContractorResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void createConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
+        Call<CreateConsumerResponse> call = getClient().createConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createConsumerRequest);
+        call.enqueue(new Callback<CreateConsumerResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CreateConsumerResponse> call, @NonNull Response<CreateConsumerResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CreateConsumerResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
 }

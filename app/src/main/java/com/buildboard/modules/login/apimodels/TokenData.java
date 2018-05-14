@@ -8,9 +8,9 @@ public class TokenData {
     private String name;
     @SerializedName("email")
     private String email;
-    @SerializedName("accessToken")
+    @SerializedName("access_token")
     private String accessToken;
-    @SerializedName("refreshToken")
+    @SerializedName("refresh_token")
     private String refreshToken;
     @SerializedName("expire")
     private float expire;

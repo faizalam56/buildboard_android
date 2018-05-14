@@ -2,7 +2,11 @@ package com.buildboard.http;
 
 import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
 import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
-import com.buildboard.modules.signup.apimodels.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,4 +21,12 @@ public interface IApiInterface {
 
     @GET("contractor-type")
     Call<ContractorListResponse> getContractorList(@Header("oauth") String oauth);
+
+    @POST("contractor")
+    Call<CreateContractorResponse> createContractor(@Header("oauth") String oauth, @Body CreateContractorRequest createContractorRequest);
+
+    @POST("consumer")
+    Call<CreateConsumerResponse> createConsumer(@Header("oauth") String oauth, @Body CreateConsumerRequest createConsumerRequest);
+
+
 }

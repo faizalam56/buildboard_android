@@ -7,7 +7,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -23,7 +23,7 @@ android {
             buildConfigField 'String', 'BASE_URL', '"http://api.buildboardinc.biz/v1/"'
         }
         developers {
-            buildConfigField 'String', 'BASE_URL', '"http://dev.buildboardinc.biz/"'
+            buildConfigField 'String', 'BASE_URL', '"http://dev.buildboardinc.biz/v1/"'
         }
     }
 }
