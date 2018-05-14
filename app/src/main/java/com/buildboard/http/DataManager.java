@@ -56,7 +56,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     private final OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(2, TimeUnit.MINUTES)
             .readTimeout(2, TimeUnit.MINUTES)
-//            .addInterceptor(interceptor)
+            .addInterceptor(interceptor)
             .build();
 
 
@@ -75,8 +75,9 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body().getData());
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
+                        response.body().getTokenDataObject().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getTokenDataObject().get(0));
                 else
                     dataManagerListener.onError(response.body().getError());
             }
@@ -160,8 +161,9 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body().getData());
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }
 

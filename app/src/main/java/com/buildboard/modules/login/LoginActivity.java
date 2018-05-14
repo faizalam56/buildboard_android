@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         String userType = textUserType.getText().toString();
 
         if (validateFields(userName, password, userType)) {
-            loginApi(userName, password);
+            login(userName, password);
         }
     }
 
@@ -292,7 +292,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void getAccessToken() {
-
         DataManager.getInstance().getAccessToken(new GetAccessTokenRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
@@ -311,13 +310,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         });
     }
 
-    private void loginApi(String username, String password) {
-
+    private void login(String username, String password) {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(username);
         loginRequest.setPassword(password);
 
-        ProgressHelper.start(this, "Please wait...");
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {

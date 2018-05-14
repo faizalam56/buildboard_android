@@ -24,7 +24,7 @@ public class ErrorManager {
         }
 
         if (mObject instanceof Error) {
-            Error response = ((Error) mObject);
+            Error response = (Error) mObject;
             if (response.getMessage() != null && response.getMessage().size() > 0 && response.getMessage().get(0) != null)
                 SnackBarFactory.createSnackBar(mActivity, mView, response.getMessage().get(0));
         }

@@ -2,12 +2,14 @@ package com.buildboard.modules.login.models.login;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class LoginResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private LoginData data;
+    private ArrayList<LoginData> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
 
@@ -19,19 +21,19 @@ public class LoginResponse {
         this.status = status;
     }
 
-    public LoginData getData() {
-        return data;
-    }
-
-    public void setData(LoginData data) {
-        this.data = data;
-    }
-
     public Error getError() {
         return error;
     }
 
     public void setError(Error error) {
         this.error = error;
+    }
+
+    public ArrayList<LoginData> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(ArrayList<LoginData> datas) {
+        this.datas = datas;
     }
 }

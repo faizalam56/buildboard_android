@@ -186,7 +186,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
     }
 
     private void createContractor() {
-        ProgressHelper.start(this, "Please wait...");
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().createContractor(PaymentDetailsActivity.this, createContractorRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {

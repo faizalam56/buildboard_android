@@ -8,7 +8,7 @@ public class Error {
 
     @SerializedName("code")
     private String code;
-    @SerializedName("message")
+    @SerializedName("messages")
     private ArrayList<String> message = new ArrayList<>();
 
     public String getCode() {

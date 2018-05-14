@@ -289,7 +289,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
-        ProgressHelper.start(this, "Please wait...");
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode);
         DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
@@ -455,7 +455,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private void getContractorList() {
 
-        ProgressHelper.start(this, "Please wait...");
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
