@@ -9,7 +9,7 @@ public class ContractorListResponse {
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<ContractorTypeDetail> data = null;
+    private ArrayList<ContractorTypeDetail> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
 
@@ -21,19 +21,19 @@ public class ContractorListResponse {
         this.status = status;
     }
 
-    public ArrayList<ContractorTypeDetail> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<ContractorTypeDetail> data) {
-        this.data = data;
-    }
-
     public Error getError() {
         return error;
     }
 
     public void setError(Error error) {
         this.error = error;
+    }
+
+    public ArrayList<ContractorTypeDetail> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(ArrayList<ContractorTypeDetail> datas) {
+        this.datas = datas;
     }
 }
