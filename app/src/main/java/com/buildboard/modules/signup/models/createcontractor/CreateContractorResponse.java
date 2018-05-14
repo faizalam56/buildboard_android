@@ -8,8 +8,8 @@ public class CreateContractorResponse {
 
     @SerializedName("status")
     private String status;
-    @SerializedName("data")
-    private ArrayList<CreateContractorDetail> data = new ArrayList<>();
+    @SerializedName("datas")
+    private ArrayList<CreateContractorDetail> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
 
@@ -29,11 +29,11 @@ public class CreateContractorResponse {
         this.error = error;
     }
 
-    public ArrayList<CreateContractorDetail> getData() {
-        return data;
+    public ArrayList<CreateContractorDetail> getDatas() {
+        return datas;
     }
 
-    public void setData(ArrayList<CreateContractorDetail> data) {
-        this.data = data;
+    public void setDatas(ArrayList<CreateContractorDetail> datas) {
+        this.datas = datas;
     }
 }
