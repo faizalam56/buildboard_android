@@ -29,11 +29,11 @@ public class CreateContractorResponse {
         this.error = error;
     }
 
-    public ArrayList<CreateContractorDetail> getData() {
+    public ArrayList<CreateContractorDetail> getDatas() {
         return datas;
     }
 
-    public void setData(ArrayList<CreateContractorDetail> datas) {
+    public void setDatas(ArrayList<CreateContractorDetail> datas) {
         this.datas = datas;
     }
 }
