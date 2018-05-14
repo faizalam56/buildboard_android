@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.http.ApiClient;
+import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
@@ -187,7 +187,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
 
     private void createContractor() {
         ProgressHelper.start(this, "Please wait...");
-        ApiClient.getInstance().createContractor(PaymentDetailsActivity.this, createContractorRequest, new ApiClient.DataManagerListener() {
+        DataManager.getInstance().createContractor(PaymentDetailsActivity.this, createContractorRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();

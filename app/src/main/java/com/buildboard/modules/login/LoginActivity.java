@@ -14,16 +14,14 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.http.ApiClient;
+import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
-import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
-import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
@@ -153,8 +151,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         String userType = textUserType.getText().toString();
 
         if (validateFields(userName, password, userType)) {
-            // TODO: 4/21/18
-            loginApi();
+            loginApi(userName, password);
         }
     }
 
@@ -296,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     private void getAccessToken() {
 
-        ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
+        DataManager.getInstance().getAccessToken(new GetAccessTokenRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 if (response == null) return;
@@ -314,14 +311,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         });
     }
 
-    private void loginApi() {
+    private void loginApi(String username, String password) {
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(editUserName.getText().toString());
-        loginRequest.setPassword(editPassword.getText().toString());
+        loginRequest.setEmail(username);
+        loginRequest.setPassword(password);
 
         ProgressHelper.start(this, "Please wait...");
-        ApiClient.getInstance().login(this, loginRequest, new ApiClient.DataManagerListener() {
+        DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();

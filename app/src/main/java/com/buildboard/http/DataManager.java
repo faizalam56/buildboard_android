@@ -27,21 +27,21 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient implements AppConstant, AppConfiguration {
+public class DataManager implements AppConstant, AppConfiguration {
 
     private static Retrofit retrofit = null;
     private static HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     private static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
     private static class ApiClientSingleton {
-        private static final ApiClient INSTANCE = new ApiClient();
+        private static final DataManager INSTANCE = new DataManager();
     }
 
-    public static ApiClient getInstance() {
+    public static DataManager getInstance() {
         return ApiClientSingleton.INSTANCE;
     }
 
-    public IApiInterface getClient() {
+    public IApiInterface getDataManager() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.BASE_URL)
@@ -67,7 +67,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     }
 
     public void getAccessToken(GetAccessTokenRequest getAccessTokenRequest, final DataManagerListener dataManagerListener) {
-        Call<GetAccessTokenResponse> call = getClient().getAccessToken(getAccessTokenRequest);
+        Call<GetAccessTokenResponse> call = getDataManager().getAccessToken(getAccessTokenRequest);
         call.enqueue(new Callback<GetAccessTokenResponse>() {
             @Override
             public void onResponse(Call<GetAccessTokenResponse> call, Response<GetAccessTokenResponse> response) {
@@ -89,7 +89,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     }
 
     public void getContractorList(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<ContractorListResponse> call = getClient().getContractorList(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN));
+        Call<ContractorListResponse> call = getDataManager().getContractorList(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN));
         call.enqueue(new Callback<ContractorListResponse>() {
             @Override
             public void onResponse(Call<ContractorListResponse> call, Response<ContractorListResponse> response) {
@@ -110,7 +110,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     }
 
     public void createContractor(Activity activity, CreateContractorRequest createContractorRequest, final DataManagerListener dataManagerListener) {
-        Call<CreateContractorResponse> call = getClient().createContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createContractorRequest);
+        Call<CreateContractorResponse> call = getDataManager().createContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createContractorRequest);
         call.enqueue(new Callback<CreateContractorResponse>() {
             @Override
             public void onResponse(Call<CreateContractorResponse> call, Response<CreateContractorResponse> response) {
@@ -131,7 +131,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     }
 
     public void createConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
-        Call<CreateConsumerResponse> call = getClient().createConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createConsumerRequest);
+        Call<CreateConsumerResponse> call = getDataManager().createConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createConsumerRequest);
         call.enqueue(new Callback<CreateConsumerResponse>() {
             @Override
             public void onResponse(@NonNull Call<CreateConsumerResponse> call, @NonNull Response<CreateConsumerResponse> response) {
@@ -152,7 +152,7 @@ public class ApiClient implements AppConstant, AppConfiguration {
     }
 
     public void login(Activity activity, LoginRequest loginRequest, final DataManagerListener dataManagerListener) {
-        Call<LoginResponse> call = getClient().login(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), loginRequest);
+        Call<LoginResponse> call = getDataManager().login(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), loginRequest);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {

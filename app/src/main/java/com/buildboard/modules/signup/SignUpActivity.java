@@ -20,17 +20,14 @@ import android.widget.Toast;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.http.ApiClient;
+import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
-import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
-import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
@@ -294,7 +291,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
         ProgressHelper.start(this, "Please wait...");
         CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode);
-        ApiClient.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new ApiClient.DataManagerListener() {
+        DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
@@ -459,7 +456,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private void getContractorList() {
 
         ProgressHelper.start(this, "Please wait...");
-        ApiClient.getInstance().getContractorList(this, new ApiClient.DataManagerListener() {
+        DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
