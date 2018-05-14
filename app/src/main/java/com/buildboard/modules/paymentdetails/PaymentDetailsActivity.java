@@ -17,6 +17,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorDetail;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
@@ -193,6 +194,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
                 ProgressHelper.stop();
                 if (response == null) return;
 
+                CreateContractorDetail createContractorDetail = (CreateContractorDetail) response;
                 openLoginActivity();
             }
 
