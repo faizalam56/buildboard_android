@@ -1,18 +1,28 @@
-package com.buildboard.modules.signup.apimodels.createconsumer;
+package com.buildboard.modules.signup.models.createconsumer;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+public class ConsumerInfo {
 
-public class CreateConsumerRequest implements Serializable {
-
+    @SerializedName("id") private String id;
     @SerializedName("first_name") private String firstName;
     @SerializedName("last_name") private String lastName;
     @SerializedName("email") private String email;
-    @SerializedName("password") private String password;
-    @SerializedName("address") private String address;
     @SerializedName("phone_no") private String phoneNo;
+    @SerializedName("address") private String address;
     @SerializedName("contact_mode") private String contactMode;
+    @SerializedName("image") private String image;
+    @SerializedName("user_id") private String userId;
+    @SerializedName("created_at") private String createdAt;
+    @SerializedName("updated_at") private String updatedAt;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -38,14 +48,6 @@ public class CreateConsumerRequest implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -68,5 +70,37 @@ public class CreateConsumerRequest implements Serializable {
 
     public void setContactMode(String contactMode) {
         this.contactMode = contactMode;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

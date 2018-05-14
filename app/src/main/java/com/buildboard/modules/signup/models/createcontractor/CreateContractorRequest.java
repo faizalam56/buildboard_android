@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.apimodels.createcontractor;
+package com.buildboard.modules.signup.models.createcontractor;
 
 import android.os.Parcel;
 import android.os.Parcelable;

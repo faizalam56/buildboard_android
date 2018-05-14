@@ -16,7 +16,7 @@ import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.ApiClient;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
 

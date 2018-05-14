@@ -1,4 +1,4 @@
-package com.buildboard.modules.login.apimodels;
+package com.buildboard.modules.login.models.getAccessToken;
 
 import com.buildboard.constants.AppConfiguration;
 import com.google.gson.annotations.SerializedName;

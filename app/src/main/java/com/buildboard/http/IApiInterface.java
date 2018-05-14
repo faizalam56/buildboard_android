@@ -1,12 +1,14 @@
 package com.buildboard.http;
 
-import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
-import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
-import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorResponse;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
+import com.buildboard.modules.login.models.login.LoginRequest;
+import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,5 +30,7 @@ public interface IApiInterface {
     @POST("consumer")
     Call<CreateConsumerResponse> createConsumer(@Header("oauth") String oauth, @Body CreateConsumerRequest createConsumerRequest);
 
+    @POST("login")
+    Call<LoginResponse> login(@Header("oauth") String oauth, @Body LoginRequest loginRequest);
 
 }

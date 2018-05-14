@@ -1,13 +1,13 @@
-package com.buildboard.modules.signup.apimodels.createcontractor;
+package com.buildboard.modules.signup.models.createconsumer;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CreateContractorResponse {
+public class CreateConsumerResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private CreateContractorDetail data;
+    private CreateConsumerData data;
     @SerializedName("error")
     private Error error;
 
@@ -19,11 +19,11 @@ public class CreateContractorResponse {
         this.status = status;
     }
 
-    public CreateContractorDetail getData() {
+    public CreateConsumerData getData() {
         return data;
     }
 
-    public void setData(CreateContractorDetail data) {
+    public void setData(CreateConsumerData data) {
         this.data = data;
     }
 

@@ -17,8 +17,10 @@ import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.ApiClient;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
-import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
+import com.buildboard.modules.login.models.login.LoginRequest;
+import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
@@ -149,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
         if (validateFields(userName, password, userType)) {
             // TODO: 4/21/18
-            openActivity(HomeActivity.class, false, true);
+            loginApi();
         }
     }
 
@@ -291,11 +293,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     private void getAccessToken() {
 
-//        ProgressHelper.start(this, "Please wait...");
         ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-//                ProgressHelper.stop();
                 GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
                 if (getAccessTokenResponse.getData().getAccessToken() != null && getAccessTokenResponse.getData() != null)
                     AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
@@ -303,7 +303,30 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-//                ProgressHelper.stop();
+                if (error != null)
+                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, error.toString()).show();
+            }
+        });
+    }
+
+    private void loginApi() {
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail(editUserName.getText().toString());
+        loginRequest.setPassword(editPassword.getText().toString());
+
+        ProgressHelper.start(this, "Please wait...");
+        ApiClient.getInstance().login(this, loginRequest, new ApiClient.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                LoginResponse loginResponse = (LoginResponse) response;
+                openActivity(HomeActivity.class, false, true);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
                 if (error != null)
                     SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, error.toString()).show();
             }

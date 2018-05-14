@@ -1,4 +1,4 @@
-package com.buildboard.modules.login.apimodels;
+package com.buildboard.models;
 
 import com.google.gson.annotations.SerializedName;
 

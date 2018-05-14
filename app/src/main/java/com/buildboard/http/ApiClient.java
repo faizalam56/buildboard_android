@@ -6,13 +6,15 @@ import android.support.annotation.NonNull;
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.modules.login.apimodels.GetAccessTokenRequest;
-import com.buildboard.modules.login.apimodels.GetAccessTokenResponse;
-import com.buildboard.modules.signup.apimodels.contractortype.ContractorListResponse;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerRequest;
-import com.buildboard.modules.signup.apimodels.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorRequest;
-import com.buildboard.modules.signup.apimodels.createcontractor.CreateContractorResponse;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
+import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
+import com.buildboard.modules.login.models.login.LoginRequest;
+import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
+import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 import com.buildboard.preferences.AppPreference;
 
 import java.util.concurrent.TimeUnit;
@@ -149,4 +151,24 @@ public class ApiClient implements AppConstant, AppConfiguration {
         });
     }
 
+    public void login(Activity activity, LoginRequest loginRequest, final DataManagerListener dataManagerListener) {
+        Call<LoginResponse> call = getClient().login(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), loginRequest);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.errorBody());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
 }

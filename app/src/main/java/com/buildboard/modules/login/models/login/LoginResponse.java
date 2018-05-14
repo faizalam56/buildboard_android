@@ -1,15 +1,13 @@
-package com.buildboard.modules.signup.apimodels.contractortype;
+package com.buildboard.modules.login.models.login;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class ContractorListResponse {
+public class LoginResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<ContractorTypeDetail> data = null;
+    private LoginData data;
     @SerializedName("error")
     private Error error;
 
@@ -21,11 +19,11 @@ public class ContractorListResponse {
         this.status = status;
     }
 
-    public ArrayList<ContractorTypeDetail> getData() {
+    public LoginData getData() {
         return data;
     }
 
-    public void setData(ArrayList<ContractorTypeDetail> data) {
+    public void setData(LoginData data) {
         this.data = data;
     }
 

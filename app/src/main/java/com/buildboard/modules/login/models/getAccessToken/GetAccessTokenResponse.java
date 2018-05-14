@@ -1,5 +1,6 @@
-package com.buildboard.modules.login.apimodels;
+package com.buildboard.modules.login.models.getAccessToken;
 
+import com.buildboard.models.Error;
 import com.google.gson.annotations.SerializedName;
 
 public class GetAccessTokenResponse {

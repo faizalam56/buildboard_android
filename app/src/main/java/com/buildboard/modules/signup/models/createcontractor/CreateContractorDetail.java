@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.apimodels.createcontractor;
+package com.buildboard.modules.signup.models.createcontractor;
 
 import com.google.gson.annotations.SerializedName;
 

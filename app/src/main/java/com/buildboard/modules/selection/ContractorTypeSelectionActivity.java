@@ -12,7 +12,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.selection.adapters.ContractorTypeSelectionAdapter;
-import com.buildboard.modules.signup.apimodels.contractortype.ContractorTypeDetail;
+import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
