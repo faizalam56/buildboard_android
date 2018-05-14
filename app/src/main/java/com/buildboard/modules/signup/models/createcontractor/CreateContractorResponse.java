@@ -8,7 +8,7 @@ public class CreateContractorResponse {
 
     @SerializedName("status")
     private String status;
-    @SerializedName("datas")
+    @SerializedName("data")
     private ArrayList<CreateContractorDetail> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
@@ -29,11 +29,11 @@ public class CreateContractorResponse {
         this.error = error;
     }
 
-    public ArrayList<CreateContractorDetail> getDatas() {
+    public ArrayList<CreateContractorDetail> getData() {
         return datas;
     }
 
-    public void setDatas(ArrayList<CreateContractorDetail> datas) {
+    public void setData(ArrayList<CreateContractorDetail> datas) {
         this.datas = datas;
     }
 }
