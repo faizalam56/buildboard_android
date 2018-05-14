@@ -15,10 +15,13 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.ApiClient;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
+import com.buildboard.modules.login.models.getAccessToken.TokenData;
+import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.selection.SelectionActivity;
@@ -296,15 +299,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         ApiClient.getInstance().getAccessToken(new GetAccessTokenRequest(), new ApiClient.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                GetAccessTokenResponse getAccessTokenResponse = (GetAccessTokenResponse) response;
-                if (getAccessTokenResponse.getData().getAccessToken() != null && getAccessTokenResponse.getData() != null)
-                    AppPreference.getAppPreference(LoginActivity.this).setString(getAccessTokenResponse.getData().getAccessToken(), ACCESS_TOKEN);
+                if (response == null) return;
+
+                TokenData tokenData = (TokenData) response;
+                if (tokenData.getAccessToken() != null)
+                    AppPreference.getAppPreference(LoginActivity.this).setString(tokenData.getAccessToken(), ACCESS_TOKEN);
             }
 
             @Override
             public void onError(Object error) {
-                if (error != null)
-                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, error.toString()).show();
+                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }
@@ -320,15 +325,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                LoginResponse loginResponse = (LoginResponse) response;
+                if (response == null) return;
+
+                LoginData loginData = (LoginData) response;
                 openActivity(HomeActivity.class, false, true);
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                if (error != null)
-                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, error.toString()).show();
+                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }

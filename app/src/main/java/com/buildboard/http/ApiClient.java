@@ -76,9 +76,9 @@ public class ApiClient implements AppConstant, AppConfiguration {
                     return;
                 }
                 if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
+                    dataManagerListener.onSuccess(response.body().getData());
                 else
-                    dataManagerListener.onError(response.errorBody());
+                    dataManagerListener.onError(response.body().getError());
             }
 
             @Override
@@ -97,9 +97,9 @@ public class ApiClient implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
-                else dataManagerListener.onError(response.errorBody());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
@@ -118,9 +118,9 @@ public class ApiClient implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
-                else dataManagerListener.onError(response.errorBody());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
@@ -139,9 +139,9 @@ public class ApiClient implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
-                else dataManagerListener.onError(response.errorBody());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
@@ -160,9 +160,9 @@ public class ApiClient implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
-                if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
-                else dataManagerListener.onError(response.errorBody());
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
             }
 
             @Override

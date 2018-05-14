@@ -18,4 +18,12 @@ public class Error {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public ArrayList<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(ArrayList<String> message) {
+        this.message = message;
+    }
 }

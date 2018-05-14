@@ -14,6 +14,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.ApiClient;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
@@ -190,14 +191,16 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                if (response == null) return;
+
                 openLoginActivity();
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                if (error != null)
-                    SnackBarFactory.createSnackBar(PaymentDetailsActivity.this, constraintRoot, error.toString()).show();
+                ErrorManager errorManager = new ErrorManager(PaymentDetailsActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }
