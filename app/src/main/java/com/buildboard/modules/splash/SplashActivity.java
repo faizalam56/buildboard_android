@@ -6,9 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
+import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.preferences.AppPreference;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements AppConstant {
 
     private static final int SPLASH_TIME = 2000;
 
@@ -20,7 +23,10 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                if (AppPreference.getAppPreference(SplashActivity.this).getString(ACCESS_TOKEN).equalsIgnoreCase(""))
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 SplashActivity.this.finish();
             }
         }, SPLASH_TIME);
