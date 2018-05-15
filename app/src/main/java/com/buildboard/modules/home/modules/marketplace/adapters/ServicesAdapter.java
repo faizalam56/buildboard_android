@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,12 +23,12 @@ import butterknife.ButterKnife;
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mArrayList;
+    private List<TrendingService> mTrendingServices;
     private LayoutInflater mLayoutInflater;
 
-    public ServicesAdapter(Context context, List<String> arrayList) {
+    public ServicesAdapter(Activity context, List<TrendingService> trendingServices) {
         mContext = context;
-        mArrayList = arrayList;
+        mTrendingServices = trendingServices;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -36,11 +40,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ServicesAdapter.ViewHolder holder, int position) {
+        holder.setData();
     }
 
     @Override
     public int getItemCount() {
-        return mArrayList.size();
+        return mTrendingServices.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +67,15 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textServiceProviderName);
+        }
+
+        private void setData() {
+            TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
+            if (trendingService == null) return;
+
+            textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
+            textServiceProviderName.setText(trendingService.getDescription() != null ? trendingService.getDescription().toString() : "N/A");
+            Utils.display(mContext, trendingService.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,16 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
+import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerData;
+import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
+import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
+import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -41,6 +49,14 @@ public class MarketPlaceFragment extends Fragment {
     @BindView(R.id.text_contractors_by_projecttype)
     TextView textContractorsByProjecttype;
 
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+
+    @BindView(R.id.view_services)
+    View viewServices;
+    @BindView(R.id.view_nearby_contractor)
+    View viewNearbyContractor;
+
     public static MarketPlaceFragment newInstance() {
         MarketPlaceFragment fragment = new MarketPlaceFragment();
         return fragment;
@@ -53,9 +69,8 @@ public class MarketPlaceFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, view);
 
         setFont();
-        setServicesRecycler();
-        setNearbyContractorsRecycler();
-        setContractorByProjectRecycler();
+        updateUi(false);
+        getMarketplaceConsumer();
 
         return view;
     }
@@ -66,39 +81,61 @@ public class MarketPlaceFragment extends Fragment {
         mUnbinder.unbind();
     }
 
-    private void setServicesRecycler() {
-        ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), getDatas());
+    private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
+        ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), trendingServices);
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerServices.setAdapter(selectionAdapter);
     }
 
-    private void setNearbyContractorsRecycler() {
-        NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), getDatas());
+    private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
+        NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), nearByContractorArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerNearbyContractors.setAdapter(selectionAdapter);
     }
 
-    private void setContractorByProjectRecycler() {
-        ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), getDatas());
+    private void setContractorByProjectRecycler(ArrayList<ProjectType> projectTypes) {
+        ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), projectTypes);
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerContractorsByProjecttype.setAdapter(selectionAdapter);
     }
 
-    private ArrayList<String> getDatas() {
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("Service 1");
-        datas.add("Service 2");
-        datas.add("Service 3");
-        datas.add("Service 4");
-        datas.add("Service 5");
-
-        return datas;
-    }
-
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
+    }
+
+    private void getMarketplaceConsumer() {
+        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        DataManager.getInstance().getMarketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
+
+                updateUi(true);
+                setServicesRecycler(marketplaceConsumerData.getTrendingServices());
+                setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
+                setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                ErrorManager errorManager = new ErrorManager(getActivity(), constraintRoot, error);
+                errorManager.handleErrorResponse();
+            }
+        });
+    }
+
+    private void updateUi(boolean visibility) {
+        textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        viewServices.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        viewNearbyContractor.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }
