@@ -1,5 +1,6 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
@@ -32,5 +33,8 @@ public interface IApiInterface {
 
     @POST("login")
     Call<LoginResponse> login(@Header("oauth") String oauth, @Body LoginRequest loginRequest);
+
+    @GET("marketplace/consumer")
+    Call<MarketplaceConsumerResponse> marketplaceConsumer(@Header("oauth") String oauth);
 
 }

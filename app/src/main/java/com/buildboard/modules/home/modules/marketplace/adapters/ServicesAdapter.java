@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ import butterknife.ButterKnife;
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mArrayList;
+    private List<TrendingService> mTrendingServices;
     private LayoutInflater mLayoutInflater;
 
-    public ServicesAdapter(Context context, List<String> arrayList) {
+    public ServicesAdapter(Context context, List<TrendingService> trendingServices) {
         mContext = context;
-        mArrayList = arrayList;
+        mTrendingServices = trendingServices;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -36,11 +38,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ServicesAdapter.ViewHolder holder, int position) {
+        holder.setData();
     }
 
     @Override
     public int getItemCount() {
-        return mArrayList.size();
+        return mTrendingServices.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +65,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textServiceProviderName);
+        }
+
+        private void setData() {
+            TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
+            textServiceName.setText(trendingService.getTitle());
+            textServiceProviderName.setText(trendingService.getDescription() != null ? trendingService.getDescription().toString() : "N/A");
+            Picasso.get().load(trendingService.getImage()).into(imageService);
         }
     }
 }

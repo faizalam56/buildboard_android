@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ import butterknife.ButterKnife;
 public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContractorAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mArrayList;
+    private List<NearByContractor> mNearByContractors;
     private LayoutInflater mLayoutInflater;
 
-    public NearByContractorAdapter(Context context, List<String> arrayList) {
+    public NearByContractorAdapter(Context context, List<NearByContractor> nearByContractors) {
         mContext = context;
-        mArrayList = arrayList;
+        mNearByContractors = nearByContractors;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -36,11 +38,12 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
 
     @Override
     public void onBindViewHolder(NearByContractorAdapter.ViewHolder holder, int position) {
+        holder.setData();
     }
 
     @Override
     public int getItemCount() {
-        return mArrayList.size();
+        return mNearByContractors.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +62,12 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+        }
+
+        private void setData() {
+            NearByContractor nearByContractor = mNearByContractors.get(getAdapterPosition());
+            textName.setText(nearByContractor.getRole());
+            Picasso.get().load(nearByContractor.getContractorInfo().getImage()).into(imageService);
         }
     }
 }

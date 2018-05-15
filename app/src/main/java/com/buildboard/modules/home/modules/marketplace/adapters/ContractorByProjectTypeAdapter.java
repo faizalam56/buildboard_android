@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ import butterknife.ButterKnife;
 public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mArrayList;
+    private List<ProjectType> mProjectTypes;
     private LayoutInflater mLayoutInflater;
 
-    public ContractorByProjectTypeAdapter(Context context, List<String> arrayList) {
+    public ContractorByProjectTypeAdapter(Context context, List<ProjectType> projectTypes) {
         mContext = context;
-        mArrayList = arrayList;
+        mProjectTypes = projectTypes;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -36,11 +38,12 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
     @Override
     public void onBindViewHolder(ContractorByProjectTypeAdapter.ViewHolder holder, int position) {
+        holder.setData();
     }
 
     @Override
     public int getItemCount() {
-        return mArrayList.size();
+        return mProjectTypes.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +62,12 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
+        }
+
+        private void setData() {
+            ProjectType projectType = mProjectTypes.get(getAdapterPosition());
+            textName.setText(projectType.getTitle());
+            Picasso.get().load(projectType.getImage()).into(imageService);
         }
     }
 }
