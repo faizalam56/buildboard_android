@@ -323,6 +323,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 if (response == null) return;
 
                 LoginData loginData = (LoginData) response;
+                AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
                 openActivity(HomeActivity.class, false, true);
             }
 

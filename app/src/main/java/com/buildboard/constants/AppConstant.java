@@ -12,4 +12,5 @@ public interface AppConstant {
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
+    String IS_LOGIN = "is_login";
 }

@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity implements AppConstant {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (AppPreference.getAppPreference(SplashActivity.this).getString(ACCESS_TOKEN).equalsIgnoreCase(""))
+                if (AppPreference.getAppPreference(SplashActivity.this).getBoolean(IS_LOGIN))
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 else
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
