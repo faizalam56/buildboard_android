@@ -70,7 +70,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             if (projectType == null) return;
 
             textName.setText(projectType.getTitle() != null ? projectType.getTitle() : "N/A");
-            Utils.display(mContext, projectType.getImage(), imageService, 0);
+            Utils.display(mContext, projectType.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }

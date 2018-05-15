@@ -14,7 +14,6 @@ import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
@@ -53,6 +52,11 @@ public class MarketPlaceFragment extends Fragment {
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    @BindView(R.id.view_services)
+    View viewServices;
+    @BindView(R.id.view_nearby_contractor)
+    View viewNearbyContractor;
+
     public static MarketPlaceFragment newInstance() {
         MarketPlaceFragment fragment = new MarketPlaceFragment();
         return fragment;
@@ -65,6 +69,7 @@ public class MarketPlaceFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, view);
 
         setFont();
+        hideRecyclerViewTitles(false);
         getMarketplaceConsumer();
 
         return view;
@@ -111,6 +116,7 @@ public class MarketPlaceFragment extends Fragment {
 
                 MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
 
+                hideRecyclerViewTitles(true);
                 setServicesRecycler(marketplaceConsumerData.getTrendingServices());
                 setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
                 setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
@@ -123,5 +129,13 @@ public class MarketPlaceFragment extends Fragment {
                 errorManager.handleErrorResponse();
             }
         });
+    }
+
+    private void hideRecyclerViewTitles(boolean visibility) {
+        textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        viewServices.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        viewNearbyContractor.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

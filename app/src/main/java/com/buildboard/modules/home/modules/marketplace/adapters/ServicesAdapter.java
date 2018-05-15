@@ -75,7 +75,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
             textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
             textServiceProviderName.setText(trendingService.getDescription() != null ? trendingService.getDescription().toString() : "N/A");
-            Utils.display(mContext, trendingService.getImage(), imageService, 0);
+            Utils.display(mContext, trendingService.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }

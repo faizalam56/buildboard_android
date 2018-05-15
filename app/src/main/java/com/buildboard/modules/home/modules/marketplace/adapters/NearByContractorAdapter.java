@@ -70,7 +70,7 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             if (nearByContractor == null) return;
 
             textName.setText(nearByContractor.getRole() != null ? nearByContractor.getRole() : "N/A");
-            Utils.display(mContext, nearByContractor.getContractorInfo().getImage(), imageService, 0);
+            Utils.display(mContext, nearByContractor.getContractorInfo().getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }
