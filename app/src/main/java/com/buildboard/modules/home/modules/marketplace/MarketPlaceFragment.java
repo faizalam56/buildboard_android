@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,9 @@ public class MarketPlaceFragment extends Fragment {
     @BindView(R.id.text_contractors_by_projecttype)
     TextView textContractorsByProjecttype;
 
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+
     public static MarketPlaceFragment newInstance() {
         MarketPlaceFragment fragment = new MarketPlaceFragment();
         return fragment;
@@ -93,17 +97,6 @@ public class MarketPlaceFragment extends Fragment {
         recyclerContractorsByProjecttype.setAdapter(selectionAdapter);
     }
 
-    private ArrayList<String> getDatas() {
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("Service 1");
-        datas.add("Service 2");
-        datas.add("Service 3");
-        datas.add("Service 4");
-        datas.add("Service 5");
-
-        return datas;
-    }
-
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
     }
@@ -126,8 +119,8 @@ public class MarketPlaceFragment extends Fragment {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-//                ErrorManager errorManager = new ErrorManager(MarketPlaceFragment.this, constraintRoot, error);
-//                errorManager.handleErrorResponse();
+                ErrorManager errorManager = new ErrorManager(getActivity(), constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }
