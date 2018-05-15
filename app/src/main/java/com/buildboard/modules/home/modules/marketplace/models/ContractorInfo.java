@@ -81,7 +81,7 @@ public class ContractorInfo {
         this.email = email;
     }
 
-    public Object getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
@@ -121,7 +121,7 @@ public class ContractorInfo {
         this.workingAreaRadius = workingAreaRadius;
     }
 
-    public Object getSummary() {
+    public String getSummary() {
         return summary;
     }
 
