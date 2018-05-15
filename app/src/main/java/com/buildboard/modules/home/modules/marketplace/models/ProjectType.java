@@ -9,7 +9,7 @@ public class ProjectType {
     @SerializedName("title")
     private String title;
     @SerializedName("description")
-    private Object description;
+    private String description;
     @SerializedName("image")
     private String image;
     @SerializedName("created_at")
@@ -33,11 +33,11 @@ public class ProjectType {
         this.title = title;
     }
 
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

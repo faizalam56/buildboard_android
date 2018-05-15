@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class MarketplaceConsumerData {
 
     @SerializedName("trendingServices")
-    private ArrayList<TrendingService> trendingServices = null;
+    private ArrayList<TrendingService> trendingServices = new ArrayList<>();
     @SerializedName("nearByContractor")
-    private ArrayList<NearByContractor> nearByContractor = null;
+    private ArrayList<NearByContractor> nearByContractor = new ArrayList<>();
     @SerializedName("projectTypes")
-    private ArrayList<ProjectType> projectTypes = null;
+    private ArrayList<ProjectType> projectTypes = new ArrayList<>();
 
     public ArrayList<TrendingService> getTrendingServices() {
         return trendingServices;

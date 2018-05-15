@@ -11,7 +11,7 @@ public class NearByContractor {
     @SerializedName("n_token")
     private String nToken;
     @SerializedName("admin_access")
-    private Integer adminAccess;
+    private int adminAccess;
     @SerializedName("role")
     private String role;
     @SerializedName("contractor_info")
@@ -41,11 +41,11 @@ public class NearByContractor {
         this.nToken = nToken;
     }
 
-    public Integer getAdminAccess() {
+    public int getAdminAccess() {
         return adminAccess;
     }
 
-    public void setAdminAccess(Integer adminAccess) {
+    public void setAdminAccess(int adminAccess) {
         this.adminAccess = adminAccess;
     }
 

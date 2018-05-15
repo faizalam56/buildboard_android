@@ -13,7 +13,7 @@ public class ContractorInfo {
     @SerializedName("email")
     private String email;
     @SerializedName("phone_no")
-    private Object phoneNo;
+    private String phoneNo;
     @SerializedName("type_of_contractor_id")
     private String typeOfContractorId;
     @SerializedName("business_name")
@@ -21,9 +21,9 @@ public class ContractorInfo {
     @SerializedName("business_address")
     private String businessAddress;
     @SerializedName("working_area_radius")
-    private Integer workingAreaRadius;
+    private int workingAreaRadius;
     @SerializedName("summary")
-    private Object summary;
+    private String summary;
     @SerializedName("company")
     private String company;
     @SerializedName("image")
@@ -39,9 +39,9 @@ public class ContractorInfo {
     @SerializedName("document5")
     private String document5;
     @SerializedName("latitude")
-    private Double latitude;
+    private double latitude;
     @SerializedName("longitude")
-    private Double longitude;
+    private double longitude;
     @SerializedName("user_id")
     private String userId;
     @SerializedName("created_at")
@@ -85,7 +85,7 @@ public class ContractorInfo {
         return phoneNo;
     }
 
-    public void setPhoneNo(Object phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
@@ -113,11 +113,11 @@ public class ContractorInfo {
         this.businessAddress = businessAddress;
     }
 
-    public Integer getWorkingAreaRadius() {
+    public int getWorkingAreaRadius() {
         return workingAreaRadius;
     }
 
-    public void setWorkingAreaRadius(Integer workingAreaRadius) {
+    public void setWorkingAreaRadius(int workingAreaRadius) {
         this.workingAreaRadius = workingAreaRadius;
     }
 
@@ -125,7 +125,7 @@ public class ContractorInfo {
         return summary;
     }
 
-    public void setSummary(Object summary) {
+    public void setSummary(String summary) {
         this.summary = summary;
     }
 
@@ -185,19 +185,19 @@ public class ContractorInfo {
         this.document5 = document5;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
