@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
+import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,8 +67,10 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
         private void setData() {
             ProjectType projectType = mProjectTypes.get(getAdapterPosition());
-            textName.setText(projectType.getTitle());
-            Picasso.get().load(projectType.getImage()).into(imageService);
+            if (projectType == null) return;
+
+            textName.setText(projectType.getTitle() != null ? projectType.getTitle() : "N/A");
+            Utils.display(mContext, projectType.getImage(), imageService, 0);
         }
     }
 }

@@ -14,11 +14,11 @@ import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerData;
-import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
@@ -65,7 +65,7 @@ public class MarketPlaceFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, view);
 
         setFont();
-        marketplaceConsumer();
+        getMarketplaceConsumer();
 
         return view;
     }
@@ -101,9 +101,9 @@ public class MarketPlaceFragment extends Fragment {
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textContractorsByProjecttype, textNearbyContractors, textTrendingService);
     }
 
-    private void marketplaceConsumer() {
+    private void getMarketplaceConsumer() {
         ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
-        DataManager.getInstance().marketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
+        DataManager.getInstance().getMarketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();

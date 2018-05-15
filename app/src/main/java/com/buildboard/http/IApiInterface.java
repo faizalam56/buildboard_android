@@ -35,6 +35,6 @@ public interface IApiInterface {
     Call<LoginResponse> login(@Header("oauth") String oauth, @Body LoginRequest loginRequest);
 
     @GET("marketplace/consumer")
-    Call<MarketplaceConsumerResponse> marketplaceConsumer(@Header("oauth") String oauth);
+    Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
 
 }

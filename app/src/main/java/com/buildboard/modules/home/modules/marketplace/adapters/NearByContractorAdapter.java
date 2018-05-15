@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
+import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,8 +67,10 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
 
         private void setData() {
             NearByContractor nearByContractor = mNearByContractors.get(getAdapterPosition());
-            textName.setText(nearByContractor.getRole());
-            Picasso.get().load(nearByContractor.getContractorInfo().getImage()).into(imageService);
+            if (nearByContractor == null) return;
+
+            textName.setText(nearByContractor.getRole() != null ? nearByContractor.getRole() : "N/A");
+            Utils.display(mContext, nearByContractor.getContractorInfo().getImage(), imageService, 0);
         }
     }
 }

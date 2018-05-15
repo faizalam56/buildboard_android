@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     private List<TrendingService> mTrendingServices;
     private LayoutInflater mLayoutInflater;
 
-    public ServicesAdapter(Context context, List<TrendingService> trendingServices) {
+    public ServicesAdapter(Activity context, List<TrendingService> trendingServices) {
         mContext = context;
         mTrendingServices = trendingServices;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -69,9 +71,11 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void setData() {
             TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
-            textServiceName.setText(trendingService.getTitle());
+            if (trendingService == null) return;
+
+            textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
             textServiceProviderName.setText(trendingService.getDescription() != null ? trendingService.getDescription().toString() : "N/A");
-            Picasso.get().load(trendingService.getImage()).into(imageService);
+            Utils.display(mContext, trendingService.getImage(), imageService, 0);
         }
     }
 }
