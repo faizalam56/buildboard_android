@@ -2,6 +2,8 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
+public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
 
     private Context mContext;
     private List<TrendingService> mTrendingServices;
@@ -58,11 +65,24 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         @BindView(R.id.image_service)
         ImageView imageService;
 
+        @BindView(R.id.card_service)
+        CardView cardViewRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+//            cardViewRow.setOnClickListener(rowClickListener);
         }
+
+        /*View.OnClickListener rowClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ContractorByProjectTypeActivity.class);
+                intent.putExtra(DATA, mTrendingServices.get(getAdapterPosition()));
+                mContext.startActivity(intent);
+            }
+        };*/
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);

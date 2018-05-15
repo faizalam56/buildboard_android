@@ -1,8 +1,11 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class TrendingService {
+public class TrendingService implements Parcelable {
 
     @SerializedName("id")
     private String id;
@@ -16,6 +19,27 @@ public class TrendingService {
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
+
+    protected TrendingService(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        image = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+    }
+
+    public static final Creator<TrendingService> CREATOR = new Creator<TrendingService>() {
+        @Override
+        public TrendingService createFromParcel(Parcel in) {
+            return new TrendingService(in);
+        }
+
+        @Override
+        public TrendingService[] newArray(int size) {
+            return new TrendingService[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -63,5 +87,20 @@ public class TrendingService {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(image);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
     }
 }

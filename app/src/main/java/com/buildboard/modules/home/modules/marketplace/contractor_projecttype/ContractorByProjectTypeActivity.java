@@ -8,7 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.buildboard.R;
+import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.adapters.ContractorByProjectTypeDetailAdapter;
+import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeData;
+import com.buildboard.utils.ProgressHelper;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -37,6 +40,7 @@ public class ContractorByProjectTypeActivity extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.filter);
         toolbar.setOnMenuItemClickListener(menuItemClickListener);
         setInboxRecycler();
+        getContractorByProjectType();
     }
 
     private Toolbar.OnMenuItemClickListener menuItemClickListener = new Toolbar.OnMenuItemClickListener() {
@@ -50,5 +54,25 @@ public class ContractorByProjectTypeActivity extends AppCompatActivity {
         ContractorByProjectTypeDetailAdapter contractorByProjectTypeAdapter = new ContractorByProjectTypeDetailAdapter(this);
         recyclerContractorByProjectType.setLayoutManager(new LinearLayoutManager(this));
         recyclerContractorByProjectType.setAdapter(contractorByProjectTypeAdapter);
+    }
+
+    private void getContractorByProjectType() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().getContractorByProjectType(this, "", 1, 2, 30, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+//                ErrorManager errorManager = new ErrorManager(this, constraintRoot, error);
+//                errorManager.handleErrorResponse();
+            }
+        });
     }
 }
