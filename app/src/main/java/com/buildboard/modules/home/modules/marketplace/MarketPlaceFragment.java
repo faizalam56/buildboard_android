@@ -69,7 +69,7 @@ public class MarketPlaceFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, view);
 
         setFont();
-        hideRecyclerViewTitles(false);
+        updateUi(false);
         getMarketplaceConsumer();
 
         return view;
@@ -116,7 +116,7 @@ public class MarketPlaceFragment extends Fragment {
 
                 MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
 
-                hideRecyclerViewTitles(true);
+                updateUi(true);
                 setServicesRecycler(marketplaceConsumerData.getTrendingServices());
                 setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
                 setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
@@ -131,7 +131,7 @@ public class MarketPlaceFragment extends Fragment {
         });
     }
 
-    private void hideRecyclerViewTitles(boolean visibility) {
+    private void updateUi(boolean visibility) {
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
