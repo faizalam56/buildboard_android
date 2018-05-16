@@ -24,9 +24,9 @@ public class SplashActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void run() {
                 if (AppPreference.getAppPreference(SplashActivity.this).getBoolean(IS_LOGIN))
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                else
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 SplashActivity.this.finish();
             }
         }, SPLASH_TIME);
