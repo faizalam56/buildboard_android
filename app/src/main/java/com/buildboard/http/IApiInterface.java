@@ -1,5 +1,6 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
@@ -16,6 +17,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IApiInterface {
 
@@ -36,5 +39,9 @@ public interface IApiInterface {
 
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
+
+    @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
+    Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
+                                                                     @Query("page") int page, @Query("radius") float radius, @Query("per_page") int perPage);
 
 }

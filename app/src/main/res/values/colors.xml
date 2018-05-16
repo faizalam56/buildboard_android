@@ -34,4 +34,6 @@
 
     <color name="colorGreenMsgBackgorund">#cdfbba</color>
     <color name="colorGrayMsgBackgorund">#f1eff2</color>
+
+    <color name="colorRatingBar">#f1ce0a</color>
 </resources>

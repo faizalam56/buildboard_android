@@ -26,6 +26,7 @@ import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -304,8 +305,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }
@@ -330,8 +330,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }

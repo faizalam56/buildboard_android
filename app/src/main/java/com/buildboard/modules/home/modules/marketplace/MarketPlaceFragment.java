@@ -22,6 +22,7 @@ import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -125,8 +126,7 @@ public class MarketPlaceFragment extends Fragment {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(getActivity(), constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(getActivity(), constraintRoot, error);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.contractor_projecttype;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,19 +9,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.adapters.ContractorByProjectTypeDetailAdapter;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContractorByProjectTypeActivity extends AppCompatActivity {
+public class ContractorByProjectTypeActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorByProjectType;
+
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.contractors)
     String stringContractors;

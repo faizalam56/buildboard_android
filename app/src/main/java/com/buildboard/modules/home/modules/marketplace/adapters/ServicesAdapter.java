@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
+public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
 
     private Context mContext;
     private List<TrendingService> mTrendingServices;
@@ -57,6 +57,9 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         @BindView(R.id.image_service)
         ImageView imageService;
+
+        @BindView(R.id.card_service)
+        CardView cardViewRow;
 
         public ViewHolder(View itemView) {
             super(itemView);
