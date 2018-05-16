@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,6 +50,10 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
     @BindString(R.string.contractors)
     String stringContractors;
 
+    private ArrayList<ContractorByProjectTypeListData> mContractorList = new ArrayList<>();
+    private ArrayList<ContractorByProjectTypeListData> mSearchContractorList = new ArrayList<>();
+    private ContractorsAdapter mContractorsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +70,38 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         if (getIntent().hasExtra(INTENT_TITLE)) {
             textProjectType.setText(getIntent().getStringExtra(INTENT_TITLE));
         }
+
+        editSearchByName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mSearchContractorList.clear();
+                if (s.length() == 0) {
+                    mSearchContractorList.addAll(mContractorList);
+                    mContractorsAdapter.notifyDataSetChanged();
+                    return;
+                }
+
+                for (ContractorByProjectTypeListData contractors : mContractorList) {
+                    if (contractors.getFirstName().contains(s))
+                        mSearchContractorList.add(contractors);
+                }
+                mContractorsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private void setContractorsAdapter(ArrayList<ContractorByProjectTypeListData> contractorList) {
-        ContractorsAdapter contractorsAdapter = new ContractorsAdapter(this, contractorList);
+    private void setContractorsAdapter() {
+        mContractorsAdapter = new ContractorsAdapter(this, mSearchContractorList);
         recyclerContractors.setLayoutManager(new LinearLayoutManager(this));
-        recyclerContractors.setAdapter(contractorsAdapter);
+        recyclerContractors.setAdapter(mContractorsAdapter);
     }
 
     private void setFont() {
@@ -86,9 +118,11 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
                 if (response == null) return;
 
                 ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
-                if (contractorByProjectTypeData.getDatas().size() > 0)
-                    setContractorsAdapter(contractorByProjectTypeData.getDatas());
-                else {
+                if (contractorByProjectTypeData.getDatas().size() > 0) {
+                    mContractorList.addAll(contractorByProjectTypeData.getDatas());
+                    mSearchContractorList.addAll(contractorByProjectTypeData.getDatas());
+                    setContractorsAdapter();
+                } else {
                     textNodata.setVisibility(View.VISIBLE);
                     editSearchByName.setVisibility(View.GONE);
                 }
