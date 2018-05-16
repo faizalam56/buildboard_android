@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_filter"
-        android:icon="@drawable/ic_inbox"
+        android:icon="@drawable/ic_filter"
         android:title="@string/title_marketplace"
         app:showAsAction="always" />
 
