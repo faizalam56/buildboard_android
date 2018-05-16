@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace.contractors;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,9 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
 
     @BindView(R.id.edit_search_by_name)
     EditText editSearchByName;
+
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.contractors)
     String stringContractors;
@@ -86,7 +90,7 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-//                Utils.showError(ContractorByProjectTypeActivity.this, constraintRoot, error);
+                Utils.showError(ContractorsActivity.this, constraintRoot, error);
             }
         });
     }
