@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INTENT_TITLE;
@@ -68,18 +69,15 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
-            cardRow.setOnClickListener(rowClickListener);
         }
 
-        View.OnClickListener rowClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ContractorsActivity.class);
-                intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
-                intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
-                mContext.startActivity(intent);
-            }
-        };
+        @OnClick(R.id.card_service)
+        public void rowTapped() {
+            Intent intent = new Intent(mContext, ContractorsActivity.class);
+            intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
+            intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
+            mContext.startActivity(intent);
+        }
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
