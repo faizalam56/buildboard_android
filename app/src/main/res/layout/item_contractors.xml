@@ -30,10 +30,10 @@
         android:text="Marc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         app:layout_constraintLeft_toRightOf="@+id/card_contractor"
         app:layout_constraintBottom_toTopOf="@+id/text_company_name"
-        android:layout_marginStart="@dimen/_5sdp" />
+        android:layout_marginStart="@dimen/_10sdp" />
 
     <TextView
         android:id="@+id/text_company_name"
@@ -41,22 +41,22 @@
         android:text="Company Name: lorem ipsum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:layout_constraintLeft_toRightOf="@id/card_contractor"
         app:layout_constraintBottom_toTopOf="@+id/rating_contractor"
-        android:layout_marginStart="@dimen/_5sdp" />
+        android:layout_marginStart="@dimen/_10sdp" />
 
     <android.support.v7.widget.AppCompatRatingBar
         style="@style/RatingBar"
         android:id="@+id/rating_contractor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:numStars="4"
         android:rating="3"
         android:progressTint="@color/colorRatingBar"
         app:layout_constraintLeft_toRightOf="@id/card_contractor"
         app:layout_constraintBottom_toBottomOf="@+id/card_contractor"
-        android:layout_marginStart="@dimen/_5sdp" />
+        android:layout_marginStart="@dimen/_10sdp" />
 </android.support.constraint.ConstraintLayout>
