@@ -15,10 +15,12 @@ import com.buildboard.modules.signup.models.createcontractor.CreateContractorRes
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IApiInterface {
 
@@ -40,8 +42,8 @@ public interface IApiInterface {
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
 
-    @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?")
+    @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
-                                                                     @Field("page") int page, @Field("radius") float radius, @Field("per_page") int perPage);
+                                                                     @Query("page") int page, @Query("radius") float radius, @Query("per_page") int perPage);
 
 }

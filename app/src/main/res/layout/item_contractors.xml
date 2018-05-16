@@ -55,9 +55,8 @@
         android:layout_marginLeft="@dimen/_5sdp"
         android:numStars="4"
         android:rating="3"
-        android:progressTint="@color/colorCyan"
+        android:progressTint="@color/colorRatingBar"
         app:layout_constraintLeft_toRightOf="@id/card_contractor"
         app:layout_constraintBottom_toBottomOf="@+id/card_contractor"
         android:layout_marginStart="@dimen/_5sdp" />
 </android.support.constraint.ConstraintLayout>
-    <!--style="?android:attr/ratingBarStyleSmall"-->

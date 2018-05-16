@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,18 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.buildboard.constants.AppConstant.DATA;
+import static com.buildboard.constants.AppConstant.INTENT_TITLE;
 
 public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> {
 
@@ -55,11 +61,25 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         @BindView(R.id.image_service)
         ImageView imageService;
 
+        @BindView(R.id.card_service)
+        CardView cardRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+            cardRow.setOnClickListener(rowClickListener);
         }
+
+        View.OnClickListener rowClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ContractorsActivity.class);
+                intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
+                intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
+                mContext.startActivity(intent);
+            }
+        };
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
