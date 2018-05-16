@@ -31,6 +31,7 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
@@ -303,8 +304,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
 
@@ -472,8 +472,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
     }

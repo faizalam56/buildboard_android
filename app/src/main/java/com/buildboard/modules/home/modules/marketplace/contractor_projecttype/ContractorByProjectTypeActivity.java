@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.contractor_projecttype;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.adapters.ContractorByProjectTypeDetailAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeData;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -24,6 +26,9 @@ public class ContractorByProjectTypeActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorByProjectType;
+
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.contractors)
     String stringContractors;
@@ -70,8 +75,7 @@ public class ContractorByProjectTypeActivity extends AppCompatActivity {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-//                ErrorManager errorManager = new ErrorManager(this, constraintRoot, error);
-//                errorManager.handleErrorResponse();
+                Utils.showError(ContractorByProjectTypeActivity.this, constraintRoot, error);
             }
         });
     }

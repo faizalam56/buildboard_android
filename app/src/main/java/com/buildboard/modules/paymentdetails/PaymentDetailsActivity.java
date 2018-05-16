@@ -20,6 +20,7 @@ import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorDetail;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
@@ -201,8 +202,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements AppCons
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(PaymentDetailsActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(PaymentDetailsActivity.this, constraintRoot, error);
             }
         });
     }
