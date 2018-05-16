@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,7 +14,6 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeData;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ContractorsAdapter;
@@ -36,6 +36,8 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
 
     @BindView(R.id.text_project_type)
     TextView textProjectType;
+    @BindView(R.id.text_nodata)
+    TextView textNodata;
 
     @BindView(R.id.edit_search_by_name)
     EditText editSearchByName;
@@ -84,7 +86,12 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
                 if (response == null) return;
 
                 ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
-                setContractorsAdapter(contractorByProjectTypeData.getDatas());
+                if (contractorByProjectTypeData.getDatas().size() > 0)
+                    setContractorsAdapter(contractorByProjectTypeData.getDatas());
+                else {
+                    textNodata.setVisibility(View.VISIBLE);
+                    editSearchByName.setVisibility(View.GONE);
+                }
             }
 
             @Override
