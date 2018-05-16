@@ -63,6 +63,12 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         toolbar.setTitle(stringContractors);
         setFont();
 
+        getIntentData();
+
+        editSearchByName.addTextChangedListener(searchTextWatcher);
+    }
+
+    private void getIntentData() {
         if (getIntent().hasExtra(DATA)) {
             getContractorByProjectType(getIntent().getStringExtra(DATA));
         }
@@ -70,33 +76,35 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         if (getIntent().hasExtra(INTENT_TITLE)) {
             textProjectType.setText(getIntent().getStringExtra(INTENT_TITLE));
         }
-
-        editSearchByName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mSearchContractorList.clear();
-                if (s.length() == 0) {
-                    mSearchContractorList.addAll(mContractorList);
-                    mContractorsAdapter.notifyDataSetChanged();
-                    return;
-                }
-
-                for (ContractorByProjectTypeListData contractors : mContractorList) {
-                    if (contractors.getFirstName().contains(s))
-                        mSearchContractorList.add(contractors);
-                }
-                mContractorsAdapter.notifyDataSetChanged();
-            }
-        });
     }
+
+    TextWatcher searchTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mSearchContractorList.clear();
+            if (s.length() == 0) {
+                mSearchContractorList.addAll(mContractorList);
+                mContractorsAdapter.notifyDataSetChanged();
+                return;
+            }
+
+            for (ContractorByProjectTypeListData contractors : mContractorList) {
+                if (contractors.getFirstName().contains(s))
+                    mSearchContractorList.add(contractors);
+            }
+            mContractorsAdapter.notifyDataSetChanged();
+        }
+    };
 
     private void setContractorsAdapter() {
         mContractorsAdapter = new ContractorsAdapter(this, mSearchContractorList);
@@ -115,17 +123,7 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                if (response == null) return;
-
-                ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
-                if (contractorByProjectTypeData.getDatas().size() > 0) {
-                    mContractorList.addAll(contractorByProjectTypeData.getDatas());
-                    mSearchContractorList.addAll(contractorByProjectTypeData.getDatas());
-                    setContractorsAdapter();
-                } else {
-                    textNodata.setVisibility(View.VISIBLE);
-                    editSearchByName.setVisibility(View.GONE);
-                }
+                handleSuccessResponse(response);
             }
 
             @Override
@@ -134,5 +132,19 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
                 Utils.showError(ContractorsActivity.this, constraintRoot, error);
             }
         });
+    }
+
+    private void handleSuccessResponse(Object response) {
+        if (response == null) return;
+
+        ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
+        if (contractorByProjectTypeData.getDatas().size() > 0) {
+            mContractorList.addAll(contractorByProjectTypeData.getDatas());
+            mSearchContractorList.addAll(contractorByProjectTypeData.getDatas());
+            setContractorsAdapter();
+        } else {
+            textNodata.setVisibility(View.VISIBLE);
+            editSearchByName.setVisibility(View.GONE);
+        }
     }
 }
