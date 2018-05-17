@@ -109,4 +109,7 @@
     <string name="please_wait">Please wait…</string>
     <string name="msg_please_wait">Please wait...</string>
     <string name="msg_no_data_found">No Data Found</string>
+    <string name="trending_projects">Trending Projects</string>
+    <string name="near_by_projects">Near by Projects</string>
+    <string name="projects_on_marketplace">Projects on marketplace</string>
 </resources>

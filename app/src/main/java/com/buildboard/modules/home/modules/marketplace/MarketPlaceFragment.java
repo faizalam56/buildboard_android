@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
@@ -21,17 +22,19 @@ import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsume
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MarketPlaceFragment extends Fragment {
+public class MarketPlaceFragment extends Fragment implements AppConstant {
 
     private String mTitle;
     private Unbinder mUnbinder;
@@ -58,6 +61,19 @@ public class MarketPlaceFragment extends Fragment {
     @BindView(R.id.view_nearby_contractor)
     View viewNearbyContractor;
 
+    @BindString(R.string.trending_services)
+    String stringTrendingServices;
+    @BindString(R.string.near_by_contractors)
+    String stringNearByContractor;
+    @BindString(R.string.contractors_by_project_type)
+    String stringContractorByProjectType;
+    @BindString(R.string.trending_projects)
+    String stringTrendingProjects;
+    @BindString(R.string.near_by_projects)
+    String stringNearByProjects;
+    @BindString(R.string.projects_on_marketplace)
+    String stringProjectsOnMarketplace;
+
     public static MarketPlaceFragment newInstance() {
         MarketPlaceFragment fragment = new MarketPlaceFragment();
         return fragment;
@@ -71,7 +87,18 @@ public class MarketPlaceFragment extends Fragment {
 
         setFont();
         updateUi(false);
-        getMarketplaceConsumer();
+        //TODO: call contractor marketplace api
+        if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+            textTrendingService.setText(stringTrendingProjects);
+            textNearbyContractors.setText(stringNearByProjects);
+            textContractorsByProjecttype.setText(stringProjectsOnMarketplace);
+            getMarketplaceConsumer();
+        } else {
+            textTrendingService.setText(stringTrendingServices);
+            textNearbyContractors.setText(stringNearByContractor);
+            textContractorsByProjecttype.setText(stringContractorByProjectType);
+            getMarketplaceConsumer();
+        }
 
         return view;
     }
