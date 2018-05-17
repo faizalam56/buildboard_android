@@ -299,6 +299,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
+                finish();
             }
 
             @Override
