@@ -1,4 +1,4 @@
-package com.buildboard.modules.forgotpassword;
+package com.buildboard.modules.login.forgotpassword;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
