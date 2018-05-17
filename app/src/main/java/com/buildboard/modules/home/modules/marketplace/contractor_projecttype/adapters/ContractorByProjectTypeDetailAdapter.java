@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace.contractor_projecttype.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ContractorByProjectTypeDetailAdapter extends RecyclerView.Adapter<ContractorByProjectTypeDetailAdapter.ViewHolder> {
 
@@ -43,6 +46,8 @@ public class ContractorByProjectTypeDetailAdapter extends RecyclerView.Adapter<C
 
         @BindView(R.id.text_project_type)
         TextView textProjectType;
+        @BindView(R.id.text_view_all)
+        TextView textViewAll;
 
         @BindView(R.id.recycler_contractors)
         RecyclerView recyclerContractors;
@@ -52,6 +57,11 @@ public class ContractorByProjectTypeDetailAdapter extends RecyclerView.Adapter<C
             ButterKnife.bind(this, itemView);
             setFont();
             setContractorsRecycler();
+        }
+
+        @OnClick(R.id.text_view_all)
+        void viewByProjectTapped(){
+            mContext.startActivity(new Intent(mContext, ContractorsActivity.class));
         }
 
         private void setContractorsRecycler() {
