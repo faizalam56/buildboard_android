@@ -60,7 +60,7 @@ public class BuildBoardEditText extends EditText {
 
     private void parseAttributes(AttributeSet attrs) {
         int typeface;
-        if (attrs == null) { //Not created from xml
+        if (attrs == null) {
             typeface = Roboto.ROBOTO_REGULAR;
         } else {
             TypedArray values = getContext().obtainStyledAttributes(attrs, R.styleable.BuildBoardWidget);
