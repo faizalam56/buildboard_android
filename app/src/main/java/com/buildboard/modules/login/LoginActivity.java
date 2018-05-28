@@ -7,18 +7,13 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.BuildBoardButton;
 import com.buildboard.fonts.BuildBoardEditText;
 import com.buildboard.fonts.BuildBoardTextView;
-import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -59,29 +54,23 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
-
     @BindView(R.id.edit_username)
     BuildBoardEditText editUserName;
     @BindView(R.id.edit_password)
     BuildBoardEditText editPassword;
-
-//    @BindView(R.id.text_user_type)
+    //    @BindView(R.id.text_user_type)
 //    BuildBoardTextView textUserType;
     @BindView(R.id.text_forgot_password)
     BuildBoardTextView textForgotPassword;
     @BindView(R.id.text_sign_up)
     BuildBoardTextView textSignUp;
-
     @BindView(R.id.button_signin)
     BuildBoardButton buttonSignIn;
     @BindView(R.id.button_login_facebook)
     BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     BuildBoardButton buttonLoginGoogle;
-
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -98,12 +87,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorSelectUserType;
     @BindString(R.string.error_username_short)
     String stringErrorUsernameTooShort;
-
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
-
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,10 +110,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-
-//                case USER_TYPE_REQUEST_CODE:
-//                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-//                    break;
 
                 case RC_SIGN_IN:
                     handleGoogleSignInResult(data);
@@ -150,7 +135,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     void signInTapped() {
         String userName = editUserName.getText().toString();
         String password = editPassword.getText().toString();
-//        String userType = textUserType.getText().toString();
 
         if (validateFields(userName, password)) {
             login(userName, password);
@@ -161,12 +145,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     void forgotPasswordTapped() {
         openActivity(ForgotPasswordActivity.class, false, false);
     }
-
-//    private void setFont() {
-//        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
-//                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
-//        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
-//    }
 
     @OnClick(R.id.button_login_facebook)
     void userFacebookLoginTapped() {
