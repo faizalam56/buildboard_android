@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.fonts.BuildBoardButton;
+import com.buildboard.fonts.BuildBoardEditText;
+import com.buildboard.fonts.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
@@ -61,23 +64,23 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     private static final int RC_SIGN_IN = 9001;
 
     @BindView(R.id.edit_username)
-    EditText editUserName;
+    BuildBoardEditText editUserName;
     @BindView(R.id.edit_password)
-    EditText editPassword;
+    BuildBoardEditText editPassword;
 
     @BindView(R.id.text_user_type)
-    TextView textUserType;
+    BuildBoardTextView textUserType;
     @BindView(R.id.text_forgot_password)
-    TextView textForgotPassword;
+    BuildBoardTextView textForgotPassword;
     @BindView(R.id.text_sign_up)
-    TextView textSignUp;
+    BuildBoardTextView textSignUp;
 
     @BindView(R.id.button_signin)
-    Button buttonSignIn;
+    BuildBoardButton buttonSignIn;
     @BindView(R.id.button_login_facebook)
-    Button buttonLoginFacebook;
+    BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
-    Button buttonLoginGoogle;
+    BuildBoardButton buttonLoginGoogle;
 
     @BindString(R.string.contractor)
     String stringContractor;
@@ -107,8 +110,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        setFont();
         getAccessToken();
     }
 
@@ -161,11 +162,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         openActivity(ForgotPasswordActivity.class, false, false);
     }
 
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
-                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
-    }
+//    private void setFont() {
+//        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
+//                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
+//        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
+//    }
 
     @OnClick(R.id.button_login_facebook)
     void userFacebookLoginTapped() {
