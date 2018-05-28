@@ -68,8 +68,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     @BindView(R.id.edit_password)
     BuildBoardEditText editPassword;
 
-    @BindView(R.id.text_user_type)
-    BuildBoardTextView textUserType;
+//    @BindView(R.id.text_user_type)
+//    BuildBoardTextView textUserType;
     @BindView(R.id.text_forgot_password)
     BuildBoardTextView textForgotPassword;
     @BindView(R.id.text_sign_up)
@@ -122,9 +122,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
 
-                case USER_TYPE_REQUEST_CODE:
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
+//                case USER_TYPE_REQUEST_CODE:
+//                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+//                    break;
 
                 case RC_SIGN_IN:
                     handleGoogleSignInResult(data);
@@ -150,9 +150,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     void signInTapped() {
         String userName = editUserName.getText().toString();
         String password = editPassword.getText().toString();
-        String userType = textUserType.getText().toString();
+//        String userType = textUserType.getText().toString();
 
-        if (validateFields(userName, password, userType)) {
+        if (validateFields(userName, password)) {
             login(userName, password);
         }
     }
@@ -188,11 +188,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         }
     }
 
-    private boolean validateFields(String userName, String password, String userType) {
-        if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
-            return false;
-        }
+    private boolean validateFields(String userName, String password) {
+
         if (TextUtils.isEmpty(userName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
