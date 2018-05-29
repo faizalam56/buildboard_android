@@ -46,7 +46,8 @@
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/text_user_type" />
+                app:layout_constraintTop_toBottomOf="@+id/text_user_type"
+                app:typeface="robotoLight" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_last_name"
@@ -56,7 +57,8 @@
                 android:hint="@string/last_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/edit_first_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_first_name"
+                app:typeface="robotoLight" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_email"
@@ -65,7 +67,8 @@
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                app:layout_constraintTop_toBottomOf="@+id/edit_last_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
+                app:typeface="robotoLight" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_password"
@@ -75,7 +78,8 @@
                 android:hint="@string/password"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_email"
+                app:typeface="robotoLight" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
@@ -93,7 +97,8 @@
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
-                    android:inputType="textPostalAddress" />
+                    android:inputType="textPostalAddress"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_phoneno"
@@ -104,7 +109,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="14"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_address" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_contact_mode"
@@ -115,7 +121,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:text="@string/preferred_contact_mode"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
+                    app:typeface="robotoLight" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -136,7 +143,8 @@
                     android:cursorVisible="false"
                     android:editable="false"
                     android:focusable="false"
-                    android:text="@string/type_of_contractor" />
+                    android:text="@string/type_of_contractor"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_business_name"
@@ -146,7 +154,8 @@
                     android:hint="@string/business_name"
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_business_address"
@@ -156,7 +165,8 @@
                     android:hint="@string/business_address"
                     android:imeOptions="actionDone"
                     android:inputType="textPostalAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_business_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_name"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_working_area"
@@ -167,7 +177,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:text="@string/working_area"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_business_address" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_address"
+                    app:typeface="robotoLight" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_summary"
@@ -177,7 +188,8 @@
                     android:hint="@string/brief_summary_of_your_company"
                     android:maxLines="5"
                     android:singleLine="false"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_working_area" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_working_area"
+                    app:typeface="robotoLight" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -189,7 +201,8 @@
                 android:text="@string/next"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container" />
+                app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container"
+                app:typeface="robotoRegular" />
 
             <com.buildboard.fonts.BuildBoardTextView
                 android:id="@+id/text_terms_of_service"
@@ -203,7 +216,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_next" />
+                app:layout_constraintTop_toBottomOf="@+id/button_next"
+                app:typeface="robotoLight" />
 
         </android.support.constraint.ConstraintLayout>
 
