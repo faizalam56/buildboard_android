@@ -59,8 +59,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     BuildBoardEditText editUserName;
     @BindView(R.id.edit_password)
     BuildBoardEditText editPassword;
-    //    @BindView(R.id.text_user_type)
-//    BuildBoardTextView textUserType;
     @BindView(R.id.text_forgot_password)
     BuildBoardTextView textForgotPassword;
     @BindView(R.id.text_sign_up)
