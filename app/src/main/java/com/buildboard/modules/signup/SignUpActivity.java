@@ -12,16 +12,14 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.FontHelper;
+import com.buildboard.fonts.BuildBoardButton;
+import com.buildboard.fonts.BuildBoardEditText;
+import com.buildboard.fonts.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
@@ -49,37 +47,36 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     Toolbar toolbar;
 
     @BindView(R.id.text_terms_of_service)
-    TextView textTermsOfService;
+    BuildBoardTextView textTermsOfService;
     @BindView(R.id.text_user_type)
-    TextView textUserType;
-
+    BuildBoardTextView textUserType;
     @BindView(R.id.edit_first_name)
-    EditText editFirstName;
+    BuildBoardEditText editFirstName;
     @BindView(R.id.edit_last_name)
-    EditText editLastName;
+    BuildBoardEditText editLastName;
     @BindView(R.id.edit_address)
-    EditText editAddress;
+    BuildBoardEditText editAddress;
     @BindView(R.id.edit_phoneno)
-    EditText editPhoneNo;
+    BuildBoardEditText editPhoneNo;
     @BindView(R.id.edit_contact_mode)
-    EditText editContactMode;
+    BuildBoardEditText editContactMode;
     @BindView(R.id.edit_email)
-    EditText editEmail;
+    BuildBoardEditText editEmail;
     @BindView(R.id.edit_password)
-    EditText editPassword;
+    BuildBoardEditText editPassword;
     @BindView(R.id.edit_contractor_type)
-    EditText editContractorType;
+    BuildBoardEditText editContractorType;
     @BindView(R.id.edit_working_area)
-    EditText editWorkingArea;
+    BuildBoardEditText editWorkingArea;
     @BindView(R.id.edit_business_name)
-    EditText editBusinessName;
+    BuildBoardEditText editBusinessName;
     @BindView(R.id.edit_business_address)
-    EditText editBusinessAddress;
+    BuildBoardEditText editBusinessAddress;
     @BindView(R.id.edit_summary)
-    EditText editSummary;
+    BuildBoardEditText editSummary;
 
     @BindView(R.id.button_next)
-    Button buttonNext;
+    BuildBoardButton buttonNext;
 
     @BindView(R.id.constraint_consumer_address_container)
     ConstraintLayout constraintConsumerAddressContainer;
@@ -151,7 +148,30 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
+        }
 
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
     private ContractorTypeDetail contractorTypeDetail;
 
     @Override
@@ -161,7 +181,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         ButterKnife.bind(this);
 
         toolbar.setTitle(stringSignUp);
-        setFont();
         setTermsServiceText();
     }
 
@@ -194,37 +213,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
             }
         }
-    }
-
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName, editContactMode,
-                editContractorType, editWorkingArea, editBusinessName, editBusinessAddress, editSummary, textTermsOfService, textUserType, buttonNext);
     }
 
     @OnClick(R.id.text_user_type)
