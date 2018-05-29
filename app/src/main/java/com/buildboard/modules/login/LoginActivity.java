@@ -126,11 +126,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         openActivity(SignUpActivity.class, false, false);
     }
 
-    @OnClick(R.id.text_user_type)
-    void userTypeTapped() {
-        openActivity(SelectionActivity.class, true, false);
-    }
-
     @OnClick(R.id.button_signin)
     void signInTapped() {
         String userName = editUserName.getText().toString();
