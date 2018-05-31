@@ -49,7 +49,6 @@ public class BuildBoardTextView extends TextView {
                 return Roboto.sRobotoLight;
 
             default:
-            case Roboto.ROBOTO_REGULAR:
                 if (Roboto.sRobotoRegular == null) {
                     Roboto.sRobotoRegular = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
                 }
