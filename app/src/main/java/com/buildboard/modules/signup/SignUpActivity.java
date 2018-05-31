@@ -372,11 +372,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(lastName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastName).show();
-            return false;
-        }*/
-
         if (TextUtils.isEmpty(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEmail).show();
             return false;
@@ -420,11 +415,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(summary)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSummary).show();
-            return false;
-        }*/
-
         return true;
     }
 
@@ -434,10 +424,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(phoneNo)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
-            return false;
-        } */
         if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
