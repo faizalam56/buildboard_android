@@ -142,7 +142,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringSignUp;
     @BindString(R.string.error_contractor_type)
     String stringErrorContractorType;
-
+    @BindString(R.string.phone)
+    String stringPhone;
+    @BindString(R.string.email)
+    String stringEmail;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
@@ -223,7 +226,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @OnClick(R.id.edit_contact_mode)
     void contactModeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringPreferredContactMode);
+        arrayList.add(stringPhone);
+        arrayList.add(stringEmail);
         openActivity(SelectionActivity.class, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
     }
 

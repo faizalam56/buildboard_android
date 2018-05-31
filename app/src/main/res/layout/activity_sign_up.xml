@@ -47,7 +47,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
                 app:layout_constraintTop_toBottomOf="@+id/text_user_type"
-                app:typeface="robotoLight" />
+                app:typeface="robotoRegular" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_last_name"
@@ -58,7 +58,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
                 app:layout_constraintTop_toBottomOf="@+id/edit_first_name"
-                app:typeface="robotoLight" />
+                app:typeface="robotoRegular" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_email"
@@ -68,7 +68,7 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
-                app:typeface="robotoLight" />
+                app:typeface="robotoRegular" />
 
             <com.buildboard.fonts.BuildBoardEditText
                 android:id="@+id/edit_password"
@@ -79,7 +79,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
-                app:typeface="robotoLight" />
+                app:typeface="robotoRegular" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
@@ -98,7 +98,7 @@
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_phoneno"
@@ -110,7 +110,7 @@
                     android:inputType="phone"
                     android:maxLength="14"
                     app:layout_constraintTop_toBottomOf="@+id/edit_address"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_contact_mode"
@@ -122,7 +122,7 @@
                     android:focusable="false"
                     android:text="@string/preferred_contact_mode"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -144,7 +144,7 @@
                     android:editable="false"
                     android:focusable="false"
                     android:text="@string/type_of_contractor"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_business_name"
@@ -155,7 +155,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
                     app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_business_address"
@@ -166,7 +166,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPostalAddress"
                     app:layout_constraintTop_toBottomOf="@+id/edit_business_name"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_working_area"
@@ -178,7 +178,7 @@
                     android:focusable="false"
                     android:text="@string/working_area"
                     app:layout_constraintTop_toBottomOf="@+id/edit_business_address"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
                 <com.buildboard.fonts.BuildBoardEditText
                     android:id="@+id/edit_summary"
@@ -189,7 +189,7 @@
                     android:maxLines="5"
                     android:singleLine="false"
                     app:layout_constraintTop_toBottomOf="@+id/edit_working_area"
-                    app:typeface="robotoLight" />
+                    app:typeface="robotoRegular" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -217,7 +217,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_next"
-                app:typeface="robotoLight" />
+                app:typeface="robotoRegular" />
 
         </android.support.constraint.ConstraintLayout>
 

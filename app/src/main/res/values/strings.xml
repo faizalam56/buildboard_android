@@ -109,4 +109,5 @@
     <string name="please_wait">Please wait…</string>
     <string name="msg_please_wait">Please wait...</string>
     <string name="msg_no_data_found">No Data Found</string>
+    <string name="phone">Phone</string>
 </resources>
