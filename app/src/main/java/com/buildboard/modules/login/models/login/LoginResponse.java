@@ -1,5 +1,6 @@
 package com.buildboard.modules.login.models.login;
 
+import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class LoginResponse {
     @SerializedName("data")
     private ArrayList<LoginData> datas = new ArrayList<>();
     @SerializedName("error")
-    private Error error;
+    private ErrorResponse error;
 
     public String getStatus() {
         return status;
@@ -21,11 +22,11 @@ public class LoginResponse {
         this.status = status;
     }
 
-    public Error getError() {
+    public ErrorResponse getError() {
         return error;
     }
 
-    public void setError(Error error) {
+    public void setError(ErrorResponse error) {
         this.error = error;
     }
 

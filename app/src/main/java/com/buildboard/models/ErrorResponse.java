@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class Error {
+public class ErrorResponse {
 
     @SerializedName("code")
     private String code;
@@ -27,3 +27,5 @@ public class Error {
         this.message = message;
     }
 }
+
+

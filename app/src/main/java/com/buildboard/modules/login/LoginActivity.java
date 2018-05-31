@@ -14,6 +14,7 @@ import com.buildboard.fonts.BuildBoardButton;
 import com.buildboard.fonts.BuildBoardEditText;
 import com.buildboard.fonts.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -273,8 +274,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             }
 
             @Override
-            public void onError(Object error) {
-                Utils.showError(LoginActivity.this, constraintRoot, error);
+            public void onError(Object response) {
+                Utils.showError(LoginActivity.this, constraintRoot, response);
             }
         });
     }
@@ -299,7 +300,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(LoginActivity.this, constraintRoot, error);
+                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
             }
         });
     }

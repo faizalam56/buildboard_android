@@ -1,6 +1,5 @@
 package com.buildboard.modules.login.models.getAccessToken;
 
-import com.buildboard.models.Error;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
