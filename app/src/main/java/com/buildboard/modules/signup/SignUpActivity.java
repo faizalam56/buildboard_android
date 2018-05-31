@@ -34,6 +34,7 @@ import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -233,8 +234,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.edit_working_area)
     void workingAreaTapped() {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringWorkingArea);
+        List<String> workingAreaList = Arrays.asList(getResources().getStringArray(R.array.array_working_area));
+        ArrayList<String> arrayList = new ArrayList<>(workingAreaList);
         openActivity(SelectionActivity.class, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
     }
 
