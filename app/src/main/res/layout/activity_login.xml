@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.buildboard.fonts.BuildBoardEditText
-            android:id="@+id/edit_username"
+            android:id="@+id/edit_useremail"
             style="@style/edit_text_size_small"
             android:layout_marginTop="@dimen/_20sdp"
             android:hint="@string/username"
@@ -39,7 +39,7 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:hint="@string/password"
             android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@+id/edit_username" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_useremail" />
 
         <com.buildboard.fonts.BuildBoardTextView
             android:id="@+id/text_forgot_password"

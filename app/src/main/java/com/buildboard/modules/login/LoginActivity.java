@@ -20,9 +20,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
-import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.EmailValidator;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
@@ -55,8 +55,8 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
-    @BindView(R.id.edit_username)
-    BuildBoardEditText editUserName;
+    @BindView(R.id.edit_useremail)
+    BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
     BuildBoardEditText editPassword;
     @BindView(R.id.text_forgot_password)
@@ -83,8 +83,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorIncorrectPassword;
     @BindString(R.string.error_select_user_type)
     String stringErrorSelectUserType;
-    @BindString(R.string.error_username_short)
-    String stringErrorUsernameTooShort;
+    @BindString(R.string.error_enter_valid_email)
+    String stringErrorInvalidEmail;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
     @BindView(R.id.constraint_root)
@@ -126,11 +126,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        String userName = editUserName.getText().toString();
+        String userEmail = editUserEmail.getText().toString();
         String password = editPassword.getText().toString();
 
-        if (validateFields(userName, password)) {
-            login(userName, password);
+        if (validateFields(userEmail, password)) {
+            login(userEmail, password);
         }
     }
 
@@ -159,13 +159,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         }
     }
 
-    private boolean validateFields(String userName, String password) {
+    private boolean validateFields(String userEmail, String password) {
 
-        if (TextUtils.isEmpty(userName)) {
+        if (TextUtils.isEmpty(userEmail)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
-        } else if (userName.length() < 3) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameTooShort);
+        } else if (!EmailValidator.validateEmail(userEmail)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail);
             return false;
         }
 
