@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
+import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
 import com.buildboard.view.BottomNavigationViewHelper;
 
@@ -64,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_profile:
                     setTitle(stringProfile);
+                    navigateFragment(ProfileFragment.newInstance());
                     return true;
             }
 

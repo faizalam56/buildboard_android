@@ -19,21 +19,24 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyConstractorsAdapter extends RecyclerView.Adapter<MyConstractorsAdapter.ViewHolder>{
+public class MyContractorsAdapter extends RecyclerView.Adapter<MyContractorsAdapter.ViewHolder>{
 
     private Context mContext;
+    private LayoutInflater mLayoutInflater;
 
-    public MyConstractorsAdapter(Context context) {
+    public MyContractorsAdapter(Context context) {
         mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = mLayoutInflater.inflate(R.layout.item_contractors, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyConstractorsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyContractorsAdapter.ViewHolder holder, int position) {
     }
 
     @Override
