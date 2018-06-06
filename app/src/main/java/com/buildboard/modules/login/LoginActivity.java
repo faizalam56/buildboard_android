@@ -1,5 +1,6 @@
 package com.buildboard.modules.login;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,13 +16,12 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
-import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
@@ -44,7 +44,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
@@ -55,29 +54,21 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
-
     @BindView(R.id.edit_username)
     EditText editUserName;
     @BindView(R.id.edit_password)
     EditText editPassword;
-
-    @BindView(R.id.text_user_type)
-    TextView textUserType;
     @BindView(R.id.text_forgot_password)
     TextView textForgotPassword;
     @BindView(R.id.text_sign_up)
     TextView textSignUp;
-
     @BindView(R.id.button_signin)
     Button buttonSignIn;
     @BindView(R.id.button_login_facebook)
     Button buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     Button buttonLoginGoogle;
-
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -94,12 +85,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorSelectUserType;
     @BindString(R.string.error_username_short)
     String stringErrorUsernameTooShort;
-
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
-
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +111,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
 
-                case USER_TYPE_REQUEST_CODE:
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
-
                 case RC_SIGN_IN:
                     handleGoogleSignInResult(data);
                     break;
@@ -136,33 +123,27 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        openActivity(SignUpActivity.class, false, false);
-    }
-
-    @OnClick(R.id.text_user_type)
-    void userTypeTapped() {
-        openActivity(SelectionActivity.class, true, false);
+        openActivity(SignUpActivity.class, false);
     }
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
         String userName = editUserName.getText().toString();
         String password = editPassword.getText().toString();
-        String userType = textUserType.getText().toString();
 
-        if (validateFields(userName, password, userType)) {
+        if (validateFields(userName, password)) {
             login(userName, password);
         }
     }
 
     @OnClick(R.id.text_forgot_password)
     void forgotPasswordTapped() {
-        openActivity(ForgotPasswordActivity.class, false, false);
+        openActivity(ForgotPasswordActivity.class, false);
     }
 
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
-                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
+                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn);
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
     }
 
@@ -186,11 +167,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         }
     }
 
-    private boolean validateFields(String userName, String password, String userType) {
-        if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
-            return false;
-        }
+    private boolean validateFields(String userName, String password) {
+
         if (TextUtils.isEmpty(userName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
@@ -210,13 +188,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return true;
     }
 
-    private void openActivity(Class classToReplace, boolean isStartForResult, boolean isClearStack) {
+    private void openActivity(Class classToReplace, boolean isClearStack) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
-        if (isStartForResult) {
-            intent.putExtra(DATA, new ArrayList<>(Arrays.asList(arrayUserType)));
-            intent.putExtra(INTENT_TITLE, stringUserType);
-            startActivityForResult(intent, USER_TYPE_REQUEST_CODE);
-        } else if (isClearStack) {
+        if (isClearStack) {
             Intent homeIntent = new Intent(LoginActivity.this, classToReplace);
             homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(homeIntent);
@@ -252,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                openActivity(HomeActivity.class, false, true);
+                openActivity(HomeActivity.class, true);
             }
         });
 
@@ -282,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         if (result != null && result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            openActivity(HomeActivity.class, false, true);
+            openActivity(HomeActivity.class, true);
         }
     }
 
@@ -323,12 +297,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
                 LoginData loginData = (LoginData) response;
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
-
-                if (loginData.getRole().equalsIgnoreCase(stringContractor))
-                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_CONTRACTOR);
-                else
-                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
-                openActivity(HomeActivity.class, false, true);
+                openActivity(HomeActivity.class, true);
             }
 
             @Override
