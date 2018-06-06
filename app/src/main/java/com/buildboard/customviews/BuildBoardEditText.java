@@ -1,4 +1,4 @@
-package com.buildboard.fonts;
+package com.buildboard.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;

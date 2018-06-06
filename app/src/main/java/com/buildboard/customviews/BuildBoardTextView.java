@@ -1,29 +1,29 @@
-package com.buildboard.fonts;
+package com.buildboard.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 
-public class BuildBoardButton extends Button {
+public class BuildBoardTextView extends TextView {
 
-    public BuildBoardButton(Context context) {
+    public BuildBoardTextView(Context context) {
         super(context);
         if (isInEditMode()) return;
         parseAttributes(null);
     }
 
-    public BuildBoardButton(Context context, AttributeSet attrs) {
+    public BuildBoardTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) return;
         parseAttributes(attrs);
     }
 
-    public BuildBoardButton(Context context, AttributeSet attrs, int defStyle) {
+    public BuildBoardTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (isInEditMode()) return;
         parseAttributes(attrs);
@@ -42,7 +42,6 @@ public class BuildBoardButton extends Button {
                     Roboto.sRobotoMedium = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_MEDIUM);
                 }
                 return Roboto.sRobotoMedium;
-
             case Roboto.ROBOTO_LIGHT:
                 if (Roboto.sRobotoLight == null) {
                     Roboto.sRobotoLight = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_LIGHT);
