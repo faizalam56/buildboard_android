@@ -8,7 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
@@ -17,6 +20,7 @@ import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
 import com.buildboard.view.BottomNavigationViewHelper;
 
+import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +34,10 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView textViewTitle;
+    @BindView(R.id.image_setting)
+    ImageView imageProfileSetting;
 
     @BindString(R.string.title_marketplace)
     String stringMarketPlace;
@@ -39,6 +47,12 @@ public class HomeActivity extends AppCompatActivity {
     String stringMailbox;
     @BindString(R.string.title_profile)
     String stringProfile;
+
+    @BindColor(R.color.colorPrimary)
+    int colorPrimary;
+    @BindColor(R.color.colorWhite)
+    int colorWhite;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,21 +64,29 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_marketplace:
                     setTitle(stringMarketPlace);
+                    toolbar.setVisibility(View.VISIBLE);
+                    changeToolbarColor(colorWhite, colorPrimary);
                     navigateFragment(MarketPlaceFragment.newInstance());
                     return true;
 
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
+                    toolbar.setVisibility(View.VISIBLE);
+                    changeToolbarColor(colorWhite, colorPrimary);
                     navigateFragment(ProjectsFragment.newInstance());
                     return true;
 
                 case R.id.navigation_mailbox:
                     setTitle(stringMailbox);
+                    changeToolbarColor(colorWhite, colorPrimary);
+                    toolbar.setVisibility(View.VISIBLE);
                     navigateFragment(MailboxFragment.newInstance());
                     return true;
 
                 case R.id.navigation_profile:
                     setTitle(stringProfile);
+                    changeToolbarColor(colorPrimary, colorWhite);
+                    imageProfileSetting.setVisibility(View.VISIBLE);
                     navigateFragment(ProfileFragment.newInstance());
                     return true;
             }
@@ -92,6 +114,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setTitle(String title) {
-        toolbar.setTitle(title);
+        textViewTitle.setText(title);
+    }
+
+    private void changeToolbarColor(int background, int text) {
+        toolbar.setBackgroundColor(background);
+        textViewTitle.setTextColor(text);
     }
 }
