@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 
 
 public class BuildBoardTextView extends TextView {
@@ -33,24 +34,24 @@ public class BuildBoardTextView extends TextView {
         switch (typeface) {
             case Roboto.ROBOTO_BOLD:
                 if (Roboto.sRobotoBold == null) {
-                    Roboto.sRobotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Bold.ttf");
+                    Roboto.sRobotoBold = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_BOLD);
                 }
                 return Roboto.sRobotoBold;
 
             case Roboto.ROBOTO_MEDIUM:
                 if (Roboto.sRobotoMedium == null) {
-                    Roboto.sRobotoMedium = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Medium.ttf");
+                    Roboto.sRobotoMedium = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_MEDIUM);
                 }
                 return Roboto.sRobotoMedium;
             case Roboto.ROBOTO_LIGHT:
                 if (Roboto.sRobotoLight == null) {
-                    Roboto.sRobotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+                    Roboto.sRobotoLight = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_LIGHT);
                 }
                 return Roboto.sRobotoLight;
 
             default:
                 if (Roboto.sRobotoRegular == null) {
-                    Roboto.sRobotoRegular = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+                    Roboto.sRobotoRegular = Typeface.createFromAsset(context.getAssets(), AppConstant.ROBOTO_REGULAR);
                 }
                 return Roboto.sRobotoRegular;
         }
