@@ -116,4 +116,5 @@
     <string name="current_project">current Project</string>
     <string name="completed_project">Completed Project</string>
     <string name="my_contractors">My Contractors</string>
+    <string name="profile_settings">Profile Settings</string>
 </resources>

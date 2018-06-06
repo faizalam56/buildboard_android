@@ -18,13 +18,15 @@ import butterknife.Unbinder;
 public class ProfileFragment extends Fragment {
 
     private static ProfileFragment sFragment;
-    @BindView(R.id.recycler_my_contactor)
-    RecyclerView recyclerMyConstractors;
     private Unbinder unbinder;
+
+    @BindView(R.id.recycler_my_contactor)
+    RecyclerView recyclerMyContractors;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
             sFragment = new ProfileFragment();
+
         return sFragment;
     }
 
@@ -32,14 +34,20 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         setProjectsRecycler();
+
         return view;
     }
 
     private void setProjectsRecycler() {
         MyContractorsAdapter myContractorsAdapter = new MyContractorsAdapter(getActivity());
-        recyclerMyConstractors.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerMyConstractors.setAdapter(myContractorsAdapter);
+        recyclerMyContractors.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerMyContractors.setAdapter(myContractorsAdapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
