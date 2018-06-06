@@ -10,11 +10,10 @@ import android.util.Log;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.BuildBoardButton;
-import com.buildboard.fonts.BuildBoardEditText;
-import com.buildboard.fonts.BuildBoardTextView;
+import com.buildboard.customviews.BuildBoardButton;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -299,8 +298,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }
