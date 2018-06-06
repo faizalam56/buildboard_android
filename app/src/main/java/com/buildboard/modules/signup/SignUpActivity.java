@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.BuildBoardButton;
-import com.buildboard.fonts.BuildBoardEditText;
-import com.buildboard.fonts.BuildBoardTextView;
+import com.buildboard.customviews.BuildBoardButton;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
@@ -147,6 +147,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringPhone;
     @BindString(R.string.email)
     String stringEmail;
+    @BindString(R.string.terms_of_service)
+    String stringTermsOfService;
+    @BindString(R.string.privacy_policy)
+    String stringPrivacyPolicy;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
@@ -155,7 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this,stringTermsOfService, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -164,10 +168,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
         }
 
         @Override
