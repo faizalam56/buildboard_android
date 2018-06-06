@@ -17,5 +17,4 @@ public interface AppConstant {
     String ROBOTO_LIGHT = "fonts/Roboto-Light.ttf";
     String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";
     String ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf";
-
 }
