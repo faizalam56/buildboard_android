@@ -22,9 +22,9 @@ import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
-import com.buildboard.utils.EmailValidator;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (TextUtils.isEmpty(userEmail)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
-        } else if (!EmailValidator.validateEmail(userEmail)) {
+        } else if (!Validator.validateEmail(userEmail)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail);
             return false;
         }
