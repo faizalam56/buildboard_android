@@ -9,7 +9,7 @@ public class GetAccessTokenResponse {
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<TokenData> tokenDataObject= new ArrayList<>();
+    private ArrayList<TokenData> tokenDataObject = new ArrayList<>();
     @SerializedName("error")
     private Error ErrorObject;
 
@@ -17,12 +17,12 @@ public class GetAccessTokenResponse {
         return status;
     }
 
-    public Error getError() {
-        return ErrorObject;
-    }
-
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Error getError() {
+        return ErrorObject;
     }
 
     public void setError(Error errorObject) {

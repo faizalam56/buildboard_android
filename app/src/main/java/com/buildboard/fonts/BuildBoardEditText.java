@@ -9,7 +9,6 @@ import android.widget.EditText;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 
-
 public class BuildBoardEditText extends EditText {
 
     public BuildBoardEditText(Context context) {
@@ -67,7 +66,6 @@ public class BuildBoardEditText extends EditText {
             typeface = values.getInt(R.styleable.BuildBoardWidget_typeface, Roboto.ROBOTO_REGULAR);
             values.recycle();
         }
-
         setTypeface(getRoboto(typeface));
     }
 

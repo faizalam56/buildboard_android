@@ -161,7 +161,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private boolean validateFields(String userEmail, String password) {
-
         if (TextUtils.isEmpty(userEmail)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;

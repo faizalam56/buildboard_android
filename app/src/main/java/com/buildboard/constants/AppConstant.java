@@ -13,9 +13,9 @@ public interface AppConstant {
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
     String IS_LOGIN = "is_login";
-    String ROBOTO_BOLD="fonts/Roboto-Bold.ttf";
-    String ROBOTO_LIGHT="fonts/Roboto-Light.ttf";
-    String ROBOTO_REGULAR="fonts/Roboto-Regular.ttf";
-    String ROBOTO_MEDIUM="fonts/Roboto-Medium.ttf";
+    String ROBOTO_BOLD = "fonts/Roboto-Bold.ttf";
+    String ROBOTO_LIGHT = "fonts/Roboto-Light.ttf";
+    String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";
+    String ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf";
 
 }

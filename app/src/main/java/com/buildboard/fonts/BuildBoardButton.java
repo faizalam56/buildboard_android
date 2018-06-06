@@ -9,7 +9,6 @@ import android.widget.Button;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 
-
 public class BuildBoardButton extends Button {
 
     public BuildBoardButton(Context context) {
@@ -67,7 +66,6 @@ public class BuildBoardButton extends Button {
             typeface = values.getInt(R.styleable.BuildBoardWidget_typeface, Roboto.ROBOTO_REGULAR);
             values.recycle();
         }
-
         setTypeface(getRoboto(typeface));
     }
 
