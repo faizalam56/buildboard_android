@@ -64,29 +64,25 @@ public class HomeActivity extends AppCompatActivity {
 
                 case R.id.navigation_marketplace:
                     setTitle(stringMarketPlace);
-                    toolbar.setVisibility(View.VISIBLE);
-                    changeToolbarColor(colorWhite, colorPrimary);
+                    changeToolbarColor(colorWhite, colorPrimary, false);
                     navigateFragment(MarketPlaceFragment.newInstance());
                     return true;
 
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
-                    toolbar.setVisibility(View.VISIBLE);
-                    changeToolbarColor(colorWhite, colorPrimary);
+                    changeToolbarColor(colorWhite, colorPrimary, false);
                     navigateFragment(ProjectsFragment.newInstance());
                     return true;
 
                 case R.id.navigation_mailbox:
                     setTitle(stringMailbox);
-                    changeToolbarColor(colorWhite, colorPrimary);
-                    toolbar.setVisibility(View.VISIBLE);
+                    changeToolbarColor(colorWhite, colorPrimary, false);
                     navigateFragment(MailboxFragment.newInstance());
                     return true;
 
                 case R.id.navigation_profile:
                     setTitle(stringProfile);
-                    changeToolbarColor(colorPrimary, colorWhite);
-                    imageProfileSetting.setVisibility(View.VISIBLE);
+                    changeToolbarColor(colorPrimary, colorWhite, true);
                     navigateFragment(ProfileFragment.newInstance());
                     return true;
             }
@@ -117,7 +113,8 @@ public class HomeActivity extends AppCompatActivity {
         textViewTitle.setText(title);
     }
 
-    private void changeToolbarColor(int background, int text) {
+    private void changeToolbarColor(int background, int text, boolean imageSettingVisibility) {
+        imageProfileSetting.setVisibility(imageSettingVisibility ? View.VISIBLE : View.GONE);
         toolbar.setBackgroundColor(background);
         textViewTitle.setTextColor(text);
     }
