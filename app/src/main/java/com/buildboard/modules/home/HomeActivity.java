@@ -53,7 +53,6 @@ public class HomeActivity extends AppCompatActivity {
     @BindColor(R.color.colorWhite)
     int colorWhite;
 
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

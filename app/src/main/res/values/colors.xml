@@ -36,5 +36,5 @@
     <color name="colorGrayMsgBackgorund">#f1eff2</color>
 
     <color name="colorRatingBar">#f1ce0a</color>
-    <color name="color_name">#434344</color>
+    <color name="colorProfileName">#434344</color>
 </resources>
