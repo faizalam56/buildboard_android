@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
@@ -25,18 +26,17 @@ public class InboxActivity extends AppCompatActivity {
 
     private final ArrayList<MessageModel> datas = new ArrayList<>();
     private InboxAdapter inboxAdapter;
+
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.recycler_messages)
     RecyclerView recyclerMessages;
-
     @BindView(R.id.edit_write_msg)
     EditText editWriteMsg;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.image_reply)
     ImageView imageReply;
-
     @BindView(R.id.button_save_as_draft)
     Button buttonSaveAsDraft;
 
@@ -49,7 +49,7 @@ public class InboxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inbox);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringInbox);
+        title.setText(stringInbox);
         setFonts();
         setInboxRecycler();
     }
