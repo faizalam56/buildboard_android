@@ -30,7 +30,7 @@
             android:paddingRight="@dimen/_15sdp"
             android:paddingTop="@dimen/_15sdp">
 
-            <TextView
+            <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_user_type"
                 style="@style/textSize_small"
                 android:background="@drawable/green_drawable_border"
@@ -38,7 +38,7 @@
                 android:paddingStart="@dimen/_5sdp"
                 android:text="@string/user_type" />
 
-            <EditText
+            <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -46,9 +46,10 @@
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/text_user_type" />
+                app:layout_constraintTop_toBottomOf="@+id/text_user_type"
+                app:typeface="robotoRegular" />
 
-            <EditText
+            <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_last_name"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -56,18 +57,20 @@
                 android:hint="@string/last_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/edit_first_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_first_name"
+                app:typeface="robotoRegular" />
 
-            <EditText
+            <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_email"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                app:layout_constraintTop_toBottomOf="@+id/edit_last_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
+                app:typeface="robotoRegular" />
 
-            <EditText
+            <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_password"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -75,7 +78,8 @@
                 android:hint="@string/password"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                app:layout_constraintTop_toBottomOf="@+id/edit_email" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_email"
+                app:typeface="robotoRegular" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
@@ -87,15 +91,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_password">
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_address"
                     style="@style/edit_text_size_small"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
-                    android:inputType="textPostalAddress" />
+                    android:inputType="textPostalAddress"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_phoneno"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -104,9 +109,10 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="14"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_address" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_contact_mode"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -115,7 +121,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:text="@string/preferred_contact_mode"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
+                    app:typeface="robotoRegular" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -129,16 +136,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container">
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_contractor_type"
                     style="@style/edit_text_size_small"
                     android:background="@drawable/green_drawable_border"
                     android:cursorVisible="false"
                     android:editable="false"
                     android:focusable="false"
-                    android:text="@string/type_of_contractor" />
+                    android:text="@string/type_of_contractor"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_business_name"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -146,9 +154,10 @@
                     android:hint="@string/business_name"
                     android:imeOptions="actionNext"
                     android:inputType="textPostalAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_contractor_type"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_business_address"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -156,9 +165,10 @@
                     android:hint="@string/business_address"
                     android:imeOptions="actionDone"
                     android:inputType="textPostalAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_business_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_name"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_working_area"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -167,9 +177,10 @@
                     android:editable="false"
                     android:focusable="false"
                     android:text="@string/working_area"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_business_address" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_business_address"
+                    app:typeface="robotoRegular" />
 
-                <EditText
+                <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_summary"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -177,11 +188,12 @@
                     android:hint="@string/brief_summary_of_your_company"
                     android:maxLines="5"
                     android:singleLine="false"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_working_area" />
+                    app:layout_constraintTop_toBottomOf="@+id/edit_working_area"
+                    app:typeface="robotoRegular" />
 
             </android.support.constraint.ConstraintLayout>
 
-            <Button
+            <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_next"
                 style="@style/button_style"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -189,9 +201,10 @@
                 android:text="@string/next"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container" />
+                app:layout_constraintTop_toBottomOf="@+id/constraint_contractor_address_container"
+                app:typeface="robotoRegular" />
 
-            <TextView
+            <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_terms_of_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -199,11 +212,12 @@
                 android:autoLink="all"
                 android:gravity="center"
                 android:linksClickable="true"
-                android:text="@string/privacy_policy"
+                android:text="@string/privacy_policy_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_next" />
+                app:layout_constraintTop_toBottomOf="@+id/button_next"
+                app:typeface="robotoRegular" />
 
         </android.support.constraint.ConstraintLayout>
 
