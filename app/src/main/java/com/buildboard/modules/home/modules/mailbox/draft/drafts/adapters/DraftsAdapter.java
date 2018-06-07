@@ -49,6 +49,10 @@ public class DraftsAdapter extends RecyclerView.Adapter<DraftsAdapter.ViewHolder
 
         @BindView(R.id.text_name)
         TextView textName;
+        @BindView(R.id.text_title)
+        TextView textTitle;
+        @BindView(R.id.text_subject)
+        TextView textSubject;
         @BindView(R.id.text_msg)
         TextView textMsg;
 
@@ -64,7 +68,7 @@ public class DraftsAdapter extends RecyclerView.Adapter<DraftsAdapter.ViewHolder
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMsg);
         }
     }

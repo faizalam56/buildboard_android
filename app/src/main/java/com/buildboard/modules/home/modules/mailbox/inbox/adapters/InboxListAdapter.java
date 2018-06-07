@@ -51,6 +51,8 @@ public class InboxListAdapter extends RecyclerView.Adapter<InboxListAdapter.View
         @BindView(R.id.text_name)
         TextView textName;
         @BindView(R.id.text_title)
+        TextView textTitle;
+        @BindView(R.id.text_subject)
         TextView textSubject;
         @BindView(R.id.text_msg)
         TextView textMessage;
@@ -67,7 +69,7 @@ public class InboxListAdapter extends RecyclerView.Adapter<InboxListAdapter.View
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textSubject);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMessage);
         }
     }
