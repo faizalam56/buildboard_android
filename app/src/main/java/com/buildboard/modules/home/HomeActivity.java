@@ -1,5 +1,6 @@
 package com.buildboard.modules.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,7 @@ import com.buildboard.R;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.profile.ProfileFragment;
+import com.buildboard.modules.home.modules.profile.ProfileSettingsActivity;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
 import com.buildboard.view.BottomNavigationViewHelper;
 
@@ -24,6 +26,7 @@ import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -116,5 +119,10 @@ public class HomeActivity extends AppCompatActivity {
         imageProfileSetting.setVisibility(imageSettingVisibility ? View.VISIBLE : View.GONE);
         toolbar.setBackgroundColor(background);
         textViewTitle.setTextColor(text);
+    }
+
+    @OnClick(R.id.image_setting)
+    void profileSettingTapped() {
+        startActivity(new Intent(this, ProfileSettingsActivity.class));
     }
 }

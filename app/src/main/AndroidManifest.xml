@@ -76,10 +76,10 @@
         <activity
             android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".modules.login.resetpassword.ResetPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -89,6 +89,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity" />
+        <activity android:name=".modules.home.modules.profile.ProfileSettingsActivity" />
     </application>
 
 </manifest>
