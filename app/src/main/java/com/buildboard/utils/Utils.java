@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.buildboard.http.ErrorManager;
+import com.buildboard.models.ErrorResponse;
 import com.squareup.picasso.Picasso;
 
 public class Utils {

@@ -35,7 +35,7 @@
     <string name="other">Other</string>
     <string name="type_of_contractor">Type of contractor</string>
     <string name="working_area">Working area/radius</string>
-    <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
+    <string name="privacy_policy_text">By signing up, you agree with the Terms of Service and Privacy Policy</string>
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
@@ -109,4 +109,19 @@
     <string name="please_wait">Please wait…</string>
     <string name="msg_please_wait">Please wait...</string>
     <string name="msg_no_data_found">No Data Found</string>
+    <string name="phone">Phone</string>
+    <string-array name="array_working_area">
+        <item>0 - 10 Kms</item>
+        <item>10 - 20 Kms</item>
+        <item>20 - 30 Kms</item>
+        <item>30 - 40 Kms</item>
+        <item>40 - 50 Kms</item>
+        <item>50 - 60 Kms</item>
+        <item>60 - 70 Kms</item>
+        <item>70 - 80 Kms</item>
+        <item>80 - 90 Kms</item>
+        <item>90 - 100 Kms</item>
+        <item>100 - Above</item>
+    </string-array>
+
 </resources>

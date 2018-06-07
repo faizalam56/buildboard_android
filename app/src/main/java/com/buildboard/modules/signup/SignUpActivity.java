@@ -12,16 +12,14 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.FontHelper;
+import com.buildboard.customviews.BuildBoardButton;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
@@ -36,6 +34,7 @@ import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -49,37 +48,36 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     Toolbar toolbar;
 
     @BindView(R.id.text_terms_of_service)
-    TextView textTermsOfService;
+    BuildBoardTextView textTermsOfService;
     @BindView(R.id.text_user_type)
-    TextView textUserType;
-
+    BuildBoardTextView textUserType;
     @BindView(R.id.edit_first_name)
-    EditText editFirstName;
+    BuildBoardEditText editFirstName;
     @BindView(R.id.edit_last_name)
-    EditText editLastName;
+    BuildBoardEditText editLastName;
     @BindView(R.id.edit_address)
-    EditText editAddress;
+    BuildBoardEditText editAddress;
     @BindView(R.id.edit_phoneno)
-    EditText editPhoneNo;
+    BuildBoardEditText editPhoneNo;
     @BindView(R.id.edit_contact_mode)
-    EditText editContactMode;
+    BuildBoardEditText editContactMode;
     @BindView(R.id.edit_email)
-    EditText editEmail;
+    BuildBoardEditText editEmail;
     @BindView(R.id.edit_password)
-    EditText editPassword;
+    BuildBoardEditText editPassword;
     @BindView(R.id.edit_contractor_type)
-    EditText editContractorType;
+    BuildBoardEditText editContractorType;
     @BindView(R.id.edit_working_area)
-    EditText editWorkingArea;
+    BuildBoardEditText editWorkingArea;
     @BindView(R.id.edit_business_name)
-    EditText editBusinessName;
+    BuildBoardEditText editBusinessName;
     @BindView(R.id.edit_business_address)
-    EditText editBusinessAddress;
+    BuildBoardEditText editBusinessAddress;
     @BindView(R.id.edit_summary)
-    EditText editSummary;
+    BuildBoardEditText editSummary;
 
     @BindView(R.id.button_next)
-    Button buttonNext;
+    BuildBoardButton buttonNext;
 
     @BindView(R.id.constraint_consumer_address_container)
     ConstraintLayout constraintConsumerAddressContainer;
@@ -145,13 +143,44 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringSignUp;
     @BindString(R.string.error_contractor_type)
     String stringErrorContractorType;
-
+    @BindString(R.string.phone)
+    String stringPhone;
+    @BindString(R.string.email)
+    String stringEmail;
+    @BindString(R.string.terms_of_service)
+    String stringTermsOfService;
+    @BindString(R.string.privacy_policy)
+    String stringPrivacyPolicy;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this,stringTermsOfService, Toast.LENGTH_SHORT).show();
+        }
 
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
     private ContractorTypeDetail contractorTypeDetail;
 
     @Override
@@ -161,7 +190,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         ButterKnife.bind(this);
 
         toolbar.setTitle(stringSignUp);
-        setFont();
         setTermsServiceText();
     }
 
@@ -196,37 +224,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Terms of Service", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, "Privacy Policy", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editAddress, editPhoneNo, editEmail, editFirstName, editLastName, editContactMode,
-                editContractorType, editWorkingArea, editBusinessName, editBusinessAddress, editSummary, textTermsOfService, textUserType, buttonNext);
-    }
-
     @OnClick(R.id.text_user_type)
     void userTypeTapped() {
         openActivity(SelectionActivity.class, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_REQUEST_CODE, stringUserType);
@@ -235,14 +232,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @OnClick(R.id.edit_contact_mode)
     void contactModeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringPreferredContactMode);
+        arrayList.add(stringPhone);
+        arrayList.add(stringEmail);
         openActivity(SelectionActivity.class, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
     }
 
     @OnClick(R.id.edit_working_area)
     void workingAreaTapped() {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(stringWorkingArea);
+        List<String> workingAreaList = Arrays.asList(getResources().getStringArray(R.array.array_working_area));
+        ArrayList<String> arrayList = new ArrayList<>(workingAreaList);
         openActivity(SelectionActivity.class, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
     }
 
@@ -379,11 +377,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(lastName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastName).show();
-            return false;
-        }*/
-
         if (TextUtils.isEmpty(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEmail).show();
             return false;
@@ -427,11 +420,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(summary)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSummary).show();
-            return false;
-        }*/
-
         return true;
     }
 
@@ -441,10 +429,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(phoneNo)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
-            return false;
-        } */
         if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;

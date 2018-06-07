@@ -7,26 +7,24 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.fonts.FontHelper;
+import com.buildboard.customviews.BuildBoardButton;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
-import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -56,29 +54,21 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
-
-    @BindView(R.id.edit_username)
-    EditText editUserName;
+    @BindView(R.id.edit_useremail)
+    BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
-    EditText editPassword;
-
-    @BindView(R.id.text_user_type)
-    TextView textUserType;
+    BuildBoardEditText editPassword;
     @BindView(R.id.text_forgot_password)
-    TextView textForgotPassword;
+    BuildBoardTextView textForgotPassword;
     @BindView(R.id.text_sign_up)
-    TextView textSignUp;
-
+    BuildBoardTextView textSignUp;
     @BindView(R.id.button_signin)
-    Button buttonSignIn;
+    BuildBoardButton buttonSignIn;
     @BindView(R.id.button_login_facebook)
-    Button buttonLoginFacebook;
+    BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
-    Button buttonLoginGoogle;
-
+    BuildBoardButton buttonLoginGoogle;
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -93,22 +83,20 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorIncorrectPassword;
     @BindString(R.string.error_select_user_type)
     String stringErrorSelectUserType;
-    @BindString(R.string.error_username_short)
-    String stringErrorUsernameTooShort;
-
+    @BindString(R.string.error_enter_valid_email)
+    String stringErrorInvalidEmail;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
-
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        setFont();
         getAccessToken();
     }
 
@@ -120,10 +108,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-
-                case USER_TYPE_REQUEST_CODE:
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
 
                 case RC_SIGN_IN:
                     handleGoogleSignInResult(data);
@@ -140,31 +124,19 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         openActivity(SignUpActivity.class, false, false);
     }
 
-    @OnClick(R.id.text_user_type)
-    void userTypeTapped() {
-        openActivity(SelectionActivity.class, true, false);
-    }
-
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        String userName = editUserName.getText().toString();
+        String userEmail = editUserEmail.getText().toString();
         String password = editPassword.getText().toString();
-        String userType = textUserType.getText().toString();
 
-        if (validateFields(userName, password, userType)) {
-            login(userName, password);
+        if (validateFields(userEmail, password)) {
+            login(userEmail, password);
         }
     }
 
     @OnClick(R.id.text_forgot_password)
     void forgotPasswordTapped() {
         openActivity(ForgotPasswordActivity.class, false, false);
-    }
-
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editPassword, editUserName, textForgotPassword, textSignUp,
-                buttonLoginFacebook, buttonLoginGoogle, buttonSignIn, textUserType);
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textForgotPassword);
     }
 
     @OnClick(R.id.button_login_facebook)
@@ -187,16 +159,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         }
     }
 
-    private boolean validateFields(String userName, String password, String userType) {
-        if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
-            return false;
-        }
-        if (TextUtils.isEmpty(userName)) {
+    private boolean validateFields(String userEmail, String password) {
+        if (TextUtils.isEmpty(userEmail)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameEmptyMsg);
             return false;
-        } else if (userName.length() < 3) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorUsernameTooShort);
+        } else if (!Validator.validateEmail(userEmail)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail);
             return false;
         }
 
@@ -304,8 +272,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             }
 
             @Override
-            public void onError(Object error) {
-                Utils.showError(LoginActivity.this, constraintRoot, error);
+            public void onError(Object response) {
+                Utils.showError(LoginActivity.this, constraintRoot, response);
             }
         });
     }
