@@ -1,5 +1,6 @@
 package com.buildboard.modules.login;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -14,8 +16,8 @@ import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
@@ -43,7 +45,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
@@ -55,6 +56,7 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
+
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
@@ -121,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        openActivity(SignUpActivity.class, false, false);
+        openActivity(SignUpActivity.class, false);
     }
 
     @OnClick(R.id.button_signin)
@@ -136,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_forgot_password)
     void forgotPasswordTapped() {
-        openActivity(ForgotPasswordActivity.class, false, false);
+        openActivity(ForgotPasswordActivity.class, false);
     }
 
     @OnClick(R.id.button_login_facebook)
@@ -179,13 +181,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return true;
     }
 
-    private void openActivity(Class classToReplace, boolean isStartForResult, boolean isClearStack) {
+    private void openActivity(Class classToReplace, boolean isClearStack) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
-        if (isStartForResult) {
-            intent.putExtra(DATA, new ArrayList<>(Arrays.asList(arrayUserType)));
-            intent.putExtra(INTENT_TITLE, stringUserType);
-            startActivityForResult(intent, USER_TYPE_REQUEST_CODE);
-        } else if (isClearStack) {
+        if (isClearStack) {
             Intent homeIntent = new Intent(LoginActivity.this, classToReplace);
             homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(homeIntent);
@@ -221,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                openActivity(HomeActivity.class, false, true);
+                openActivity(HomeActivity.class, true);
             }
         });
 
@@ -251,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         if (result != null && result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            openActivity(HomeActivity.class, false, true);
+            openActivity(HomeActivity.class, true);
         }
     }
 
@@ -292,7 +290,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
                 LoginData loginData = (LoginData) response;
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
-                openActivity(HomeActivity.class, false, true);
+                openActivity(HomeActivity.class, true);
             }
 
             @Override

@@ -13,6 +13,7 @@ public interface AppConstant {
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
     String IS_LOGIN = "is_login";
+    String IS_CONTRACTOR = "is_contractor";
     String ROBOTO_BOLD = "fonts/Roboto-Bold.ttf";
     String ROBOTO_LIGHT = "fonts/Roboto-Light.ttf";
     String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";

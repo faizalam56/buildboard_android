@@ -46,8 +46,20 @@
             style="@style/textSize_smaller"
             android:text="@string/near_by_contractors"
             android:layout_margin="@dimen/_10sdp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_services" />
+
+        <TextView
+            android:id="@+id/text_view_all_nearby"
+            style="@style/textSize_smaller"
+            android:text="@string/view_all"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/colorBlueLight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_services" />
 
         <android.support.v7.widget.RecyclerView
@@ -76,8 +88,20 @@
             style="@style/textSize_smaller"
             android:text="@string/contractors_by_project_type"
             android:layout_margin="@dimen/_10sdp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
+
+        <TextView
+            android:id="@+id/text_view_all_byproject"
+            style="@style/textSize_smaller"
+            android:text="@string/view_all"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/colorBlueLight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
 
         <android.support.v7.widget.RecyclerView

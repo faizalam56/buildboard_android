@@ -29,14 +29,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_service"
         android:layout_marginStart="@dimen/_5sdp" />
-
-    <TextView
-        android:id="@+id/text_service_provider_name"
-        style="@style/textSize_smaller"
-        android:text="John"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_service_name"
-        android:layout_marginStart="@dimen/_5sdp" />
 </android.support.constraint.ConstraintLayout>

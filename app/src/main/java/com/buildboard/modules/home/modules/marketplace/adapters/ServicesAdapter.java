@@ -52,8 +52,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         @BindView(R.id.text_service_name)
         TextView textServiceName;
-        @BindView(R.id.text_service_provider_name)
-        TextView textServiceProviderName;
 
         @BindView(R.id.image_service)
         ImageView imageService;
@@ -69,7 +67,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textServiceProviderName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT);
         }
 
         private void setData() {
@@ -77,7 +75,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             if (trendingService == null) return;
 
             textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
-            textServiceProviderName.setText(trendingService.getDescription() != null ? trendingService.getDescription().toString() : "N/A");
             Utils.display(mContext, trendingService.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
