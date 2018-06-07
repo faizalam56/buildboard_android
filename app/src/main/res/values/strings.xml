@@ -35,7 +35,7 @@
     <string name="other">Other</string>
     <string name="type_of_contractor">Type of contractor</string>
     <string name="working_area">Working area/radius</string>
-    <string name="privacy_policy">By signing up, you agree with the Terms of Service and Privacy Policy</string>
+    <string name="privacy_policy_text">By signing up, you agree with the Terms of Service and Privacy Policy</string>
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
@@ -112,6 +112,28 @@
     <string name="trending_projects">Trending Projects</string>
     <string name="near_by_projects">Near by Projects</string>
     <string name="projects_on_marketplace">Projects on marketplace</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="project_out_for_bid">Project out for Bid</string>
+    <string name="current_project">Current Project</string>
+    <string name="completed_project">Completed Project</string>
+    <string name="my_contractors">My Contractors</string>
+    <string name="profile_settings">Profile Settings</string>
+    <string name="phone">Phone</string>
+    <string-array name="array_working_area">
+        <item>0 - 10 Kms</item>
+        <item>10 - 20 Kms</item>
+        <item>20 - 30 Kms</item>
+        <item>30 - 40 Kms</item>
+        <item>40 - 50 Kms</item>
+        <item>50 - 60 Kms</item>
+        <item>60 - 70 Kms</item>
+        <item>70 - 80 Kms</item>
+        <item>80 - 90 Kms</item>
+        <item>90 - 100 Kms</item>
+        <item>100 - Above</item>
+    </string-array>
 
     <string name="reset_password">Reset Password</string>
     <string name="enter_password">Enter Password</string>
