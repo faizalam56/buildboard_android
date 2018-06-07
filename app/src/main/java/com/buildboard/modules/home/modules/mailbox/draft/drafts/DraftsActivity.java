@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.mailbox.draft.drafts.adapters.DraftsAdapter;
 import com.buildboard.view.SimpleDividerItemDecoration;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,8 @@ public class DraftsActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindString(R.string.drafts)
     String stringDrafts;
@@ -32,7 +37,7 @@ public class DraftsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drafts);
         ButterKnife.bind(this);
-        toolbar.setTitle(stringDrafts);
+        title.setText(stringDrafts);
         setServicesRecycler();
     }
 

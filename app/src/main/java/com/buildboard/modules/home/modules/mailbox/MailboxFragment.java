@@ -12,6 +12,7 @@ import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.mailbox.draft.drafts.DraftsActivity;
 import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
+import com.buildboard.modules.home.modules.mailbox.inbox.InboxListActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +54,7 @@ public class MailboxFragment extends Fragment {
 
     @OnClick(R.id.text_inbox)
     void inboxTapped() {
-        startActivity(new Intent(getActivity(), InboxActivity.class));
+        startActivity(new Intent(getActivity(), InboxListActivity.class));
     }
 
     @Override

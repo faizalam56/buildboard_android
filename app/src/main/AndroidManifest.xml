@@ -70,12 +70,13 @@
         <activity
             android:name=".modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".modules.home.modules.marketplace.contractors.ContractorsActivity"
+        <activity
+            android:name=".modules.home.modules.marketplace.contractors.ContractorsActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".modules.selection.ContractorTypeSelectionActivity"
+        <activity
+            android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity"></activity>
     </application>
 
 </manifest>
