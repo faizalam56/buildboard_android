@@ -37,7 +37,7 @@
             android:label="@string/payment_details"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".modules.forgotpassword.ForgotPasswordActivity"
+            android:name=".modules.login.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password"
             android:screenOrientation="portrait" />
         <activity
@@ -76,7 +76,18 @@
         <activity
             android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity"></activity>
+
+        <activity android:name=".modules.login.resetpassword.ResetPasswordActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="http://api.buildboardinc.biz/v1"
+                    android:scheme="buildboard" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

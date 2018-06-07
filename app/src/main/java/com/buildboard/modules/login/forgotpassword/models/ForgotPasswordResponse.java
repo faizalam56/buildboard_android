@@ -1,18 +1,17 @@
-package com.buildboard.modules.login.models.login;
+package com.buildboard.modules.login.forgotpassword.models;
 
-import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class LoginResponse {
+public class ForgotPasswordResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<LoginData> datas = new ArrayList<>();
+    private ArrayList<String> datas = new ArrayList<>();
     @SerializedName("error")
-    private ErrorResponse error;
+    private Error error;
 
     public String getStatus() {
         return status;
@@ -22,19 +21,19 @@ public class LoginResponse {
         this.status = status;
     }
 
-    public ErrorResponse getError() {
+    public Error getError() {
         return error;
     }
 
-    public void setError(ErrorResponse error) {
+    public void setError(Error error) {
         this.error = error;
     }
 
-    public ArrayList<LoginData> getDatas() {
+    public ArrayList<String> getDatas() {
         return datas;
     }
 
-    public void setDatas(ArrayList<LoginData> datas) {
+    public void setDatas(ArrayList<String> datas) {
         this.datas = datas;
     }
 }
