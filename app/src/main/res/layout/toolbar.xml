@@ -6,6 +6,34 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:elevation="5dp"
-    app:theme="@style/ToolBarStyle"
     android:minHeight="?attr/actionBarSize"
-    android:orientation="vertical" />
+    android:orientation="vertical"
+    app:theme="@style/ToolBarStyle">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            style="@style/textSize_large" />
+
+        <ImageView
+            android:id="@+id/image_setting"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_gravity="end"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            android:src="@drawable/settings" />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

@@ -149,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringEmail;
     @BindString(R.string.terms_of_service)
     String stringTermsOfService;
-    @BindString(R.string.privacy_policy)
+    @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
@@ -342,7 +342,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void setTermsServiceText() {
-        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy));
+        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy_text));
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
         styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
