@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
@@ -30,6 +31,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.edit_enter_password)
     EditText editEnterPassword;
@@ -59,7 +62,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reset_password);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringResetPassword);
+        title.setText(stringResetPassword);
         setFont();
         Uri uri = getIntent().getData();
         if (uri != null && uri.getSchemeSpecificPart() != null) {
