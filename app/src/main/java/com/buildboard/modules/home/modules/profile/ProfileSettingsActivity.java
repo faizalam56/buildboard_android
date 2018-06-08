@@ -1,17 +1,26 @@
 package com.buildboard.modules.home.modules.profile;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buildboard.R;
-import com.buildboard.fonts.FontHelper;
-
-import org.w3c.dom.Text;
+import com.buildboard.http.DataManager;
+import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
 
@@ -33,9 +42,15 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     TextView textContactUs;
     @BindView(R.id.text_logout)
     TextView textLogout;
+    @BindView(R.id.card_logout)
+    CardView Logout;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.settings)
     String stringSettings;
+    @BindString(R.string.successfullyLogout)
+    String stringLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +59,39 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         title.setText(stringSettings);
-        setFont();
+
     }
 
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textEditProfile, textManagePayment,
-                textPayment, textPrivacyPolicy, textTermsOfUse, textFaqs, textContactUs, textLogout);
+    @OnClick(R.id.card_logout)
+    public void CardLogout() {
+
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false,IS_LOGIN);
+                openActivity(LoginActivity.class, true);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(ProfileSettingsActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void openActivity(Class classToReplace, boolean isClearStack) {
+        Intent intent = new Intent(ProfileSettingsActivity.this, classToReplace);
+        if (isClearStack) {
+            Intent homeIntent = new Intent(ProfileSettingsActivity.this, classToReplace);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(homeIntent);
+            finish();
+        } else startActivity(intent);
     }
 }
+
+
