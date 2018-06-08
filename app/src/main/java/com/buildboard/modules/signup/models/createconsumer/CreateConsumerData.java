@@ -4,20 +4,51 @@ import com.google.gson.annotations.SerializedName;
 
 public class CreateConsumerData {
 
-    @SerializedName("id") private String id;
-    @SerializedName("email") private String email;
-    @SerializedName("n_token") private String nToken;
-    @SerializedName("admin_access") private String adminAccess;
-    @SerializedName("role") private String role;
-    @SerializedName("message") private String message;
-    @SerializedName("consumer_info") private ConsumerInfo consumerInfo;
+    @SerializedName("first_name")
+    private String firstName;
+    @SerializedName("last_name")
+    private String lastName;
+    @SerializedName("email")
+    private String email;
+    @SerializedName("phone_no")
+    private Integer phoneNo;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("contact_mode")
+    private String contactMode;
+    @SerializedName("latitude")
+    private Integer latitude;
+    @SerializedName("longitude")
+    private Integer longitude;
+    @SerializedName("image")
+    private String image;
+    @SerializedName("user_id")
+    private String userId;
+    @SerializedName("id")
+    private String id;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("message")
+    private String message;
+    @SerializedName("role")
+    private String role;
 
-    public String getId() {
-        return id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -28,28 +59,84 @@ public class CreateConsumerData {
         this.email = email;
     }
 
-    public String getnToken() {
-        return nToken;
+    public Integer getPhoneNo() {
+        return phoneNo;
     }
 
-    public void setnToken(String nToken) {
-        this.nToken = nToken;
+    public void setPhoneNo(Integer phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
-    public String getAdminAccess() {
-        return adminAccess;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdminAccess(String adminAccess) {
-        this.adminAccess = adminAccess;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getRole() {
-        return role;
+    public String getContactMode() {
+        return contactMode;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setContactMode(String contactMode) {
+        this.contactMode = contactMode;
+    }
+
+    public Integer getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Integer latitude) {
+        this.latitude = latitude;
+    }
+
+    public Integer getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Integer longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getMessage() {
@@ -60,11 +147,11 @@ public class CreateConsumerData {
         this.message = message;
     }
 
-    public ConsumerInfo getConsumerInfo() {
-        return consumerInfo;
+    public String getRole() {
+        return role;
     }
 
-    public void setConsumerInfo(ConsumerInfo consumerInfo) {
-        this.consumerInfo = consumerInfo;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -14,6 +14,8 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadRequest;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -242,6 +244,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ForgotPasswordResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void uploadImage(Activity activity, ImageUploadRequest imageUploadRequest, final DataManagerListener dataManagerListener) {
+        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                imageUploadRequest);
+        call.enqueue(new Callback<ImageUploadResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ImageUploadResponse> call, @NonNull Response<ImageUploadResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ImageUploadResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

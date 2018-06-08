@@ -24,6 +24,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
@@ -161,6 +162,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ConstraintLayout constraintRoot;
 
     private ContractorTypeDetail contractorTypeDetail;
+    private final int IMAGE_UPLOAD_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,11 +248,13 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String workingArea = editWorkingArea.getText().toString();
         String summary = editSummary.getText().toString();
 
-        if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+        Intent intent = new Intent(this, ImageUploadActivity.class);
+        startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE);
+        /*if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                 businessName, businessAddress, workingArea, summary)) {
             signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                    businessName, businessAddress, workingArea, summary);
-        }
+                    businessName, businessAddress, workingArea, summary);*/
+        //}
     }
 
     private void signUpMethod(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
@@ -276,6 +280,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
+                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -297,6 +302,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
+        consumerRequest.setImage("test.jpg"); //TODO: Add image upload screen and functionality
 
         return consumerRequest;
     }

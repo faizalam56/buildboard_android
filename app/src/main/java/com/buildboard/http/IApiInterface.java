@@ -8,6 +8,8 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadRequest;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -48,4 +50,7 @@ public interface IApiInterface {
 
     @POST("forgot-password")
     Call<ForgotPasswordResponse> forgotPassword(@Header("oauth") String oauth, @Body ForgotPasswordRequest shd);
+
+    @POST("media/upload")
+    Call<ImageUploadResponse> uploadImage(@Header("oauth") String oauth, @Body ImageUploadRequest imageUploadRequest);
 }
