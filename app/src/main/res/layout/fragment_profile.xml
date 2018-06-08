@@ -31,7 +31,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_name"
                     style="@style/textSize_large"
                     android:layout_width="match_parent"
@@ -40,12 +40,12 @@
                     android:gravity="center_horizontal"
                     android:text="Steve William"
                     android:textColor="@color/colorProfileName"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_profile" />
+                    app:layout_constraintTop_toBottomOf="@+id/image_profile"
+                    app:typeface="robotoMedium" />
 
-                <TextView
+                <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_email"
                     style="@style/textSize_small"
                     android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
-                <TextView
+                <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_phone"
                     style="@style/textSize_small"
                     android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_out_for_bid"
                 android:layout_width="@dimen/_125sdp"
                 android:layout_height="@dimen/_35sdp"
@@ -98,7 +98,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_current_project"
                 android:layout_width="@dimen/_125sdp"
                 android:layout_height="@dimen/_35sdp"
@@ -116,7 +116,7 @@
                 app:layout_constraintStart_toEndOf="@+id/button_out_for_bid"
                 app:layout_constraintTop_toTopOf="@+id/button_out_for_bid" />
 
-            <Button
+            <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_completed_projects"
                 android:layout_width="@dimen/_125sdp"
                 android:layout_height="@dimen/_35sdp"
@@ -133,7 +133,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_out_for_bid" />
 
-            <Button
+            <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_my_contractors"
                 android:layout_width="@dimen/_125sdp"
                 android:layout_height="@dimen/_35sdp"
@@ -152,7 +152,7 @@
                 app:layout_constraintTop_toTopOf="@+id/button_completed_projects"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
+            <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

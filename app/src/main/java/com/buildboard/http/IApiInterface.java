@@ -2,6 +2,7 @@ package com.buildboard.http;
 
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -39,13 +40,15 @@ public interface IApiInterface {
     @POST("login")
     Call<LoginResponse> login(@Header("oauth") String oauth, @Body LoginRequest loginRequest);
 
+    @GET("logout")
+    Call<LogoutResponse> logout(@Header("oauth")String oauth,@Header("session") String sessionId);
+
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
 
     @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
                                                                      @Query("page") int page, @Query("radius") float radius, @Query("per_page") int perPage);
-
     @POST("forgot-password")
     Call<ForgotPasswordResponse> forgotPassword(@Header("oauth") String oauth, @Body ForgotPasswordRequest shd);
 }
