@@ -86,8 +86,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
