@@ -93,5 +93,3 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         } else startActivity(intent);
     }
 }
-
-
