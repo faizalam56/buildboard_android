@@ -12,6 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -46,6 +47,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -156,31 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this,stringTermsOfService, Toast.LENGTH_SHORT).show();
-        }
 
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
     private ContractorTypeDetail contractorTypeDetail;
 
     @Override
@@ -189,7 +168,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringSignUp);
+        title.setText(stringSignUp);
         setTermsServiceText();
     }
 
@@ -461,4 +440,30 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             }
         });
     }
+
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this,stringTermsOfService, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
 }
