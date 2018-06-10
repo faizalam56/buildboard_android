@@ -9,17 +9,22 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -41,7 +46,7 @@ public interface IApiInterface {
     Call<LoginResponse> login(@Header("oauth") String oauth, @Body LoginRequest loginRequest);
 
     @GET("logout")
-    Call<LogoutResponse> logout(@Header("oauth")String oauth,@Header("session") String sessionId);
+    Call<LogoutResponse> logout(@Header("oauth") String oauth, @Header("session") String sessionId);
 
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
@@ -49,6 +54,11 @@ public interface IApiInterface {
     @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
                                                                      @Query("page") int page, @Query("radius") float radius, @Query("per_page") int perPage);
+
     @POST("forgot-password")
     Call<ForgotPasswordResponse> forgotPassword(@Header("oauth") String oauth, @Body ForgotPasswordRequest shd);
+
+    @Multipart
+    @POST("media/upload")
+    Call<ImageUploadResponse> uploadImage(@Header("oauth") String oauth, @Part("type") RequestBody userType, @Part("file_type") RequestBody type, @Part MultipartBody.Part file);
 }

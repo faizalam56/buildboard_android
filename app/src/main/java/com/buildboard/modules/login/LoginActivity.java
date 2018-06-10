@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     BuildBoardButton buttonLoginGoogle;
+
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -290,6 +291,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
                 LoginData loginData = (LoginData) response;
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
+
+                if (loginData.getRole().equalsIgnoreCase(stringContractor))
+                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_CONTRACTOR);
+                else
+                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
+
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(),SESSION_ID);
                 openActivity(HomeActivity.class, true);
             }

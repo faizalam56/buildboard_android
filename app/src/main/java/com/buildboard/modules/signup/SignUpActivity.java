@@ -12,6 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -23,6 +24,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
+import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
@@ -46,6 +48,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -159,7 +163,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this,stringTermsOfService, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -168,7 +172,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
-
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -189,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringSignUp);
+        title.setText(stringSignUp);
         setTermsServiceText();
     }
 
@@ -220,6 +223,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     showUserTypeUI(textUserType.getText().toString());
                     break;
+
+                case IMAGE_UPLOAD_REQUEST_CODE:
+                    createAccount();
             }
         }
     }
@@ -253,6 +259,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
+
         String userType = textUserType.getText().toString();
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
@@ -269,8 +276,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                 businessName, businessAddress, workingArea, summary)) {
-            signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                    businessName, businessAddress, workingArea, summary);
+
+            Intent intent = new Intent(this, ImageUploadActivity.class);
+            startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE);
         }
     }
 
@@ -297,6 +305,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
+                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -318,6 +327,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
+        consumerRequest.setImage("test.jpg"); //TODO: Add image upload screen and functionality
 
         return consumerRequest;
     }
@@ -460,5 +470,27 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
+    }
+
+    private void createAccount() {
+        String userType = textUserType.getText().toString();
+        String firstName = editFirstName.getText().toString();
+        String lastName = editLastName.getText().toString();
+        String email = editEmail.getText().toString();
+        String password = editPassword.getText().toString();
+        String address = editAddress.getText().toString();
+        String phoneNo = editPhoneNo.getText().toString();
+        String contactMode = editContactMode.getText().toString();
+        String typeOfContractor = editContractorType.getText().toString();
+        String businessName = editBusinessName.getText().toString();
+        String businessAddress = editBusinessAddress.getText().toString();
+        String workingArea = editWorkingArea.getText().toString();
+        String summary = editSummary.getText().toString();
+
+        if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+                businessName, businessAddress, workingArea, summary)) {
+            signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
+                    businessName, businessAddress, workingArea, summary);
+        }
     }
 }

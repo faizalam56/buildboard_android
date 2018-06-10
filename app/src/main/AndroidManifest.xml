@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.buildboard">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="false"
@@ -90,6 +94,7 @@
         </activity>
         <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity" />
         <activity android:name=".modules.home.modules.profile.ProfileSettingsActivity" />
+        <activity android:name=".modules.signup.imageupload.ImageUploadActivity" />
     </application>
 
 </manifest>

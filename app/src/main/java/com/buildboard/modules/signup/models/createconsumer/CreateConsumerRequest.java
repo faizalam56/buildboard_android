@@ -13,6 +13,7 @@ public class CreateConsumerRequest implements Serializable {
     @SerializedName("address") private String address;
     @SerializedName("phone_no") private String phoneNo;
     @SerializedName("contact_mode") private String contactMode;
+    @SerializedName("image") private String image;
 
     public String getFirstName() {
         return firstName;
@@ -68,5 +69,13 @@ public class CreateConsumerRequest implements Serializable {
 
     public void setContactMode(String contactMode) {
         this.contactMode = contactMode;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

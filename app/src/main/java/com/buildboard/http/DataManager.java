@@ -15,6 +15,7 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -24,7 +25,9 @@ import com.buildboard.preferences.AppPreference;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -248,6 +251,28 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
+    public void uploadImage(Activity activity, RequestBody file, RequestBody fileType, MultipartBody.Part image, final DataManagerListener dataManagerListener) {
+        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                file, fileType, image);
+        call.enqueue(new Callback<ImageUploadResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ImageUploadResponse> call, @NonNull Response<ImageUploadResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ImageUploadResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
     public void logout(Activity activity, final DataManagerListener dataManagerListener) {
         Call<LogoutResponse> call = getDataManager().logout(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<LogoutResponse>() {
