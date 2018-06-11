@@ -159,4 +159,5 @@
     <string name="save">Save</string>
     <string name="please_pick_image">Please pick image</string>
     <string name="successfullyLogout">You have successfully logged out.</string>
+    <string name="please_select_image">Please select image</string>
 </resources>

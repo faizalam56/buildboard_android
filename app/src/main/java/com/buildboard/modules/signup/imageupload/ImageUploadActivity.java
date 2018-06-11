@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,15 +33,15 @@ import okhttp3.RequestBody;
 
 public class ImageUploadActivity extends AppCompatActivity implements AppConstant {
 
+    private final int REQUEST_CODE = 2001;
+    private Uri selectedImage;
+
     @BindView(R.id.image_profile)
     ImageView imageProfile;
     @BindView(R.id.button_save)
     Button buttonSave;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
-
-    private final int REQUEST_CODE = 2001;
-    private Uri selectedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,28 +59,25 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
     @OnClick(R.id.button_save)
     void saveButtonTapped() {
         if (selectedImage == null) {
-            Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT).show(); //TODO remove hardcoded strings
+            Toast.makeText(this, R.string.please_select_image, Toast.LENGTH_SHORT).show();
             return;
-        } else uploadImage(this, prepareFilePart("file[0]", Utils.getImagePath(this, selectedImage)));
+        } else
+            uploadImage(this, prepareFilePart("file[0]", Utils.getImagePath(this, selectedImage)));
     }
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
-
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ?
-                "contractor" : "consumer"); //TODO remove hardcoded strings
-        RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image"); //TODO remove hardcoded strings
-
+                getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
+        RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
         DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-
                 ImageUploadResponse imageUploadResponse = (ImageUploadResponse) response;
                 Intent intent = new Intent();
                 intent.putExtra(INTENT_IMAGE_URL, imageUploadResponse.getData().get(0));
                 setResult(RESULT_OK, intent);
-
                 finish();
             }
 
@@ -101,7 +98,6 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 imageProfile.setImageBitmap(bitmap);
-                Log.i("TAG", "uri:----" + selectedImage);
             } catch (IOException e) {
                 Log.i("TAG", "Some exception " + e);
             }

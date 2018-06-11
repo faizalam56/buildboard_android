@@ -92,6 +92,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_contractor_address_container)
     ConstraintLayout constraintContractorAddressContainer;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -163,32 +165,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
 
-    @BindView(R.id.constraint_root)
-    ConstraintLayout constraintRoot;
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
     private ContractorTypeDetail contractorTypeDetail;
 
     @Override
@@ -281,7 +257,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                 businessName, businessAddress, workingArea, summary)) {
-
             Intent intent = new Intent(this, ImageUploadActivity.class);
             startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE);
         }
@@ -297,7 +272,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         } else {
             createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
         }
-
     }
 
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
@@ -320,7 +294,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
-
     }
 
     private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
@@ -340,26 +313,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setLongitude(String.valueOf(latLng.longitude));
 
         return consumerRequest;
-    }
-
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng p1 = null;
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return p1;
     }
 
     private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
@@ -523,4 +476,48 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     businessName, businessAddress, workingArea, summary, imageUrl);
         }
     }
+
+    private LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng addressLatLng = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null)
+                return null;
+
+            Address location = address.get(0);
+            addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return addressLatLng;
+    }
+
+    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
+
+    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setColor(getResources().getColor(R.color.colorGreen));
+        }
+    };
 }
