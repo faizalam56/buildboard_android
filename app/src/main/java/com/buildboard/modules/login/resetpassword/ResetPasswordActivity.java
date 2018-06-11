@@ -64,11 +64,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         title.setText(stringResetPassword);
         setFont();
-        Uri uri = getIntent().getData();
-        if (uri != null && uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-        }
-        apiKey = splitApiKey();
+        //Uri uri = getIntent().getData();
     }
 
     @OnClick(R.id.button_reset_password)
@@ -78,18 +74,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (validate(password, confirmPassword)) {
              resetPassword(password);
         }
-    }
-
-    private String splitApiKey() {
-        Uri uri = getIntent().getData();
-        String apiKey = null;
-        assert uri != null;
-        if (uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
-        }
-
-        return apiKey;
     }
 
     private boolean validate(String password, String confirmPassword) {
@@ -118,7 +102,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void resetPassword(String password) {
         ProgressHelper.start(this, stringPleaseWait);
 
-        /*DataManager.getInstance().resetPassword(this, apiKey, password, new DataManager.DataManagerListener() {
+        DataManager.getInstance().resetPassword(this, password, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
@@ -130,6 +114,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 ErrorManager errorManager = new ErrorManager(ResetPasswordActivity.this, constraintRoot, error);
                 errorManager.handleErrorResponse();
             }
-        });*/
+        });
     }
 }

@@ -9,6 +9,7 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
@@ -61,4 +62,7 @@ public interface IApiInterface {
     @Multipart
     @POST("media/upload")
     Call<ImageUploadResponse> uploadImage(@Header("oauth") String oauth, @Part("type") RequestBody userType, @Part("file_type") RequestBody type, @Part MultipartBody.Part file);
+
+    @GET("resetpassword/{passkey}/password")
+    Call<ResetPasswordResponse> resetPassword(@Header("oauth") String oauth, @Path("passkey") String newPassword);
 }
