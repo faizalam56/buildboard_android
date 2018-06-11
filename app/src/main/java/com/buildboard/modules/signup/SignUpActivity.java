@@ -1,9 +1,11 @@
 package com.buildboard.modules.signup;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
+import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
@@ -168,6 +171,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringEnterValidAddress;
 
     private ContractorTypeDetail contractorTypeDetail;
+    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
+    private final int REQUEST_PERMISSION_CODE = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +182,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         title.setText(stringSignUp);
         setTermsServiceText();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionHelper permission = new PermissionHelper(this);
+            if (!permission.checkPermission(permissions))
+                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+        }
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.buildboard.modules.signup.imageupload;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
@@ -17,6 +19,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
+import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
@@ -35,6 +38,8 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
 
     private final int REQUEST_CODE = 2001;
     private Uri selectedImage;
+    private final String[] permissions = { Manifest.permission.READ_EXTERNAL_STORAGE };
+    private final int REQUEST_PERMISSION_CODE = 300;
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
@@ -48,6 +53,12 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_upload);
         ButterKnife.bind(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionHelper permission = new PermissionHelper(this);
+            if (!permission.checkPermission(permissions))
+                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+        }
     }
 
     @OnClick(R.id.image_profile)
