@@ -164,6 +164,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringPrivacyPolicy;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
+    @BindString(R.string.please_enter_a_valid_address)
+    String stringEnterValidAddress;
 
     private ContractorTypeDetail contractorTypeDetail;
 
@@ -275,8 +277,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
+        if (consumerRequest.getLatitude() == null || consumerRequest.getLongitude() == null) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterValidAddress);
+            return;
+        }
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
@@ -309,8 +315,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             consumerRequest.setImage(imageUrl);
 
         LatLng latLng = getLocationFromAddress(getApplicationContext(), address);
-        consumerRequest.setLatitude(String.valueOf(latLng.latitude));
-        consumerRequest.setLongitude(String.valueOf(latLng.longitude));
+        if (latLng != null) {
+            consumerRequest.setLatitude(String.valueOf(latLng.latitude));
+            consumerRequest.setLongitude(String.valueOf(latLng.longitude));
+        }
 
         return consumerRequest;
     }
@@ -483,7 +491,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         LatLng addressLatLng = null;
         try {
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null)
+            if (address == null || address.size() <= 0)
                 return null;
 
             Address location = address.get(0);
