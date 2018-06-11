@@ -78,7 +78,7 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
 
                 ImageUploadResponse imageUploadResponse = (ImageUploadResponse) response;
                 Intent intent = new Intent();
-                intent.putExtra(INTENT_SELECTED_ITEM, imageUploadResponse.getData().toString());
+                intent.putExtra(INTENT_IMAGE_URL, imageUploadResponse.getData().get(0));
                 setResult(RESULT_OK, intent);
 
                 finish();

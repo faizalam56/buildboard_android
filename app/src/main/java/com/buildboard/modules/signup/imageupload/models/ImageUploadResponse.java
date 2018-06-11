@@ -42,5 +42,4 @@ public class ImageUploadResponse {
     public void setError(ErrorResponse error) {
         this.error = error;
     }
-
 }

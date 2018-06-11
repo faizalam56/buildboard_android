@@ -11,15 +11,15 @@ public class CreateConsumerData {
     @SerializedName("email")
     private String email;
     @SerializedName("phone_no")
-    private Integer phoneNo;
+    private String phoneNo;
     @SerializedName("address")
     private String address;
     @SerializedName("contact_mode")
     private String contactMode;
     @SerializedName("latitude")
-    private Integer latitude;
+    private String latitude;
     @SerializedName("longitude")
-    private Integer longitude;
+    private String longitude;
     @SerializedName("image")
     private String image;
     @SerializedName("user_id")
@@ -59,11 +59,11 @@ public class CreateConsumerData {
         this.email = email;
     }
 
-    public Integer getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(Integer phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
@@ -83,19 +83,19 @@ public class CreateConsumerData {
         this.contactMode = contactMode;
     }
 
-    public Integer getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public Integer getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 

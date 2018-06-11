@@ -1,6 +1,9 @@
 package com.buildboard.modules.signup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +36,9 @@ import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
+import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -225,7 +230,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
 
                 case IMAGE_UPLOAD_REQUEST_CODE:
-                    createAccount();
+                    createAccount(data.getStringExtra(INTENT_IMAGE_URL));
             }
         }
     }
@@ -282,7 +287,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    private void signUpMethod(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
+    private void signUpMethod(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary, String imageUrl) {
 
         if (userType.equals(stringContractor)) {
             Intent intent = new Intent(SignUpActivity.this, PaymentDetailsActivity.class);
@@ -290,14 +295,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     businessName, businessAddress, workingArea, summary));
             startActivity(intent);
         } else {
-            createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode);
+            createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
         }
 
     }
 
-    private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
+    private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode);
+        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
         DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
@@ -318,7 +323,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     }
 
-    private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
+    private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
         CreateConsumerRequest consumerRequest = new CreateConsumerRequest();
         consumerRequest.setFirstName(firstName);
         consumerRequest.setLastName(lastName);
@@ -327,9 +332,34 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
-        consumerRequest.setImage("test.jpg"); //TODO: Add image upload screen and functionality
+        if (!TextUtils.isEmpty(imageUrl))
+            consumerRequest.setImage(imageUrl);
+
+        LatLng latLng = getLocationFromAddress(getApplicationContext(), address);
+        consumerRequest.setLatitude(String.valueOf(latLng.latitude));
+        consumerRequest.setLongitude(String.valueOf(latLng.longitude));
 
         return consumerRequest;
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return p1;
     }
 
     private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
@@ -472,7 +502,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         });
     }
 
-    private void createAccount() {
+    private void createAccount(String imageUrl) {
         String userType = textUserType.getText().toString();
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
@@ -490,7 +520,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
                 businessName, businessAddress, workingArea, summary)) {
             signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                    businessName, businessAddress, workingArea, summary);
+                    businessName, businessAddress, workingArea, summary, imageUrl);
         }
     }
 }
