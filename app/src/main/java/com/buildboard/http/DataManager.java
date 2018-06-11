@@ -17,6 +17,7 @@ import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -314,6 +315,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ResetPasswordResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void activateUser(Activity activity, String apiKey, final DataManagerListener dataManagerListener) {
+        Call<ActivateUserResponse> call = getDataManager().activateUser(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), apiKey);
+        call.enqueue(new Callback<ActivateUserResponse>() {
+            @Override
+            public void onResponse(Call<ActivateUserResponse> call, Response<ActivateUserResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ActivateUserResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

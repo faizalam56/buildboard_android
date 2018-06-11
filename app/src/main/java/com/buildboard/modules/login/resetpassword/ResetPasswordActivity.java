@@ -64,7 +64,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         title.setText(stringResetPassword);
         setFont();
-        //Uri uri = getIntent().getData();
     }
 
     @OnClick(R.id.button_reset_password)

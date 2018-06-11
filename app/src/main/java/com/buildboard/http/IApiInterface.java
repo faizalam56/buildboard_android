@@ -11,6 +11,7 @@ import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -65,4 +66,7 @@ public interface IApiInterface {
 
     @GET("resetpassword/{passkey}/password")
     Call<ResetPasswordResponse> resetPassword(@Header("oauth") String oauth, @Path("passkey") String newPassword);
+
+    @POST("user/activate/{passkey}")
+    Call<ActivateUserResponse> activateUser(@Header("oauth") String oauth, @Path("passkey") String newPassword);
 }

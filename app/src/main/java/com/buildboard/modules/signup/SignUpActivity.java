@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -26,10 +27,14 @@ import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.modules.login.resetpassword.ResetPasswordActivity;
 import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
@@ -169,10 +174,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String[] arrayUserType;
     @BindString(R.string.please_enter_a_valid_address)
     String stringEnterValidAddress;
+    @BindString(R.string.please_wait)
+    String stringPleaseWait;
 
     private ContractorTypeDetail contractorTypeDetail;
     private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
     private final int REQUEST_PERMISSION_CODE = 300;
+    private String apiKey;
+    private String schemaSpecificPart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +197,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
         }
+
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = splitApiKey();
+        }
+
+        if (!TextUtils.isEmpty(apiKey))
+            verifyUser(apiKey);
     }
 
     @Override
@@ -512,6 +530,39 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
 
         return addressLatLng;
+    }
+
+    private String splitApiKey() {
+        Uri uri = getIntent().getData();
+        String apiKey = null;
+        assert uri != null;
+        if (uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
+        }
+
+        return apiKey;
+    }
+
+    private void verifyUser(String apiKey) {
+        ProgressHelper.start(this, stringPleaseWait);
+
+        DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
+                Toast.makeText(SignUpActivity.this, activateUserResponse.getDatas().get(0), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
+            }
+        });
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
