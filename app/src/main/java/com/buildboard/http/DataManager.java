@@ -15,6 +15,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
+import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
@@ -24,7 +27,9 @@ import com.buildboard.preferences.AppPreference;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -248,6 +253,29 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
+    public void uploadImage(Activity activity, RequestBody file, RequestBody fileType, MultipartBody.Part image, final DataManagerListener dataManagerListener) {
+        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                file, fileType, image);
+        call.enqueue(new Callback<ImageUploadResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ImageUploadResponse> call, @NonNull Response<ImageUploadResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ImageUploadResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
     public void logout(Activity activity, final DataManagerListener dataManagerListener) {
         Call<LogoutResponse> call = getDataManager().logout(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<LogoutResponse>() {
@@ -265,6 +293,50 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<LogoutResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void resetPassword(Activity activity, String newPassword, final DataManagerListener dataManagerListener) {
+        Call<ResetPasswordResponse> call = getDataManager().resetPassword(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), newPassword);
+        call.enqueue(new Callback<ResetPasswordResponse>() {
+            @Override
+            public void onResponse(Call<ResetPasswordResponse> call, Response<ResetPasswordResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResetPasswordResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void activateUser(Activity activity, String apiKey, final DataManagerListener dataManagerListener) {
+        Call<ActivateUserResponse> call = getDataManager().activateUser(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), apiKey);
+        call.enqueue(new Callback<ActivateUserResponse>() {
+            @Override
+            public void onResponse(Call<ActivateUserResponse> call, Response<ActivateUserResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ActivateUserResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

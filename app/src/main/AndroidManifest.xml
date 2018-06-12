@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.buildboard">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="false"
@@ -28,7 +32,17 @@
         <activity
             android:name=".modules.signup.SignUpActivity"
             android:label="@string/sign_up"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="buildboard" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait" />
@@ -76,20 +90,24 @@
         <activity
             android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".modules.login.resetpassword.ResetPasswordActivity">
+
+        <activity
+            android:name=".modules.login.resetpassword.ResetPasswordActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="http://api.buildboardinc.biz/v1"
-                    android:scheme="buildboard" />
+                <data android:scheme="buildboardreset" />
             </intent-filter>
         </activity>
+
         <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity" />
         <activity android:name=".modules.home.modules.profile.ProfileSettingsActivity" />
+        <activity android:name=".modules.signup.imageupload.ImageUploadActivity" />
+
     </application>
 
 </manifest>

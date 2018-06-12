@@ -1,16 +1,17 @@
-package com.buildboard.modules.signup.models.createconsumer;
+package com.buildboard.modules.signup.models.activateuser;
 
 import com.buildboard.models.ErrorResponse;
+import com.buildboard.modules.signup.models.createcontractor.CreateContractorDetail;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class CreateConsumerResponse {
+public class ActivateUserResponse {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<CreateConsumerData> datas = new ArrayList<>();
+    private ArrayList<String> datas = new ArrayList<>();
     @SerializedName("error")
     private ErrorResponse error;
 
@@ -30,11 +31,11 @@ public class CreateConsumerResponse {
         this.error = error;
     }
 
-    public ArrayList<CreateConsumerData> getDatas() {
+    public ArrayList<String> getDatas() {
         return datas;
     }
 
-    public void setDatas(ArrayList<CreateConsumerData> datas) {
+    public void setDatas(ArrayList<String> datas) {
         this.datas = datas;
     }
 }

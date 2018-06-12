@@ -20,4 +20,7 @@ public interface AppConstant {
     String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";
     String ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf";
     String LOGOUT = "logout";
+
+    int IMAGE_UPLOAD_REQUEST_CODE = 200;
+    String INTENT_IMAGE_URL = "intent_image_url";
 }

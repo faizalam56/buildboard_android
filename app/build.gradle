@@ -7,7 +7,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -53,5 +53,6 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:15.0.0'
     compile 'com.google.android.gms:play-services-auth:15.0.0'
     compile 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.android.gms:play-services-maps:15.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

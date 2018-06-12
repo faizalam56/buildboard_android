@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
@@ -25,11 +26,10 @@ import butterknife.OnClick;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private String schemaSpecificPart;
-    private String apiKey;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.edit_enter_password)
     EditText editEnterPassword;
@@ -59,13 +59,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reset_password);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringResetPassword);
+        title.setText(stringResetPassword);
         setFont();
-        Uri uri = getIntent().getData();
-        if (uri != null && uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-        }
-        apiKey = splitApiKey();
     }
 
     @OnClick(R.id.button_reset_password)
@@ -75,18 +70,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (validate(password, confirmPassword)) {
              resetPassword(password);
         }
-    }
-
-    private String splitApiKey() {
-        Uri uri = getIntent().getData();
-        String apiKey = null;
-        assert uri != null;
-        if (uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
-        }
-
-        return apiKey;
     }
 
     private boolean validate(String password, String confirmPassword) {
@@ -115,7 +98,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void resetPassword(String password) {
         ProgressHelper.start(this, stringPleaseWait);
 
-        /*DataManager.getInstance().resetPassword(this, apiKey, password, new DataManager.DataManagerListener() {
+        DataManager.getInstance().resetPassword(this, password, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
@@ -127,6 +110,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 ErrorManager errorManager = new ErrorManager(ResetPasswordActivity.this, constraintRoot, error);
                 errorManager.handleErrorResponse();
             }
-        });*/
+        });
     }
 }

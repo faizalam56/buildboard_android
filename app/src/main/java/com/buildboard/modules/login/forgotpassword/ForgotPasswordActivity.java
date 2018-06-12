@@ -16,15 +16,10 @@ import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
-import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
-import com.buildboard.modules.signup.SignUpActivity;
-import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-
-import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -35,6 +30,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.text_reset_password_msg)
     TextView textResetPasswordMsg;
@@ -58,7 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
 
-        toolbar.setTitle(stringFrogotPassword);
+        title.setText(stringFrogotPassword);
         setFont();
     }
 

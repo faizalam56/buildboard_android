@@ -56,6 +56,8 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     BuildBoardButton buttonLoginGoogle;
+
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -91,8 +94,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String[] arrayUserType;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-
                 case RC_SIGN_IN:
                     handleGoogleSignInResult(data);
                     break;
@@ -290,6 +290,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
                 LoginData loginData = (LoginData) response;
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
+
+                if (loginData.getRole().equalsIgnoreCase(stringContractor)) {
+                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_CONTRACTOR);
+                } else {
+                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
+                }
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(),SESSION_ID);
                 openActivity(HomeActivity.class, true);
             }

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -26,6 +27,8 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.title)
+    TextView title;
 
     @BindString(R.string.user_type)
     String stringUserType;
@@ -48,7 +51,7 @@ public class SelectionActivity extends AppCompatActivity implements AppConstant,
 
     private void getIntentData() {
         if (getIntent().hasExtra(INTENT_TITLE))
-            toolbar.setTitle(getIntent().getStringExtra(INTENT_TITLE));
+            title.setText(getIntent().getStringExtra(INTENT_TITLE));
 
         if (getIntent().hasExtra(DATA)) {
             setRecyclerView(getIntent().getStringArrayListExtra(DATA));
