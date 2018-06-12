@@ -5,7 +5,19 @@
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorImageUploadBackground"
     tools:context=".modules.signup.imageupload.ImageUploadActivity">
+
+    <ImageView
+        android:id="@+id/image_close_button"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/close" />
 
     <ImageView
         android:id="@+id/image_profile"
@@ -15,13 +27,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="@dimen/_100sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/upload_profile_image" />
+        app:srcCompat="@drawable/ic_image_upload" />
 
-    <TextView
+    <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_add_profile_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,14 +43,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/add_profile_picture"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
-    <Button
+    <com.buildboard.customviews.BuildBoardButton
         android:id="@+id/button_save"
         android:layout_width="@dimen/_130sdp"
-        android:layout_height="39dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"

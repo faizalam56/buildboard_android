@@ -37,4 +37,5 @@
 
     <color name="colorRatingBar">#f1ce0a</color>
     <color name="colorProfileName">#434344</color>
+    <color name="colorImageUploadBackground">#434344</color>
 </resources>
