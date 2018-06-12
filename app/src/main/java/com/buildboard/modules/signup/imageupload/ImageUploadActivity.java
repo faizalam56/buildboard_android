@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
     private final String[] permissions = { Manifest.permission.READ_EXTERNAL_STORAGE };
     private final int REQUEST_PERMISSION_CODE = 300;
 
+    @BindView(R.id.image_close_button)
+    ImageView imageClose;
     @BindView(R.id.image_profile)
     ImageView imageProfile;
     @BindView(R.id.button_save)
@@ -51,6 +55,8 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image_upload);
         ButterKnife.bind(this);
 
@@ -59,6 +65,11 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
         }
+    }
+
+    @OnClick(R.id.image_close_button)
+    void closeTapped() {
+        finish();
     }
 
     @OnClick(R.id.image_profile)

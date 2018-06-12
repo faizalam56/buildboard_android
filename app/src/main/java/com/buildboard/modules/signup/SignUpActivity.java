@@ -44,6 +44,10 @@ import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -73,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.edit_last_name)
     BuildBoardEditText editLastName;
     @BindView(R.id.edit_address)
-    BuildBoardEditText editAddress;
+    BuildBoardTextView editAddress;
     @BindView(R.id.edit_phoneno)
     BuildBoardEditText editPhoneNo;
     @BindView(R.id.edit_contact_mode)
@@ -180,7 +184,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private ContractorTypeDetail contractorTypeDetail;
     private String apiKey;
     private String schemaSpecificPart;
-    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
+    private LatLng addressLatLng;
+    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
     private final int REQUEST_PERMISSION_CODE = 300;
 
     @Override
@@ -219,6 +224,19 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         arrayList.add(stringPhone);
         arrayList.add(stringEmail);
         openActivity(SelectionActivity.class, arrayList, CONTACT_MODE_REQUEST_CODE, stringPreferredContactMode);
+    }
+
+    @OnClick(R.id.edit_address)
+    void consumerAddressTapped() {
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intent = intentBuilder.build(this);
+            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException
+                | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.edit_working_area)
@@ -309,10 +327,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if (!TextUtils.isEmpty(imageUrl))
             consumerRequest.setImage(imageUrl);
 
-        LatLng latLng = getLocationFromAddress(getApplicationContext(), address);
-        if (latLng != null) {
-            consumerRequest.setLatitude(String.valueOf(latLng.latitude));
-            consumerRequest.setLongitude(String.valueOf(latLng.longitude));
+        if (addressLatLng != null) {
+            consumerRequest.setLatitude(String.valueOf(addressLatLng.latitude));
+            consumerRequest.setLongitude(String.valueOf(addressLatLng.longitude));
         }
 
         return consumerRequest;
@@ -480,24 +497,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    private LatLng getLocationFromAddress(Context context, String strAddress) {
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng addressLatLng = null;
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null || address.size() <= 0)
-                return null;
-
-            Address location = address.get(0);
-            addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return addressLatLng;
-    }
-
     private String splitApiKey() {
         Uri uri = getIntent().getData();
         String apiKey = null;
@@ -561,8 +560,18 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
                 case IMAGE_UPLOAD_REQUEST_CODE:
                     createAccount(data.getStringExtra(INTENT_IMAGE_URL));
+                    break;
+
+                case PLACE_PICKER_REQUEST:
+                    getAddressLatLng(PlacePicker.getPlace(this, data));
+                    break;
             }
         }
+    }
+
+    private void getAddressLatLng(Place place) {
+        editAddress.setText(place.getAddress());
+        addressLatLng = place.getLatLng();
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {

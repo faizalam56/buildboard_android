@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "222614016590",
-    "firebase_url": "https://buildboardandroid-202312.firebaseio.com",
-    "project_id": "buildboardandroid-202312",
-    "storage_bucket": "buildboardandroid-202312.appspot.com"
+    "project_number": "225562291168",
+    "firebase_url": "https://buildboard-1528784106277.firebaseio.com",
+    "project_id": "buildboard-1528784106277",
+    "storage_bucket": "buildboard-1528784106277.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:222614016590:android:4caa595dbb406e01",
+        "mobilesdk_app_id": "1:225562291168:android:4caa595dbb406e01",
         "android_client_info": {
           "package_name": "com.buildboard"
         }
       },
       "oauth_client": [
         {
-          "client_id": "222614016590-1f5upusrivhbbedgkk6lkta1p6k259o6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.buildboard",
-            "certificate_hash": "1808f7e2843309c450369bace0eee37eb858ef97"
-          }
+          "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
-          "client_id": "222614016590-01ucbevav444v2esc37sl2ml1k8uitmb.apps.googleusercontent.com",
+          "client_id": "225562291168-u5bdhne9196ekgejdmdgkfqs2gtgt042.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA5t6T-k9o1n8cOdA1mU9791ya5yuw-JsI"
+          "current_key": "AIzaSyBzGJUBT16zFBlT2s8UfDOZEbzGNXlgyGM"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "222614016590-01ucbevav444v2esc37sl2ml1k8uitmb.apps.googleusercontent.com",
+              "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
