@@ -26,9 +26,6 @@ import butterknife.OnClick;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private String schemaSpecificPart;
-    private String apiKey;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)

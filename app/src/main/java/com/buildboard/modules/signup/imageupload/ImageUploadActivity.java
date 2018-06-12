@@ -72,8 +72,9 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
         if (selectedImage == null) {
             Toast.makeText(this, R.string.please_select_image, Toast.LENGTH_SHORT).show();
             return;
-        } else
+        } else {
             uploadImage(this, prepareFilePart("file[0]", Utils.getImagePath(this, selectedImage)));
+        }
     }
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
@@ -109,9 +110,7 @@ public class ImageUploadActivity extends AppCompatActivity implements AppConstan
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 imageProfile.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                Log.i("TAG", "Some exception " + e);
-            }
+            } catch (IOException e) {}
         }
     }
 

@@ -178,10 +178,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringPleaseWait;
 
     private ContractorTypeDetail contractorTypeDetail;
-    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
-    private final int REQUEST_PERMISSION_CODE = 300;
     private String apiKey;
     private String schemaSpecificPart;
+    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION };
+    private final int REQUEST_PERMISSION_CODE = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,40 +206,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         if (!TextUtils.isEmpty(apiKey))
             verifyUser(apiKey);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (data == null) return;
-
-        if (resultCode == RESULT_OK) {
-
-            switch (requestCode) {
-
-                case WORKING_AREA_REQUEST_CODE:
-                    editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
-
-                case CONTRACTOR_TYPE_REQUEST_CODE:
-                    contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
-                    editContractorType.setText(contractorTypeDetail.getTitle());
-                    break;
-
-                case CONTACT_MODE_REQUEST_CODE:
-                    editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    break;
-
-                case USER_TYPE_REQUEST_CODE:
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    showUserTypeUI(textUserType.getText().toString());
-                    break;
-
-                case IMAGE_UPLOAD_REQUEST_CODE:
-                    createAccount(data.getStringExtra(INTENT_IMAGE_URL));
-            }
-        }
     }
 
     @OnClick(R.id.text_user_type)
@@ -563,6 +529,40 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 errorManager.handleErrorResponse();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data == null) return;
+
+        if (resultCode == RESULT_OK) {
+
+            switch (requestCode) {
+
+                case WORKING_AREA_REQUEST_CODE:
+                    editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case CONTRACTOR_TYPE_REQUEST_CODE:
+                    contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
+                    editContractorType.setText(contractorTypeDetail.getTitle());
+                    break;
+
+                case CONTACT_MODE_REQUEST_CODE:
+                    editContactMode.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    break;
+
+                case USER_TYPE_REQUEST_CODE:
+                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
+                    showUserTypeUI(textUserType.getText().toString());
+                    break;
+
+                case IMAGE_UPLOAD_REQUEST_CODE:
+                    createAccount(data.getStringExtra(INTENT_IMAGE_URL));
+            }
+        }
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
