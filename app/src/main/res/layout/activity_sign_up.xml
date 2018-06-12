@@ -91,13 +91,12 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_password">
 
-                <com.buildboard.customviews.BuildBoardEditText
+                <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/edit_address"
                     style="@style/edit_text_size_small"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
-                    android:inputType="textPostalAddress"
                     app:typeface="robotoRegular" />
 
                 <com.buildboard.customviews.BuildBoardEditText

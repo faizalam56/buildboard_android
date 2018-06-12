@@ -23,4 +23,5 @@ public interface AppConstant {
 
     int IMAGE_UPLOAD_REQUEST_CODE = 200;
     String INTENT_IMAGE_URL = "intent_image_url";
+    int PLACE_PICKER_REQUEST = 201;
 }

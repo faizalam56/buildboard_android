@@ -54,5 +54,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:15.0.0'
     compile 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    compile 'com.google.android.gms:play-services-places:15.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
