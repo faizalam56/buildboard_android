@@ -16,6 +16,8 @@ public class CreateConsumerRequest implements Serializable {
     @SerializedName("image") private String image;
     @SerializedName("latitude") private String latitude;
     @SerializedName("longitude") private String longitude;
+    @SerializedName("provider") private String provider;
+    @SerializedName("provider_id") private String providerId;
 
     public String getFirstName() {
         return firstName;
@@ -95,5 +97,21 @@ public class CreateConsumerRequest implements Serializable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 }

@@ -50,6 +50,8 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -187,6 +189,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private LatLng addressLatLng;
     private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
     private final int REQUEST_PERMISSION_CODE = 300;
+    private String provider;
+    private String providerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +206,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
         }
+
+        getIntentData();
 
         Uri uri = getIntent().getData();
         if (uri != null && uri.getSchemeSpecificPart() != null) {
@@ -295,6 +301,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterValidAddress);
             return;
         }
+
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
@@ -330,6 +337,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if (addressLatLng != null) {
             consumerRequest.setLatitude(String.valueOf(addressLatLng.latitude));
             consumerRequest.setLongitude(String.valueOf(addressLatLng.longitude));
+        }
+
+        if (!TextUtils.isEmpty(provider) && !TextUtils.isEmpty(providerId)) {
+            consumerRequest.setProvider(provider);
+            consumerRequest.setProviderId(providerId);
         }
 
         return consumerRequest;
@@ -599,4 +611,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
+    public void getIntentData() {
+        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID)) {
+            provider = getIntent().getStringExtra(INTENT_PROVIDER);
+            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+        }
+    }
 }
