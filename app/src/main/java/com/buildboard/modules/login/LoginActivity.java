@@ -214,12 +214,16 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void requestFBUserProfile(LoginResult loginResult) {
-        String accessToken = loginResult.getAccessToken().getToken();
+        final String userId = loginResult.getAccessToken().getUserId();
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                openActivity(HomeActivity.class, true);
+                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+                socialLoginRequest.setProvider("facebook"); // TODO remove hardcoded string
+                socialLoginRequest.setProviderId(userId);
+
+                getSocialLogin(socialLoginRequest);
             }
         });
 
@@ -267,7 +271,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                openActivity(HomeActivity.class, true);
             }
 
             @Override
@@ -339,5 +343,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
         intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
         startActivity(intent);
+        finish();
     }
 }
