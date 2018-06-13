@@ -58,6 +58,9 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
+
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
@@ -92,8 +95,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String[] arrayUserType;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
