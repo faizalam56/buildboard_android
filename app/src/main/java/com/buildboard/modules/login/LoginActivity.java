@@ -8,7 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -22,6 +22,8 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
@@ -73,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     BuildBoardButton buttonLoginGoogle;
-
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -214,12 +215,16 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void requestFBUserProfile(LoginResult loginResult) {
-        String accessToken = loginResult.getAccessToken().getToken();
+        final String userId = loginResult.getAccessToken().getUserId();
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                openActivity(HomeActivity.class, true);
+                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+                socialLoginRequest.setProvider("facebook"); // TODO remove hardcoded string
+                socialLoginRequest.setProviderId(userId);
+
+                getSocialLogin(socialLoginRequest);
             }
         });
 
@@ -249,8 +254,34 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         if (result != null && result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            openActivity(HomeActivity.class, true);
+
+            SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+            socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
+            socialLoginRequest.setProviderId(account.getId());
+
+            getSocialLogin(socialLoginRequest);
         }
+    }
+
+    private void getSocialLogin(final SocialLoginRequest socialLoginRequest) {
+        if (socialLoginRequest == null)
+            return;
+
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().getSocialLogin(this, socialLoginRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                openActivity(HomeActivity.class, true);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signup", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
+                redirectToSignUp(socialLoginRequest);
+            }
+        });
     }
 
     @Override
@@ -296,7 +327,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 } else {
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
                 }
-                AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(),SESSION_ID);
+                AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
                 openActivity(HomeActivity.class, true);
             }
 
@@ -306,5 +337,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
+    }
+
+    private void redirectToSignUp(SocialLoginRequest socialLoginRequest) {
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
+        intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
+        startActivity(intent);
+        finish();
     }
 }

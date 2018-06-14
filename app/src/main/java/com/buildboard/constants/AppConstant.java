@@ -9,6 +9,8 @@ public interface AppConstant {
     int CONTRACTOR_TYPE_REQUEST_CODE = 10;
     int WORKING_AREA_REQUEST_CODE = 11;
     int CARD_TYPE_REQUEST_CODE = 12;
+    int PLACE_PICKER_REQUEST = 201;
+    int IMAGE_UPLOAD_REQUEST_CODE = 200;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
@@ -20,8 +22,7 @@ public interface AppConstant {
     String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";
     String ROBOTO_MEDIUM = "fonts/Roboto-Medium.ttf";
     String LOGOUT = "logout";
-
-    int IMAGE_UPLOAD_REQUEST_CODE = 200;
     String INTENT_IMAGE_URL = "intent_image_url";
-    int PLACE_PICKER_REQUEST = 201;
+    String INTENT_PROVIDER = "intent_provider";
+    String INTENT_PROVIDER_ID = "intent_provider_id";
 }

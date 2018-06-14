@@ -15,7 +15,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -337,6 +339,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ActivateUserResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getSocialLogin(Activity activity, SocialLoginRequest socialLoginRequest, final DataManagerListener dataManagerListener) {
+        Call<SocialLoginResponse> call = getDataManager().getSocialLogin(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), socialLoginRequest);
+        call.enqueue(new Callback<SocialLoginResponse>() {
+            @Override
+            public void onResponse(Call<SocialLoginResponse> call, Response<SocialLoginResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SocialLoginResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

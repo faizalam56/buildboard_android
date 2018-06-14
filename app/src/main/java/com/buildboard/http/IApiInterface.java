@@ -9,7 +9,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -69,4 +71,7 @@ public interface IApiInterface {
 
     @POST("user/activate/{passkey}")
     Call<ActivateUserResponse> activateUser(@Header("oauth") String oauth, @Path("passkey") String newPassword);
+
+    @POST("login")
+    Call<SocialLoginResponse> getSocialLogin(@Header("oauth") String oauth, @Body SocialLoginRequest socialLoginRequest);
 }
