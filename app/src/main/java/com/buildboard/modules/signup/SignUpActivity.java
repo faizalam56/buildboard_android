@@ -310,7 +310,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
-                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 finish();
             }
 

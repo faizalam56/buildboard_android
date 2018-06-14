@@ -43,7 +43,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     @BindView(R.id.text_logout)
     TextView textLogout;
     @BindView(R.id.card_logout)
-    CardView Logout;
+    CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
