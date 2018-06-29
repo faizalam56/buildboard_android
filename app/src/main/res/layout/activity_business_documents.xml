@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modules.signup.Contractor.BusinessDocumentsActivity">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_15sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingTop="@dimen/_15sdp">
+
+            <!-- Business License -->
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_business_licensing"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/business_licensing"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_state"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/state"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_business_licensing"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_license_number"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/license_number"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_state"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_attachment"
+                style="@style/edit_text_size_small"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:editable="false"
+                android:hint="@string/attachment"
+                android:imeOptions="actionNext"
+                app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_license_number"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:contentDescription="@string/attachment_for_business_licensing"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_attachment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_attachment" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_business_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_attachment">
+
+            </LinearLayout>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_business_license"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_business_license"
+                app:typeface="robotoMedium" />
+
+            <!-- End Business License -->
+
+            <!-- Bonding -->
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_bonding"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/bonding"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_business_license"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_city"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/city"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_bonding"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_bond_number"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/bond_number"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_city"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_bond_amount"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/bond_dollar_amount"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_bond_number"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_attachment_bonding"
+                style="@style/edit_text_size_small"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:editable="false"
+                android:hint="@string/attachment"
+                android:imeOptions="actionNext"
+                app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_bond_amount"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment_bonding"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_attachment_bonding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_attachment_bonding" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_bonding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_attachment_bonding">
+
+            </LinearLayout>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_bonding"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_bonding"
+                app:typeface="robotoMedium" />
+
+            <!-- End Bonding -->
+
+            <!-- Insurance -->
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_insurance"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/insurance"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_bonding"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_liability_insurance"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/liability_insurance"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_insurance"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_insurance_provider"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/insurance_provider"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_liability_insurance"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_insurance_amount"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/insurance_dollar_amount"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_insurance_provider"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_attachment_insurance"
+                style="@style/edit_text_size_small"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:editable="false"
+                android:hint="@string/attachment"
+                android:imeOptions="actionNext"
+                app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_insurance_amount"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment_insurance"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_attachment_insurance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_attachment_insurance" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_insurance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_attachment_insurance">
+
+            </LinearLayout>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_insurance"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_insurance"
+                app:typeface="robotoMedium" />
+
+            <!-- End Insurance -->
+
+            <!-- Workman's Comp Insurance -->
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_workman_insurance"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/workman_s_comp_insurance"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_insurance"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_insurance_provider_workman"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/insurance_provider"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_workman_insurance"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_insurance_amount_workman"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/insurance_dollar_amount"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_insurance_provider_workman"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_attachment_workman_insurance"
+                style="@style/edit_text_size_small"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:editable="false"
+                android:hint="@string/attachment"
+                android:imeOptions="actionNext"
+                app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_insurance_amount_workman"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment_insurance_workman"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_attachment_workman_insurance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_attachment_workman_insurance" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_insurance_workman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_attachment_workman_insurance">
+
+            </LinearLayout>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_insurance_workman"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_insurance_workman"
+                app:typeface="robotoMedium" />
+
+            <!-- End Workman's Comp Insurance -->
+
+            <!-- Certification -->
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_certification"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/certification"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_insurance_workman"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_certifying_body"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/certifying_body"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_certification"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_certification_number"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/certification_number"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_certifying_body"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_certification_desc"
+                style="@style/edit_text_size_small"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/certification_brief_description"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:gravity="top"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_certification_number"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_attachment_certification"
+                style="@style/edit_text_size_small"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:editable="false"
+                android:hint="@string/attachment"
+                android:imeOptions="actionNext"
+                app:layout_constraintEnd_toStartOf="@+id/image_attachment_certification"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_certification_desc"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment_certification"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_attachment_certification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edit_attachment_certification" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_certification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_attachment_certification">
+
+            </LinearLayout>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_certification"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_layout_certification"
+                app:typeface="robotoMedium" />
+
+            <!-- End Certification -->
+
+            <com.buildboard.customviews.BuildBoardButton
+                android:id="@+id/button_next"
+                style="@style/button_style"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/gray_button_background"
+                android:text="@string/next"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_certification"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_terms_of_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:autoLink="all"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="@string/privacy_policy_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_next"
+                app:typeface="robotoRegular" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

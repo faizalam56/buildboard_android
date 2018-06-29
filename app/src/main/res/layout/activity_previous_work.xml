@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modules.signup.Contractor.PreviousWorkActivity">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_15sdp"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingTop="@dimen/_15sdp">
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_previous_work"
+                style="@style/textSize_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/previous_work"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_attach_photos"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/attach_photos_maximum_04"
+                android:textColor="@color/colorHint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_previous_work"
+                app:typeface="robotoRegular" />
+
+            <ImageView
+                android:id="@+id/image_attachment"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_attach_photos"
+                app:srcCompat="@drawable/ic_attachment" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_description"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/brief_description_of_work"
+                android:textColor="@color/colorHint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_attachment"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_description"
+                style="@style/edit_text_size_small"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/green_drawable_border"
+                android:gravity="top"
+                android:hint="@string/license_number"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_description"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_previous_work"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_description"
+                app:typeface="robotoMedium" />
+
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_label_testimonial"
+                style="@style/textSize_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/testimonial"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_previous_work"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_name"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_label_testimonial"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_work_performed"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/work_performed"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_name"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_testimonial"
+                style="@style/edit_text_size_small"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:gravity="top"
+                android:hint="@string/_150_characters"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_work_performed"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_add_more_testimonial"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_more"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_testimonial"
+                app:typeface="robotoMedium" />
+
+            <com.buildboard.customviews.BuildBoardButton
+                android:id="@+id/button_next"
+                style="@style/button_style"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/gray_button_background"
+                android:text="@string/next"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_more_testimonial"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_terms_of_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:autoLink="all"
+                android:gravity="center"
+                android:linksClickable="true"
+                android:text="@string/privacy_policy_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_next"
+                app:typeface="robotoRegular" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

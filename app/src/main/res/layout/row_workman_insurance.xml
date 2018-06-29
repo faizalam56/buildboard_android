@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_label_workman_insurance"
+        style="@style/textSize_smaller"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/workman_s_comp_insurance"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_add_more_insurance"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_insurance_provider_workman"
+        style="@style/edit_text_size_small"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/insurance_provider"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_workman_insurance"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_insurance_amount_workman"
+        style="@style/edit_text_size_small"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/insurance_dollar_amount"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_provider_workman"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_attachment_workman_insurance"
+        style="@style/edit_text_size_small"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/green_drawable_border"
+        android:editable="false"
+        android:hint="@string/attachment"
+        android:imeOptions="actionNext"
+        app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_amount_workman"
+        app:typeface="robotoRegular" />
+
+    <ImageView
+        android:id="@+id/image_attachment_insurance_workman"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/ic_attachment"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_attachment_workman_insurance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_attachment_workman_insurance" />
+
+</android.support.constraint.ConstraintLayout>
