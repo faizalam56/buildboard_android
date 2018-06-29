@@ -1,10 +1,12 @@
 package com.buildboard.modules.login;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,7 +25,7 @@ import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
-import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
+import com.buildboard.modules.signup.contractor.SignUpContractorActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
@@ -58,9 +60,6 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
-
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
@@ -95,6 +94,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String[] arrayUserType;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindArray(R.array.array_user_type)
+    String[] arrayUsertype;
+
+    private CallbackManager mCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +128,28 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        openActivity(SignUpActivity.class, false);
+        showUserTypePopup();
+    }
+
+    private void showUserTypePopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.select_user_type);
+        builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        openActivity(SignUpActivity.class, false);
+                        break;
+                    case 1:
+                        openActivity(SignUpContractorActivity.class, false);
+                        break;
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @OnClick(R.id.button_signin)

@@ -39,8 +39,8 @@
     <string name="next">Next</string>
     <string name="by_signing_up">By signing up, you agree with the</string>
     <string name="terms_of_service">Terms of Service</string>
-    <string name="business_name">Business name</string>
-    <string name="business_address">Business address</string>
+    <string name="business_name">Business Name</string>
+    <string name="business_address">Business Address</string>
     <string name="brief_summary_of_your_company">Brief summary of your company…</string>
     <string name="user_type">User Type</string>
     <string name="payment_details">Payment Details</string>
@@ -161,4 +161,37 @@
     <string name="successfullyLogout">You have successfully logged out.</string>
     <string name="please_select_image">Please select image</string>
     <string name="please_enter_a_valid_address">Please enter a valid address</string>
+    <string name="principal_first_name">Principal First Name</string>
+    <string name="principal_last_name">Principal Last Name</string>
+    <string name="select_user_type">Select user type</string>
+    <string name="business_licensing">Business Licensing</string>
+    <string name="state">State</string>
+    <string name="add_more">Add More</string>
+    <string name="bonding">Bonding</string>
+    <string name="bond_number">Bond Number</string>
+    <string name="attachment">Attachment</string>
+    <string name="bond_dollar_amount">Bond Dollar Amount</string>
+    <string name="license_number">License Number</string>
+    <string name="attachment_for_business_licensing">Attachment for Business Licensing</string>
+    <string name="insurance">Insurance</string>
+    <string name="liability_insurance">Liability Insurance</string>
+    <string name="insurance_provider">Insurance Provider</string>
+    <string name="insurance_dollar_amount">Insurance Dollar Amount</string>
+    <string name="workman_s_comp_insurance">Workman\'s Comp Insurance</string>
+    <string name="certifying_body">Certifying Body</string>
+    <string name="certification">Certification</string>
+    <string name="certification_number">Certification Number</string>
+    <string name="certification_brief_description">Certification Brief Description</string>
+    <string name="previous_work">Previous Work</string>
+    <string name="attach_photos_maximum_04">Attach Photos (Maximum 04)</string>
+    <string name="brief_description_of_work">Brief Description of Work</string>
+    <string name="testimonial">Testimonial</string>
+    <string name="work_performed">Work Performed</string>
+    <string name="_150_characters">150 Characters</string>
+    <string-array name="array_user_type">
+        <item>Consumer</item>
+        <item>Contractor</item>
+    </string-array>
+    <string name="work_type">Work Type</string>
+    <string name="documents">Documents</string>
 </resources>

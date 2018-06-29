@@ -2,10 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.buildboard.modules.signup.SignUpActivity">
+    tools:context=".modules.signup.contractor.SignUpContractorActivity">
 
     <include
         layout="@layout/toolbar"
@@ -31,13 +31,35 @@
             android:paddingTop="@dimen/_15sdp">
 
             <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_business_name"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/business_name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_business_address"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/business_address"
+                android:imeOptions="actionNext"
+                android:inputType="textPostalAddress"
+                app:layout_constraintTop_toBottomOf="@+id/edit_business_name"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
-                android:hint="@string/first_name"
+                android:hint="@string/principal_first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/edit_business_address"
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardEditText
@@ -45,7 +67,7 @@
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
-                android:hint="@string/last_name"
+                android:hint="@string/principal_last_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
                 app:layout_constraintTop_toBottomOf="@+id/edit_first_name"
@@ -73,50 +95,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
                 app:typeface="robotoRegular" />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraint_consumer_address_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_working_area"
+                style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:visibility="visible"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_password">
+                android:background="@drawable/green_drawable_border"
+                android:cursorVisible="false"
+                android:editable="false"
+                android:focusable="false"
+                android:imeOptions="actionNext"
+                android:text="@string/working_area"
+                app:layout_constraintTop_toBottomOf="@+id/edit_password"
+                app:typeface="robotoRegular" />
 
-                <com.buildboard.customviews.BuildBoardTextView
-                    android:id="@+id/edit_address"
-                    style="@style/edit_text_size_small"
-                    android:background="@drawable/green_drawable_border"
-                    android:hint="@string/address"
-                    android:imeOptions="actionNext"
-                    app:typeface="robotoRegular" />
-
-                <com.buildboard.customviews.BuildBoardEditText
-                    android:id="@+id/edit_phoneno"
-                    style="@style/edit_text_size_small"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@drawable/green_drawable_border"
-                    android:hint="@string/phone_no"
-                    android:imeOptions="actionNext"
-                    android:inputType="phone"
-                    android:maxLength="14"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_address"
-                    app:typeface="robotoRegular" />
-
-                <com.buildboard.customviews.BuildBoardEditText
-                    android:id="@+id/edit_contact_mode"
-                    style="@style/edit_text_size_small"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@drawable/green_drawable_border"
-                    android:cursorVisible="false"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:imeOptions="actionNext"
-                    android:text="@string/preferred_contact_mode"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
-                    app:typeface="robotoRegular" />
-
-            </android.support.constraint.ConstraintLayout>
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_summary"
+                style="@style/edit_text_size_small"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:gravity="top"
+                android:hint="@string/brief_summary_of_your_company"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/_5sdp"
+                android:maxLines="5"
+                app:layout_constraintTop_toBottomOf="@+id/edit_working_area"
+                app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_next"
@@ -124,10 +128,9 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/gray_button_background"
                 android:text="@string/next"
-                android:imeOptions="actionDone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container"
+                app:layout_constraintTop_toBottomOf="@+id/edit_summary"
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
