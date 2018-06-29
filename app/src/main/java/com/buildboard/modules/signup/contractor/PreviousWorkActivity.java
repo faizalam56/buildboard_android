@@ -1,6 +1,5 @@
-package com.buildboard.modules.signup.Contractor;
+package com.buildboard.modules.signup.contractor;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -9,20 +8,18 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.modules.signup.SignUpActivity;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpContractorActivity extends AppCompatActivity {
+public class PreviousWorkActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
     TextView title;
@@ -39,7 +36,7 @@ public class SignUpContractorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup_contractor);
+        setContentView(R.layout.activity_previous_work);
         ButterKnife.bind(this);
 
         title.setText(stringSignUp);
@@ -48,8 +45,8 @@ public class SignUpContractorActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        Intent intent = new Intent(this, WorkTypeActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, PreviousWorkActivity.class);
+        startActivity(intent);*/
     }
 
     private void setTermsServiceText() {
@@ -65,7 +62,7 @@ public class SignUpContractorActivity extends AppCompatActivity {
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpContractorActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PreviousWorkActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -78,7 +75,7 @@ public class SignUpContractorActivity extends AppCompatActivity {
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpContractorActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PreviousWorkActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
         }
 
         @Override

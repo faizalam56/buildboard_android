@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.Contractor;
+package com.buildboard.modules.signup.contractor;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PreviousWorkActivity extends AppCompatActivity {
+public class SignUpContractorActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
     TextView title;
@@ -37,7 +37,7 @@ public class PreviousWorkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_previous_work);
+        setContentView(R.layout.activity_signup_contractor);
         ButterKnife.bind(this);
 
         title.setText(stringSignUp);
@@ -46,8 +46,8 @@ public class PreviousWorkActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        /*Intent intent = new Intent(this, PreviousWorkActivity.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(this, WorkTypeActivity.class);
+        startActivity(intent);
     }
 
     private void setTermsServiceText() {
@@ -63,7 +63,7 @@ public class PreviousWorkActivity extends AppCompatActivity {
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(PreviousWorkActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpContractorActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -76,7 +76,7 @@ public class PreviousWorkActivity extends AppCompatActivity {
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(PreviousWorkActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpContractorActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
         }
 
         @Override

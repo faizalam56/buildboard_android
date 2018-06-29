@@ -1,7 +1,6 @@
 package com.buildboard.modules.login;
 
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -28,7 +25,7 @@ import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
-import com.buildboard.modules.signup.Contractor.SignUpContractorActivity;
+import com.buildboard.modules.signup.contractor.SignUpContractorActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;

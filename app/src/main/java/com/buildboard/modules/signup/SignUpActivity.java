@@ -100,8 +100,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringOther;
     @BindString(R.string.preferred_contact_mode)
     String stringPreferredContactMode;
-    @BindString(R.string.type_of_contractor)
-    String stringContractorType;
     @BindString(R.string.working_area)
     String stringWorkingArea;
     @BindString(R.string.user_type)
@@ -382,30 +380,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
 
         return true;
-    }
-
-    private void getContractorList() {
-
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                if (response == null) return;
-
-                ArrayList<ContractorTypeDetail> arrayList = (ArrayList<ContractorTypeDetail>) response;
-                Intent intent = new Intent(SignUpActivity.this, ContractorTypeSelectionActivity.class);
-                intent.putParcelableArrayListExtra(DATA, arrayList);
-                intent.putExtra(INTENT_TITLE, stringContractorType);
-                startActivityForResult(intent, CONTRACTOR_TYPE_REQUEST_CODE);
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(SignUpActivity.this, constraintRoot, error);
-            }
-        });
     }
 
     private void createAccount(String imageUrl) {

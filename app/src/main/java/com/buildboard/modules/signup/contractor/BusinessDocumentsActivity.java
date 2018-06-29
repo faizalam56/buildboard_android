@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.Contractor;
+package com.buildboard.modules.signup.contractor;
 
 import android.content.Intent;
 import android.os.Bundle;
