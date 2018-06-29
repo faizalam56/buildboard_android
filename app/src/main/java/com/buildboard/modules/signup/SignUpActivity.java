@@ -1,10 +1,7 @@
 package com.buildboard.modules.signup;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,8 +26,6 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
-import com.buildboard.modules.login.resetpassword.ResetPasswordActivity;
-import com.buildboard.modules.paymentdetails.PaymentDetailsActivity;
 import com.buildboard.modules.selection.ContractorTypeSelectionActivity;
 import com.buildboard.modules.selection.SelectionActivity;
 import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
@@ -50,12 +45,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -65,15 +55,21 @@ import butterknife.OnClick;
 
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
+    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+    private final int REQUEST_PERMISSION_CODE = 300;
+    private ContractorTypeDetail contractorTypeDetail;
+    private String apiKey;
+    private String schemaSpecificPart;
+    private LatLng addressLatLng;
+    private String provider;
+    private String providerId;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
-    @BindView(R.id.text_user_type)
-    BuildBoardTextView textUserType;
     @BindView(R.id.edit_first_name)
     BuildBoardEditText editFirstName;
     @BindView(R.id.edit_last_name)
@@ -88,27 +84,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     BuildBoardEditText editEmail;
     @BindView(R.id.edit_password)
     BuildBoardEditText editPassword;
-    @BindView(R.id.edit_contractor_type)
-    BuildBoardEditText editContractorType;
-    @BindView(R.id.edit_working_area)
-    BuildBoardEditText editWorkingArea;
-    @BindView(R.id.edit_business_name)
-    BuildBoardEditText editBusinessName;
-    @BindView(R.id.edit_business_address)
-    BuildBoardEditText editBusinessAddress;
-    @BindView(R.id.edit_summary)
-    BuildBoardEditText editSummary;
-
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
-
     @BindView(R.id.constraint_consumer_address_container)
     ConstraintLayout constraintConsumerAddressContainer;
-    @BindView(R.id.constraint_contractor_address_container)
-    ConstraintLayout constraintContractorAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
     @BindString(R.string.gender)
     String stringGender;
     @BindString(R.string.female)
@@ -129,7 +110,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringContractor;
     @BindString(R.string.consumer)
     String stringConsumer;
-
     @BindString(R.string.error_enter_first_name)
     String stringErrorFirstName;
     @BindString(R.string.error_enter_last_name)
@@ -183,15 +163,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.please_wait)
     String stringPleaseWait;
 
-    private ContractorTypeDetail contractorTypeDetail;
-    private String apiKey;
-    private String schemaSpecificPart;
-    private LatLng addressLatLng;
-    private final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
-    private final int REQUEST_PERMISSION_CODE = 300;
-    private String provider;
-    private String providerId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,11 +190,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             verifyUser(apiKey);
     }
 
-    @OnClick(R.id.text_user_type)
-    void userTypeTapped() {
-        openActivity(SelectionActivity.class, new ArrayList<>(Arrays.asList(arrayUserType)), USER_TYPE_REQUEST_CODE, stringUserType);
-    }
-
     @OnClick(R.id.edit_contact_mode)
     void contactModeTapped() {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -245,24 +211,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    @OnClick(R.id.edit_working_area)
-    void workingAreaTapped() {
-        List<String> workingAreaList = Arrays.asList(getResources().getStringArray(R.array.array_working_area));
-        ArrayList<String> arrayList = new ArrayList<>(workingAreaList);
-        openActivity(SelectionActivity.class, arrayList, WORKING_AREA_REQUEST_CODE, stringWorkingArea);
-    }
-
-    @OnClick(R.id.edit_contractor_type)
-    void contractorTypeTapped() {
-        if (contractorTypeDetail == null)
-            getContractorList();
-        else editContractorType.setText(contractorTypeDetail.getTitle());
-    }
-
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
 
-        String userType = textUserType.getText().toString();
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
@@ -270,29 +221,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
-        String typeOfContractor = editContractorType.getText().toString();
-        String businessName = editBusinessName.getText().toString();
-        String businessAddress = editBusinessAddress.getText().toString();
-        String workingArea = editWorkingArea.getText().toString();
-        String summary = editSummary.getText().toString();
-
-        if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                businessName, businessAddress, workingArea, summary)) {
+        if (validateFields(firstName, lastName, email, password, address, phoneNo, contactMode)) {
             Intent intent = new Intent(this, ImageUploadActivity.class);
             startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE);
         }
     }
 
-    private void signUpMethod(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary, String imageUrl) {
-
-        if (userType.equals(stringContractor)) {
-            Intent intent = new Intent(SignUpActivity.this, PaymentDetailsActivity.class);
-            intent.putExtra(DATA, getContractorDetails(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                    businessName, businessAddress, workingArea, summary));
-            startActivity(intent);
-        } else {
-            createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
-        }
+    private void signUpMethod(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
+        createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
     }
 
     private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
@@ -349,7 +285,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
-                                                         String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea,
+                                                         String contactMode, String businessName, String businessAddress, String workingArea,
                                                          String summary) {
 
         CreateContractorRequest createContractorRequest = new CreateContractorRequest();
@@ -385,16 +321,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         startActivityForResult(intent, requestCode);
     }
 
-    private void showUserTypeUI(String userType) {
-        constraintContractorAddressContainer.setVisibility(userType.equalsIgnoreCase(stringContractor) ? View.VISIBLE : View.GONE);
-        constraintConsumerAddressContainer.setVisibility(userType.equalsIgnoreCase(stringConsumer) ? View.VISIBLE : View.GONE);
-    }
-
-    private boolean validateFields(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
-        if (userType.equals(stringUserType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorSelectUserType);
-            return false;
-        }
+    private boolean validateFields(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
 
         if (TextUtils.isEmpty(firstName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorFirstName);
@@ -420,17 +347,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        return userType.equals(stringConsumer) ?
-                validateConsumerFields(address, phoneNo, contactMode) :
-                validateContractorFields(typeOfContractor, businessName, businessAddress, workingArea, summary);
+        return validateConsumerFields(address, phoneNo, contactMode);
     }
 
-    private boolean validateContractorFields(String typeOfContractor, String businessName, String businessAddress, String workingArea, String summary) {
-
-        if (typeOfContractor.equalsIgnoreCase(stringContractorType)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorContractorType).show();
-            return false;
-        }
+    private boolean validateContractorFields(String businessName, String businessAddress, String workingArea, String summary) {
 
         if (TextUtils.isEmpty(businessName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
@@ -489,7 +409,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createAccount(String imageUrl) {
-        String userType = textUserType.getText().toString();
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
@@ -497,16 +416,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
-        String typeOfContractor = editContractorType.getText().toString();
-        String businessName = editBusinessName.getText().toString();
-        String businessAddress = editBusinessAddress.getText().toString();
-        String workingArea = editWorkingArea.getText().toString();
-        String summary = editSummary.getText().toString();
 
-        if (validateFields(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                businessName, businessAddress, workingArea, summary)) {
-            signUpMethod(userType, firstName, lastName, email, password, address, phoneNo, contactMode, typeOfContractor,
-                    businessName, businessAddress, workingArea, summary, imageUrl);
+        if (validateFields(firstName, lastName, email, password, address, phoneNo, contactMode)) {
+            signUpMethod(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
         }
     }
 
@@ -554,12 +466,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             switch (requestCode) {
 
                 case WORKING_AREA_REQUEST_CODE:
-                    editWorkingArea.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
                     break;
 
                 case CONTRACTOR_TYPE_REQUEST_CODE:
                     contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
-                    editContractorType.setText(contractorTypeDetail.getTitle());
                     break;
 
                 case CONTACT_MODE_REQUEST_CODE:
@@ -567,8 +477,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
 
                 case USER_TYPE_REQUEST_CODE:
-                    textUserType.setText(data.getStringExtra(INTENT_SELECTED_ITEM));
-                    showUserTypeUI(textUserType.getText().toString());
                     break;
 
                 case IMAGE_UPLOAD_REQUEST_CODE:
@@ -587,6 +495,13 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         addressLatLng = place.getLatLng();
     }
 
+    public void getIntentData() {
+        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID)) {
+            provider = getIntent().getStringExtra(INTENT_PROVIDER);
+            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+        }
+    }
+
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -599,7 +514,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
-
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -612,11 +526,4 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
-
-    public void getIntentData() {
-        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID)) {
-            provider = getIntent().getStringExtra(INTENT_PROVIDER);
-            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
-        }
-    }
 }
