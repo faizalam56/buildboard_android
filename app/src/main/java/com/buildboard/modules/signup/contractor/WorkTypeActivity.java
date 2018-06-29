@@ -38,8 +38,8 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.recycler_work_type)
     RecyclerView recyclerWorkType;
-    @BindString(R.string.sign_up)
-    String stringSignUp;
+    @BindString(R.string.work_type)
+    String stringWorkType;
     @BindString(R.string.terms_of_service)
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
@@ -57,7 +57,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_work_type);
         ButterKnife.bind(this);
 
-        title.setText(stringSignUp);
+        title.setText(stringWorkType);
         setTermsServiceText();
         getContractorList();
     }

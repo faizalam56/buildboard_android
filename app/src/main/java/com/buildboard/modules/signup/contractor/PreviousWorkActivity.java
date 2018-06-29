@@ -24,8 +24,8 @@ public class PreviousWorkActivity extends AppCompatActivity {
     @BindView(R.id.title)
     TextView title;
 
-    @BindString(R.string.sign_up)
-    String stringSignUp;
+    @BindString(R.string.previous_work)
+    String stringPreviousWork;
     @BindString(R.string.terms_of_service)
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
@@ -39,7 +39,7 @@ public class PreviousWorkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_previous_work);
         ButterKnife.bind(this);
 
-        title.setText(stringSignUp);
+        title.setText(stringPreviousWork);
         setTermsServiceText();
     }
 

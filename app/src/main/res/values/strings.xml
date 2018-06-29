@@ -192,4 +192,6 @@
         <item>Consumer</item>
         <item>Contractor</item>
     </string-array>
+    <string name="work_type">Work Type</string>
+    <string name="documents">Documents</string>
 </resources>
