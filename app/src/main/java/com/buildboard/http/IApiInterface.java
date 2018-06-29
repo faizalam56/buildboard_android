@@ -37,7 +37,7 @@ public interface IApiInterface {
     @POST("basic-auth")
     Call<GetAccessTokenResponse> getAccessToken(@Body GetAccessTokenRequest getAccessTokenRequest);
 
-    @GET("contractor-type")
+    @GET("project-type")
     Call<ContractorListResponse> getContractorList(@Header("oauth") String oauth);
 
     @POST("contractor")
