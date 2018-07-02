@@ -128,28 +128,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        showUserTypePopup();
-    }
-
-    private void showUserTypePopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.select_user_type);
-        builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        openActivity(SignUpActivity.class, false);
-                        break;
-                    case 1:
-                        openActivity(SignUpContractorActivity.class, false);
-                        break;
-                }
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        showUserTypePopup(false,null);
     }
 
     @OnClick(R.id.button_signin)
@@ -164,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_forgot_password)
     void forgotPasswordTapped() {
-        openActivity(ForgotPasswordActivity.class, false);
+        openActivity(ForgotPasswordActivity.class, false, false, null);
     }
 
     @OnClick(R.id.button_login_facebook)
@@ -207,12 +186,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return true;
     }
 
-    private void openActivity(Class classToReplace, boolean isClearStack) {
+    private void openActivity(Class classToReplace, boolean isClearStack, boolean isSocialLogin, SocialLoginRequest socialLoginRequest) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
         if (isClearStack) {
             Intent homeIntent = new Intent(LoginActivity.this, classToReplace);
             homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(homeIntent);
+            finish();
+        } else if (isSocialLogin) {
+            intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
+            intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
+            startActivity(intent);
             finish();
         } else startActivity(intent);
     }
@@ -297,13 +281,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                openActivity(HomeActivity.class, true);
+                openActivity(HomeActivity.class, true, false, null);
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signup", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
+                Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signUp", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
                 redirectToSignUp(socialLoginRequest);
             }
         });
@@ -353,7 +337,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
                 }
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
-                openActivity(HomeActivity.class, true);
+                openActivity(HomeActivity.class, true, false, null);
             }
 
             @Override
@@ -365,10 +349,27 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void redirectToSignUp(SocialLoginRequest socialLoginRequest) {
-        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-        intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
-        intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
-        startActivity(intent);
-        finish();
+        showUserTypePopup(true, socialLoginRequest);
+    }
+
+    private void showUserTypePopup(final boolean isSocialLogin, final SocialLoginRequest socialLoginRequest) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.select_user_type);
+        builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        openActivity(SignUpActivity.class, false, isSocialLogin , socialLoginRequest);
+                        break;
+                    case 1:
+                        openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest);
+                        break;
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

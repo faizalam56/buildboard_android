@@ -211,11 +211,17 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
-
+        String password;
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+
+        if (providerId != null && provider != null) {
+            password = "not_required"; //TODO remove hardcoded string
+        } else {
+            password = editPassword.getText().toString();
+        }
+
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
@@ -262,7 +268,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setFirstName(firstName);
         consumerRequest.setLastName(lastName);
         consumerRequest.setEmail(email);
+
+        if (!password.equalsIgnoreCase("not_required")) // TODO hardcoded string
         consumerRequest.setPassword(password);
+
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
@@ -337,12 +346,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
-            return false;
-        } else if (password.length() < 8) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
-            return false;
+        if (!password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
+            if (TextUtils.isEmpty(password)) {
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
+                return false;
+            } else if (password.length() < 8) {
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
+                return false;
+            }
         }
 
         return validateConsumerFields(address, phoneNo, contactMode);
@@ -383,10 +394,16 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createAccount(String imageUrl) {
+        String password;
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        if (provider != null && providerId != null) {
+            password = "not_required"; //TODO hardcoded string
+        } else {
+            password = editPassword.getText().toString();
+        }
+
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
@@ -474,6 +491,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             provider = getIntent().getStringExtra(INTENT_PROVIDER);
             providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
         }
+
+        if (provider != null && providerId != null)
+            editPassword.setVisibility(View.GONE);
+        else editPassword.setVisibility(View.VISIBLE);
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
