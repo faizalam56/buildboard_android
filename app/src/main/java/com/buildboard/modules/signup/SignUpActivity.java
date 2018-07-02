@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private LatLng addressLatLng;
     private String provider;
     private String providerId;
+    private String mEmail;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -211,11 +212,17 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
-
+        String password;
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+
+        if (providerId != null && provider != null) {
+            password = "not_required"; //TODO remove hardcoded string
+        } else {
+            password = editPassword.getText().toString();
+        }
+
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
@@ -262,7 +269,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         consumerRequest.setFirstName(firstName);
         consumerRequest.setLastName(lastName);
         consumerRequest.setEmail(email);
+
+        if (!password.equalsIgnoreCase("not_required")) // TODO hardcoded string
         consumerRequest.setPassword(password);
+
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
@@ -280,26 +290,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
 
         return consumerRequest;
-    }
-
-    private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
-                                                         String contactMode, String businessName, String businessAddress, String workingArea,
-                                                         String summary) {
-
-        CreateContractorRequest createContractorRequest = new CreateContractorRequest();
-        createContractorRequest.setFirstName(firstName);
-        if (!TextUtils.isEmpty(lastName)) createContractorRequest.setLastName(lastName);
-        createContractorRequest.setEmail(email);
-        createContractorRequest.setPassword(password);
-        if (!TextUtils.isEmpty(phoneNo)) createContractorRequest.setPhoneNo(phoneNo);
-        if (contractorTypeDetail != null && contractorTypeDetail.getIdentifier() != null)
-            createContractorRequest.setTypeOfContractorId(contractorTypeDetail.getIdentifier());
-        createContractorRequest.setBusinessName(businessName);
-        createContractorRequest.setBusinessAddress(businessAddress);
-        if (!TextUtils.isEmpty(summary)) createContractorRequest.setSummary(summary);
-        createContractorRequest.setWorkingAreaRadius(workingArea);
-
-        return createContractorRequest;
     }
 
     private void setTermsServiceText() {
@@ -337,35 +327,17 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(password)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
-            return false;
-        } else if (password.length() < 8) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
-            return false;
+        if (!password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
+            if (TextUtils.isEmpty(password)) {
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
+                return false;
+            } else if (password.length() < 8) {
+                SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
+                return false;
+            }
         }
 
         return validateConsumerFields(address, phoneNo, contactMode);
-    }
-
-    private boolean validateContractorFields(String businessName, String businessAddress, String workingArea, String summary) {
-
-        if (TextUtils.isEmpty(businessName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(businessAddress)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessAddress).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(workingArea)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorWorkingArea).show();
-            return false;
-        }
-
-        return true;
     }
 
     private boolean validateConsumerFields(String address, String phoneNo, String contactMode) {
@@ -383,10 +355,16 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void createAccount(String imageUrl) {
+        String password;
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        if (provider != null && providerId != null) {
+            password = "not_required"; //TODO hardcoded string
+        } else {
+            password = editPassword.getText().toString();
+        }
+
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
         String contactMode = editContactMode.getText().toString();
@@ -470,9 +448,26 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void getIntentData() {
-        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID)) {
+        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
             provider = getIntent().getStringExtra(INTENT_PROVIDER);
             providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+            mEmail = getIntent().getStringExtra(INTENT_EMAIL);
+        }
+
+        if (provider != null && providerId != null) {
+            editPassword.setVisibility(View.GONE);
+            editEmail.setText(mEmail);
+            editEmail.setFocusable(false);
+            editEmail.setFocusableInTouchMode(false);
+            editEmail.setClickable(false);
+            editEmail.setCursorVisible(false);
+        }
+        else {
+            editPassword.setVisibility(View.VISIBLE);
+            editEmail.setFocusable(true);
+            editEmail.setFocusableInTouchMode(true);
+            editEmail.setClickable(true);
+            editEmail.setCursorVisible(true);
         }
     }
 

@@ -53,7 +53,7 @@
     <string name="expire">Expire</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
-    <string name="msg_reset_password">Don\'t Worry! Just fill in your Email and we will help you to reset your password</string>
+    <string name="msg_reset_password">We\'re here to help! Enter your email and we will help you reset your password</string>
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
     <string name="error_username_short">Username must have at-least 3 characters</string>
@@ -96,7 +96,7 @@
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
-    <string name="bin">Bin</string>
+    <string name="bin">Trash</string>
     <string name="compose">Compose</string>
     <string name="send">Send</string>
     <string name="facebook_app_id">1682804845107826</string>
@@ -115,24 +115,23 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="project_out_for_bid">Project out for Bid</string>
+    <string name="project_out_for_bid">Project Out For Bid</string>
     <string name="current_project">Current Project</string>
     <string name="completed_project">Completed Project</string>
     <string name="my_contractors">My Contractors</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="phone">Phone</string>
     <string-array name="array_working_area">
-        <item>0 - 10 Kms</item>
-        <item>10 - 20 Kms</item>
-        <item>20 - 30 Kms</item>
-        <item>30 - 40 Kms</item>
-        <item>40 - 50 Kms</item>
-        <item>50 - 60 Kms</item>
-        <item>60 - 70 Kms</item>
-        <item>70 - 80 Kms</item>
-        <item>80 - 90 Kms</item>
-        <item>90 - 100 Kms</item>
-        <item>100 - Above</item>
+        <item>0 - 10 miles</item>
+        <item>11 - 20 miles</item>
+        <item>21 - 30 miles</item>
+        <item>31 - 40 miles</item>
+        <item>41 - 50 miles</item>
+        <item>51 - 60 miles</item>
+        <item>61 - 70 miles</item>
+        <item>71 - 80 miles</item>
+        <item>81 - 90 miles</item>
+        <item>91 - 100 miles</item>
     </string-array>
 
     <string name="reset_password">Reset Password</string>

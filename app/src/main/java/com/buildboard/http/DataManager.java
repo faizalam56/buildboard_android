@@ -18,6 +18,8 @@ import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -122,23 +124,23 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
-    public void createContractor(Activity activity, CreateContractorRequest createContractorRequest, final DataManagerListener dataManagerListener) {
-        Call<CreateContractorResponse> call = getDataManager().createContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createContractorRequest);
-        call.enqueue(new Callback<CreateContractorResponse>() {
+    public void saveBusinessInfo(Activity activity, BusinessInfoRequest businessInfoRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessInfoResponse> call = getDataManager().saveBusinessInfo(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), businessInfoRequest);
+        call.enqueue(new Callback<BusinessInfoResponse>() {
             @Override
-            public void onResponse(Call<CreateContractorResponse> call, Response<CreateContractorResponse> response) {
+            public void onResponse(Call<BusinessInfoResponse> call, Response<BusinessInfoResponse> response) {
                 if (!response.isSuccessful()) {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
-                        response.body().getDatas().size() > 0)
-                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
+                        response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
-            public void onFailure(@NonNull Call<CreateContractorResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BusinessInfoResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

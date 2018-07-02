@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.signup.contractor.SignUpContractorActivity">
@@ -40,14 +40,12 @@
                 android:inputType="text"
                 app:typeface="robotoRegular" />
 
-            <com.buildboard.customviews.BuildBoardEditText
+            <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/edit_business_address"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/business_address"
-                android:imeOptions="actionNext"
-                android:inputType="textPostalAddress"
                 app:layout_constraintTop_toBottomOf="@+id/edit_business_name"
                 app:typeface="robotoRegular" />
 
@@ -95,8 +93,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
                 app:typeface="robotoRegular" />
 
-            <com.buildboard.customviews.BuildBoardEditText
-                android:id="@+id/edit_working_area"
+            <Spinner
+                android:id="@+id/spinner_working_area"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_drawable_border"
@@ -119,7 +117,7 @@
                 android:imeOptions="actionDone"
                 android:padding="@dimen/_5sdp"
                 android:maxLines="5"
-                app:layout_constraintTop_toBottomOf="@+id/edit_working_area"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_working_area"
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardButton

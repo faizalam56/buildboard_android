@@ -12,6 +12,8 @@ import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -41,7 +43,7 @@ public interface IApiInterface {
     Call<ContractorListResponse> getContractorList(@Header("oauth") String oauth);
 
     @POST("contractor")
-    Call<CreateContractorResponse> createContractor(@Header("oauth") String oauth, @Body CreateContractorRequest createContractorRequest);
+    Call<BusinessInfoResponse> saveBusinessInfo(@Header("oauth") String oauth, @Body BusinessInfoRequest businessInfoRequest);
 
     @POST("consumer")
     Call<CreateConsumerResponse> createConsumer(@Header("oauth") String oauth, @Body CreateConsumerRequest createConsumerRequest);
