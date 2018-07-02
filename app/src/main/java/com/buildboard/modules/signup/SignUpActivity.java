@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private LatLng addressLatLng;
     private String provider;
     private String providerId;
+    private String mEmail;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -487,14 +488,27 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void getIntentData() {
-        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID)) {
+        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
             provider = getIntent().getStringExtra(INTENT_PROVIDER);
             providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+            mEmail = getIntent().getStringExtra(INTENT_EMAIL);
         }
 
-        if (provider != null && providerId != null)
+        if (provider != null && providerId != null) {
             editPassword.setVisibility(View.GONE);
-        else editPassword.setVisibility(View.VISIBLE);
+            editEmail.setText(mEmail);
+            editEmail.setFocusable(false);
+            editEmail.setFocusableInTouchMode(false);
+            editEmail.setClickable(false);
+            editEmail.setCursorVisible(false);
+        }
+        else {
+            editPassword.setVisibility(View.VISIBLE);
+            editEmail.setFocusable(true);
+            editEmail.setFocusableInTouchMode(true);
+            editEmail.setClickable(true);
+            editEmail.setCursorVisible(true);
+        }
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {

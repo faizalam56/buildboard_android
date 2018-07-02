@@ -47,6 +47,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -128,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        showUserTypePopup(false,null);
+        showUserTypePopup(false,null, null);
     }
 
     @OnClick(R.id.button_signin)
@@ -143,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_forgot_password)
     void forgotPasswordTapped() {
-        openActivity(ForgotPasswordActivity.class, false, false, null);
+        openActivity(ForgotPasswordActivity.class, false, false, null, null);
     }
 
     @OnClick(R.id.button_login_facebook)
@@ -186,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return true;
     }
 
-    private void openActivity(Class classToReplace, boolean isClearStack, boolean isSocialLogin, SocialLoginRequest socialLoginRequest) {
+    private void openActivity(Class classToReplace, boolean isClearStack, boolean isSocialLogin, SocialLoginRequest socialLoginRequest, String email) {
         Intent intent = new Intent(LoginActivity.this, classToReplace);
         if (isClearStack) {
             Intent homeIntent = new Intent(LoginActivity.this, classToReplace);
@@ -196,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         } else if (isSocialLogin) {
             intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
             intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
+            intent.putExtra(INTENT_EMAIL, email);
             startActivity(intent);
             finish();
         } else startActivity(intent);
@@ -233,7 +235,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 socialLoginRequest.setProvider("facebook"); // TODO remove hardcoded string
                 socialLoginRequest.setProviderId(userId);
 
-                getSocialLogin(socialLoginRequest);
+                String email = null;
+                try {
+                    email = object.getString("email");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getSocialLogin(socialLoginRequest, email);
             }
         });
 
@@ -267,12 +275,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
             socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
             socialLoginRequest.setProviderId(account.getId());
+            String email = account.getEmail();
 
-            getSocialLogin(socialLoginRequest);
+            getSocialLogin(socialLoginRequest, email);
         }
     }
 
-    private void getSocialLogin(final SocialLoginRequest socialLoginRequest) {
+    private void getSocialLogin(final SocialLoginRequest socialLoginRequest, final String email) {
         if (socialLoginRequest == null)
             return;
 
@@ -281,14 +290,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                openActivity(HomeActivity.class, true, false, null);
+                openActivity(HomeActivity.class, true, false, null, email);
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
                 Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signUp", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
-                redirectToSignUp(socialLoginRequest);
+                redirectToSignUp(socialLoginRequest, email);
             }
         });
     }
@@ -337,7 +346,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
                 }
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
-                openActivity(HomeActivity.class, true, false, null);
+                openActivity(HomeActivity.class, true, false, null, null);
             }
 
             @Override
@@ -348,11 +357,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         });
     }
 
-    private void redirectToSignUp(SocialLoginRequest socialLoginRequest) {
-        showUserTypePopup(true, socialLoginRequest);
+    private void redirectToSignUp(SocialLoginRequest socialLoginRequest, String email) {
+        showUserTypePopup(true, socialLoginRequest, email);
     }
 
-    private void showUserTypePopup(final boolean isSocialLogin, final SocialLoginRequest socialLoginRequest) {
+    private void showUserTypePopup(final boolean isSocialLogin, final SocialLoginRequest socialLoginRequest, final String email) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.select_user_type);
         builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
@@ -360,10 +369,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        openActivity(SignUpActivity.class, false, isSocialLogin , socialLoginRequest);
+                        openActivity(SignUpActivity.class, false, isSocialLogin , socialLoginRequest, email);
                         break;
                     case 1:
-                        openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest);
+                        openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
                         break;
                 }
             }

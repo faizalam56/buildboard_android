@@ -25,4 +25,5 @@ public interface AppConstant {
     String INTENT_IMAGE_URL = "intent_image_url";
     String INTENT_PROVIDER = "intent_provider";
     String INTENT_PROVIDER_ID = "intent_provider_id";
+    String INTENT_EMAIL = "intent_email";
 }
