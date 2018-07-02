@@ -292,26 +292,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         return consumerRequest;
     }
 
-    private CreateContractorRequest getContractorDetails(String userType, String firstName, String lastName, String email, String password, String address, String phoneNo,
-                                                         String contactMode, String businessName, String businessAddress, String workingArea,
-                                                         String summary) {
-
-        CreateContractorRequest createContractorRequest = new CreateContractorRequest();
-        createContractorRequest.setFirstName(firstName);
-        if (!TextUtils.isEmpty(lastName)) createContractorRequest.setLastName(lastName);
-        createContractorRequest.setEmail(email);
-        createContractorRequest.setPassword(password);
-        if (!TextUtils.isEmpty(phoneNo)) createContractorRequest.setPhoneNo(phoneNo);
-        if (contractorTypeDetail != null && contractorTypeDetail.getIdentifier() != null)
-            createContractorRequest.setTypeOfContractorId(contractorTypeDetail.getIdentifier());
-        createContractorRequest.setBusinessName(businessName);
-        createContractorRequest.setBusinessAddress(businessAddress);
-        if (!TextUtils.isEmpty(summary)) createContractorRequest.setSummary(summary);
-        createContractorRequest.setWorkingAreaRadius(workingArea);
-
-        return createContractorRequest;
-    }
-
     private void setTermsServiceText() {
         SpannableString styledString = new SpannableString(getString(R.string.privacy_policy_text));
         styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
@@ -358,26 +338,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
 
         return validateConsumerFields(address, phoneNo, contactMode);
-    }
-
-    private boolean validateContractorFields(String businessName, String businessAddress, String workingArea, String summary) {
-
-        if (TextUtils.isEmpty(businessName)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(businessAddress)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessAddress).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(workingArea)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorWorkingArea).show();
-            return false;
-        }
-
-        return true;
     }
 
     private boolean validateConsumerFields(String address, String phoneNo, String contactMode) {
