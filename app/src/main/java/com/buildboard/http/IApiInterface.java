@@ -68,8 +68,8 @@ public interface IApiInterface {
     @POST("media/upload")
     Call<ImageUploadResponse> uploadImage(@Header("oauth") String oauth, @Part("type") RequestBody userType, @Part("file_type") RequestBody type, @Part MultipartBody.Part file);
 
-    @GET("resetpassword/{passkey}/password")
-    Call<ResetPasswordResponse> resetPassword(@Header("oauth") String oauth, @Path("passkey") String newPassword);
+    @GET("resetpassword/{passkey}/{password}")
+    Call<ResetPasswordResponse> resetPassword(@Header("oauth") String oauth, @Path("passkey") String apiKey, @Path("password") String newPassword);
 
     @POST("user/activate/{passkey}")
     Call<ActivateUserResponse> activateUser(@Header("oauth") String oauth, @Path("passkey") String newPassword);
