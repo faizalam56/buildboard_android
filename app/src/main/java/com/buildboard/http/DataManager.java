@@ -302,8 +302,8 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
-    public void resetPassword(Activity activity, String newPassword, final DataManagerListener dataManagerListener) {
-        Call<ResetPasswordResponse> call = getDataManager().resetPassword(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), newPassword);
+    public void resetPassword(Activity activity, String apiKey, String newPassword, final DataManagerListener dataManagerListener) {
+        Call<ResetPasswordResponse> call = getDataManager().resetPassword(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), apiKey, newPassword);
         call.enqueue(new Callback<ResetPasswordResponse>() {
             @Override
             public void onResponse(Call<ResetPasswordResponse> call, Response<ResetPasswordResponse> response) {

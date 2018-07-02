@@ -1,5 +1,6 @@
 package com.buildboard.modules.login.resetpassword;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -14,6 +15,7 @@ import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
 
@@ -53,6 +55,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @BindString(R.string.password) String stringPassword;
     @BindString(R.string.eight_char) String stringEightChar;
 
+    private String apiKey;
+    private String schemaSpecificPart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         title.setText(stringResetPassword);
         setFont();
+
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = splitApiKey();
+        }
     }
 
     @OnClick(R.id.button_reset_password)
@@ -98,10 +109,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void resetPassword(String password) {
         ProgressHelper.start(this, stringPleaseWait);
 
-        DataManager.getInstance().resetPassword(this, password, new DataManager.DataManagerListener() {
+        DataManager.getInstance().resetPassword(this, apiKey, password, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -111,5 +125,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 errorManager.handleErrorResponse();
             }
         });
+    }
+
+    private String splitApiKey() {
+        Uri uri = getIntent().getData();
+        String apiKey = null;
+        assert uri != null;
+        if (uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
+        }
+
+        return apiKey;
     }
 }
