@@ -112,7 +112,7 @@
                     android:editable="false"
                     android:focusable="false"
                     android:imeOptions="actionNext"
-                    android:text="@string/preferred_contact_mode"
+                    android:hint="@string/preferred_contact_mode"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
                     app:typeface="robotoRegular" />
 
