@@ -53,7 +53,7 @@
     <string name="expire">Expire</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
-    <string name="msg_reset_password">Don\'t Worry! Just fill in your Email and we will help you to reset your password</string>
+    <string name="msg_reset_password">We\'re here to help! Enter your email and we will help you reset your password</string>
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
     <string name="error_username_short">Username must have at-least 3 characters</string>
