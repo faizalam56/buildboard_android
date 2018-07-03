@@ -165,8 +165,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                     email, password, workingArea, summary);
             saveBusinessInfo(businessInfoRequest);
         }
-        /*Intent intent = new Intent(this, WorkTypeActivity.class);
-        startActivity(intent);*/
     }
 
     @Override
