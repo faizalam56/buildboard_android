@@ -17,6 +17,7 @@ import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfo
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
@@ -76,4 +77,7 @@ public interface IApiInterface {
 
     @POST("login")
     Call<SocialLoginResponse> getSocialLogin(@Header("oauth") String oauth, @Body SocialLoginRequest socialLoginRequest);
+
+    @POST("contractor/profile/work-type")
+    Call<ContractorListResponse> saveWorkType(@Header("oauth") String oauth, @Body WorkTypeRequest workTypeRequest);
 }

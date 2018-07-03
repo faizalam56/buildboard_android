@@ -23,7 +23,9 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
+import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
@@ -243,7 +245,10 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                BusinessInfoData businessInfoData = (BusinessInfoData) response;
+
                 Intent intent = new Intent(SignUpContractorActivity.this, WorkTypeActivity.class);
+                intent.putExtra(INTENT_WORK_TYPE_ID, businessInfoData.getUserId());
                 startActivity(intent);
             }
 

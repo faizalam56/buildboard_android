@@ -193,4 +193,5 @@
     </string-array>
     <string name="work_type">Work Type</string>
     <string name="documents">Documents</string>
+    <string name="error_work_type_not_selected">Please select your type of work</string>
 </resources>

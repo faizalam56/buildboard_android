@@ -23,6 +23,7 @@ import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfo
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
+import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
@@ -363,6 +364,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<SocialLoginResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void saveWorkType(Activity activity, WorkTypeRequest workTypeRequest, final DataManagerListener dataManagerListener) {
+        Call<ContractorListResponse> call = getDataManager().saveWorkType(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), workTypeRequest);
+        call.enqueue(new Callback<ContractorListResponse>() {
+            @Override
+            public void onResponse(Call<ContractorListResponse> call, Response<ContractorListResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContractorListResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

@@ -2,6 +2,7 @@ package com.buildboard.modules.signup.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTypeViewHolder> {
 
+    private final SparseBooleanArray itemPositionArray = new SparseBooleanArray();
     private Activity mActivity;
     private ArrayList<ContractorTypeDetail> mWorkTypeList;
     private LayoutInflater mLayoutInflater;
+    private OnItemCheckListener mOnItemCheckListener;
 
-    public WorkTypeAdapter(Activity activity, ArrayList<ContractorTypeDetail> workTypeList) {
+    public WorkTypeAdapter(Activity activity, ArrayList<ContractorTypeDetail> workTypeList, OnItemCheckListener onItemCheckListener) {
         mActivity = activity;
         mWorkTypeList = workTypeList;
+        mOnItemCheckListener = onItemCheckListener;
         mLayoutInflater = LayoutInflater.from(mActivity);
     }
 
@@ -49,6 +54,8 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
 
     class WorkTypeViewHolder extends RecyclerView.ViewHolder {
 
+        private ContractorTypeDetail contractorTypeDetail;
+
         @BindView(R.id.checkbox_work_type)
         CheckBox checkBox;
         @BindView(R.id.text_work_name)
@@ -60,7 +67,43 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
         }
 
         public void bindData(ContractorTypeDetail contractorTypeDetail) {
+            this.contractorTypeDetail = contractorTypeDetail;
+
             textWorkName.setText(contractorTypeDetail.getTitle());
+            checkBox.setChecked(itemPositionArray.get(getAdapterPosition()));
         }
+
+        @OnClick(R.id.constraint_root)
+        void onRowTapped() {
+            checkBox.setChecked(!checkBox.isChecked());
+            itemPositionArray.put(getAdapterPosition(), true);
+
+            if (checkBox.isChecked()) {
+                itemPositionArray.put(getAdapterPosition(), true);
+                mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
+            } else {
+                itemPositionArray.put(getAdapterPosition(), false);
+                mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
+            }
+
+            notifyDataSetChanged();
+        }
+
+        @OnClick(R.id.checkbox_work_type)
+        void checkBoxTapped() {
+            if (checkBox.isChecked()) {
+                itemPositionArray.put(getAdapterPosition(), true);
+                mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
+            } else {
+                itemPositionArray.put(getAdapterPosition(), false);
+                mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
+            }
+        }
+    }
+
+    public interface OnItemCheckListener {
+        void onItemChecked(String selectWorkId);
+
+        void onItemUnChecked(String selectWorkId);
     }
 }
