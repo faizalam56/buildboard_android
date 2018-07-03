@@ -70,12 +70,7 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
             this.contractorTypeDetail = contractorTypeDetail;
 
             textWorkName.setText(contractorTypeDetail.getTitle());
-
-            if (itemPositionArray.get(getAdapterPosition())) {
-                checkBox.setChecked(true);
-            } else {
-                checkBox.setChecked(false);
-            }
+            checkBox.setChecked(itemPositionArray.get(getAdapterPosition()));
         }
 
         @OnClick(R.id.constraint_root)
