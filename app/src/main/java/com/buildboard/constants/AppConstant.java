@@ -26,4 +26,5 @@ public interface AppConstant {
     String INTENT_PROVIDER = "intent_provider";
     String INTENT_PROVIDER_ID = "intent_provider_id";
     String INTENT_EMAIL = "intent_email";
+    String INTENT_WORK_TYPE_ID = "intent_work_type_id";
 }

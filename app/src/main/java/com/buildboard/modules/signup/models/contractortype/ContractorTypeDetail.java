@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class ContractorTypeDetail implements Parcelable {
 
     @SerializedName("id")
-    private String identifier;
+    private String id;
     @SerializedName("title")
     private String title;
     @SerializedName("description")
@@ -17,9 +17,11 @@ public class ContractorTypeDetail implements Parcelable {
     private String creationDate;
     @SerializedName("updated_at")
     private String lastChange;
+    @SerializedName("type")
+    private String type;
 
     protected ContractorTypeDetail(Parcel in) {
-        identifier = in.readString();
+        id = in.readString();
         title = in.readString();
         description = in.readString();
         creationDate = in.readString();
@@ -38,12 +40,12 @@ public class ContractorTypeDetail implements Parcelable {
         }
     };
 
-    public String getIdentifier() {
-        return identifier;
+    public String getId() {
+        return id;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -85,10 +87,18 @@ public class ContractorTypeDetail implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(identifier);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(creationDate);
         dest.writeString(lastChange);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

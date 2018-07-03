@@ -21,8 +21,10 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
+import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 
@@ -51,6 +53,9 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    private String mWorkTypeId = "";
+    private ArrayList<String> selectedWorkType = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,20 +63,41 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         ButterKnife.bind(this);
 
         title.setText(stringWorkType);
+        getIntentData();
         setTermsServiceText();
         getContractorList();
     }
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        Intent intent = new Intent(this, BusinessDocumentsActivity.class);
-        startActivity(intent);
+        if (selectedWorkType != null && !selectedWorkType.isEmpty()) {
+            WorkTypeRequest workTypeRequest = getWorkTypeRequest(selectedWorkType);
+            saveWorkType(workTypeRequest);
+        } else {
+            SnackBarFactory.createSnackBar(this, constraintRoot, getString(R.string.error_work_type_not_selected));
+        }
     }
 
     public void setRecycler(ArrayList<ContractorTypeDetail> workTypeList) {
-        WorkTypeAdapter workTypeAdapter = new WorkTypeAdapter(this, workTypeList);
+        WorkTypeAdapter workTypeAdapter = new WorkTypeAdapter(this, workTypeList, new WorkTypeAdapter.OnItemCheckListener() {
+            @Override
+            public void onItemChecked(String selectWorkId) {
+                selectedWorkType.add(selectWorkId);
+            }
+
+            @Override
+            public void onItemUnChecked(String selectWorkId) {
+                selectedWorkType.remove(selectWorkId);
+            }
+        });
+
         recyclerWorkType.setLayoutManager(new LinearLayoutManager(this));
         recyclerWorkType.setAdapter(workTypeAdapter);
+    }
+
+    private void getIntentData() {
+        if (getIntent().hasExtra(INTENT_WORK_TYPE_ID))
+            mWorkTypeId = getIntent().getStringExtra(INTENT_WORK_TYPE_ID);
     }
 
     private void setTermsServiceText() {
@@ -103,6 +129,35 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
+    }
+
+    private void saveWorkType(WorkTypeRequest workTypeRequest) {
+
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().saveWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                Intent intent = new Intent(WorkTypeActivity.this, BusinessDocumentsActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(WorkTypeActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private WorkTypeRequest getWorkTypeRequest(ArrayList<String> selectedType) {
+        WorkTypeRequest workTypeRequest = new WorkTypeRequest();
+        workTypeRequest.setId(mWorkTypeId);
+        workTypeRequest.setProjectTypeId(selectedType);
+
+        return workTypeRequest;
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
