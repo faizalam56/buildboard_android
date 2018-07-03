@@ -93,6 +93,17 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
 
             notifyDataSetChanged();
         }
+
+        @OnClick(R.id.checkbox_work_type)
+        void checkBoxTapped() {
+            if (checkBox.isChecked()) {
+                itemPositionArray.put(getAdapterPosition(), true);
+                mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
+            } else {
+                itemPositionArray.put(getAdapterPosition(), false);
+                mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
+            }
+        }
     }
 
     public interface OnItemCheckListener {
