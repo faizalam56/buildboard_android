@@ -30,14 +30,45 @@
             android:paddingRight="@dimen/_15sdp"
             android:paddingTop="@dimen/_15sdp">
 
+            <ImageView
+                android:id="@+id/image_profile"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_image_upload" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                style="@style/textSize_medium"
+                android:id="@+id/text_add_profile_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_profile_picture"
+                android:textColor="@color/colorGreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_profile" />
+
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
                 style="@style/edit_text_size_small"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/text_add_profile_picture"
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardEditText
@@ -62,7 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
                 app:typeface="robotoRegular" />
 
-            <com.buildboard.customviews.BuildBoardEditText
+            <!--<com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_password"
                 style="@style/edit_text_size_small"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -72,7 +103,7 @@
                 android:inputType="textPassword"
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
                 app:typeface="robotoRegular" />
-
+-->
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
                 android:layout_width="match_parent"
@@ -81,7 +112,7 @@
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_password">
+                app:layout_constraintTop_toBottomOf="@+id/edit_email">
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/edit_address"
@@ -103,18 +134,52 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_address"
                     app:typeface="robotoRegular" />
 
-                <com.buildboard.customviews.BuildBoardEditText
+                <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/edit_contact_mode"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@drawable/green_drawable_border"
                     android:cursorVisible="false"
                     android:editable="false"
                     android:focusable="false"
+                    android:background="@null"
+                    android:textColor="@color/colorAccent"
                     android:imeOptions="actionNext"
-                    android:hint="@string/preferred_contact_mode"
+                    android:text="@string/preferred_contact_mode"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
-                    app:typeface="robotoRegular" />
+                    app:typeface="robotoMedium" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_contact_mode">
+
+                    <com.buildboard.customviews.BuildBoardRadioButton
+                        android:id="@+id/radio_phone"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/phone"
+                        android:textSize="@dimen/_14ssp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:button="@drawable/radio_button_border"
+                        app:typeface="robotoRegular"
+                        android:paddingStart="@dimen/_3sdp" />
+
+                    <com.buildboard.customviews.BuildBoardRadioButton
+                        android:id="@+id/radio_email"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/email"
+                        android:textSize="@dimen/_14ssp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:button="@drawable/radio_button_border"
+                        app:typeface="robotoRegular"
+                        android:paddingStart="@dimen/_3sdp" />
+                </RadioGroup>
 
             </android.support.constraint.ConstraintLayout>
 
