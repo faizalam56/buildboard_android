@@ -17,6 +17,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
@@ -129,7 +130,18 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.text_sign_up)
     void signUpTapped() {
-        showUserTypePopup(false,null, null);
+        UserTypeDialog alert = new UserTypeDialog();
+        alert.showDialog(this, new UserTypeDialog.IUserTypeCallback() {
+            @Override
+            public void onConsumerSelection() {
+                openActivity(SignUpActivity.class, false, false, null, null);
+            }
+
+            @Override
+            public void onContractorSelection() {
+                openActivity(SignUpContractorActivity.class, false, false, null, null);
+            }
+        });
     }
 
     @OnClick(R.id.button_signin)
@@ -369,7 +381,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        openActivity(SignUpActivity.class, false, isSocialLogin , socialLoginRequest, email);
+                        openActivity(SignUpActivity.class, false, isSocialLogin, socialLoginRequest, email);
                         break;
                     case 1:
                         openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
