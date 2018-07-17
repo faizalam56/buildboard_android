@@ -39,14 +39,14 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/_10sdp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_image_upload" />
 
             <com.buildboard.customviews.BuildBoardTextView
-                style="@style/textSize_medium"
                 android:id="@+id/text_add_profile_picture"
+                style="@style/textSize_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -138,47 +138,49 @@
                     android:id="@+id/edit_contact_mode"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@null"
                     android:cursorVisible="false"
                     android:editable="false"
                     android:focusable="false"
-                    android:background="@null"
-                    android:textColor="@color/colorAccent"
                     android:imeOptions="actionNext"
                     android:text="@string/preferred_contact_mode"
+                    android:textColor="@color/colorAccent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
                     app:typeface="robotoMedium" />
 
                 <RadioGroup
+                    android:id="@+id/radio_group_contact_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_contact_mode">
 
                     <com.buildboard.customviews.BuildBoardRadioButton
                         android:id="@+id/radio_phone"
-                        android:layout_height="wrap_content"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:button="@drawable/radio_button_border"
+                        android:enabled="true"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_3sdp"
                         android:text="@string/phone"
                         android:textSize="@dimen/_14ssp"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:button="@drawable/radio_button_border"
-                        app:typeface="robotoRegular"
-                        android:paddingStart="@dimen/_3sdp" />
+                        app:typeface="robotoRegular" />
 
                     <com.buildboard.customviews.BuildBoardRadioButton
                         android:id="@+id/radio_email"
-                        android:layout_height="wrap_content"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:button="@drawable/radio_button_border"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_3sdp"
                         android:text="@string/email"
                         android:textSize="@dimen/_14ssp"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:button="@drawable/radio_button_border"
-                        app:typeface="robotoRegular"
-                        android:paddingStart="@dimen/_3sdp" />
+                        app:typeface="robotoRegular" />
                 </RadioGroup>
 
             </android.support.constraint.ConstraintLayout>
@@ -188,8 +190,8 @@
                 style="@style/button_style"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/gray_button_background"
-                android:text="@string/next"
                 android:imeOptions="actionDone"
+                android:text="@string/done"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container"
