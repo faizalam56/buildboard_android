@@ -4,6 +4,7 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -84,4 +85,7 @@ public interface IApiInterface {
 
     @GET("user/profile")
     Call<ProfileResponse> getProfile(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("projects")
+    Call<ProjectsResponse> getProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("status") String status, @Query("page") int page);
 }

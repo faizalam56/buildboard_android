@@ -12,12 +12,18 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
+import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
+import com.buildboard.modules.home.modules.projects.models.ProjectsData;
+import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ProjectsFragment extends Fragment {
@@ -54,6 +60,7 @@ public class ProjectsFragment extends Fragment {
 
         setFonts();
         setProjectsRecycler();
+        getProjectsList("open",1);
         return view;
     }
 
@@ -83,5 +90,42 @@ public class ProjectsFragment extends Fragment {
     private void setFonts() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, buttonCompletedProjects, buttonCreateNewProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjects);
+    }
+
+    @OnClick(R.id.button_completed_projects)
+    void completedProjectsTapped() {
+        getProjectsList("completed",1);
+    }
+
+    @OnClick(R.id.button_open_projects)
+    void openProjectsTapped() {
+        getProjectsList("open",1);
+    }
+
+    @OnClick(R.id.button_saved_projects)
+    void savedProjectsTapped() {
+        getProjectsList("saved",1);
+    }
+
+    @OnClick(R.id.button_current_projects)
+    void currentProjectsTapped() {
+        getProjectsList("current",1);
+    }
+
+    private void getProjectsList(String status, int page) {
+        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        DataManager.getInstance().getProjectsList(getActivity(), status, page, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>)response;
+                ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+            }
+        });
     }
 }
