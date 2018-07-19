@@ -196,7 +196,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         title.setText(stringSignUp);
         setTermsServiceText();
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
