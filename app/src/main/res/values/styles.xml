@@ -85,6 +85,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="button_styles">
+        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:layout_width">@dimen/_300sdp</item>
+        <item name="android:layout_height">@dimen/_35sdp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="edit_text_style" parent="@android:style/Widget.EditText">
         <item name="android:textColorHint">@color/colorHint</item>
         <item name="android:layout_width">match_parent</item>
