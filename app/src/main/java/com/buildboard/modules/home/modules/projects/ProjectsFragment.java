@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProjectsFragment extends Fragment {
+public class ProjectsFragment extends Fragment implements AppConstant {
 
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
@@ -48,7 +49,7 @@ public class ProjectsFragment extends Fragment {
     private int mCurrentPage = 1;
     ProjectsAdapter mProjectsAdapter;
     ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
-    private String mCurrentStatus = "open";
+    private String mCurrentStatus = STATUS_OPEN;
 
     public static ProjectsFragment newInstance() {
         ProjectsFragment fragment = new ProjectsFragment();
@@ -107,7 +108,7 @@ public class ProjectsFragment extends Fragment {
     void completedProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
-        mCurrentStatus = "completed";
+        mCurrentStatus = STATUS_COMPLETED;
         getProjectsList(true);
     }
 
@@ -115,7 +116,7 @@ public class ProjectsFragment extends Fragment {
     void openProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
-        mCurrentStatus = "open";
+        mCurrentStatus = STATUS_OPEN;
         getProjectsList(true);
     }
 
@@ -123,7 +124,7 @@ public class ProjectsFragment extends Fragment {
     void savedProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
-        mCurrentStatus = "saved";
+        mCurrentStatus = STATUS_SAVED;
         getProjectsList(true);
     }
 
@@ -131,7 +132,7 @@ public class ProjectsFragment extends Fragment {
     void currentProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
-        mCurrentStatus = "current";
+        mCurrentStatus = STATUS_CURRENT;
         getProjectsList(true);
     }
 
