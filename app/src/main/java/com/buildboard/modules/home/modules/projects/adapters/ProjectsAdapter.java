@@ -60,7 +60,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
-//            ((ViewHolder) holder).bindData(position);
+            ((ViewHolder) holder).bindData(position);
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             if (isLastPage)
@@ -90,6 +90,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
         CardView cardService;
         @BindView(R.id.text_service_type)
         TextView textServiceType;
+        @BindView(R.id.text_service_type_name)
+        TextView textServiceTypeName;
         @BindView(R.id.button_view)
         Button buttonView;
 
@@ -99,8 +101,13 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
             setFont();
         }
 
+        private void bindData(int position) {
+            textServiceType.setText(mProjectDetails.get(position).getProjectType().getTitle());
+            textServiceTypeName.setText(mProjectDetails.get(position).getTitle());
+        }
+
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceType, buttonView);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceType, buttonView, textServiceTypeName);
         }
     }
 
