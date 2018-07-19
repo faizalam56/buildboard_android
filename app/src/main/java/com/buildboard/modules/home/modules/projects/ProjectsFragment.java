@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
@@ -46,6 +45,10 @@ public class ProjectsFragment extends Fragment {
     TextView textProjects;
 
     private Unbinder unbinder;
+    private int mCurrentPage = 1;
+    ProjectsAdapter mProjectsAdapter;
+    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
+    private String mCurrentStatus = "open";
 
     public static ProjectsFragment newInstance() {
         ProjectsFragment fragment = new ProjectsFragment();
@@ -59,26 +62,34 @@ public class ProjectsFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         setFonts();
-        setProjectsRecycler();
-        getProjectsList("open",1);
+        getProjectsList(false);
         return view;
     }
 
-    private void setProjectsRecycler() {
-        ProjectsAdapter selectionAdapter = new ProjectsAdapter(getActivity(), getDatas());
-        recyclerProjects.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerProjects.setAdapter(selectionAdapter);
-    }
+    private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
+        mProjectDetails.addAll(projectDetails);
 
-    private ArrayList<String> getDatas() {
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("Service 1");
-        datas.add("Service 2");
-        datas.add("Service 3");
-        datas.add("Service 4");
-        datas.add("Service 5");
-
-        return datas;
+        if (mProjectsAdapter == null) {
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerProjects.setLayoutManager(mLinearLayoutManager);
+            mProjectsAdapter = new ProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
+            recyclerProjects.setAdapter(mProjectsAdapter);
+            mProjectsAdapter.setOnLoadMoreListener(new ProjectsAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    mCurrentPage++;
+                    if (mProjectsAdapter != null && mProjectsAdapter.isLoading)
+                        getProjectsList(false);
+                }
+            });
+        } else {
+            recyclerProjects.getAdapter().notifyItemInserted((mProjectDetails.size()));
+        }
+        if (mProjectsAdapter != null) {
+            mProjectsAdapter.setLoading(false);
+            if (mCurrentPage == lastPage)
+                mProjectsAdapter.setLastPage(true);
+        }
     }
 
     @Override
@@ -94,37 +105,50 @@ public class ProjectsFragment extends Fragment {
 
     @OnClick(R.id.button_completed_projects)
     void completedProjectsTapped() {
-        getProjectsList("completed",1);
+        mProjectDetails.clear();
+        mProjectsAdapter = null;
+        mCurrentStatus = "completed";
+        getProjectsList(true);
     }
 
     @OnClick(R.id.button_open_projects)
     void openProjectsTapped() {
-        getProjectsList("open",1);
+        mProjectDetails.clear();
+        mProjectsAdapter = null;
+        mCurrentStatus = "open";
+        getProjectsList(true);
     }
 
     @OnClick(R.id.button_saved_projects)
     void savedProjectsTapped() {
-        getProjectsList("saved",1);
+        mProjectDetails.clear();
+        mProjectsAdapter = null;
+        mCurrentStatus = "saved";
+        getProjectsList(true);
     }
 
     @OnClick(R.id.button_current_projects)
     void currentProjectsTapped() {
-        getProjectsList("current",1);
+        mProjectDetails.clear();
+        mProjectsAdapter = null;
+        mCurrentStatus = "current";
+        getProjectsList(true);
     }
 
-    private void getProjectsList(String status, int page) {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
-        DataManager.getInstance().getProjectsList(getActivity(), status, page, new DataManager.DataManagerListener() {
+    private void getProjectsList(final boolean showProgress) {
+        if (showProgress) ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                if (showProgress) ProgressHelper.stop();
                 ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>)response;
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
+                setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                if (showProgress) ProgressHelper.stop();
             }
         });
     }

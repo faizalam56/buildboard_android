@@ -1,48 +1,85 @@
 package com.buildboard.modules.home.modules.projects.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
+public class ProjectsAdapter extends RecyclerView.Adapter {
 
-    private Context mContext;
-    private List<String> mArrayList;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+    private Activity mActivity;
+    private ArrayList<ProjectDetail> mProjectDetails;
+    private OnLoadMoreListener onLoadMoreListener;
+    private LinearLayoutManager mLinearLayoutManager;
+    public boolean isLoading = false;
+    private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
 
-    public ProjectsAdapter(Context context, List<String> arrayList) {
-        mContext = context;
-        mArrayList = arrayList;
-        mLayoutInflater = LayoutInflater.from(mContext);
+    public ProjectsAdapter(Activity activity, ArrayList<ProjectDetail> projectDetails, RecyclerView recyclerView) {
+        mActivity = activity;
+        mProjectDetails = projectDetails;
+        mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        recyclerView.addOnScrollListener(onScrollListener);
+        mLayoutInflater = LayoutInflater.from(mActivity);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_projects, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = mLayoutInflater.inflate(R.layout.item_projects, parent, false);
+
+            return new ViewHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = mLayoutInflater.inflate(R.layout.item_loading, parent, false);
+
+            return new LoadingViewHolder(view);
+        }
+
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+//            ((ViewHolder) holder).bindData(position);
+        } else if (holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            if (isLastPage)
+                loadingViewHolder.progressBar.setVisibility(View.GONE);
+            else {
+                loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
+                loadingViewHolder.progressBar.setIndeterminate(true);
+            }
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == mProjectDetails.size()) ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return mArrayList.size();
+        return (mProjectDetails.size() != 0 && !isLastPage) ? mProjectDetails.size() + 1 : mProjectDetails.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,5 +102,56 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceType, buttonView);
         }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        private LoadingViewHolder(View view) {
+            super(view);
+            progressBar = view.findViewById(R.id.progressBar_loading);
+        }
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.onLoadMoreListener = mOnLoadMoreListener;
+    }
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int visibleItemCount = mLinearLayoutManager.getChildCount();
+            int totalItemCount = mLinearLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    setLoading(true);
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                }
+            }
+        }
+    };
+
+    public void setLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+    }
+
+    public void setLastPage(boolean isLastPage) {
+        this.isLastPage = isLastPage;
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
     }
 }
