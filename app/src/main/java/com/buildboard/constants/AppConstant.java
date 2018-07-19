@@ -27,4 +27,8 @@ public interface AppConstant {
     String INTENT_PROVIDER_ID = "intent_provider_id";
     String INTENT_EMAIL = "intent_email";
     String INTENT_WORK_TYPE_ID = "intent_work_type_id";
+    String STATUS_OPEN = "open";
+    String STATUS_COMPLETED = "completed";
+    String STATUS_SAVED = "saved";
+    String STATUS_CURRENT = "current";
 }

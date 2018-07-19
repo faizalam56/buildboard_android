@@ -9,6 +9,8 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
+import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -386,6 +388,52 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ContractorListResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getProfile(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<ProfileResponse> call = getDataManager().getProfile(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProfileResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getProjectsList(Activity activity, String status, int page, final DataManagerListener dataManagerListener) {
+        Call<ProjectsResponse> call = getDataManager().getProjectsList(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), status, page);
+        call.enqueue(new Callback<ProjectsResponse>() {
+            @Override
+            public void onResponse(Call<ProjectsResponse> call, Response<ProjectsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProjectsResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
