@@ -193,7 +193,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
-
         title.setText(stringSignUp);
         setTermsServiceText();
 
