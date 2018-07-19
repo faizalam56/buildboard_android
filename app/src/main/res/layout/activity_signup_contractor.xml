@@ -22,7 +22,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/_15sdp"
@@ -93,6 +92,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
                 app:typeface="robotoRegular" />
 
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_phoneno"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/phone_no"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                app:layout_constraintTop_toBottomOf="@+id/edit_password"
+                app:typeface="robotoRegular" />
+
             <Spinner
                 android:id="@+id/spinner_working_area"
                 style="@style/edit_text_size_small"
@@ -103,8 +113,7 @@
                 android:focusable="false"
                 android:imeOptions="actionNext"
                 android:text="@string/working_area"
-                app:layout_constraintTop_toBottomOf="@+id/edit_password"
-                app:typeface="robotoRegular" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
 
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_summary"
