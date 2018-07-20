@@ -27,7 +27,7 @@
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
     <string name="address">Address</string>
-    <string name="phone_no">Phone no.</string>
+    <string name="phone_no">Phone no</string>
     <string name="preferred_contact_mode">Preferred contact mode</string>
     <string name="gender">Gender</string>
     <string name="female">Female</string>
@@ -75,6 +75,7 @@
     <string name="error_enter_cvv">Please enter Cvv number</string>
     <string name="send_email">Send Email</string>
     <string name="error_first_name_short">First name must have at-least 3 characters</string>
+    <string name="error_last_name_short">Last name must have at-least 3 characters</string>
     <string name="error_user_type">Please select user type</string>
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
@@ -196,7 +197,7 @@
     <string name="error_work_type_not_selected">Please select your type of work</string>
     <string name="done">Done</string>
     <string name="msg_select_user_type">Please register to be a part of Buildboard. Please select your role.</string>
-
     <string name="i_am_a_consumer">I am a Consumer</string>
     <string name="i_am_a_contractor">I am a Contractor</string>
+    <string name="current_address">Enter address</string>
 </resources>

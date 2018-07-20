@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraint_root"
@@ -32,28 +32,31 @@
 
             <ImageView
                 android:id="@+id/image_profile"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_110sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_camera_green" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_add_profile_picture"
-                style="@style/textSize_small"
+                style="@style/textSize_smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/add_profile_picture"
                 android:textColor="@color/colorGreen"
                 android:textStyle="bold"
@@ -66,15 +69,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/first_name"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_add_profile_picture"
-                app:typeface="robotoMedium"
-               />
-
+                app:typeface="robotoMedium" />
 
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
@@ -94,7 +94,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/last_name"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -120,7 +119,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/email"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -141,6 +139,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_email"
                 app:typeface="robotoRegular" />
 
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_email"
+                app:typeface="robotoMedium" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_password"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_password"
+                app:typeface="robotoRegular" />
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
                 android:layout_width="match_parent"
@@ -149,14 +172,13 @@
                 app:layout_constraintHorizontal_bias="0.421"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_email">
+                app:layout_constraintTop_toBottomOf="@+id/edit_password">
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +203,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/phone_no"
                     android:textColor="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -204,15 +225,13 @@
                     app:typeface="robotoRegular" />
 
                 <com.buildboard.customviews.BuildBoardTextView
-                    android:id="@+id/edit_contact_mode"
+                    android:id="@+id/text_contact_mode"
                     style="@style/edit_text_size_small"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:background="@null"
                     android:cursorVisible="false"
-                    android:editable="false"
                     android:focusable="false"
                     android:imeOptions="actionNext"
-                    android:text="@string/preferred_contact_mode"
                     android:textColor="@color/colorAccent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
                     app:typeface="robotoMedium" />
@@ -226,18 +245,18 @@
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_contact_mode">
+                    app:layout_constraintTop_toBottomOf="@+id/text_contact_mode">
 
                     <com.buildboard.customviews.BuildBoardRadioButton
                         android:id="@+id/radio_phone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:button="@drawable/radio_button_border"
                         android:checked="true"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
+                        android:button="@drawable/radio_button_border"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_5sdp"
                         android:text="@string/phone"
                         android:textSize="@dimen/_13ssp"
                         app:typeface="robotoRegular" />
@@ -248,17 +267,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:button="@drawable/radio_button_border"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_5sdp"
                         android:text="@string/email"
                         android:textSize="@dimen/_13ssp"
                         app:typeface="robotoRegular" />
                 </RadioGroup>
-
-
-
-
             </android.support.constraint.ConstraintLayout>
 
             <com.buildboard.customviews.BuildBoardButton
@@ -267,7 +282,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/green_button_background"
                 android:imeOptions="actionDone"
-                android:text="@string/done"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -278,8 +293,9 @@
                 android:id="@+id/text_terms_of_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:autoLink="all"
+                android:textSize="@dimen/_10sdp"
                 android:gravity="center"
                 android:linksClickable="true"
                 android:text="@string/privacy_policy_text"
