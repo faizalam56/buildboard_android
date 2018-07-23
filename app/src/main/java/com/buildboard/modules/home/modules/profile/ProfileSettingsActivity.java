@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
-public class ProfileSettingsActivity extends AppCompatActivity {
+public class ProfileSettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.title)
     TextView title;
@@ -57,7 +58,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
         title.setText(stringSettings);
-
+        textEditProfile.setOnClickListener(this);
     }
 
     @OnClick(R.id.card_logout)
@@ -87,5 +88,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             startActivity(homeIntent);
             finish();
         } else startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.text_edit_profile:
+                openActivity(EditProfileActivity.class, true);
+                break;
+        }
     }
 }

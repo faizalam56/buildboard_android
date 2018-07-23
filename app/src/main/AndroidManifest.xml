@@ -113,7 +113,8 @@
         <activity android:name=".modules.signup.contractor.SignUpContractorActivity" />
         <activity android:name=".modules.signup.contractor.WorkTypeActivity" />
         <activity android:name=".modules.signup.contractor.BusinessDocumentsActivity" />
-        <activity android:name=".modules.signup.contractor.PreviousWorkActivity"></activity>
+        <activity android:name=".modules.signup.contractor.PreviousWorkActivity"/>
+        <activity android:name=".modules.home.modules.profile.EditProfileActivity"/>
     </application>
 
 </manifest>
