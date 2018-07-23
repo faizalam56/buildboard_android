@@ -11,6 +11,7 @@ public interface AppConstant {
     int CARD_TYPE_REQUEST_CODE = 12;
     int PLACE_PICKER_REQUEST = 201;
     int IMAGE_UPLOAD_REQUEST_CODE = 200;
+    int REQUEST_PERMISSION_CODE = 300;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";

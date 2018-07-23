@@ -46,7 +46,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
     @BindString(R.string.settings)
     String stringSettings;
     @BindString(R.string.successfullyLogout)
@@ -57,14 +56,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
-
         title.setText(stringSettings);
 
     }
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
             @Override
@@ -74,7 +71,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false,IS_LOGIN);
                 openActivity(LoginActivity.class, true);
             }
-
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();

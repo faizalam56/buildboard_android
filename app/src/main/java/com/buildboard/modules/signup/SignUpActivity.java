@@ -1,6 +1,7 @@
 package com.buildboard.modules.signup;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,7 +26,6 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -56,7 +56,6 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -69,7 +68,6 @@ import okhttp3.RequestBody;
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private final int REQUEST_PERMISSION_CODE = 300;
     private final int REQUEST_CODE = 2001;
     private String apiKey;
     private String schemaSpecificPart;
@@ -263,7 +261,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName, lastName, email, password, address, phoneNo, contactMode)) {
+        if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
             if (selectedImage == null) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectImage);
                 } else {
@@ -346,14 +344,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    private void openActivity(Class classToReplace, ArrayList<String> arrayList, int requestCode, String title) {
-        Intent intent = new Intent(SignUpActivity.this, classToReplace);
-        intent.putExtra(DATA, arrayList);
-        intent.putExtra(INTENT_TITLE, title);
-        startActivityForResult(intent, requestCode);
-    }
-
-    private boolean validateFields(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode) {
+    private boolean validateFields(String firstName, String lastName, String email, String password, String address, String phoneNo) {
 
         if (TextUtils.isEmpty(firstName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorFirstName);
@@ -382,7 +373,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if(TextUtils.isEmpty(password)){
           SnackBarFactory.createSnackBar(this,constraintRoot,stringErrorPasswordEmptyMsg).show();
           return false;
-        } else if(password.length()<8){
+        } else if (password.length()<8){
             SnackBarFactory.createSnackBar(this,constraintRoot,stringErrorPasswordLength).show();
             return false;
         }
@@ -407,7 +398,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName, lastName, email, password, address, phoneNo, contactMode)) {
+        if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
             signUpMethod(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
         }
     }
@@ -489,28 +480,34 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
     private void getAddressLatLng(final Place place) {
+        showAddressDialog(place);
+        addressLatLng = place.getLatLng();
+    }
+
+    private void showAddressDialog(Place place) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.custom_places_dialog, null);
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.custom_places_dialog, null);
         dialogBuilder.setView(dialogView);
         final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
         final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
         buildBoardEditText.setText(place.getName());
         textView.setText(place.getAddress());
-        dialogBuilder.setTitle("Confirm Your Location");
-        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+        dialogBuilder.setTitle(getString(R.string.confirm_location));
+        dialogBuilder.setPositiveButton(getString(R.string.done), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                editAddress.setText(buildBoardEditText.getText().toString()+" ,"+textView.getText().toString());
+                String newLocation = buildBoardEditText.getText().toString();
+                String selectedLocation = textView.getText().toString();
+                editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
         AlertDialog b = dialogBuilder.create();
         b.show();
-        addressLatLng = place.getLatLng();
     }
 
     public void getIntentData() {
@@ -608,5 +605,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         int end = builder.length();
         builder.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

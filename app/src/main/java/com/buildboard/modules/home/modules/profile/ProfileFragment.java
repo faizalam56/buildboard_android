@@ -28,14 +28,12 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
-
     @BindView(R.id.text_name)
     BuildBoardTextView textName;
     @BindView(R.id.text_email)
     BuildBoardTextView textEmail;
     @BindView(R.id.text_phone)
     BuildBoardTextView textPhone;
-
     @BindView(R.id.button_out_for_bid)
     BuildBoardButton buttonOutForBid;
     @BindView(R.id.button_current_project)
@@ -44,7 +42,6 @@ public class ProfileFragment extends Fragment {
     BuildBoardButton buttonCompletedProjects;
     @BindView(R.id.button_my_contractors)
     BuildBoardButton buttonMyContractors;
-
     @BindView(R.id.recycler_my_contactor)
     RecyclerView recyclerMyContractors;
 

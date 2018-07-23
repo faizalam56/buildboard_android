@@ -200,4 +200,8 @@
     <string name="i_am_a_consumer">I am a Consumer</string>
     <string name="i_am_a_contractor">I am a Contractor</string>
     <string name="current_address">Enter address</string>
+    <string name="confirm_location">Confirm Your Location</string>
+    <string name="cancel">Cancel</string>
+    <string name="comma"> ,</string>
+
 </resources>
