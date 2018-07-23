@@ -18,6 +18,7 @@ public class CreateConsumerRequest implements Serializable {
     @SerializedName("longitude") private String longitude;
     @SerializedName("provider") private String provider;
     @SerializedName("provider_id") private String providerId;
+    @SerializedName("_method") private String methodName;
 
     public String getFirstName() {
         return firstName;
@@ -114,4 +115,9 @@ public class CreateConsumerRequest implements Serializable {
     public void setProviderId(String providerId) {
         this.providerId = providerId;
     }
+
+    public String getMethodName(){
+        return methodName;
+    }
+    public void setMethodName(String methodName){this.methodName= methodName;}
 }

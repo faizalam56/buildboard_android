@@ -149,6 +149,26 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
+    public void updateConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
+        Call<CreateConsumerResponse> call = getDataManager().updateConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID), createConsumerRequest);
+        call.enqueue(new Callback<CreateConsumerResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CreateConsumerResponse> call, @NonNull Response<CreateConsumerResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CreateConsumerResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
     public void createConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
         Call<CreateConsumerResponse> call = getDataManager().createConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createConsumerRequest);
         call.enqueue(new Callback<CreateConsumerResponse>() {
@@ -437,4 +457,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
+
+
 }
