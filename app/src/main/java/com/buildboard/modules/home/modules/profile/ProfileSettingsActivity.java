@@ -94,7 +94,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.text_edit_profile:
-                openActivity(EditProfileActivity.class, true);
+                startActivity(new Intent(ProfileSettingsActivity.this,EditProfileActivity.class));
                 break;
         }
     }
