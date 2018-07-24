@@ -2,7 +2,6 @@ package com.buildboard.http;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
@@ -17,9 +16,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
-import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
@@ -28,12 +27,8 @@ import com.buildboard.modules.signup.models.contractortype.ContractorListRespons
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 import com.buildboard.preferences.AppPreference;
-
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -92,6 +87,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
                         response.body().getTokenDataObject().size() > 0)
                     dataManagerListener.onSuccess(response.body().getTokenDataObject().get(0));
@@ -115,6 +111,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas());
                 else dataManagerListener.onError(response.body().getError());
@@ -136,6 +133,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
                         response.body().getData().size() > 0)
                     dataManagerListener.onSuccess(response.body().getData().get(0));
@@ -158,6 +156,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
@@ -178,6 +177,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
@@ -290,6 +290,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus().equals(SUCCESS))
                     dataManagerListener.onSuccess(response.body().getData().get(0));
                 else dataManagerListener.onError(response.body().getError());
@@ -457,7 +458,4 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
-
-
-
 }

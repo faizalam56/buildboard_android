@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.profile;
 
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,6 +29,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -54,9 +54,11 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -66,7 +68,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class EditProfileActivity extends AppCompatActivity implements AppConstant, View.OnClickListener {
+public class EditProfileActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
@@ -79,6 +81,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private Uri selectedImage;
     private ProfileData profileData;
     private String responsImageUrl;
+    private ContractorTypeDetail contractorTypeDetail;
+    private int maxClicks = 3, currentNumber = 0;
+    private String contactMode = PHONE;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
@@ -196,19 +201,17 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringPleaseWait;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
-    String contactMode = PHONE;
-    ContractorTypeDetail contractorTypeDetail;
-    int maxClicks = 3, currentNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
+
         title.setText(stringEditProfile);
         getUserProfileData();
         setAsteriskToText();
-        textAddAnotherAddress.setOnClickListener(this);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
@@ -277,6 +280,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterValidAddress);
             return;
         }
+
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().updateConsumer(EditProfileActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
@@ -284,8 +288,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                 ProgressHelper.stop();
                 if (response == null) return;
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
-                if(createConsumerData.getMessage()!=null)
-                Toast.makeText(EditProfileActivity.this,createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
+                if (createConsumerData.getMessage() != null)
+                    Toast.makeText(EditProfileActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -350,6 +354,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
         return true;
     }
+
     private void createAccount(String imageUrl) {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
@@ -443,6 +448,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         addressLatLng = place.getLatLng();
     }
 
+    //TODO MAKE THIS STATIC METHOD
     private void showAddressDialog(Place place) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -516,6 +522,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         builder.append(colored);
         int end = builder.length();
         builder.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         return builder;
     }
 
@@ -558,8 +565,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         }
     }
 
-    @Override
-    public void onClick(View view) {
+    //TODO WORK ON ADD NEW MULTIPLE ADDRESS
+    @OnClick(R.id.textAddAnotherAddress)
+    public void addNewAddressBox() {
         final LinearLayout linearLayoutForm = this.findViewById(R.id.linearLayoutForm);
         if (currentNumber == maxClicks) {
             textAddAnotherAddress.setVisibility(View.GONE);
@@ -570,14 +578,14 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             BuildBoardTextView text_address = newView.findViewById(R.id.text_address);
             BuildBoardTextView edit_address = newView.findViewById(R.id.edit_address);
-            text_address.setText(String.format(Locale.getDefault(),"%s %d", getString(R.string.address), currentNumber));
-            edit_address.setHint(getString(R.string.address)+" "+currentNumber);
+            text_address.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.address), currentNumber));
+            edit_address.setHint(getString(R.string.address) + " " + currentNumber);
             ImageView btnRemove = newView.findViewById(R.id.btnRemove);
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     currentNumber--;
-                    if(textAddAnotherAddress.getVisibility()==View.GONE || currentNumber >3){
+                    if (textAddAnotherAddress.getVisibility() == View.GONE || currentNumber > 3) {
                         textAddAnotherAddress.setVisibility(View.VISIBLE);
                     }
                     linearLayoutForm.removeView(newView);
@@ -585,6 +593,5 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             });
             linearLayoutForm.addView(newView);
         }
-
     }
 }

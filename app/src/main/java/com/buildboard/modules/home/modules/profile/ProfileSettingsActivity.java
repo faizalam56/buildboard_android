@@ -23,7 +23,7 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
-public class ProfileSettingsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileSettingsActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
     TextView title;
@@ -58,7 +58,6 @@ public class ProfileSettingsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
         title.setText(stringSettings);
-        textEditProfile.setOnClickListener(this);
     }
 
     @OnClick(R.id.card_logout)
@@ -90,12 +89,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements View.O
         } else startActivity(intent);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.text_edit_profile:
-                startActivity(new Intent(ProfileSettingsActivity.this,EditProfileActivity.class));
-                break;
-        }
+    @OnClick(R.id.text_edit_profile)
+    public void moveToClass() {
+        startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
     }
 }

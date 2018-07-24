@@ -31,6 +31,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -54,8 +55,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+
 import java.io.File;
 import java.io.IOException;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -253,7 +256,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     @OnClick(R.id.button_next)
-    void nextButtonTapped() {
+    void registerButtonTapped() {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
@@ -370,11 +373,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if(TextUtils.isEmpty(password)){
-          SnackBarFactory.createSnackBar(this,constraintRoot,stringErrorPasswordEmptyMsg).show();
-          return false;
-        } else if (password.length()<8){
-            SnackBarFactory.createSnackBar(this,constraintRoot,stringErrorPasswordLength).show();
+        if (TextUtils.isEmpty(password)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg).show();
+            return false;
+        } else if (password.length() < 8) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength).show();
             return false;
         }
 
@@ -390,6 +393,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         return true;
     }
+
     private void createAccount(String imageUrl) {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
@@ -595,6 +599,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
     }
 
+    //TODO TO MAKE STATIC METHOD
     @NonNull
     private SpannableStringBuilder setStarToLabel(String text) {
         String colored = " *";

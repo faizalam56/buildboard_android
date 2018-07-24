@@ -92,5 +92,4 @@ public interface IApiInterface {
 
     @GET("projects")
     Call<ProjectsResponse> getProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("status") String status, @Query("page") int page);
-
 }
