@@ -141,6 +141,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 Intent intent = new Intent(WorkTypeActivity.this, BusinessDocumentsActivity.class);
+                intent.putExtra(INTENT_USER_ID, mWorkTypeId);
                 startActivity(intent);
             }
 

@@ -51,10 +51,10 @@
         <activity
             android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.paymentdetails.PaymentDetailsActivity"
-            android:label="@string/payment_details"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".modules.paymentdetails.PaymentDetailsActivity"-->
+            <!--android:label="@string/payment_details"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".modules.login.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password"
@@ -113,7 +113,7 @@
         <activity android:name=".modules.signup.contractor.SignUpContractorActivity" />
         <activity android:name=".modules.signup.contractor.WorkTypeActivity" />
         <activity android:name=".modules.signup.contractor.BusinessDocumentsActivity" />
-        <activity android:name=".modules.signup.contractor.PreviousWorkActivity"></activity>
+        <activity android:name=".modules.signup.contractor.PreviousWorkActivity"/>
     </application>
 
 </manifest>
