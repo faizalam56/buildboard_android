@@ -62,7 +62,7 @@ public interface IApiInterface {
     Call<LogoutResponse> logout(@Header("oauth") String oauth, @Header("session") String sessionId);
 
     @GET("marketplace/consumer")
-    Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth);
+    Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth,@Header("session") String sessionId);
 
     @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,

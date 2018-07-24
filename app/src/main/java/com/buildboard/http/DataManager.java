@@ -213,7 +213,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceConsumer(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN));
+        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketplaceConsumerResponse>() {
             @Override
             public void onResponse(@NonNull Call<MarketplaceConsumerResponse> call, @NonNull Response<MarketplaceConsumerResponse> response) {
