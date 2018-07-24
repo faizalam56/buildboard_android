@@ -24,6 +24,7 @@ import com.buildboard.modules.signup.contractor.models.businessdocument.Business
 import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
+import com.buildboard.modules.signup.contractor.models.previouswork.PreviousWorkRequest;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -441,6 +442,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
     public void storeContractorDocuments(Activity activity, BusinessDocumentsRequest businessDocumentsRequest, final DataManagerListener dataManagerListener) {
         Call<BusinessDocumentsResponse> call = getDataManager().storeContractorDocuments(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), businessDocumentsRequest);
+        call.enqueue(new Callback<BusinessDocumentsResponse>() {
+            @Override
+            public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void storePrevWork(Activity activity, PreviousWorkRequest previousWorkRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessDocumentsResponse> call = getDataManager().storePrevWork(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), previousWorkRequest);
         call.enqueue(new Callback<BusinessDocumentsResponse>() {
             @Override
             public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {

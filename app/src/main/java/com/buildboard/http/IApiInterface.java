@@ -18,6 +18,7 @@ import com.buildboard.modules.signup.contractor.models.businessdocument.Business
 import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
+import com.buildboard.modules.signup.contractor.models.previouswork.PreviousWorkRequest;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -91,4 +92,7 @@ public interface IApiInterface {
 
     @POST("contractor/profile/document")
     Call<BusinessDocumentsResponse> storeContractorDocuments(@Header("oauth") String oauth, @Body BusinessDocumentsRequest businessDocumentsRequest);
+
+    @POST("contractor/profile/prev-doc")
+    Call<BusinessDocumentsResponse> storePrevWork(@Header("oauth") String oauth, @Body PreviousWorkRequest previousWorkRequest);
 }

@@ -112,6 +112,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
+                intent.putExtra(INTENT_USER_ID, mUserId);
                 startActivity(intent);
 //                ArrayList<ProjectsData> data = (ArrayList<ProjectsData>) response;
             }
