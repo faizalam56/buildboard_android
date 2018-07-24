@@ -29,6 +29,8 @@ public class BusinessInfoRequest {
     private String provider;
     @SerializedName("provider_id")
     private String providerId;
+    @SerializedName("phone_no")
+    private String phone;
 
     public String getFirstName() {
         return firstName;
@@ -132,5 +134,13 @@ public class BusinessInfoRequest {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

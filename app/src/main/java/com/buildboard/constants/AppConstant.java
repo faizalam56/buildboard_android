@@ -34,4 +34,25 @@ public interface AppConstant {
     String STATUS_CURRENT = "current";
     String PHONE = "phone";
     String EMAIL = "email";
+
+    String TYPE_DROPDOWN = "dropDown";
+    String TYPE_TEXT = "text";
+    String TYPE_ATTACHMENT = "attachment";
+
+    String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
+    String KEY_ATTACHMENT_INSURANCE = "Attachment(Pdf/Document/Photo Of Insurence Document)";
+    String KEY_LIABILITY = "Liability Insurance";
+    String KEY_CERTIFYING = "Certifying Body";
+    String KEY_CERTFICATION_NUMBER = "Certifying Number";
+    String KEY_CERTFICATION_DESCRIPTION = "Certifying Brief Description";
+    String KEY_ATTACHMENT_CERTIFICATION = "Attachment(Pdf/Document/Photo Of Certification Document)";
+    String KEY_CITY = "City";
+    String KEY_BOND_NUMBER = "Bond Number";
+    String KEY_BOND_DOLLAR_AMOUNT = "Bond Dollar Amount";
+    String KEY_ATTACHMENT_BOND = "Attachment(Pdf/Photo Of Bond Certificate)";
+    String KEY_STATE = "State";
+    String KEY_LICENSE_NUMBER = "License Number";
+    String KEY_ATTACHMENT_BUSINESS = "Attachment(Pdf/Document/Photo Of Business License)";
+    String KEY_INSURANCE_PROVIDER = "Insurance Provider";
+    String INTENT_USER_ID = "intent_userid";
 }

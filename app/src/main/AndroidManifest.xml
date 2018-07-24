@@ -52,10 +52,6 @@
             android:name=".modules.selection.SelectionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".modules.paymentdetails.PaymentDetailsActivity"
-            android:label="@string/payment_details"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".modules.login.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password"
             android:screenOrientation="portrait" />

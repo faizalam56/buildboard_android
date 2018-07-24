@@ -14,6 +14,8 @@ import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsRequest;
+import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
@@ -22,8 +24,6 @@ import com.buildboard.modules.signup.models.contractortype.ContractorListRespons
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -92,4 +92,7 @@ public interface IApiInterface {
 
     @GET("projects")
     Call<ProjectsResponse> getProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("status") String status, @Query("page") int page);
+
+    @POST("contractor/profile/document")
+    Call<BusinessDocumentsResponse> storeContractorDocuments(@Header("oauth") String oauth, @Body BusinessDocumentsRequest businessDocumentsRequest);
 }
