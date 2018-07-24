@@ -64,6 +64,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     BuildBoardEditText editPassword;
     @BindView(R.id.edit_summary)
     BuildBoardEditText editSummary;
+    @BindView(R.id.edit_phoneno)
+    BuildBoardEditText editPhoneno;
     @BindView(R.id.spinner_working_area)
     Spinner spinnerWorkingArea;
 
@@ -152,6 +154,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         String principalLastName = editPrincipalLastName.getText().toString();
         String email = editEmail.getText().toString();
         String summary = editSummary.getText().toString();
+        String phoneNo = editPhoneno.getText().toString();
 
         if (mProviderId != null && mProvider != null) {
             password = "not_required"; //TODO remove hardcoded string
@@ -160,9 +163,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         }
 
         if (validateContractorFields(businessName, businessAddress, principalFirstName, principalLastName,
-                email, password, workingArea, summary)) {
+                email, password, workingArea, summary, phoneNo)) {
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
-                    email, password, workingArea, summary);
+                    email, password, workingArea, summary, phoneNo);
             saveBusinessInfo(businessInfoRequest);
         }
     }
@@ -260,7 +263,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private BusinessInfoRequest getBusinessInfoRequest (String businessName, String businessAddress, String principalFirstName,
-                                                        String principalLastName, String email, String password, String workingArea, String summary) {
+                                                        String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
         BusinessInfoRequest businessInfoRequest = new BusinessInfoRequest();
 
         businessInfoRequest.setBusinessName(businessName);
@@ -268,6 +271,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         businessInfoRequest.setFirstName(principalFirstName);
         businessInfoRequest.setLastName(principalLastName);
         businessInfoRequest.setEmail(email);
+        if(!TextUtils.isEmpty(phoneNo))
+        businessInfoRequest.setPhone(phoneNo);
 
         if (!password.equalsIgnoreCase("not_required")) // TODO hardcoded string
             businessInfoRequest.setPassword(password);
@@ -295,7 +300,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private boolean validateContractorFields(String businessName, String businessAddress, String principalFirstName,
-                                             String principalLastName, String email, String password, String workingArea, String summary) {
+                                             String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
 
         if (TextUtils.isEmpty(businessName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
@@ -331,6 +336,16 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             return false;
         } else if (!StringUtils.isValidEmailId(email)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail).show();
+            return false;
+        }
+
+        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(summary)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringSummary).show();
             return false;
         }
 
