@@ -56,6 +56,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -65,7 +66,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class EditProfileActivity extends AppCompatActivity implements AppConstant {
+public class EditProfileActivity extends AppCompatActivity implements AppConstant, View.OnClickListener {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
@@ -77,6 +78,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private String mEmail;
     private Uri selectedImage;
     private ProfileData profileData;
+    private String responsImageUrl;
+
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
     @BindView(R.id.radio_phone)
@@ -195,6 +198,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringSelectImage;
     String contactMode = PHONE;
     ContractorTypeDetail contractorTypeDetail;
+    int maxClicks = 3, currentNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +208,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         title.setText(stringEditProfile);
         getUserProfileData();
         setAsteriskToText();
-        add(EditProfileActivity.this,textAddAnotherAddress);
+        textAddAnotherAddress.setOnClickListener(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
@@ -222,8 +226,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
         radioGroupContactMode.setOnCheckedChangeListener(checkedChangeListener);
     }
-
-
 
     private void setAsteriskToText() {
         textFirstName.setText(setStarToLabel(getString(R.string.first_name)));
@@ -254,12 +256,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName, lastName, address, phoneNo)) {
-             if (stringSelectImage == null) {
-                 SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectImage);
-             } else {
-                 uploadImage(this, prepareFilePart(Utils.getImagePath(this, selectedImage)));
-             }
+        if (validateFields(firstName,lastName, address, phoneNo)) {
+            signUpMethod(firstName, lastName, address, phoneNo, contactMode, responsImageUrl);
         }
     }
 
@@ -429,6 +427,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
                 case REQUEST_CODE:
                     selectedImage = data.getData();
+                    uploadImage(this, prepareFilePart(Utils.getImagePath(this, selectedImage)));
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         imageProfile.setImageBitmap(bitmap);
@@ -470,27 +469,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         b.show();
     }
 
-    public void getIntentData() {
-        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
-            provider = getIntent().getStringExtra(INTENT_PROVIDER);
-            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
-            mEmail = getIntent().getStringExtra(INTENT_EMAIL);
-        }
-
-        if (provider != null && providerId != null) {
-            editEmail.setText(mEmail);
-            editEmail.setFocusable(false);
-            editEmail.setFocusableInTouchMode(false);
-            editEmail.setClickable(false);
-            editEmail.setCursorVisible(false);
-        } else {
-            editEmail.setFocusable(true);
-            editEmail.setFocusableInTouchMode(true);
-            editEmail.setClickable(true);
-            editEmail.setCursorVisible(true);
-        }
-    }
-
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -513,7 +491,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                createAccount(response.toString());
+                responsImageUrl = response.toString();
             }
             @Override
             public void onError(Object error) {
@@ -561,7 +539,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                 ProgressHelper.stop();
             }
         });
-
     }
 
     private void setProfileData(ProfileData profileData) {
@@ -578,28 +555,36 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             } else {
                 radioEmail.setChecked(true);
             }
-        } else {
-            Toast.makeText(this, "please check", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public static void add(final Activity activity, TextView btn) {
-        final LinearLayout linearLayoutForm = activity.findViewById(R.id.linearLayoutForm);
-        final int count = 0;
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    final LinearLayout newView = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.custom_add_address_layout, null);
-                    newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    ImageView btnRemove = newView.findViewById(R.id.btnRemove);
-                    btnRemove.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            linearLayoutForm.removeView(newView);
-                        }
-                    });
-                    linearLayoutForm.addView(newView);
+    @Override
+    public void onClick(View view) {
+        final LinearLayout linearLayoutForm = this.findViewById(R.id.linearLayoutForm);
+        if (currentNumber == maxClicks) {
+            textAddAnotherAddress.setVisibility(View.GONE);
+        } else {
+            textAddAnotherAddress.setVisibility(View.VISIBLE);
+            currentNumber = currentNumber + 1;
+            final LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.custom_add_address_layout, null);
+            newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            BuildBoardTextView text_address = newView.findViewById(R.id.text_address);
+            BuildBoardTextView edit_address = newView.findViewById(R.id.edit_address);
+            text_address.setText(String.format(Locale.getDefault(),"%s %d", getString(R.string.address), currentNumber));
+            edit_address.setHint(getString(R.string.address)+" "+currentNumber);
+            ImageView btnRemove = newView.findViewById(R.id.btnRemove);
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentNumber--;
+                    if(textAddAnotherAddress.getVisibility()==View.GONE || currentNumber >3){
+                        textAddAnotherAddress.setVisibility(View.VISIBLE);
+                    }
+                    linearLayoutForm.removeView(newView);
                 }
-        });
+            });
+            linearLayoutForm.addView(newView);
+        }
+
     }
 }

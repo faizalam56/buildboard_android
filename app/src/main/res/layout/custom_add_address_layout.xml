@@ -32,10 +32,8 @@
             android:id="@+id/btnRemove"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_20sdp"
             android:contentDescription="@null"
             android:visibility="visible"
-            app:srcCompat="@drawable/icn_delete" />
+            app:srcCompat="@drawable/icn_delete"/>
     </FrameLayout>
 </LinearLayout>

@@ -165,11 +165,15 @@
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/edit_address"
                     style="@style/edit_text_size_small"
-                    android:layout_height="54dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:padding="@dimen/_2sdp"
+                    android:maxLines="5"
+                    android:minLines="2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_address"
                     app:typeface="robotoRegular" />
@@ -182,8 +186,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_address">
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/edit_address" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/textAddAnotherAddress"
@@ -194,6 +197,7 @@
                     android:text="@string/add_another_address"
                     android:textColor="@color/colorGreen"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -276,7 +280,6 @@
                         android:textSize="@dimen/_13ssp"
                         app:typeface="robotoRegular" />
                 </RadioGroup>
-
             </android.support.constraint.ConstraintLayout>
 
             <com.buildboard.customviews.BuildBoardButton
