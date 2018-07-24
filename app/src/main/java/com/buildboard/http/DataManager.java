@@ -20,6 +20,8 @@ import com.buildboard.modules.login.models.login.LoginResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsRequest;
+import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
@@ -28,8 +30,6 @@ import com.buildboard.modules.signup.models.contractortype.ContractorListRespons
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorRequest;
-import com.buildboard.modules.signup.models.createcontractor.CreateContractorResponse;
 import com.buildboard.preferences.AppPreference;
 
 import java.util.concurrent.TimeUnit;
@@ -434,6 +434,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ProjectsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void storeContractorDocuments(Activity activity, BusinessDocumentsRequest businessDocumentsRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessDocumentsResponse> call = getDataManager().storeContractorDocuments(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), businessDocumentsRequest);
+        call.enqueue(new Callback<BusinessDocumentsResponse>() {
+            @Override
+            public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
