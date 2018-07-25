@@ -22,6 +22,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +34,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
@@ -81,7 +83,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private String contactMode = PHONE;
     private ContractorTypeDetail contractorTypeDetail;
 
-
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
     @BindView(R.id.radio_phone)
@@ -94,6 +95,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.text_add_profile_picture)
+    BuildBoardTextView textAddProfilePicture;
     @BindView(R.id.text_first_name)
     BuildBoardTextView textFirstName;
     @BindView(R.id.text_last_name)
@@ -281,10 +284,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    @OnClick(R.id.image_profile)
+    @OnClick({R.id.image_profile,R.id.text_add_profile_picture})
     void imageProfileTapped() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_CODE);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     private void signUpMethod(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
@@ -306,9 +313,17 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
-                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                finish();
+                if (!createConsumerData.getMessage().isEmpty()) {
+                    PopUpHelper.showConfirmPopup(SignUpActivity.this, createConsumerData.getMessage(), new PopUpHelper.ConfirmPopUp() {
+                        @Override
+                        public void onConfirm(boolean isConfirm) {
+                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                        @Override
+                        public void onDismiss(boolean isDismiss) {}
+                    });
+                }
             }
 
             @Override
@@ -435,8 +450,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                Toast.makeText(SignUpActivity.this, activateUserResponse.getDatas().get(0), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                String message = activateUserResponse.getDatas().get(0);
+                Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -522,8 +537,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 dialog.dismiss();
             }
         });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        alertDialog.show();
+
     }
 
     public void getIntentData() {
@@ -550,7 +567,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
+            openLink(TERMS_OF_SERVICES_LINK);
         }
 
         @Override
@@ -563,7 +580,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
+            openLink(PRIVACY_POLICY_LINK);
         }
 
         @Override
@@ -572,6 +589,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
+    private void openLink(String link) {
+        Uri uri = Uri.parse(link);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
 
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override

@@ -92,6 +92,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.text_add_profile_picture)
+    BuildBoardTextView textAddProfilePicture;
     @BindView(R.id.text_first_name)
     BuildBoardTextView textFirstName;
     @BindView(R.id.text_last_name)
@@ -122,6 +124,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+
     @BindString(R.string.gender)
     String stringGender;
     @BindString(R.string.female)
@@ -265,7 +268,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         }
     }
 
-    @OnClick(R.id.image_profile)
+    @OnClick({R.id.image_profile,R.id.text_add_profile_picture})
     void imageProfileTapped() {
         if (ConnectionDetector.isNetworkConnected(this)) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

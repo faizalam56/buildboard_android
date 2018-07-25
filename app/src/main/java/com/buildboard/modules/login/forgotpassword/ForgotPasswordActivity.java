@@ -1,16 +1,21 @@
 package com.buildboard.modules.login.forgotpassword;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
@@ -34,9 +39,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     TextView title;
 
     @BindView(R.id.text_reset_password_msg)
-    TextView textResetPasswordMsg;
+    BuildBoardTextView textResetPasswordMsg;
     @BindView(R.id.edit_email)
-    EditText editEmail;
+    BuildBoardEditText editEmail;
     @BindView(R.id.button_send_mail)
     Button buttonSendMail;
     @BindView(R.id.constraint_root)
@@ -54,7 +59,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
-
+        editEmail.setFocusableInTouchMode(true);
+        editEmail.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         title.setText(stringFrogotPassword);
         setFont();
     }
