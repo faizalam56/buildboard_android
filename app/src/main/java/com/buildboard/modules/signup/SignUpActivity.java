@@ -128,6 +128,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+
     @BindString(R.string.gender)
     String stringGender;
     @BindString(R.string.female)
@@ -498,7 +499,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private void showAddressDialog(Place place) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.custom_places_dialog, null);
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
         dialogBuilder.setView(dialogView);
         final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
         final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
@@ -575,14 +576,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.radio_phone:
-                    contactMode = PHONE;
-                    break;
-                case R.id.radio_email:
-                    contactMode = EMAIL;
-                    break;
-            }
+            contactMode = radioPhone.isSelected() ? PHONE : EMAIL;
         }
     };
 

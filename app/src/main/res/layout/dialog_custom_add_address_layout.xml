@@ -21,7 +21,7 @@
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/edit_address"
             style="@style/edit_text_size_small"
-            android:layout_height="54dp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/green_drawable_border"
             android:hint="@string/address"

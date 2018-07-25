@@ -456,7 +456,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private void showAddressDialog(Place place) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.custom_places_dialog, null);
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
         dialogBuilder.setView(dialogView);
         final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
         final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
