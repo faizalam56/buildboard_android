@@ -158,7 +158,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 if (response == null) return;
 
                 MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
-
                 updateUi(true);
                 setServicesRecycler(marketplaceConsumerData.getTrendingServices());
                 setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());

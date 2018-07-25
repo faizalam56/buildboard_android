@@ -34,14 +34,12 @@ public class HomeActivity extends AppCompatActivity {
     FrameLayout frameHomeContainer;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView textViewTitle;
     @BindView(R.id.image_setting)
     ImageView imageProfileSetting;
-
     @BindString(R.string.title_marketplace)
     String stringMarketPlace;
     @BindString(R.string.title_projects)
@@ -50,7 +48,6 @@ public class HomeActivity extends AppCompatActivity {
     String stringMailbox;
     @BindString(R.string.title_profile)
     String stringProfile;
-
     @BindColor(R.color.colorPrimary)
     int colorPrimary;
     @BindColor(R.color.colorWhite)

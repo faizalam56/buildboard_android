@@ -1,194 +1,212 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/constraint_root"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     tools:context="com.buildboard.modules.home.modules.profile.ProfileSettingsActivity">
 
     <include
-        android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_edit_profile"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/_40sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_edit_profile"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/edit_profile"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_25sdp"
+            android:paddingTop="@dimen/_15sdp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_manage_payment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_edit_profile">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_manage_payment"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/manage_payment_method"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_edit_profile"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/edit_profile"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_payment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_manage_payment">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_manage_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_edit_profile">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_payment"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/payment"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_manage_payment"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/manage_payment_method"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_privacy_policy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_payment">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_manage_payment">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_privacy_policy"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/privacy_policy"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_payment"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/payment"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_term_of_use"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_privacy_policy">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_payment">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_terms_of_use"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/terms_of_use"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_privacy_policy"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/privacy_policy"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_faq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_term_of_use">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_term_of_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_privacy_policy">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_faq"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/faqs"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_terms_of_use"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/terms_of_use"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_faq">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_faq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_term_of_use">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_contact"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/contact_us"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_faq"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:drawablePadding="@dimen/_15sdp"
+                    android:text="@string/faqs"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_contact">
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_faq">
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_logout"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/logout"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_contact"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:drawablePadding="@dimen/_15sdp"
+                    android:text="@string/contact_us"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_contact">
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_logout"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:drawablePadding="@dimen/_15sdp"
+                    android:text="@string/logout"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup;
+package com.buildboard.modules.home.modules.profile;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,20 +14,16 @@ import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -35,6 +31,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
@@ -44,7 +41,6 @@ import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -52,10 +48,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
-
+import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.Locale;
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -67,7 +63,7 @@ import okhttp3.RequestBody;
 
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
-public class SignUpActivity extends AppCompatActivity implements AppConstant {
+public class EditProfileActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
@@ -78,9 +74,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private String providerId;
     private String mEmail;
     private Uri selectedImage;
-    private String contactMode = PHONE;
+    private ProfileData profileData;
+    private String responsImageUrl;
     private ContractorTypeDetail contractorTypeDetail;
-
+    private int maxClicks = 3, currentNumber = 0;
+    private String contactMode = PHONE;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
@@ -100,14 +98,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     BuildBoardTextView textLastName;
     @BindView(R.id.text_email)
     BuildBoardTextView textEmail;
-    @BindView(R.id.text_password)
-    BuildBoardTextView textPassword;
     @BindView(R.id.text_address)
     BuildBoardTextView textAddress;
     @BindView(R.id.text_phone)
     BuildBoardTextView textPhone;
-    @BindView(R.id.text_terms_of_service)
-    BuildBoardTextView textTermsOfService;
+    @BindView(R.id.textAddAnotherAddress)
+    BuildBoardTextView textAddAnotherAddress;
     @BindView(R.id.edit_first_name)
     BuildBoardEditText editFirstName;
     @BindView(R.id.edit_last_name)
@@ -120,15 +116,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     BuildBoardTextView textContactMode;
     @BindView(R.id.edit_email)
     BuildBoardEditText editEmail;
-    @BindView(R.id.edit_password)
-    BuildBoardEditText editPassword;
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
     @BindView(R.id.constraint_consumer_address_container)
     ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
     @BindString(R.string.gender)
     String stringGender;
     @BindString(R.string.female)
@@ -183,8 +176,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringErrorWorkingArea;
     @BindString(R.string.error_summary)
     String stringErrorSummary;
-    @BindString(R.string.sign_up)
-    String stringSignUp;
+    @BindString(R.string.edit_profile)
+    String stringEditProfile;
     @BindString(R.string.error_contractor_type)
     String stringErrorContractorType;
     @BindString(R.string.phone)
@@ -206,23 +199,21 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @BindString(R.string.location_check)
     String stringCheckLocation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
-        title.setText(stringSignUp);
+
+        title.setText(stringEditProfile);
+        getUserProfileData();
         setAsteriskToText();
-        setTermsServiceText();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
         }
-
-        getIntentData();
 
         Uri uri = getIntent().getData();
         if (uri != null && uri.getSchemeSpecificPart() != null) {
@@ -240,7 +231,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         textFirstName.setText(Utils.setStarToLabel(getString(R.string.first_name)));
         textLastName.setText(Utils.setStarToLabel(getString(R.string.last_name)));
         textEmail.setText(Utils.setStarToLabel(getString(R.string.email)));
-        textPassword.setText(Utils.setStarToLabel(getString(R.string.password)));
         textAddress.setText(Utils.setStarToLabel(getString(R.string.address)));
         textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
         textContactMode.setText(Utils.setStarToLabel(getString(R.string.preferred_contact_mode)));
@@ -260,21 +250,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     @OnClick(R.id.button_next)
-    void registerButtonTapped() {
+    void nextButtonTapped() {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
-        String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
         if (ConnectionDetector.isNetworkConnected(this)) {
-            if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
-                if (selectedImage == null) {
-                    SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectImage);
-                } else {
-                    uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, selectedImage))));
-                }
+            if (validateFields(firstName, lastName, address, phoneNo)) {
+                signUpMethod(firstName, lastName, address, phoneNo, contactMode, responsImageUrl);
             }
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
@@ -283,48 +267,48 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.image_profile)
     void imageProfileTapped() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_CODE);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
-    private void signUpMethod(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
-        createConsumer(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
+    private void signUpMethod(String firstName, String lastName, String address, String phoneNo, String contactMode, String imageUrl) {
+        createConsumer(firstName, lastName, address, phoneNo, contactMode, imageUrl);
     }
 
-    private void createConsumer(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
-        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
+    private void createConsumer(String firstName, String lastName, String address, String phoneNo, String contactMode, String imageUrl) {
+        CreateConsumerRequest consumerRequest = getConsumerDetails(firstName, lastName, address, phoneNo, contactMode, imageUrl);
         if (consumerRequest.getLatitude() == null || consumerRequest.getLongitude() == null) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringEnterValidAddress);
             return;
         }
 
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
+        DataManager.getInstance().updateConsumer(EditProfileActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 if (response == null) return;
-
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
-                Toast.makeText(SignUpActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                finish();
+                if (createConsumerData.getMessage() != null)
+                    Toast.makeText(EditProfileActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(SignUpActivity.this, constraintRoot, error);
+                Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
     }
 
-    private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String email, String password, String address, String phoneNo, String contactMode, String imageUrl) {
+    private CreateConsumerRequest getConsumerDetails(String firstName, String lastName, String address, String phoneNo, String contactMode, String imageUrl) {
         CreateConsumerRequest consumerRequest = new CreateConsumerRequest();
         consumerRequest.setFirstName(firstName);
         consumerRequest.setLastName(lastName);
-        consumerRequest.setEmail(email);
-        consumerRequest.setPassword(password);
         consumerRequest.setAddress(address);
         consumerRequest.setPhoneNo(phoneNo);
         consumerRequest.setContactMode(contactMode);
@@ -345,17 +329,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         return consumerRequest;
     }
 
-    private void setTermsServiceText() {
-        SpannableString styledString = new SpannableString(getString(R.string.privacy_policy_text));
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 34, 50, 0);
-        styledString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorGreen)), 55, 69, 0);
-        styledString.setSpan(clickableSpanTermsService, 34, 50, 0);
-        styledString.setSpan(clickableSpanPrivacyPolicy, 55, 69, 0);
-        textTermsOfService.setText(styledString);
-        textTermsOfService.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    private boolean validateFields(String firstName, String lastName, String email, String password, String address, String phoneNo) {
+    private boolean validateFields(String firstName, String lastName, String address, String phoneNo) {
 
         if (TextUtils.isEmpty(firstName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorFirstName);
@@ -370,22 +344,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         } else if (lastName.length() < 3) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastnameTooShort);
-            return false;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEmail).show();
-            return false;
-        } else if (!StringUtils.isValidEmailId(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg).show();
-            return false;
-        } else if (password.length() < 8) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength).show();
             return false;
         }
 
@@ -405,13 +363,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private void createAccount(String imageUrl) {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
-        String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
-            signUpMethod(firstName, lastName, email, password, address, phoneNo, contactMode, imageUrl);
+        if (validateFields(firstName,lastName, address, phoneNo)) {
+            signUpMethod(firstName, lastName, address, phoneNo, contactMode, imageUrl);
         }
     }
 
@@ -435,14 +391,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                Toast.makeText(SignUpActivity.this, activateUserResponse.getDatas().get(0), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                Toast.makeText(EditProfileActivity.this, activateUserResponse.getDatas().get(0), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
+                ErrorManager errorManager = new ErrorManager(EditProfileActivity.this, constraintRoot, error);
                 errorManager.handleErrorResponse();
             }
         });
@@ -462,7 +418,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     break;
 
                 case CONTRACTOR_TYPE_REQUEST_CODE:
-                   contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
+                    contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
                     break;
 
                 case CONTACT_MODE_REQUEST_CODE:
@@ -481,6 +437,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
                 case REQUEST_CODE:
                     selectedImage = data.getData();
+                    uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, selectedImage))));
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         imageProfile.setImageBitmap(bitmap);
@@ -511,7 +468,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                 String newLocation = buildBoardEditText.getText().toString();
                 String selectedLocation = textView.getText().toString();
                 if (TextUtils.isEmpty(newLocation)) {
-                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, stringCheckLocation);
+                    SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, stringCheckLocation);
                 } else {
                     editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
                 }
@@ -526,57 +483,17 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         b.show();
     }
 
-    public void getIntentData() {
-        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
-            provider = getIntent().getStringExtra(INTENT_PROVIDER);
-            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
-            mEmail = getIntent().getStringExtra(INTENT_EMAIL);
-        }
-
-        if (provider != null && providerId != null) {
-            editEmail.setText(mEmail);
-            editEmail.setFocusable(false);
-            editEmail.setFocusableInTouchMode(false);
-            editEmail.setClickable(false);
-            editEmail.setCursorVisible(false);
-        } else {
-            editEmail.setFocusable(true);
-            editEmail.setFocusableInTouchMode(true);
-            editEmail.setClickable(true);
-            editEmail.setCursorVisible(true);
-        }
-    }
-
-    ClickableSpan clickableSpanTermsService = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringTermsOfService, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
-    ClickableSpan clickableSpanPrivacyPolicy = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            Toast.makeText(SignUpActivity.this, stringPrivacyPolicy, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            super.updateDrawState(ds);
-            ds.setColor(getResources().getColor(R.color.colorGreen));
-        }
-    };
-
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            contactMode = radioPhone.isSelected() ? PHONE : EMAIL;
+            switch (checkedId) {
+                case R.id.radio_phone:
+                    contactMode = PHONE;
+                    break;
+                case R.id.radio_email:
+                    contactMode = EMAIL;
+                    break;
+            }
         }
     };
 
@@ -588,12 +505,12 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                createAccount(response.toString());
+                responsImageUrl = response.toString();
             }
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(SignUpActivity.this, constraintRoot, error);
+                Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
     }
@@ -608,5 +525,68 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    private void getUserProfileData() {
+        ProgressHelper.start(EditProfileActivity.this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().getProfile(EditProfileActivity.this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                profileData = (ProfileData) response;
+                setProfileData(profileData);
+            }
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+            }
+        });
+    }
+
+    private void setProfileData(ProfileData profileData) {
+        if (profileData != null) {
+            Picasso.get().load(profileData.getImage()).error(R.drawable.upload_profile_image).into(imageProfile);
+            addressLatLng = new LatLng(profileData.getLatitude(),profileData.getLongitude());
+            editFirstName.setText(profileData.getFirstName());
+            editLastName.setText(profileData.getLastName());
+            editEmail.setText(profileData.getEmail());
+            editAddress.setText(profileData.getAddress());
+            editPhoneNo.setText(profileData.getPhoneNo());
+            if (profileData.getContactMode().equals("phone")) {
+                radioPhone.setChecked(true);
+            } else {
+                radioEmail.setChecked(true);
+            }
+        }
+    }
+
+    //TODO WORK ON ADD NEW MULTIPLE ADDRESS
+    @OnClick(R.id.textAddAnotherAddress)
+    public void addNewAddressBox() {
+        final LinearLayout linearLayoutForm = this.findViewById(R.id.linearLayoutForm);
+        if (currentNumber == maxClicks) {
+            textAddAnotherAddress.setVisibility(View.GONE);
+        } else {
+            textAddAnotherAddress.setVisibility(View.VISIBLE);
+            currentNumber = currentNumber + 1;
+            final LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.dialog_custom_add_address_layout, null);
+            newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            BuildBoardTextView text_address = newView.findViewById(R.id.text_address);
+            BuildBoardTextView edit_address = newView.findViewById(R.id.edit_address);
+            text_address.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.address), currentNumber));
+            edit_address.setHint(getString(R.string.address) + " " + currentNumber);
+            ImageView btnRemove = newView.findViewById(R.id.btnRemove);
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentNumber--;
+                    if (textAddAnotherAddress.getVisibility() == View.GONE || currentNumber > 3) {
+                        textAddAnotherAddress.setVisibility(View.VISIBLE);
+                    }
+                    linearLayoutForm.removeView(newView);
+                }
+            });
+            linearLayoutForm.addView(newView);
+        }
     }
 }
