@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_15sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_state"
+        style="@style/edit_text_size_small"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/state"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_license_number"
+        style="@style/edit_text_size_small"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/license_number"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_state"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_attachment"
+        style="@style/edit_text_size_small"
+        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:background="@drawable/green_drawable_border"
+        android:editable="false"
+        android:hint="@string/attachment"
+        android:imeOptions="actionNext"
+        app:layout_constraintEnd_toStartOf="@+id/image_attachment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_license_number"
+        app:typeface="robotoRegular" />
+
+    <ImageView
+        android:id="@+id/image_attachment"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:contentDescription="@string/attachment_for_business_licensing"
+        android:src="@drawable/ic_attachment"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_attachment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_attachment" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_business_license"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_attachment">
+
+    </LinearLayout>
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_add_more_business_license"
+        style="@style/textSize_smaller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/add_more"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout_business_license"
+        app:typeface="robotoMedium" />
+
+</android.support.constraint.ConstraintLayout>

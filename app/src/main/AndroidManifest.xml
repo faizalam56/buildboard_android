@@ -106,10 +106,10 @@
         <activity android:name=".modules.home.modules.mailbox.inbox.InboxListActivity" />
         <activity android:name=".modules.home.modules.profile.ProfileSettingsActivity" />
         <activity android:name=".modules.signup.imageupload.ImageUploadActivity" />
-        <activity android:name=".modules.signup.contractor.SignUpContractorActivity" />
-        <activity android:name=".modules.signup.contractor.WorkTypeActivity" />
+        <activity android:name=".modules.signup.contractor.businessinfo.SignUpContractorActivity" />
+        <activity android:name=".modules.signup.contractor.worktype.WorkTypeActivity" />
         <activity android:name=".modules.signup.contractor.BusinessDocumentsActivity" />
-        <activity android:name=".modules.signup.contractor.PreviousWorkActivity"/>
+        <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>
     </application>
 
 </manifest>
