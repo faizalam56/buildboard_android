@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -178,5 +178,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/button_next"
                 app:typeface="robotoRegular" />
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>

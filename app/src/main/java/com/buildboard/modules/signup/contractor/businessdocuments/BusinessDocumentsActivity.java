@@ -26,6 +26,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsRequest;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
@@ -144,6 +145,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private BusinessLicensingAdapter mBusinessLicensingAdapter;
     private BondingAdapter mBondingAdapter;
 
+    HashMap<Integer, ArrayList<DocumentData>> businessLicensings = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +157,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         getIntentData();
         setTermsServiceText();
 
+        addBusinessLicensing();
         setBondingAdapter();
         setBusinessLicensingAdapter();
         setCertificationAdapter();
@@ -233,7 +237,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         businessDocuments.setInsurance(getInsurance());
         businessDocuments.setCertification(getCertification());
         businessDocuments.setBonding(getBonding());
-        businessDocuments.setBusinessLicensing(getBusinessLicensing());
+        businessDocuments.setBusinessLicensing(businessLicensings);
 
         BusinessDocumentsRequest businessDocumentsRequest = new BusinessDocumentsRequest();
         businessDocumentsRequest.setBusinessDocuments(businessDocuments);
@@ -383,10 +387,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         return bondings;
     }
 
-    private HashMap<Integer, ArrayList<DocumentData>> getBusinessLicensing() {
-        HashMap<Integer, ArrayList<DocumentData>> businessLicensings = new HashMap<>();
+    private void addBusinessLicensing() {
 
-        for (int i = 1; i <= 2; i++) {
             ArrayList<DocumentData> businessLicensingDetails = new ArrayList<>();
             DocumentData businessState = new DocumentData();
             businessState.setKey(KEY_STATE);
@@ -406,10 +408,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             businessAttachment.setValue("");
             businessLicensingDetails.add(businessAttachment);
 
-            businessLicensings.put(i, businessLicensingDetails);
-        }
-
-        return businessLicensings;
+            businessLicensings.put(businessLicensings.size()+1, businessLicensingDetails);
     }
 
     private void setInsuranceAdapter() {
@@ -434,7 +433,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBusinessLicensingAdapter() {
-        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, new ArrayList<String>());
+        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, businessLicensings, new IBusinessDocumentsAddMoreCallback() {
+            @Override
+            public void addLayout() {
+                addBusinessLicensing();
+                mBusinessLicensingAdapter.notifyDataSetChanged();
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBusinessLicensing.setLayoutManager(linearLayoutManager);
         recyclerBusinessLicensing.setAdapter(mBusinessLicensingAdapter);

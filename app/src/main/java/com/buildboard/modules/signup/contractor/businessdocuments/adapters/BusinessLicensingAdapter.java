@@ -7,21 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicensingAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> mArrayList;
+    private HashMap<Integer, ArrayList<DocumentData>> listHashMap;
     private LayoutInflater mLayoutInflater;
+    private IBusinessDocumentsAddMoreCallback iBusinessLicenceCallback;
+    private int size;
 
-    public BusinessLicensingAdapter(Context context, ArrayList<String> arrayList) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iBusinessLicenceCallback) {
         mContext = context;
-        mArrayList = arrayList;
+        this.listHashMap = listHashMap;
         mLayoutInflater = LayoutInflater.from(mContext);
+        this.iBusinessLicenceCallback = iBusinessLicenceCallback;
     }
 
     @Override
@@ -32,19 +41,31 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     @Override
     public void onBindViewHolder(BusinessLicensingAdapter.ViewHolder holder, int position) {
+        if(position < listHashMap.size()-1)
+            holder.textAddMore.setVisibility(View.GONE);
+        else
+            holder.textAddMore.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return listHashMap.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.text_add_more_business_license)
+        BuildBoardTextView textAddMore;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.text_add_more_business_license)
+        void addmoreTapped(){
+            iBusinessLicenceCallback.addLayout();
         }
 
         private void setFont() {
