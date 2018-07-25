@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 
@@ -46,7 +48,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
     @BindString(R.string.settings)
     String stringSettings;
     @BindString(R.string.successfullyLogout)
@@ -57,14 +58,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
-
         title.setText(stringSettings);
-
     }
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-
         ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
             @Override
@@ -74,7 +72,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false,IS_LOGIN);
                 openActivity(LoginActivity.class, true);
             }
-
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
@@ -91,5 +88,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             startActivity(homeIntent);
             finish();
         } else startActivity(intent);
+    }
+
+    @OnClick(R.id.text_edit_profile)
+    public void moveToClass() {
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+        } else {
+            ConnectionDetector.createSnackBar(this,constraintRoot);
+        }
     }
 }

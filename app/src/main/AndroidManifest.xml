@@ -108,7 +108,8 @@
         <activity android:name=".modules.signup.imageupload.ImageUploadActivity" />
         <activity android:name=".modules.signup.contractor.businessinfo.SignUpContractorActivity" />
         <activity android:name=".modules.signup.contractor.worktype.WorkTypeActivity" />
-        <activity android:name=".modules.signup.contractor.BusinessDocumentsActivity" />
+        <activity android:name=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity" />
+        <activity android:name=".modules.home.modules.profile.EditProfileActivity"/>
         <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>
     </application>
 

@@ -2,7 +2,6 @@ package com.buildboard.http;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
@@ -17,9 +16,9 @@ import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenResponse;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.login.LoginResponse;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.login.resetpassword.model.ResetPasswordResponse;
-import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsRequest;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
@@ -32,9 +31,7 @@ import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.preferences.AppPreference;
-
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -93,6 +90,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body() != null && response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
                         response.body().getTokenDataObject().size() > 0)
                     dataManagerListener.onSuccess(response.body().getTokenDataObject().get(0));
@@ -116,6 +114,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas());
                 else dataManagerListener.onError(response.body().getError());
@@ -137,6 +136,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
                         response.body().getData().size() > 0)
                     dataManagerListener.onSuccess(response.body().getData().get(0));
@@ -150,6 +150,27 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
+    public void updateConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
+        Call<CreateConsumerResponse> call = getDataManager().updateConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID), createConsumerRequest);
+        call.enqueue(new Callback<CreateConsumerResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CreateConsumerResponse> call, @NonNull Response<CreateConsumerResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CreateConsumerResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
     public void createConsumer(Activity activity, CreateConsumerRequest createConsumerRequest, final DataManagerListener dataManagerListener) {
         Call<CreateConsumerResponse> call = getDataManager().createConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), createConsumerRequest);
         call.enqueue(new Callback<CreateConsumerResponse>() {
@@ -159,6 +180,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     dataManagerListener.onError(response.errorBody());
                     return;
                 }
+
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
@@ -194,7 +216,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceConsumer(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN));
+        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketplaceConsumerResponse>() {
             @Override
             public void onResponse(@NonNull Call<MarketplaceConsumerResponse> call, @NonNull Response<MarketplaceConsumerResponse> response) {
@@ -272,8 +294,8 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS))
-                    dataManagerListener.onSuccess(response.body());
+                if (response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }
 

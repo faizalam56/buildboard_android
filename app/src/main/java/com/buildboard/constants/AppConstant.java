@@ -11,6 +11,7 @@ public interface AppConstant {
     int CARD_TYPE_REQUEST_CODE = 12;
     int PLACE_PICKER_REQUEST = 201;
     int IMAGE_UPLOAD_REQUEST_CODE = 200;
+    int REQUEST_PERMISSION_CODE = 300;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
@@ -31,6 +32,8 @@ public interface AppConstant {
     String STATUS_COMPLETED = "completed";
     String STATUS_SAVED = "saved";
     String STATUS_CURRENT = "current";
+    String PHONE = "phone";
+    String EMAIL = "email";
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
