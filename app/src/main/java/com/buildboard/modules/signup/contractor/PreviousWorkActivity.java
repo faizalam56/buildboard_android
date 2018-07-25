@@ -61,12 +61,23 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         title.setText(stringPreviousWork);
         setTermsServiceText();
         getIntentData();
-        storePrevWork();
+//        storePrevWork();
     }
 
     @OnClick(R.id.button_next)
     void nextTapped() {
+        AddProfilePhotoDialog addProfilePhotoDialog = new AddProfilePhotoDialog();
+        addProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
+            @Override
+            public void onImageSelection() {
 
+            }
+
+            @Override
+            public void onSaveImage() {
+
+            }
+        });
     }
 
     private void getIntentData() {

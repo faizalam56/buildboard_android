@@ -3,31 +3,46 @@ package com.buildboard.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.fonts.FontHelper;
 
 public class AddProfilePhotoDialog {
 
     public void showDialog(Activity activity, final IAddProfileCallback iUserTypeCallback) {
-//        final Dialog dialog = new Dialog(activity);
+        final Dialog dialog = new Dialog(activity);
 
-        final Dialog dialog=new Dialog(activity,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_profile_photo);
+        final Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setBackgroundDrawableResource(R.color.colorOverlay);
 
-        ImageView dialogButton = (ImageView) dialog.findViewById(R.id.image_close);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
+        ImageView imageClose = (ImageView) dialog.findViewById(R.id.image_close);
+        imageClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        BuildBoardTextView textConsumer = (BuildBoardTextView) dialog.findViewById(R.id.text_consumer);
-        textConsumer.setOnClickListener(new View.OnClickListener() {
+        BuildBoardButton buttonSave = (BuildBoardButton) dialog.findViewById(R.id.button_save);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                iUserTypeCallback.onSaveImage();
+            }
+        });
+
+        ImageView imageProfile = (ImageView) dialog.findViewById(R.id.image_profile);
+        imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -35,14 +50,8 @@ public class AddProfilePhotoDialog {
             }
         });
 
-        TextView textContractor = (TextView) dialog.findViewById(R.id.text_contractor);
-        textContractor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                iUserTypeCallback.onSaveInage();
-            }
-        });
+        BuildBoardTextView textAddProfile = (BuildBoardTextView) dialog.findViewById(R.id.text_add_profile_picture);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textAddProfile, buttonSave);
 
         dialog.show();
     }
@@ -50,6 +59,6 @@ public class AddProfilePhotoDialog {
     public interface IAddProfileCallback {
         void onImageSelection();
 
-        void onSaveInage();
+        void onSaveImage();
     }
 }
