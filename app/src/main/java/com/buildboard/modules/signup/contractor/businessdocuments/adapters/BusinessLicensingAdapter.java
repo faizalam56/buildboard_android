@@ -23,14 +23,14 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> listHashMap;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iBusinessLicenceCallback;
+    private IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback;
     private int size;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iBusinessLicenceCallback) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback) {
         mContext = context;
         this.listHashMap = listHashMap;
         mLayoutInflater = LayoutInflater.from(mContext);
-        this.iBusinessLicenceCallback = iBusinessLicenceCallback;
+        this.iBusinessDocumentsAddMoreCallback = iBusinessDocumentsAddMoreCallback;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_add_more_business_license)
+        @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
         public ViewHolder(View itemView) {
@@ -63,9 +63,9 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
             setFont();
         }
 
-        @OnClick(R.id.text_add_more_business_license)
+        @OnClick(R.id.text_add_more)
         void addmoreTapped(){
-            iBusinessLicenceCallback.addLayout();
+            iBusinessDocumentsAddMoreCallback.addLayout();
         }
 
         private void setFont() {

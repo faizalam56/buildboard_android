@@ -11,14 +11,11 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.BondingAdapter;
@@ -145,7 +142,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private BusinessLicensingAdapter mBusinessLicensingAdapter;
     private BondingAdapter mBondingAdapter;
 
-    HashMap<Integer, ArrayList<DocumentData>> businessLicensings = new HashMap<>();
+    HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
+    HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +156,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         setTermsServiceText();
 
         addBusinessLicensing();
+        addBonding();
+
         setBondingAdapter();
         setBusinessLicensingAdapter();
         setCertificationAdapter();
@@ -236,8 +236,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         businessDocuments.setWorkmanCampInsurance(getWorkmanInsurance());
         businessDocuments.setInsurance(getInsurance());
         businessDocuments.setCertification(getCertification());
-        businessDocuments.setBonding(getBonding());
-        businessDocuments.setBusinessLicensing(businessLicensings);
+        businessDocuments.setBonding(mBondings);
+        businessDocuments.setBusinessLicensing(mBusinessLicensings);
 
         BusinessDocumentsRequest businessDocumentsRequest = new BusinessDocumentsRequest();
         businessDocumentsRequest.setBusinessDocuments(businessDocuments);
@@ -346,10 +346,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         return certifications;
     }
 
-    private HashMap<Integer, ArrayList<DocumentData>> getBonding() {
-        HashMap<Integer, ArrayList<DocumentData>> bondings = new HashMap<>();
+    private void addBonding() {
 
-        for (int i = 1; i <= 2; i++) {
             ArrayList<DocumentData> bondingDetails = new ArrayList<>();
             DocumentData bondState = new DocumentData();
             bondState.setKey(KEY_STATE);
@@ -381,10 +379,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             bondAttachment.setValue("");
             bondingDetails.add(bondAttachment);
 
-            bondings.put(i, bondingDetails);
-        }
-
-        return bondings;
+            mBondings.put(mBondings.size()+1, bondingDetails);
     }
 
     private void addBusinessLicensing() {
@@ -408,7 +403,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             businessAttachment.setValue("");
             businessLicensingDetails.add(businessAttachment);
 
-            businessLicensings.put(businessLicensings.size()+1, businessLicensingDetails);
+            mBusinessLicensings.put(mBusinessLicensings.size()+1, businessLicensingDetails);
     }
 
     private void setInsuranceAdapter() {
@@ -433,7 +428,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBusinessLicensingAdapter() {
-        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, businessLicensings, new IBusinessDocumentsAddMoreCallback() {
+        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IBusinessDocumentsAddMoreCallback() {
             @Override
             public void addLayout() {
                 addBusinessLicensing();
@@ -446,7 +441,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBondingAdapter() {
-        mBondingAdapter = new BondingAdapter(this, new ArrayList<String>());
+        mBondingAdapter = new BondingAdapter(this, mBondings, new IBusinessDocumentsAddMoreCallback() {
+            @Override
+            public void addLayout() {
+                addBonding();
+                mBondingAdapter.notifyDataSetChanged();
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBonding.setLayoutManager(linearLayoutManager);
         recyclerBonding.setAdapter(mBondingAdapter);

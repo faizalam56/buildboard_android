@@ -7,20 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> mArrayList;
+    private HashMap<Integer, ArrayList<DocumentData>> mListHashMap;
     private LayoutInflater mLayoutInflater;
+    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
 
-    public BondingAdapter(Context context, ArrayList<String> arrayList) {
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
         mContext = context;
-        mArrayList = arrayList;
+        this.mListHashMap = listHashMap;
+        this.iAddMoreCallback = iAddMoreCallback;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -32,19 +40,31 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
+        if(position < mListHashMap.size()-1)
+            holder.textAddMore.setVisibility(View.GONE);
+        else
+            holder.textAddMore.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return mListHashMap.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.text_add_more)
+        BuildBoardTextView textAddMore;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.text_add_more)
+        void addmoreTapped(){
+            iAddMoreCallback.addLayout();
         }
 
         private void setFont() {
