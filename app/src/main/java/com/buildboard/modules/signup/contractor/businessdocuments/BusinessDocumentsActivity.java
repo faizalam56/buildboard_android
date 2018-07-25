@@ -142,9 +142,10 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private BusinessLicensingAdapter mBusinessLicensingAdapter;
     private BondingAdapter mBondingAdapter;
 
-    HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
-    HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
-    HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +160,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         addBusinessLicensing();
         addBonding();
         addCertification();
+        addInsurance();
 
         setBondingAdapter();
         setBusinessLicensingAdapter();
@@ -236,7 +238,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private BusinessDocumentsRequest getBusinessRequest() {
         BusinessDocuments businessDocuments = new BusinessDocuments();
         businessDocuments.setWorkmanCampInsurance(getWorkmanInsurance());
-        businessDocuments.setInsurance(getInsurance());
+        businessDocuments.setInsurance(mInsurances);
         businessDocuments.setCertification(mCertifications);
         businessDocuments.setBonding(mBondings);
         businessDocuments.setBusinessLicensing(mBusinessLicensings);
@@ -278,10 +280,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         return workmanInsurances;
     }
 
-    private HashMap<Integer, ArrayList<DocumentData>> getInsurance() {
-        HashMap<Integer, ArrayList<DocumentData>> insurances = new HashMap<>();
+    private void addInsurance() {
 
-        for (int i = 1; i <= 2; i++) {
             ArrayList<DocumentData> insuranceDetails = new ArrayList<>();
             DocumentData insuranceLiability = new DocumentData();
             insuranceLiability.setKey(KEY_LIABILITY);
@@ -307,10 +307,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             insuranceAttachment.setValue("");
             insuranceDetails.add(insuranceAttachment);
 
-            insurances.put(i, insuranceDetails);
-        }
-
-        return insurances;
+            mInsurances.put(mInsurances.size()+1, insuranceDetails);
     }
 
     private void addCertification() {
@@ -404,7 +401,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setInsuranceAdapter() {
-        mInsuranceAdapter = new InsuranceAdapter(this, new ArrayList<String>());
+        mInsuranceAdapter = new InsuranceAdapter(this, mInsurances, new IBusinessDocumentsAddMoreCallback() {
+            @Override
+            public void addLayout() {
+                addInsurance();
+                mInsuranceAdapter.notifyDataSetChanged();
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerInsurance.setLayoutManager(linearLayoutManager);
         recyclerInsurance.setAdapter(mInsuranceAdapter);

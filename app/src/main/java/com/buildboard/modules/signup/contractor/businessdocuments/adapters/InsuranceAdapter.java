@@ -9,10 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,12 +25,14 @@ import butterknife.OnClick;
 public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> mArrayList;
+    private HashMap<Integer, ArrayList<DocumentData>> mInsurances;
     private LayoutInflater mLayoutInflater;
+    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
 
-    public InsuranceAdapter(Context context, ArrayList<String> arrayList) {
+    public InsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> insurances, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
         mContext = context;
-        mArrayList = arrayList;
+        mInsurances = insurances;
+        this.iAddMoreCallback = iAddMoreCallback;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -38,19 +44,31 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
 
     @Override
     public void onBindViewHolder(InsuranceAdapter.ViewHolder holder, int position) {
+        if(position < mInsurances.size()-1)
+            holder.textAddMore.setVisibility(View.GONE);
+        else
+            holder.textAddMore.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return mInsurances.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.text_add_more)
+        BuildBoardTextView textAddMore;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.text_add_more)
+        void addmoreTapped(){
+            iAddMoreCallback.addLayout();
         }
 
         private void setFont() {

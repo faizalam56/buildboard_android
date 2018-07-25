@@ -80,7 +80,7 @@
     </LinearLayout>
 
     <com.buildboard.customviews.BuildBoardTextView
-        android:id="@+id/text_add_more_insurance"
+        android:id="@+id/text_add_more"
         style="@style/textSize_smaller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
