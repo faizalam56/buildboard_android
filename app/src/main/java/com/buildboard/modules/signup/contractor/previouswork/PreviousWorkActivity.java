@@ -1,6 +1,5 @@
-package com.buildboard.modules.signup.contractor;
+package com.buildboard.modules.signup.contractor.previouswork;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -16,14 +15,11 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
-import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.signup.SignUpActivity;
-import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsRequest;
-import com.buildboard.modules.signup.contractor.models.previouswork.PreviousWorkData;
-import com.buildboard.modules.signup.contractor.models.previouswork.PreviousWorkRequest;
-import com.buildboard.modules.signup.contractor.models.previouswork.PreviousWorks;
-import com.buildboard.modules.signup.contractor.models.previouswork.TestimonialData;
+import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkData;
+import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorks;
+import com.buildboard.modules.signup.contractor.previouswork.models.TestimonialData;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;

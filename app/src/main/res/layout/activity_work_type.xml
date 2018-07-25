@@ -5,7 +5,7 @@
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modules.signup.contractor.WorkTypeActivity">
+    tools:context=".modules.signup.contractor.worktype.WorkTypeActivity">
 
     <include
         layout="@layout/toolbar"

@@ -1,15 +1,12 @@
-package com.buildboard.modules.signup.contractor.models.previouswork;
+package com.buildboard.modules.signup.contractor.previouswork.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class PreviousWorkData {
+public class TestimonialData {
 
     @SerializedName("type") String type;
     @SerializedName("key") String key;
-    @SerializedName("value")
-    ArrayList<String> value;
+    @SerializedName("value") String value;
 
     public String getType() {
         return type;
@@ -27,11 +24,11 @@ public class PreviousWorkData {
         this.key = key;
     }
 
-    public ArrayList<String> getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(ArrayList<String> value) {
+    public void setValue(String value) {
         this.value = value;
     }
 }

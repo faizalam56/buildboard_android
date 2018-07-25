@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.contractor.models.previouswork;
+package com.buildboard.modules.signup.contractor.previouswork.models;
 
 import com.google.gson.annotations.SerializedName;
 

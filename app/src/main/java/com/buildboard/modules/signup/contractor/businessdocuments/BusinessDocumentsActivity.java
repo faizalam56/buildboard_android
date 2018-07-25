@@ -3,22 +3,25 @@ package com.buildboard.modules.signup.contractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocuments;
 import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocumentsRequest;
 import com.buildboard.modules.signup.contractor.models.businessdocument.DocumentData;
-import com.buildboard.modules.signup.contractor.models.businessdocument.BusinessDocuments;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
@@ -44,6 +47,80 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     BuildBoardTextView textTermsOfService;
     @BindString(R.string.please_wait)
     String stringPleaseWait;
+
+    @BindView(R.id.image_setting)
+    ImageView imageSetting;
+    @BindView(R.id.recycler_business_licensing)
+    RecyclerView recyclerBusinessLicensing;
+    @BindView(R.id.edit_state)
+    BuildBoardEditText editState;
+    @BindView(R.id.edit_license_number)
+    BuildBoardEditText editLicenseNumber;
+    @BindView(R.id.edit_attachment)
+    BuildBoardEditText editAttachment;
+    @BindView(R.id.image_attachment)
+    ImageView imageAttachment;
+    @BindView(R.id.text_add_more_business_license)
+    BuildBoardTextView textAddMoreBusinessLicense;
+    @BindView(R.id.recycler_bonding)
+    RecyclerView recyclerBonding;
+    @BindView(R.id.edit_city)
+    BuildBoardEditText editCity;
+    @BindView(R.id.edit_bond_number)
+    BuildBoardEditText editBondNumber;
+    @BindView(R.id.edit_bond_amount)
+    BuildBoardEditText editBondAmount;
+    @BindView(R.id.edit_attachment_bonding)
+    BuildBoardEditText editAttachmentBonding;
+    @BindView(R.id.image_attachment_bonding)
+    ImageView imageAttachmentBonding;
+    @BindView(R.id.text_add_more_bonding)
+    BuildBoardTextView textAddMoreBonding;
+    @BindView(R.id.text_label_insurance)
+    BuildBoardTextView textLabelInsurance;
+    @BindView(R.id.recycler_insurance)
+    RecyclerView recyclerInsurance;
+    @BindView(R.id.edit_liability_insurance)
+    BuildBoardEditText editLiabilityInsurance;
+    @BindView(R.id.edit_insurance_provider)
+    BuildBoardEditText editInsuranceProvider;
+    @BindView(R.id.edit_insurance_amount)
+    BuildBoardEditText editInsuranceAmount;
+    @BindView(R.id.edit_attachment_insurance)
+    BuildBoardEditText editAttachmentInsurance;
+    @BindView(R.id.image_attachment_insurance)
+    ImageView imageAttachmentInsurance;
+    @BindView(R.id.text_add_more_insurance)
+    BuildBoardTextView textAddMoreInsurance;
+    @BindView(R.id.text_label_workman_insurance)
+    BuildBoardTextView textLabelWorkmanInsurance;
+    @BindView(R.id.recycler_workman_insurance)
+    RecyclerView recyclerWorkmanInsurance;
+    @BindView(R.id.edit_insurance_provider_workman)
+    BuildBoardEditText editInsuranceProviderWorkman;
+    @BindView(R.id.edit_insurance_amount_workman)
+    BuildBoardEditText editInsuranceAmountWorkman;
+    @BindView(R.id.edit_attachment_workman_insurance)
+    BuildBoardEditText editAttachmentWorkmanInsurance;
+    @BindView(R.id.image_attachment_insurance_workman)
+    ImageView imageAttachmentInsuranceWorkman;
+    @BindView(R.id.text_add_more_insurance_workman)
+    BuildBoardTextView textAddMoreInsuranceWorkman;
+    @BindView(R.id.recycler_certification)
+    RecyclerView recyclerCertification;
+    @BindView(R.id.edit_certifying_body)
+    BuildBoardEditText editCertifyingBody;
+    @BindView(R.id.edit_certification_number)
+    BuildBoardEditText editCertificationNumber;
+    @BindView(R.id.edit_certification_desc)
+    BuildBoardEditText editCertificationDesc;
+    @BindView(R.id.edit_attachment_certification)
+    BuildBoardEditText editAttachmentCertification;
+    @BindView(R.id.image_attachment_certification)
+    ImageView imageAttachmentCertification;
+    @BindView(R.id.text_add_more_certification)
+    BuildBoardTextView textAddMoreCertification;
+
 
     private String mUserId = "";
 

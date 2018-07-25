@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.contractor;
+package com.buildboard.modules.signup.contractor.businessinfo;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -22,17 +22,14 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
-import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoData;
-import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoRequest;
-import com.buildboard.modules.signup.contractor.models.businessinfo.BusinessInfoResponse;
-import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
+import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
+import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
+import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.oob.SignUp;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;

@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.contractor;
+package com.buildboard.modules.signup.contractor.worktype;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -20,6 +20,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
+import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.utils.ProgressHelper;
