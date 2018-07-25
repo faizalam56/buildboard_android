@@ -3,7 +3,11 @@ package com.buildboard.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.TextView;
+import com.buildboard.R;
 
 public class ConnectionDetector {
     public static boolean isNetworkConnected(Context mContext) {
@@ -12,10 +16,19 @@ public class ConnectionDetector {
         }
         ConnectivityManager cm = (ConnectivityManager) mContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = null;
+        if (cm != null) {
+            ni = cm.getActiveNetworkInfo();
+        }
         return (ni != null && ni.isConnected());
     }
-    public static void showMessage(Context context){
-        Toast.makeText(context, "No Internet Connection , Please try again", Toast.LENGTH_SHORT).show();
+
+    public static Snackbar createSnackBar(Context context, View view) {
+        Snackbar snackbar = Snackbar.make(view, context.getString(R.string.internet_connection_check), Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+        snackbar.show();
+        return snackbar;
     }
 }

@@ -7,18 +7,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -46,6 +42,7 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
@@ -68,6 +65,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -79,6 +78,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private String providerId;
     private String mEmail;
     private Uri selectedImage;
+    private String contactMode = PHONE;
+    private ContractorTypeDetail contractorTypeDetail;
+
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
@@ -200,8 +202,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringPleaseWait;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
-    String contactMode = PHONE;
-    ContractorTypeDetail contractorTypeDetail;
+    @BindString(R.string.location_check)
+    String stringCheckLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,13 +236,13 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void setAsteriskToText() {
-        textFirstName.setText(setStarToLabel(getString(R.string.first_name)));
-        textLastName.setText(setStarToLabel(getString(R.string.last_name)));
-        textEmail.setText(setStarToLabel(getString(R.string.email)));
-        textPassword.setText(setStarToLabel(getString(R.string.password)));
-        textAddress.setText(setStarToLabel(getString(R.string.address)));
-        textPhone.setText(setStarToLabel(getString(R.string.phone_no)));
-        textContactMode.setText(setStarToLabel(getString(R.string.preferred_contact_mode)));
+        textFirstName.setText(Utils.setStarToLabel(getString(R.string.first_name)));
+        textLastName.setText(Utils.setStarToLabel(getString(R.string.last_name)));
+        textEmail.setText(Utils.setStarToLabel(getString(R.string.email)));
+        textPassword.setText(Utils.setStarToLabel(getString(R.string.password)));
+        textAddress.setText(Utils.setStarToLabel(getString(R.string.address)));
+        textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
+        textContactMode.setText(Utils.setStarToLabel(getString(R.string.preferred_contact_mode)));
     }
 
     @OnClick(R.id.edit_address)
@@ -264,12 +267,16 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
-            if (selectedImage == null) {
-                SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectImage);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (validateFields(firstName, lastName, email, password, address, phoneNo)) {
+                if (selectedImage == null) {
+                    SnackBarFactory.createSnackBar(this, constraintRoot, stringSelectImage);
                 } else {
-                uploadImage(this, prepareFilePart( Utils.getImagePath(this, selectedImage)));
+                    uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, selectedImage))));
+                }
             }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -386,7 +393,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+        if (TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
@@ -502,7 +509,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String newLocation = buildBoardEditText.getText().toString();
                 String selectedLocation = textView.getText().toString();
-                editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                if (TextUtils.isEmpty(newLocation)) {
+                    SnackBarFactory.createSnackBar(SignUpActivity.this, constraintRoot, stringCheckLocation);
+                } else {
+                    editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                }
             }
         });
         dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -597,19 +608,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         File file = new File(imagePath);
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
         return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
-    }
-
-    //TODO TO MAKE STATIC METHOD
-    @NonNull
-    private SpannableStringBuilder setStarToLabel(String text) {
-        String colored = " *";
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(text);
-        int start = builder.length();
-        builder.append(colored);
-        int end = builder.length();
-        builder.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return builder;
     }
 
     @Override

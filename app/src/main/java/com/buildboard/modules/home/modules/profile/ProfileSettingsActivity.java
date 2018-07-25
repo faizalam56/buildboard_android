@@ -13,6 +13,7 @@ import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 
@@ -91,6 +92,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.text_edit_profile)
     public void moveToClass() {
-        startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+        } else {
+            ConnectionDetector.createSnackBar(this,constraintRoot);
+        }
     }
 }

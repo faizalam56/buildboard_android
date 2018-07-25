@@ -7,19 +7,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +24,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -45,6 +39,7 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
@@ -54,11 +49,9 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -67,6 +60,8 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
 public class EditProfileActivity extends AppCompatActivity implements AppConstant {
 
@@ -201,6 +196,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringPleaseWait;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
+    @BindString(R.string.location_check)
+    String stringCheckLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,12 +228,12 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     private void setAsteriskToText() {
-        textFirstName.setText(setStarToLabel(getString(R.string.first_name)));
-        textLastName.setText(setStarToLabel(getString(R.string.last_name)));
-        textEmail.setText(setStarToLabel(getString(R.string.email)));
-        textAddress.setText(setStarToLabel(getString(R.string.address)));
-        textPhone.setText(setStarToLabel(getString(R.string.phone_no)));
-        textContactMode.setText(setStarToLabel(getString(R.string.preferred_contact_mode)));
+        textFirstName.setText(Utils.setStarToLabel(getString(R.string.first_name)));
+        textLastName.setText(Utils.setStarToLabel(getString(R.string.last_name)));
+        textEmail.setText(Utils.setStarToLabel(getString(R.string.email)));
+        textAddress.setText(Utils.setStarToLabel(getString(R.string.address)));
+        textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
+        textContactMode.setText(Utils.setStarToLabel(getString(R.string.preferred_contact_mode)));
     }
 
     @OnClick(R.id.edit_address)
@@ -259,15 +256,23 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
-        if (validateFields(firstName,lastName, address, phoneNo)) {
-            signUpMethod(firstName, lastName, address, phoneNo, contactMode, responsImageUrl);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (validateFields(firstName, lastName, address, phoneNo)) {
+                signUpMethod(firstName, lastName, address, phoneNo, contactMode, responsImageUrl);
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
     @OnClick(R.id.image_profile)
     void imageProfileTapped() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_CODE);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     private void signUpMethod(String firstName, String lastName, String address, String phoneNo, String contactMode, String imageUrl) {
@@ -347,7 +352,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             return false;
         }
 
-        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+        if (TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
@@ -432,7 +437,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
                 case REQUEST_CODE:
                     selectedImage = data.getData();
-                    uploadImage(this, prepareFilePart(Utils.getImagePath(this, selectedImage)));
+                    uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, selectedImage))));
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         imageProfile.setImageBitmap(bitmap);
@@ -448,7 +453,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         addressLatLng = place.getLatLng();
     }
 
-    //TODO MAKE THIS STATIC METHOD
     private void showAddressDialog(Place place) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -463,7 +467,11 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             public void onClick(DialogInterface dialog, int whichButton) {
                 String newLocation = buildBoardEditText.getText().toString();
                 String selectedLocation = textView.getText().toString();
-                editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                if (TextUtils.isEmpty(newLocation)) {
+                    SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, stringCheckLocation);
+                } else {
+                    editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                }
             }
         });
         dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -511,19 +519,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         File file = new File(imagePath);
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
         return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
-    }
-
-    @NonNull
-    private SpannableStringBuilder setStarToLabel(String text) {
-        String colored = " *";
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(text);
-        int start = builder.length();
-        builder.append(colored);
-        int end = builder.length();
-        builder.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        return builder;
     }
 
     @Override
@@ -574,7 +569,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         } else {
             textAddAnotherAddress.setVisibility(View.VISIBLE);
             currentNumber = currentNumber + 1;
-            final LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.custom_add_address_layout, null);
+            final LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.dialog_custom_add_address_layout, null);
             newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             BuildBoardTextView text_address = newView.findViewById(R.id.text_address);
             BuildBoardTextView edit_address = newView.findViewById(R.id.edit_address);

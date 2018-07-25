@@ -205,5 +205,7 @@
     <string name="cancel">Cancel</string>
     <string name="comma"> ,</string>
     <string name="add_another_address">+ Add another address</string>
+    <string name="internet_connection_check">No Internet Connection ,try again</string>
+    <string name="location_check">First Location can not be empty</string>
 
 </resources>
