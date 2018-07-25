@@ -144,6 +144,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
     HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
+    HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
         addBusinessLicensing();
         addBonding();
+        addCertification();
 
         setBondingAdapter();
         setBusinessLicensingAdapter();
@@ -235,7 +237,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         BusinessDocuments businessDocuments = new BusinessDocuments();
         businessDocuments.setWorkmanCampInsurance(getWorkmanInsurance());
         businessDocuments.setInsurance(getInsurance());
-        businessDocuments.setCertification(getCertification());
+        businessDocuments.setCertification(mCertifications);
         businessDocuments.setBonding(mBondings);
         businessDocuments.setBusinessLicensing(mBusinessLicensings);
 
@@ -311,10 +313,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         return insurances;
     }
 
-    private HashMap<Integer, ArrayList<DocumentData>> getCertification() {
-        HashMap<Integer, ArrayList<DocumentData>> certifications = new HashMap<>();
+    private void addCertification() {
 
-        for (int i = 1; i <= 2; i++) {
             ArrayList<DocumentData> certificationDetails = new ArrayList<>();
             DocumentData certifying = new DocumentData();
             certifying.setKey(KEY_CERTIFYING);
@@ -340,10 +340,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             certificationAttachment.setValue("");
             certificationDetails.add(certificationAttachment);
 
-            certifications.put(i, certificationDetails);
-        }
-
-        return certifications;
+            mCertifications.put(mCertifications.size()+1, certificationDetails);
     }
 
     private void addBonding() {
@@ -413,13 +410,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         recyclerInsurance.setAdapter(mInsuranceAdapter);
     }
 
-    private void setCertificationAdapter() {
-        mCertificationAdapter = new CertificationAdapter(this, new ArrayList<String>());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerCertification.setLayoutManager(linearLayoutManager);
-        recyclerCertification.setAdapter(mCertificationAdapter);
-    }
-
     private void setWorkmanInsuranceAdapter() {
         mWorkmanInsuranceAdapter = new WorkmanInsuranceAdapter(this, new ArrayList<String>());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -451,5 +441,18 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBonding.setLayoutManager(linearLayoutManager);
         recyclerBonding.setAdapter(mBondingAdapter);
+    }
+
+    private void setCertificationAdapter() {
+        mCertificationAdapter = new CertificationAdapter(this, mCertifications, new IBusinessDocumentsAddMoreCallback() {
+            @Override
+            public void addLayout() {
+                addCertification();
+                mCertificationAdapter.notifyDataSetChanged();
+            }
+        });
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerCertification.setLayoutManager(linearLayoutManager);
+        recyclerCertification.setAdapter(mCertificationAdapter);
     }
 }

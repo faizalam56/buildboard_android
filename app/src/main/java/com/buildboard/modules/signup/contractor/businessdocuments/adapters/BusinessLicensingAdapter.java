@@ -21,14 +21,14 @@ import butterknife.OnClick;
 public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicensingAdapter.ViewHolder> {
 
     private Context mContext;
-    private HashMap<Integer, ArrayList<DocumentData>> listHashMap;
+    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings;
     private LayoutInflater mLayoutInflater;
     private IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback;
     private int size;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback) {
         mContext = context;
-        this.listHashMap = listHashMap;
+        this.mBusinessLicensings = businessLicensings;
         mLayoutInflater = LayoutInflater.from(mContext);
         this.iBusinessDocumentsAddMoreCallback = iBusinessDocumentsAddMoreCallback;
     }
@@ -41,7 +41,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     @Override
     public void onBindViewHolder(BusinessLicensingAdapter.ViewHolder holder, int position) {
-        if(position < listHashMap.size()-1)
+        if(position < mBusinessLicensings.size()-1)
             holder.textAddMore.setVisibility(View.GONE);
         else
             holder.textAddMore.setVisibility(View.VISIBLE);
@@ -49,7 +49,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     @Override
     public int getItemCount() {
-        return listHashMap.size();
+        return mBusinessLicensings.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

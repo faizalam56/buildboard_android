@@ -21,13 +21,13 @@ import butterknife.OnClick;
 public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHolder> {
 
     private Context mContext;
-    private HashMap<Integer, ArrayList<DocumentData>> mListHashMap;
+    private HashMap<Integer, ArrayList<DocumentData>> mBondinds;
     private LayoutInflater mLayoutInflater;
     private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
 
-    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> listHashMap, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
         mContext = context;
-        this.mListHashMap = listHashMap;
+        this.mBondinds = bondinds;
         this.iAddMoreCallback = iAddMoreCallback;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
@@ -40,7 +40,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
-        if(position < mListHashMap.size()-1)
+        if(position < mBondinds.size()-1)
             holder.textAddMore.setVisibility(View.GONE);
         else
             holder.textAddMore.setVisibility(View.VISIBLE);
@@ -48,7 +48,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mListHashMap.size();
+        return mBondinds.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
