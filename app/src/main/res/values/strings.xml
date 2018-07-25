@@ -52,7 +52,7 @@
     <string name="skip">SKIP</string>
     <string name="expire">Expire</string>
     <string name="title_forgot_password">Forgot Password</string>
-    <string name="msg_enter_email_address">Enter Your Email Address</string>
+    <string name="msg_enter_email_address"><b>Enter Your Email Address</b></string>
     <string name="msg_reset_password">Please enter your registered email address and we’ll send you link to reset password</string>
     <string name="error_password">Please enter password</string>
     <string name="error_username">Please enter username</string>
