@@ -67,7 +67,6 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
 
             editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback(){
 
@@ -87,11 +86,6 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
             iBusinessDocumentsAddMoreCallback.addLayout();
-        }
-
-        private void setFont() {
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMsg);
         }
     }
 }

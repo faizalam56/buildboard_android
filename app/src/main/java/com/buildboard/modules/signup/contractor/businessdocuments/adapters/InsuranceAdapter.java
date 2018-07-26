@@ -74,7 +74,6 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
 
             editLiability.addTextChangedListener(new GenericTextWatcher(editLiability, new ITextWatcherCallback(){
 
@@ -95,50 +94,11 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
                     mInsurances.get(getAdapterPosition() + 1).get(2).setValue(value);
                 }
             }));
-
-            /*editLiability.addTextChangedListener(new GenericTextWatcher(editLiability));
-            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider));
-            editAmount.addTextChangedListener(new GenericTextWatcher(editAmount));*/
         }
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped() {
             iAddMoreCallback.addLayout();
         }
-
-        private void setFont() {
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMsg);
-        }
-
-        /*private class GenericTextWatcher implements TextWatcher {
-
-            private View view;
-
-            private GenericTextWatcher(View view) {
-                this.view = view;
-            }
-
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            public void afterTextChanged(Editable editable) {
-                String text = editable.toString();
-                switch (view.getId()) {
-                    case R.id.edit_liability_insurance:
-                        mInsurances.get(getAdapterPosition() + 1).get(0).setValue(text);
-                        break;
-                    case R.id.edit_insurance_provider:
-                        mInsurances.get(getAdapterPosition() + 1).get(1).setValue(text);
-                        break;
-                    case R.id.edit_insurance_amount:
-                        mInsurances.get(getAdapterPosition() + 1).get(2).setValue(text);
-                        break;
-                }
-            }
-        }*/
     }
 }

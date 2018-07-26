@@ -66,7 +66,6 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
 
             editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback(){
 
@@ -86,11 +85,6 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
             iAddMoreCallback.addLayout();
-        }
-
-        private void setFont() {
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMsg);
         }
     }
 }

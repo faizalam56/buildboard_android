@@ -72,7 +72,6 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
 
             editCertBody.addTextChangedListener(new GenericTextWatcher(editCertBody, new ITextWatcherCallback(){
 
@@ -98,11 +97,6 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
             iAddMoreCallback.addLayout();
-        }
-
-        private void setFont() {
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName, textTitle, textSubject);
-//            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textMsg);
         }
     }
 }
