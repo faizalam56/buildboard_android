@@ -10,8 +10,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -26,10 +26,10 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback;
+    private IAddMoreCallback iBusinessDocumentsAddMoreCallback;
     private int size;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IBusinessDocumentsAddMoreCallback iBusinessDocumentsAddMoreCallback) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback) {
         mContext = context;
         this.mBusinessLicensings = businessLicensings;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -85,7 +85,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
-            iBusinessDocumentsAddMoreCallback.addLayout();
+            iBusinessDocumentsAddMoreCallback.addMore();
         }
     }
 }

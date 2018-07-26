@@ -11,13 +11,11 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
-import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.BondingAdapter;
@@ -25,7 +23,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsRequest;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
@@ -330,9 +328,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setInsuranceAdapter() {
-        mInsuranceAdapter = new InsuranceAdapter(this, mInsurances, new IBusinessDocumentsAddMoreCallback() {
+        mInsuranceAdapter = new InsuranceAdapter(this, mInsurances, new IAddMoreCallback() {
             @Override
-            public void addLayout() {
+            public void addMore() {
                 addInsurance();
                 mInsuranceAdapter.notifyDataSetChanged();
             }
@@ -343,9 +341,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setWorkmanInsuranceAdapter() {
-        mWorkmanInsuranceAdapter = new WorkmanInsuranceAdapter(this, mWorkmanInsurances, new IBusinessDocumentsAddMoreCallback() {
+        mWorkmanInsuranceAdapter = new WorkmanInsuranceAdapter(this, mWorkmanInsurances, new IAddMoreCallback() {
             @Override
-            public void addLayout() {
+            public void addMore() {
                 addWorkmanInsurance();
                 mWorkmanInsuranceAdapter.notifyDataSetChanged();
             }
@@ -356,9 +354,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBusinessLicensingAdapter() {
-        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IBusinessDocumentsAddMoreCallback() {
+        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IAddMoreCallback() {
             @Override
-            public void addLayout() {
+            public void addMore() {
                 addBusinessLicensing();
                 mBusinessLicensingAdapter.notifyDataSetChanged();
             }
@@ -369,9 +367,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBondingAdapter() {
-        mBondingAdapter = new BondingAdapter(this, mBondings, new IBusinessDocumentsAddMoreCallback() {
+        mBondingAdapter = new BondingAdapter(this, mBondings, new IAddMoreCallback() {
             @Override
-            public void addLayout() {
+            public void addMore() {
                 addBonding();
                 mBondingAdapter.notifyDataSetChanged();
             }
@@ -382,9 +380,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setCertificationAdapter() {
-        mCertificationAdapter = new CertificationAdapter(this, mCertifications, new IBusinessDocumentsAddMoreCallback() {
+        mCertificationAdapter = new CertificationAdapter(this, mCertifications, new IAddMoreCallback() {
             @Override
-            public void addLayout() {
+            public void addMore() {
                 addCertification();
                 mCertificationAdapter.notifyDataSetChanged();
             }

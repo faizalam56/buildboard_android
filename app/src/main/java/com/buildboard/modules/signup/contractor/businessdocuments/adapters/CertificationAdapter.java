@@ -1,21 +1,17 @@
 package com.buildboard.modules.signup.contractor.businessdocuments.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -30,9 +26,9 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> mCertifications;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
+    private IAddMoreCallback iAddMoreCallback;
 
-    public CertificationAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> certifications, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
+    public CertificationAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> certifications, IAddMoreCallback iAddMoreCallback) {
         mContext = context;
         mCertifications = certifications;
         this.iAddMoreCallback = iAddMoreCallback;
@@ -96,7 +92,7 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
-            iAddMoreCallback.addLayout();
+            iAddMoreCallback.addMore();
         }
     }
 }

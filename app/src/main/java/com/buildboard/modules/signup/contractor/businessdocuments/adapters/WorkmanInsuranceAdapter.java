@@ -10,8 +10,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
+    private IAddMoreCallback iAddMoreCallback;
 
-    public WorkmanInsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> workmanInsurances, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
+    public WorkmanInsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> workmanInsurances, IAddMoreCallback iAddMoreCallback) {
         mContext = context;
         mWorkmanInsurances = workmanInsurances;
         this.iAddMoreCallback = iAddMoreCallback;
@@ -84,7 +84,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
-            iAddMoreCallback.addLayout();
+            iAddMoreCallback.addMore();
         }
     }
 }

@@ -1,5 +1,5 @@
-package com.buildboard.modules.signup.contractor.businessdocuments.interfaces;
+package com.buildboard.modules.signup.contractor.interfaces;
 
-public interface IBusinessDocumentsAddMoreCallback {
-    void addLayout();
+public interface IAddMoreCallback {
+    void addMore();
 }

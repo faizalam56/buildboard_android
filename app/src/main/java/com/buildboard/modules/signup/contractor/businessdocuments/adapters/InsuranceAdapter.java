@@ -1,23 +1,17 @@
 package com.buildboard.modules.signup.contractor.businessdocuments.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -32,9 +26,9 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
+    private IAddMoreCallback iAddMoreCallback;
 
-    public InsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> insurances, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
+    public InsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> insurances, IAddMoreCallback iAddMoreCallback) {
         mContext = context;
         mInsurances = insurances;
         this.iAddMoreCallback = iAddMoreCallback;
@@ -98,7 +92,7 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped() {
-            iAddMoreCallback.addLayout();
+            iAddMoreCallback.addMore();
         }
     }
 }

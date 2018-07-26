@@ -4,8 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.buildboard.R;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 
 public class GenericTextWatcher implements TextWatcher {
 

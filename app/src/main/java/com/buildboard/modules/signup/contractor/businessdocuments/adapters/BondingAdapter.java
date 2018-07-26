@@ -10,8 +10,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
-import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
+import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     private Context mContext;
     private HashMap<Integer, ArrayList<DocumentData>> mBondinds;
     private LayoutInflater mLayoutInflater;
-    private IBusinessDocumentsAddMoreCallback iAddMoreCallback;
+    private IAddMoreCallback iAddMoreCallback;
 
-    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IBusinessDocumentsAddMoreCallback iAddMoreCallback) {
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IAddMoreCallback iAddMoreCallback) {
         mContext = context;
         this.mBondinds = bondinds;
         this.iAddMoreCallback = iAddMoreCallback;
@@ -92,7 +92,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
-            iAddMoreCallback.addLayout();
+            iAddMoreCallback.addMore();
         }
     }
 }
