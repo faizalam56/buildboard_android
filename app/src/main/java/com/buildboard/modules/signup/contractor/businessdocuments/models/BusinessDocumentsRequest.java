@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class BusinessDocumentsRequest {
 
-    @SerializedName("businessDocuments")
+    @SerializedName("documents")
     private BusinessDocuments businessDocuments;
     @SerializedName("id")
     private String id;
