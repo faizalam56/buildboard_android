@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
+import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TestimonialAdapter extends RecyclerView.Adapter<TestimonialAdapter.ViewHolder> {
 
@@ -54,15 +57,40 @@ public class TestimonialAdapter extends RecyclerView.Adapter<TestimonialAdapter.
         BuildBoardTextView textAddMore;
 
         @BindView(R.id.edit_name)
-        BuildBoardEditText editCity;
+        BuildBoardEditText editName;
         @BindView(R.id.edit_work_performed)
-        BuildBoardEditText editBondNumber;
+        BuildBoardEditText editWorkPerformed;
         @BindView(R.id.edit_testimonial)
-        BuildBoardEditText editAmount;
+        BuildBoardEditText editTestimonial;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            editName.addTextChangedListener(new GenericTextWatcher(editName, new ITextWatcherCallback(){
+
+                @Override
+                public void getValue(String value) {
+                    mTestimonials.get(getAdapterPosition() + 1).get(0).setValue(value);
+                }
+            }));
+            editWorkPerformed.addTextChangedListener(new GenericTextWatcher(editWorkPerformed, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mTestimonials.get(getAdapterPosition() + 1).get(1).setValue(value);
+                }
+            }));
+            editTestimonial.addTextChangedListener(new GenericTextWatcher(editTestimonial, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mTestimonials.get(getAdapterPosition() + 1).get(2).setValue(value);
+                }
+            }));
+        }
+
+        @OnClick(R.id.text_add_more)
+        void addmoreTapped(){
+            iAddMoreCallback.addMore();
         }
     }
 }

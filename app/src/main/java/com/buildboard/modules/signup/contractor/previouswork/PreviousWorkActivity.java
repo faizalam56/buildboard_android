@@ -207,7 +207,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mTestimonialAdapter = new TestimonialAdapter(this, mTestimonials, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addPreviousWorkData();
+                addTestimonialData();
                 mTestimonialAdapter.notifyDataSetChanged();
             }
         });
