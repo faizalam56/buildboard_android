@@ -3,7 +3,6 @@ package com.buildboard.dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
 import com.buildboard.R;
 
 public class PopUpHelper {

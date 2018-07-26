@@ -55,4 +55,6 @@ public interface AppConstant {
     String KEY_ATTACHMENT_BUSINESS = "Attachment(Pdf/Document/Photo Of Business License)";
     String KEY_INSURANCE_PROVIDER = "Insurance Provider";
     String INTENT_USER_ID = "intent_userid";
+    String TERMS_OF_SERVICES_LINK = "http://www.google.com";
+    String PRIVACY_POLICY_LINK = "http://www.google.com";
 }

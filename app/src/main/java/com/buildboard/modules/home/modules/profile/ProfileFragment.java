@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.profile;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,16 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.adapter.MyContractorsAdapter;
 import com.buildboard.modules.home.modules.profile.models.ProfileData;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -44,6 +44,8 @@ public class ProfileFragment extends Fragment {
     BuildBoardButton buttonMyContractors;
     @BindView(R.id.recycler_my_contactor)
     RecyclerView recyclerMyContractors;
+    @BindView(R.id.container_root)
+    CoordinatorLayout mCoordinatorLayout;
 
     private Unbinder unbinder;
     private ProfileData profileData;
@@ -61,9 +63,11 @@ public class ProfileFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         setProjectsRecycler();
 
-        if (profileData == null)
-            getProfile();
-        else setProfileData(profileData);
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (profileData != null) setProfileData(profileData);
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(),mCoordinatorLayout);
+        }
 
         return view;
     }
@@ -102,5 +106,13 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ConnectionDetector.isNetworkConnected(getActivity()))
+            getProfile();
+        else ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
     }
 }

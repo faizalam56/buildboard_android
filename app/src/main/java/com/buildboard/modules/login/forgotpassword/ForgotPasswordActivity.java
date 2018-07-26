@@ -6,11 +6,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
@@ -20,7 +21,6 @@ import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,11 +32,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-
     @BindView(R.id.text_reset_password_msg)
-    TextView textResetPasswordMsg;
+    BuildBoardTextView textResetPasswordMsg;
     @BindView(R.id.edit_email)
-    EditText editEmail;
+    BuildBoardEditText editEmail;
     @BindView(R.id.button_send_mail)
     Button buttonSendMail;
     @BindView(R.id.constraint_root)
@@ -54,7 +53,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
-
+        editEmail.setFocusableInTouchMode(true);
+        editEmail.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         title.setText(stringFrogotPassword);
         setFont();
     }
@@ -99,7 +100,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textResetPasswordMsg, editEmail, buttonSendMail);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textResetPasswordMsg, editEmail);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, buttonSendMail);
     }
 
     private void confirmPopup(String message) {
