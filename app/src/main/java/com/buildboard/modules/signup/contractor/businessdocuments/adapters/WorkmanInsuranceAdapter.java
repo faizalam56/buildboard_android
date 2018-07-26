@@ -63,7 +63,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         BuildBoardEditText editProvider;
         @BindView(R.id.edit_insurance_amount_workman)
         BuildBoardEditText editAmount;
-        @BindView(R.id.edit_attachment_insurance)
+        @BindView(R.id.edit_attachment_workman_insurance)
         BuildBoardEditText editAttachment;
 
         public ViewHolder(View itemView) {

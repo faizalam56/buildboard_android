@@ -64,7 +64,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         BuildBoardEditText editState;
         @BindView(R.id.edit_license_number)
         BuildBoardEditText editLicenceNumber;
-        @BindView(R.id.edit_attachment_insurance)
+        @BindView(R.id.edit_attachment)
         BuildBoardEditText editAttachment;
 
         public ViewHolder(View itemView) {
