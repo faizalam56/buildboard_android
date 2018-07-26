@@ -506,6 +506,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             }
         }
     }
+
     private void getAddressLatLng(final Place place) {
         showAddressDialog(place);
         addressLatLng = place.getLatLng();

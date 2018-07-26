@@ -1,6 +1,5 @@
 package com.buildboard.modules.login.forgotpassword;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -8,11 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -25,7 +21,6 @@ import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +32,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-
     @BindView(R.id.text_reset_password_msg)
     BuildBoardTextView textResetPasswordMsg;
     @BindView(R.id.edit_email)
