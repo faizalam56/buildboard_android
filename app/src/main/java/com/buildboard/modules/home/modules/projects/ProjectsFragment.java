@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
@@ -41,9 +42,11 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     Button buttonSavedProjects;
     @BindView(R.id.button_current_projects)
     Button buttonCurrentProjects;
-
     @BindView(R.id.text_projects)
-    TextView textProjects;
+    TextView buildBoardTextProjectType;
+    @BindView(R.id.textProjectDetails)
+    BuildBoardTextView textProjectDetail;
+
 
     private Unbinder unbinder;
     private int mCurrentPage = 1;
@@ -100,8 +103,8 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setFonts() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, buttonCompletedProjects, buttonCreateNewProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
-        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjects);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buttonCompletedProjects, buttonCreateNewProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buildBoardTextProjectType);
     }
 
     @OnClick(R.id.button_completed_projects)
@@ -109,6 +112,9 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectDetails.clear();
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_COMPLETED;
+        textProjectDetail.setVisibility(View.VISIBLE);
+        buildBoardTextProjectType.setText(getString(R.string.completed_projects));
+        textProjectDetail.setText(getString(R.string.complete_project_description));
         getProjectsList(true);
     }
 
@@ -117,6 +123,9 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectDetails.clear();
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_OPEN;
+        textProjectDetail.setVisibility(View.VISIBLE);
+        buildBoardTextProjectType.setText(getString(R.string.open_projects));
+        textProjectDetail.setText(getString(R.string.open_project_description));
         getProjectsList(true);
     }
 
@@ -124,8 +133,11 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     void savedProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
+        textProjectDetail.setVisibility(View.VISIBLE);
         mCurrentStatus = STATUS_SAVED;
         getProjectsList(true);
+        buildBoardTextProjectType.setText(getString(R.string.saved_projects));
+        textProjectDetail.setText(getString(R.string.save_project_description));
     }
 
     @OnClick(R.id.button_current_projects)
@@ -133,7 +145,10 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectDetails.clear();
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_CURRENT;
+        textProjectDetail.setVisibility(View.VISIBLE);
         getProjectsList(true);
+        buildBoardTextProjectType.setText(getString(R.string.current_projects));
+        textProjectDetail.setText(getString(R.string.current_project_description));
     }
 
     private void getProjectsList(final boolean showProgress) {

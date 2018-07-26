@@ -92,22 +92,16 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
         TextView textServiceType;
         @BindView(R.id.text_service_type_name)
         TextView textServiceTypeName;
-        @BindView(R.id.button_view)
-        Button buttonView;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
         }
 
         private void bindData(int position) {
             textServiceType.setText(mProjectDetails.get(position).getProjectType().getTitle());
             textServiceTypeName.setText(mProjectDetails.get(position).getTitle());
-        }
-
-        private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceType, buttonView, textServiceTypeName);
         }
     }
 
