@@ -450,8 +450,15 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                String message = activateUserResponse.getDatas().get(0);
-                Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
+                PopUpHelper.showAlertPopup(SignUpActivity.this,activateUserResponse.getDatas().get(0), new PopUpHelper.ConfirmPopUp() {
+                    @Override
+                    public void onConfirm(boolean isConfirm) {
+                        startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                    @Override
+                    public void onDismiss(boolean isDismiss) { }
+                });
             }
 
             @Override
