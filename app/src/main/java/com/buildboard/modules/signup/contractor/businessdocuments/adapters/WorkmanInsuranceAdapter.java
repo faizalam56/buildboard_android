@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -56,10 +59,31 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
+        @BindView(R.id.edit_insurance_provider_workman)
+        BuildBoardEditText editProvider;
+        @BindView(R.id.edit_insurance_amount_workman)
+        BuildBoardEditText editAmount;
+        @BindView(R.id.edit_attachment_insurance)
+        BuildBoardEditText editAttachment;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+
+            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback(){
+
+                @Override
+                public void getValue(String value) {
+                    mWorkmanInsurances.get(getAdapterPosition() + 1).get(0).setValue(value);
+                }
+            }));
+            editAmount.addTextChangedListener(new GenericTextWatcher(editAmount, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mWorkmanInsurances.get(getAdapterPosition() + 1).get(1).setValue(value);
+                }
+            }));
         }
 
         @OnClick(R.id.text_add_more)
