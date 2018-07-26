@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.mailbox.draft.drafts_reply.DraftsReplyActivity;
+import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -60,10 +63,39 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
+        @BindView(R.id.edit_certifying_body)
+        BuildBoardEditText editCertBody;
+        @BindView(R.id.edit_certification_number)
+        BuildBoardEditText editCertNumber;
+        @BindView(R.id.edit_certification_desc)
+        BuildBoardEditText editCertDesc;
+        @BindView(R.id.edit_attachment_certification)
+        BuildBoardEditText editAttachment;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+
+            editCertBody.addTextChangedListener(new GenericTextWatcher(editCertBody, new ITextWatcherCallback(){
+
+                @Override
+                public void getValue(String value) {
+                    mCertifications.get(getAdapterPosition() + 1).get(0).setValue(value);
+                }
+            }));
+            editCertNumber.addTextChangedListener(new GenericTextWatcher(editCertNumber, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mCertifications.get(getAdapterPosition() + 1).get(1).setValue(value);
+                }
+            }));
+            editCertDesc.addTextChangedListener(new GenericTextWatcher(editCertDesc, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mCertifications.get(getAdapterPosition() + 1).get(2).setValue(value);
+                }
+            }));
         }
 
         @OnClick(R.id.text_add_more)
