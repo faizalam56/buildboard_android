@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -56,10 +59,39 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
+        @BindView(R.id.edit_city)
+        BuildBoardEditText editCity;
+        @BindView(R.id.edit_bond_number)
+        BuildBoardEditText editBondNumber;
+        @BindView(R.id.edit_bond_amount)
+        BuildBoardEditText editAmount;
+        @BindView(R.id.edit_attachment_bonding)
+        BuildBoardEditText editAttachment;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+
+            editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback(){
+
+                @Override
+                public void getValue(String value) {
+                    mBondinds.get(getAdapterPosition() + 1).get(0).setValue(value);
+                }
+            }));
+            editBondNumber.addTextChangedListener(new GenericTextWatcher(editBondNumber, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mBondinds.get(getAdapterPosition() + 1).get(1).setValue(value);
+                }
+            }));
+            editAmount.addTextChangedListener(new GenericTextWatcher(editAmount, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mBondinds.get(getAdapterPosition() + 1).get(2).setValue(value);
+                }
+            }));
         }
 
         @OnClick(R.id.text_add_more)
