@@ -47,10 +47,7 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
 
     @Override
     public void onBindViewHolder(CertificationAdapter.ViewHolder holder, int position) {
-        if(position < mCertifications.size()-1)
-            holder.textAddMore.setVisibility(View.GONE);
-        else
-            holder.textAddMore.setVisibility(View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mCertifications.size()-1 ? View.GONE : View.VISIBLE);
     }
 
     @Override

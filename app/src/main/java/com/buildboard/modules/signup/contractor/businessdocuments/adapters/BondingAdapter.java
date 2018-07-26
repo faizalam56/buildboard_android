@@ -43,10 +43,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
-        if(position < mBondinds.size()-1)
-            holder.textAddMore.setVisibility(View.GONE);
-        else
-            holder.textAddMore.setVisibility(View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mBondinds.size()-1 ? View.GONE : View.VISIBLE);
     }
 
     @Override

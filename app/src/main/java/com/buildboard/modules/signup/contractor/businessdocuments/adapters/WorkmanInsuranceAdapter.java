@@ -43,10 +43,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
 
     @Override
     public void onBindViewHolder(WorkmanInsuranceAdapter.ViewHolder holder, int position) {
-        if(position < mWorkmanInsurances.size()-1)
-            holder.textAddMore.setVisibility(View.GONE);
-        else
-            holder.textAddMore.setVisibility(View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mWorkmanInsurances.size()-1 ? View.GONE : View.VISIBLE);
     }
 
     @Override

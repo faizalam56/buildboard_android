@@ -44,10 +44,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     @Override
     public void onBindViewHolder(BusinessLicensingAdapter.ViewHolder holder, int position) {
-        if(position < mBusinessLicensings.size()-1)
-            holder.textAddMore.setVisibility(View.GONE);
-        else
-            holder.textAddMore.setVisibility(View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mBusinessLicensings.size()-1 ? View.GONE : View.VISIBLE);
     }
 
     @Override

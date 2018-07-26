@@ -49,10 +49,7 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
 
     @Override
     public void onBindViewHolder(InsuranceAdapter.ViewHolder holder, int position) {
-        if (position < mInsurances.size() - 1)
-            holder.textAddMore.setVisibility(View.GONE);
-        else
-            holder.textAddMore.setVisibility(View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mInsurances.size()-1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
