@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -19,11 +18,9 @@ import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
 
 public class ProfileFragment extends Fragment {
 
