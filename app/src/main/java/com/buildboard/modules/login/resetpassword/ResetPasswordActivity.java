@@ -103,7 +103,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, editEnterPassword, editConfirmPassword, buttonResetPassword);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editEnterPassword, editConfirmPassword, buttonResetPassword);
     }
 
     private void resetPassword(String password) {

@@ -314,14 +314,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
                 if (!createConsumerData.getMessage().isEmpty()) {
-                    PopUpHelper.showConfirmPopup(SignUpActivity.this, createConsumerData.getMessage(), new PopUpHelper.ConfirmPopUp() {
+                    PopUpHelper.showAlertPopup(SignUpActivity.this, createConsumerData.getMessage(), new PopUpHelper.ConfirmPopUp() {
                         @Override
                         public void onConfirm(boolean isConfirm) {
                             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                             finish();
                         }
                         @Override
-                        public void onDismiss(boolean isDismiss) {}
+                        public void onDismiss(boolean isDismiss) { }
                     });
                 }
             }

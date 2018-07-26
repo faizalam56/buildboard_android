@@ -106,7 +106,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textResetPasswordMsg, editEmail, buttonSendMail);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textResetPasswordMsg, editEmail);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, buttonSendMail);
     }
 
     private void confirmPopup(String message) {

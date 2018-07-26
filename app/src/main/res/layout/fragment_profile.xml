@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.home.modules.profile.ProfileFragment">
@@ -71,6 +72,7 @@
             </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -183,3 +185,4 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
+
