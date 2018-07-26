@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.IBusinessDocumentsAddMoreCallback;
+import com.buildboard.modules.signup.contractor.businessdocuments.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
 import java.util.ArrayList;
@@ -57,10 +60,31 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
+        @BindView(R.id.edit_state)
+        BuildBoardEditText editState;
+        @BindView(R.id.edit_license_number)
+        BuildBoardEditText editLicenceNumber;
+        @BindView(R.id.edit_attachment_insurance)
+        BuildBoardEditText editAttachment;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+
+            editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback(){
+
+                @Override
+                public void getValue(String value) {
+                    mBusinessLicensings.get(getAdapterPosition() + 1).get(0).setValue(value);
+                }
+            }));
+            editLicenceNumber.addTextChangedListener(new GenericTextWatcher(editLicenceNumber, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mBusinessLicensings.get(getAdapterPosition() + 1).get(1).setValue(value);
+                }
+            }));
         }
 
         @OnClick(R.id.text_add_more)
