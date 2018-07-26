@@ -92,6 +92,4 @@ public class PopUpHelper {
         alertDialog.show();
         return alertDialog;
     }
-
-
 }

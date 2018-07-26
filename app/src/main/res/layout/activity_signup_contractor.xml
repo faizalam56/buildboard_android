@@ -134,7 +134,7 @@
                 android:id="@+id/button_next"
                 style="@style/button_style"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/gray_button_background"
+                android:background="@drawable/green_button_background"
                 android:text="@string/next"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

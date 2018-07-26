@@ -33,7 +33,7 @@
         android:layout_height="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:background="@drawable/icn_delete"
+        android:background="@drawable/ic_delete_green_circle"
         android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/text_title"
         app:layout_constraintRight_toRightOf="parent"
