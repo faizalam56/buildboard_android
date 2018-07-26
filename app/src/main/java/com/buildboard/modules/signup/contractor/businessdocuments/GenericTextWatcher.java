@@ -25,16 +25,6 @@ public class GenericTextWatcher implements TextWatcher {
 
     public void afterTextChanged(Editable editable) {
         String text = editable.toString();
-        switch (view.getId()) {
-            case R.id.edit_liability_insurance:
-                iTextWatcherCallback.getValue(text);
-                break;
-            case R.id.edit_insurance_provider:
-                iTextWatcherCallback.getValue(text);
-                break;
-            case R.id.edit_insurance_amount:
-                iTextWatcherCallback.getValue(text);
-                break;
-        }
+        iTextWatcherCallback.getValue(text);
     }
 }
