@@ -94,7 +94,9 @@
     <string name="completed_projects">Completed\nProjects</string>
     <string name="open_projects">Open\nProjects</string>
     <string name="saved_projects">Saved\nProjects</string>
-    <string name="current_projects">Current\nProjects</string>
+    <string name="current_projects">Current Projects</string>
+    <string name="open_project">Open Project</string>
+    <string name="saved_project">Saved Project</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
@@ -110,6 +112,7 @@
     <string name="error_contractor_type">Please select Contractor Type</string>
     <string name="please_wait">Please wait…</string>
     <string name="msg_please_wait">Please wait...</string>
+    <string name="msg_loading">Loading…</string>
     <string name="msg_no_data_found">No Data Found</string>
     <string name="trending_projects">Trending Projects</string>
     <string name="near_by_projects">Near by Projects</string>
@@ -212,5 +215,7 @@
     <string name="open_project_description">Following projects have been posted to marketplace.</string>
     <string name="save_project_description">Following projects have been saved for further additions.</string>
     <string name="current_project_description">Following projects are in progress.</string>
+    <string name="create_project_heading">Please select what kind of project you would like to start:</string>
+    <string name="create_new_project">Create New Project</string>
 
 </resources>
