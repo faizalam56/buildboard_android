@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.projects.adapters.SelectAllTypeProjectsAdapter;
@@ -40,7 +39,6 @@ public class SelectAllTypeProjectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view =inflater.inflate(R.layout.fragment_select_all_type_project, container, false);
         unbinder = ButterKnife.bind(this, view);
 
