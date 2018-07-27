@@ -169,11 +169,23 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private void addTestimonialData() {
 
         ArrayList<DocumentData> testimonialDetails = new ArrayList<>();
-        DocumentData testimonialData = new DocumentData();
-        testimonialData.setKey(KEY_NAME);
-        testimonialData.setType(TYPE_TEXT);
-        testimonialData.setValue("");
-        testimonialDetails.add(testimonialData);
+        DocumentData nameInfo = new DocumentData();
+        nameInfo.setKey(KEY_NAME);
+        nameInfo.setType(TYPE_TEXT);
+        nameInfo.setValue("");
+        testimonialDetails.add(nameInfo);
+
+        DocumentData descriptionInfo = new DocumentData();
+        descriptionInfo.setKey(KEY_DESCRIPTION);
+        descriptionInfo.setType(TYPE_TEXT);
+        descriptionInfo.setValue("");
+        testimonialDetails.add(descriptionInfo);
+
+        DocumentData workPerformed = new DocumentData();
+        workPerformed.setKey(KEY_WORK_PERFORMED);
+        workPerformed.setType(TYPE_TEXT);
+        workPerformed.setValue("");
+        testimonialDetails.add(workPerformed);
 
         mTestimonials.put(mTestimonials.size() + 1, testimonialDetails);
     }
@@ -181,11 +193,17 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private void addPreviousWorkData() {
 
         ArrayList<PreviousWorkData> previousWorkDetails = new ArrayList<>();
-        PreviousWorkData testimonialData = new PreviousWorkData();
-        testimonialData.setKey(KEY_NAME);
-        testimonialData.setType(TYPE_TEXT);
-        testimonialData.setValue(new ArrayList<String>());
-        previousWorkDetails.add(testimonialData);
+        PreviousWorkData descriptionInfo = new PreviousWorkData();
+        descriptionInfo.setKey(KEY_DESCRIPTION);
+        descriptionInfo.setType(TYPE_TEXT);
+        descriptionInfo.setValue(new ArrayList<String>());
+        previousWorkDetails.add(descriptionInfo);
+
+        PreviousWorkData attachmentInfo = new PreviousWorkData();
+        attachmentInfo.setKey(KEY_ATTACHMENT);
+        attachmentInfo.setType(TYPE_MULTIPLE_ATTACHMENT);
+        attachmentInfo.setValue(new ArrayList<String>());
+        previousWorkDetails.add(attachmentInfo);
 
         mPreviousWorks.put(mPreviousWorks.size() + 1, previousWorkDetails);
     }

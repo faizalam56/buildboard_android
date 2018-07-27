@@ -38,6 +38,7 @@ public interface AppConstant {
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
     String TYPE_ATTACHMENT = "attachment";
+    String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
     String KEY_ATTACHMENT_INSURANCE = "Attachment(Pdf/Document/Photo Of Insurence Document)";
@@ -55,6 +56,9 @@ public interface AppConstant {
     String KEY_ATTACHMENT_BUSINESS = "Attachment(Pdf/Document/Photo Of Business License)";
     String KEY_INSURANCE_PROVIDER = "Insurance Provider";
     String KEY_NAME = "name";
+    String KEY_DESCRIPTION = "description";
+    String KEY_WORK_PERFORMED = "workPerformed";
+    String KEY_ATTACHMENT = "attachment";
 
     String INTENT_USER_ID = "intent_userid";
     String TERMS_OF_SERVICES_LINK = "http://www.google.com";
