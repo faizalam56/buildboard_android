@@ -1,10 +1,10 @@
-package com.buildboard.modules.signup.contractor.models.businessdocument;
+package com.buildboard.modules.signup.contractor.businessdocuments.models;
 
 import com.google.gson.annotations.SerializedName;
 
 public class BusinessDocumentsRequest {
 
-    @SerializedName("businessDocuments")
+    @SerializedName("documents")
     private BusinessDocuments businessDocuments;
     @SerializedName("id")
     private String id;
