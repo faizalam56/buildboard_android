@@ -6,7 +6,7 @@
     tools:context="com.buildboard.modules.home.modules.projects.ProjectsFragment">
 
     <Button
-        android:id="@+id/button_create_new_projects"
+        android:id="@+id/button_current_projects"
         style="@style/textSize_smallest"
         android:layout_width="@dimen/_90sdp"
         android:layout_height="@dimen/_90sdp"
@@ -14,7 +14,7 @@
         android:background="@drawable/green_button_gradient"
         android:gravity="center"
         android:padding="@dimen/_5sdp"
-        android:text="@string/create_new_projects"
+        android:text="@string/current_projects"
         android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,9 +31,9 @@
         android:text="@string/completed_projects"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/button_open_projects"
-        app:layout_constraintLeft_toRightOf="@+id/button_create_new_projects"
+        app:layout_constraintLeft_toRightOf="@+id/button_current_projects"
         app:layout_constraintRight_toLeftOf="@+id/button_saved_projects"
-        app:layout_constraintTop_toTopOf="@+id/button_create_new_projects" />
+        app:layout_constraintTop_toTopOf="@+id/button_current_projects" />
 
     <Button
         android:id="@+id/button_open_projects"
@@ -46,9 +46,9 @@
         android:padding="@dimen/_5sdp"
         android:text="@string/open_projects"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/button_create_new_projects"
-        app:layout_constraintLeft_toRightOf="@+id/button_create_new_projects"
-        app:layout_constraintRight_toLeftOf="@+id/button_current_projects"
+        app:layout_constraintBottom_toBottomOf="@+id/button_current_projects"
+        app:layout_constraintLeft_toRightOf="@+id/button_current_projects"
+        app:layout_constraintRight_toLeftOf="@+id/button_lost_projects"
         app:layout_constraintTop_toBottomOf="@+id/button_completed_projects" />
 
     <Button
@@ -62,13 +62,13 @@
         android:padding="@dimen/_5sdp"
         android:text="@string/saved_projects"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button_current_projects"
+        app:layout_constraintBottom_toTopOf="@+id/button_lost_projects"
         app:layout_constraintLeft_toRightOf="@+id/button_completed_projects"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_create_new_projects" />
+        app:layout_constraintTop_toTopOf="@+id/button_current_projects" />
 
     <Button
-        android:id="@+id/button_current_projects"
+        android:id="@+id/button_lost_projects"
         style="@style/textSize_smallest"
         android:layout_width="@dimen/_90sdp"
         android:layout_height="@dimen/_40sdp"
@@ -76,9 +76,9 @@
         android:background="@drawable/purple_button_gradient"
         android:gravity="center"
         android:padding="@dimen/_5sdp"
-        android:text="@string/current_projects"
+        android:text="@string/lost_projects"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/button_create_new_projects"
+        app:layout_constraintBottom_toBottomOf="@+id/button_current_projects"
         app:layout_constraintLeft_toRightOf="@+id/button_open_projects"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_saved_projects" />
@@ -91,7 +91,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_create_new_projects" />
+        app:layout_constraintTop_toBottomOf="@+id/button_current_projects" />
 
     <TextView
         android:id="@+id/text_projects"
@@ -105,17 +105,19 @@
         android:id="@+id/text_projects_details"
         style="@style/textSize_smaller"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:text="@string/title_projects"
         android:textSize="@dimen/_10sdp"
-         app:layout_constraintTop_toBottomOf="@+id/text_projects" />
+        app:layout_constraintTop_toBottomOf="@+id/text_projects" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_projects"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_5sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

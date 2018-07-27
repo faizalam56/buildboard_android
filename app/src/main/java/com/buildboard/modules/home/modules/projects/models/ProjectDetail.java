@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.projects.models;
 
+import com.buildboard.modules.signup.models.createconsumer.ConsumerInfo;
 import com.google.gson.annotations.SerializedName;
 
 public class ProjectDetail {
@@ -32,7 +33,8 @@ public class ProjectDetail {
     private Object preferredContractors;
     @SerializedName("project_type")
     private ProjectType projectType;
-
+    @SerializedName("consumer")
+    private ConsumerInfo consumerInfo;
     public String getId() {
         return id;
     }
@@ -143,5 +145,12 @@ public class ProjectDetail {
 
     public void setProjectType(ProjectType projectType) {
         this.projectType = projectType;
+    }
+    public ConsumerInfo getConsumerInfo() {
+        return consumerInfo;
+    }
+
+    public void setConsumerInfo(ConsumerInfo consumerInfo) {
+        this.consumerInfo = consumerInfo;
     }
 }

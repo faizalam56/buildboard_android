@@ -32,6 +32,7 @@ public interface AppConstant {
     String STATUS_COMPLETED = "completed";
     String STATUS_SAVED = "saved";
     String STATUS_CURRENT = "current";
+    String STATUS_LOST = "lost";
     String PHONE = "phone";
     String EMAIL = "email";
 

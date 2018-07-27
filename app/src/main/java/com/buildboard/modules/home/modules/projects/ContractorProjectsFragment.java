@@ -14,6 +14,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.projects.adapters.ContractProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
@@ -26,21 +27,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProjectsFragment extends Fragment implements AppConstant {
+public class ContractorProjectsFragment extends Fragment implements AppConstant {
 
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
 
-    @BindView(R.id.button_create_new_projects)
-    Button buttonCreateNewProjects;
+    @BindView(R.id.button_current_projects)
+    Button buttonCurrentProjects;
     @BindView(R.id.button_completed_projects)
     Button buttonCompletedProjects;
     @BindView(R.id.button_open_projects)
     Button buttonOpenProjects;
     @BindView(R.id.button_saved_projects)
     Button buttonSavedProjects;
-    @BindView(R.id.button_current_projects)
-    Button buttonCurrentProjects;
+    @BindView(R.id.button_lost_projects)
+    Button buttonLostProjects;
 
     @BindView(R.id.text_projects)
     TextView textProjects;
@@ -48,19 +49,20 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     TextView textProjectsDetails;
     private Unbinder unbinder;
     private int mCurrentPage = 1;
-    ProjectsAdapter mProjectsAdapter;
+    ContractProjectsAdapter mProjectsAdapter;
+
     ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
     private String mCurrentStatus = STATUS_OPEN;
 
-    public static ProjectsFragment newInstance() {
-        ProjectsFragment fragment = new ProjectsFragment();
+    public static ContractorProjectsFragment newInstance() {
+        ContractorProjectsFragment fragment = new ContractorProjectsFragment();
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_projects, container, false);
+        View view = inflater.inflate(R.layout.fragment_contractor_projects, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         setFonts();
@@ -74,9 +76,9 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         if (mProjectsAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerProjects.setLayoutManager(mLinearLayoutManager);
-            mProjectsAdapter = new ProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
+            mProjectsAdapter = new ContractProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
             recyclerProjects.setAdapter(mProjectsAdapter);
-            mProjectsAdapter.setOnLoadMoreListener(new ProjectsAdapter.OnLoadMoreListener() {
+            mProjectsAdapter.setOnLoadMoreListener(new ContractProjectsAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
                     mCurrentPage++;
@@ -101,9 +103,18 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setFonts() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, buttonCompletedProjects, buttonCreateNewProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buttonCompletedProjects, buttonLostProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjects);
     }
+
+    @OnClick(R.id.button_current_projects)
+    void lostProjectsTapped() {
+        mProjectDetails.clear();
+        mProjectsAdapter = null;
+        mCurrentStatus = STATUS_CURRENT;
+        getProjectsList(true);
+    }
+
 
     @OnClick(R.id.button_completed_projects)
     void completedProjectsTapped() {
@@ -129,11 +140,11 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         getProjectsList(true);
     }
 
-    @OnClick(R.id.button_current_projects)
+    @OnClick(R.id.button_lost_projects)
     void currentProjectsTapped() {
         mProjectDetails.clear();
         mProjectsAdapter = null;
-        mCurrentStatus = STATUS_CURRENT;
+        mCurrentStatus = STATUS_LOST;
         getProjectsList(true);
     }
 
@@ -143,10 +154,20 @@ public class ProjectsFragment extends Fragment implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 if (showProgress) ProgressHelper.stop();
+
+
                 ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>)response;
+
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
-                setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
-                setProjectsSubTitle(projectsData.size());
+                if(!projectDetails.isEmpty()) {
+                    setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
+                    setProjectsSubTitle(projectDetails.size());
+                }else{
+
+                    textProjectsDetails.setText(getText(R.string.no_projects));
+                    textProjects.setText(mCurrentStatus.substring(0,1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase()+" Projects");
+
+                }
             }
 
             @Override
@@ -159,23 +180,23 @@ public class ProjectsFragment extends Fragment implements AppConstant {
 
         switch (mCurrentStatus){
             case "open":
-                textProjectsDetails.setText("Following projects are in progress");
+                textProjectsDetails.setText(R.string.open_projects_subtitle);
                 textProjects.setText("Open Projects("+count+")");
                 break;
             case "completed":
-                textProjectsDetails.setText("Following projects have been completed");
+                textProjectsDetails.setText(R.string.completed_projects_subtitle);
                 textProjects.setText("Completed Projects("+count+")");
                 break;
             case "current":
-               textProjectsDetails.setText("Following projects are in progress");
+               textProjectsDetails.setText(R.string.current_projects_subtitle);
                 textProjects.setText("Current Projects("+count+")");
                 break;
             case "saved":
-                textProjectsDetails.setText("Following projects has been saved");
+                textProjectsDetails.setText(R.string.saved_projects_subtitle);
                 textProjects.setText("Saved Projects("+count+")");
                 break;
             case "lost":
-                textProjectsDetails.setText("Following projects have been lost");
+                textProjectsDetails.setText(R.string.lost_projects_subtitle);
                 textProjects.setText("Lost Projects("+count+")");
                 break;
         }
