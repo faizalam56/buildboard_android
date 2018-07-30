@@ -19,7 +19,9 @@ import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.profile.ProfileSettingsActivity;
+import com.buildboard.modules.home.modules.projects.ContractorProjectsFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.view.BottomNavigationViewHelper;
 
 import butterknife.BindColor;
@@ -27,6 +29,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -70,7 +74,12 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
                     changeToolbarColor(colorWhite, colorPrimary, false);
-                    navigateFragment(ProjectsFragment.newInstance());
+                    if (AppPreference.getAppPreference(getApplicationContext()).getBoolean(IS_CONTRACTOR)) {
+                        navigateFragment(ContractorProjectsFragment.newInstance());
+                    } else {
+                        navigateFragment(ProjectsFragment.newInstance());
+                    }
+
                     return true;
 
                 case R.id.navigation_mailbox:

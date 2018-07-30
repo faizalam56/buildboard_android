@@ -97,7 +97,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             textTrendingService.setText(stringTrendingProjects);
             textNearbyContractors.setText(stringNearByProjects);
             textContractorsByProjecttype.setText(stringProjectsOnMarketplace);
-            getMarketplaceConsumer();
+           getMarketplaceConsumer();
         } else {
             textTrendingService.setText(stringTrendingServices);
             textNearbyContractors.setText(stringNearByContractor);

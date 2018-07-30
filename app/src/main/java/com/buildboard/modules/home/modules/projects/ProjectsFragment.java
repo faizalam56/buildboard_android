@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -52,10 +53,11 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     Button buttonSavedProjects;
     @BindView(R.id.button_current_projects)
     Button buttonCurrentProjects;
+    @BindView(R.id.text_projects_details)
+    BuildBoardTextView textProjectDetail;
     @BindView(R.id.text_projects)
     BuildBoardTextView buildBoardTextProjectType;
-    @BindView(R.id.textProjectDetails)
-    BuildBoardTextView textProjectDetail;
+
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -176,6 +178,7 @@ public class ProjectsFragment extends Fragment implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 projectsData = (ArrayList<ProjectsData>) response;
+
                 if (mCurrentStatus.equals(STATUS_OPEN)) {
                     buildBoardTextProjectType.setText(getString(R.string.open_project));
                     textProjectDetail.setText(getString(R.string.open_project_description));

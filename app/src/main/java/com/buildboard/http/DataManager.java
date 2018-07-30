@@ -451,7 +451,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas() != null && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas());
                 else dataManagerListener.onError(response.body().getError());
             }
