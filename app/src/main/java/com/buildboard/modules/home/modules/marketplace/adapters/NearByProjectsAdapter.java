@@ -66,8 +66,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
         private void setData() {
             NearByProjects nearByProjects = mNearByContractors.get(getAdapterPosition());
             if (nearByProjects == null) return;
-           // textName.setText(nearByContractor.getRole() != null ? nearByContractor.getRole() : "N/A");
-            Picasso.get().load( nearByProjects.getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
+            Picasso.get().load(nearByProjects.getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
             textName.setText(nearByProjects.getTitle());
         }
     }

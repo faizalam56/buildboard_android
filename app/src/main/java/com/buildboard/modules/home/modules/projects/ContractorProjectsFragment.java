@@ -30,6 +30,11 @@ import butterknife.Unbinder;
 
 public class ContractorProjectsFragment extends Fragment implements AppConstant {
 
+    private Unbinder unbinder;
+    private int mCurrentPage = 1;
+    ContractProjectsAdapter mProjectsAdapter;
+    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
+    private String mCurrentStatus = STATUS_OPEN;
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
     @BindView(R.id.button_current_projects)
@@ -50,11 +55,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     ConstraintLayout mCoordinatorLayout;
     @BindView(R.id.text_no_internet)
     TextView noInternetText;
-    private Unbinder unbinder;
-    private int mCurrentPage = 1;
-    ContractProjectsAdapter mProjectsAdapter;
-    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
-    private String mCurrentStatus = STATUS_OPEN;
+
 
     public static ContractorProjectsFragment newInstance() {
         ContractorProjectsFragment fragment = new ContractorProjectsFragment();
@@ -208,23 +209,23 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
         switch (mCurrentStatus) {
             case AppConstant.STATUS_OPEN:
                 textProjectsDetails.setText(R.string.open_projects_subtitle);
-                textProjects.setText(getString(R.string.open_project) +"("+ count + ")");
+                textProjects.setText(getString(R.string.open_project) + "(" + count + ")");
                 break;
             case AppConstant.STATUS_COMPLETED:
                 textProjectsDetails.setText(R.string.completed_projects_subtitle);
-                textProjects.setText(getString(R.string.completed_project) +"("+ count + ")");
+                textProjects.setText(getString(R.string.completed_project) + "(" + count + ")");
                 break;
             case AppConstant.STATUS_CURRENT:
                 textProjectsDetails.setText(R.string.current_projects_subtitle);
-                textProjects.setText(getString(R.string.current_project) +"("+ count + ")");
+                textProjects.setText(getString(R.string.current_project) + "(" + count + ")");
                 break;
             case AppConstant.STATUS_SAVED:
                 textProjectsDetails.setText(R.string.saved_projects_subtitle);
-                textProjects.setText(getString(R.string.saved_project) +"("+count + ")");
+                textProjects.setText(getString(R.string.saved_project) + "(" + count + ")");
                 break;
             case AppConstant.STATUS_LOST:
                 textProjectsDetails.setText(R.string.lost_projects_subtitle);
-                textProjects.setText(getString(R.string.lost_project) +"("+ count + ")");
+                textProjects.setText(getString(R.string.lost_project) + "(" + count + ")");
                 break;
         }
 
