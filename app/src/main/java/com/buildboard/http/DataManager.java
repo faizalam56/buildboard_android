@@ -286,7 +286,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void uploadImage(Activity activity, RequestBody file, RequestBody fileType, MultipartBody.Part image, final DataManagerListener dataManagerListener) {
-        Call<ImageUploadResponse> call = getDataManager().uploadImage("Fml1bxKBEd3FXbkMu9Fm0dyW7b1lYnfleO5dKpb8rvwS4yeATv1Wdcz3OwkM",
+        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 file, fileType, image);
         call.enqueue(new Callback<ImageUploadResponse>() {
             @Override
@@ -509,7 +509,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void saveContractorImage(Activity activity, SaveContractorImageRequest saveContractorImageRequest, final DataManagerListener dataManagerListener) {
-        Call<SaveContractorImageResponse> call = getDataManager().saveContractorImage("Fml1bxKBEd3FXbkMu9Fm0dyW7b1lYnfleO5dKpb8rvwS4yeATv1Wdcz3OwkM", saveContractorImageRequest);
+        Call<SaveContractorImageResponse> call = getDataManager().saveContractorImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), saveContractorImageRequest);
         call.enqueue(new Callback<SaveContractorImageResponse>() {
             @Override
             public void onResponse(Call<SaveContractorImageResponse> call, Response<SaveContractorImageResponse> response) {
