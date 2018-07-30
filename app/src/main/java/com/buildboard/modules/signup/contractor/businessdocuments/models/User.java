@@ -1,4 +1,4 @@
-package com.buildboard.modules.signup.contractor.models.businessdocument;
+package com.buildboard.modules.signup.contractor.businessdocuments.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,5 +1,5 @@
 
-package com.buildboard.modules.signup.contractor.models.businessinfo;
+package com.buildboard.modules.signup.contractor.businessinfo.models;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
