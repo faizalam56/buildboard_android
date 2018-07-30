@@ -10,14 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
@@ -25,7 +23,6 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -129,7 +126,7 @@ public class ProjectsFragment extends Fragment implements AppConstant {
 
     @OnClick(R.id.button_create_new_projects)
     void navigateToFragment(){
-        navigateFragment(SelectAllTypeProjectFragment.newInstance());
+        navigateFragment(ConsumerProjectTypeFragment.newInstance());
     }
 
     @OnClick(R.id.button_completed_projects)

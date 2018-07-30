@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.projects;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.projects.adapters.SelectAllTypeProjectsAdapter;
+import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
@@ -21,23 +22,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SelectAllTypeProjectFragment extends Fragment {
+public class ConsumerProjectTypeFragment extends Fragment {
 
     private Unbinder unbinder;
     private ConstraintLayout containers;
     private ArrayList<ProjectAllType> projectsData;
-    private SelectAllTypeProjectsAdapter mSelectAllTypeProjectsAdapter;
 
     @BindView(R.id.recycler_all_project_type)
     RecyclerView recyclerView;
 
-    public static SelectAllTypeProjectFragment newInstance() {
-        SelectAllTypeProjectFragment fragment = new SelectAllTypeProjectFragment();
-        return fragment;
+    public static ConsumerProjectTypeFragment newInstance() {
+        return new ConsumerProjectTypeFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_select_all_type_project, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -63,7 +62,7 @@ public class SelectAllTypeProjectFragment extends Fragment {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                projectsData = (ArrayList<ProjectAllType>)response;
+                projectsData =  (ArrayList<ProjectAllType>)response;
                 setProjectsRecycler(projectsData);
             }
             @Override
@@ -74,10 +73,10 @@ public class SelectAllTypeProjectFragment extends Fragment {
     }
 
     private void setProjectsRecycler(ArrayList<ProjectAllType> projectsData) {
-        mSelectAllTypeProjectsAdapter = new SelectAllTypeProjectsAdapter(getActivity(),projectsData);
+        ConsumerProjectTypeAdapter mConsumerProjectTypeAdapter = new ConsumerProjectTypeAdapter(getActivity(), projectsData);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mSelectAllTypeProjectsAdapter);
+        recyclerView.setAdapter(mConsumerProjectTypeAdapter);
     }
 }

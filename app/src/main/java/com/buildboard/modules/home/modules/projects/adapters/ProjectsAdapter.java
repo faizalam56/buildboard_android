@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.projects.adapters;
 
 import android.app.Activity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -81,8 +80,6 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
 
         @BindView(R.id.image_service)
         ImageView imageService;
-        @BindView(R.id.card_service)
-        CardView cardService;
         @BindView(R.id.text_service_type)
         TextView textServiceType;
         @BindView(R.id.text_service_type_name)

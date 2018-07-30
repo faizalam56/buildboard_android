@@ -2,7 +2,6 @@ package com.buildboard.modules.home.modules.projects.adapters;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,24 +15,24 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SelectAllTypeProjectsAdapter extends RecyclerView.Adapter<SelectAllTypeProjectsAdapter.ViewHolder> {
+public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerProjectTypeAdapter.ViewHolder> {
 
     private ArrayList<ProjectAllType> projectAllTypesList;
     private Context mContext;
 
-    public SelectAllTypeProjectsAdapter(FragmentActivity activity, ArrayList<ProjectAllType> projectAllTypesList) {
+    public ConsumerProjectTypeAdapter(FragmentActivity activity, ArrayList<ProjectAllType> projectAllTypesList) {
         this.mContext = activity;
         this.projectAllTypesList = projectAllTypesList;
     }
 
     @Override
-    public SelectAllTypeProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ConsumerProjectTypeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_projects, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SelectAllTypeProjectsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ConsumerProjectTypeAdapter.ViewHolder holder, int position) {
         holder.setData();
     }
 
@@ -46,8 +45,6 @@ public class SelectAllTypeProjectsAdapter extends RecyclerView.Adapter<SelectAll
 
         @BindView(R.id.image_service)
         ImageView imageService;
-        @BindView(R.id.card_service)
-        CardView cardService;
         @BindView(R.id.text_service_type)
         TextView textServiceType;
         @BindView(R.id.text_service_type_name)
