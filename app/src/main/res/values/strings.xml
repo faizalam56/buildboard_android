@@ -84,7 +84,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
-    <string name="title_projects_desc">Projects Details</string>
+    <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
     <string name="trending_services">Trending Services</string>
@@ -95,8 +95,8 @@
     <string name="open_projects">Open\nProjects</string>
     <string name="saved_projects">Saved\nProjects</string>
     <string name="current_projects">Current Projects</string>
-    <string name="open_project">Open Project</string>
-    <string name="saved_project">Saved Project</string>
+    <string name="open_project">Open Projects</string>
+    <string name="saved_project">Saved Projects</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
@@ -121,8 +121,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="project_out_for_bid">Project Out For Bid</string>
-    <string name="current_project">Current Project</string>
-    <string name="completed_project">Completed Project</string>
+    <string name="current_project">Current Projects</string>
+    <string name="completed_project">Completed Projects</string>
     <string name="my_contractors">My Contractors</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="phone">Phone</string>
