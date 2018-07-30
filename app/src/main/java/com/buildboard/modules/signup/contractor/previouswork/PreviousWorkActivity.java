@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,13 +21,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.buildboard.Manifest;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.EditProfileActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.PreviousWorkAdapter;
@@ -45,7 +40,6 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,7 +90,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
     private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mTestimonials = new HashMap<>();
+    private HashMap<Integer, ArrayList<PreviousWorkData>> mTestimonials = new HashMap<>();
     private Uri selectedImage;
     private AddProfilePhotoDialog mAddProfilePhotoDialog;
     private String responsImageUrl;
@@ -124,6 +118,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+            else showImageUploadDialog();
         }
     }
 
@@ -192,30 +187,29 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         PreviousWorkRequest previousWorkRequest = new PreviousWorkRequest();
         previousWorkRequest.setPreviousWorks(previousWorks);
         previousWorkRequest.setId(mUserId);
-//        previousWorkRequest.setId("6e1fff70-9199-11e8-8aa5-9d8fa17e7dc6");
 
         return previousWorkRequest;
     }
 
     private void addTestimonialData() {
 
-        ArrayList<DocumentData> testimonialDetails = new ArrayList<>();
-        DocumentData nameInfo = new DocumentData();
+        ArrayList<PreviousWorkData> testimonialDetails = new ArrayList<>();
+        PreviousWorkData nameInfo = new PreviousWorkData();
         nameInfo.setKey(KEY_NAME);
         nameInfo.setType(TYPE_TEXT);
-        nameInfo.setValue("");
+        nameInfo.setValue(new ArrayList<String>());
         testimonialDetails.add(nameInfo);
 
-        DocumentData descriptionInfo = new DocumentData();
+        PreviousWorkData descriptionInfo = new PreviousWorkData();
         descriptionInfo.setKey(KEY_DESCRIPTION);
         descriptionInfo.setType(TYPE_TEXT);
-        descriptionInfo.setValue("");
+        descriptionInfo.setValue(new ArrayList<String>());
         testimonialDetails.add(descriptionInfo);
 
-        DocumentData workPerformed = new DocumentData();
+        PreviousWorkData workPerformed = new PreviousWorkData();
         workPerformed.setKey(KEY_WORK_PERFORMED);
         workPerformed.setType(TYPE_TEXT);
-        workPerformed.setValue("");
+        workPerformed.setValue(new ArrayList<String>());
         testimonialDetails.add(workPerformed);
 
         mTestimonials.put(mTestimonials.size() + 1, testimonialDetails);
@@ -310,7 +304,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     public void saveContractorImage() {
         SaveContractorImageRequest saveImageRequest = new SaveContractorImageRequest();
         saveImageRequest.setId(mUserId);
-//        saveImageRequest.setId("6e1fff70-9199-11e8-8aa5-9d8fa17e7dc6");
         saveImageRequest.setImageUrl(responsImageUrl);
 
         ProgressHelper.start(this, getString(R.string.msg_please_wait));

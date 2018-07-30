@@ -44,7 +44,7 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
     @Override
     public void onBindViewHolder(PreviousWorkAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mPreviousWorks.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mPreviousWorks.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -67,17 +67,20 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editDescription.addTextChangedListener(new GenericTextWatcher(editDescription, new ITextWatcherCallback(){
+            editDescription.addTextChangedListener(new GenericTextWatcher(editDescription, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
-                    //todo
+                    if (mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().size() > 0)
+                        mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().set(0, value);
+                    else
+                        mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().add(value);
                 }
             }));
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iAddMoreCallback.addMore();
         }
     }
