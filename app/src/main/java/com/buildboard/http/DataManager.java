@@ -25,6 +25,8 @@ import com.buildboard.modules.signup.contractor.businessdocuments.models.Busines
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoResponse;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -523,6 +525,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void saveContractorImage(Activity activity, SaveContractorImageRequest saveContractorImageRequest, final DataManagerListener dataManagerListener) {
+        Call<SaveContractorImageResponse> call = getDataManager().saveContractorImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), saveContractorImageRequest);
+        call.enqueue(new Callback<SaveContractorImageResponse>() {
+            @Override
+            public void onResponse(Call<SaveContractorImageResponse> call, Response<SaveContractorImageResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas());
+                else dataManagerListener.onError(response.body().getErrorObject());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SaveContractorImageResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

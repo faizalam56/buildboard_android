@@ -20,6 +20,8 @@ import com.buildboard.modules.signup.contractor.businessdocuments.models.Busines
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoResponse;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageResponse;
 import com.buildboard.modules.signup.imageupload.models.ImageUploadResponse;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
@@ -102,4 +104,7 @@ public interface IApiInterface {
     Call<ProjectAllTypeResponse> getAllTypeOfProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId);
     @POST("contractor/profile/prev-doc")
     Call<BusinessDocumentsResponse> storePrevWork(@Header("oauth") String oauth, @Body PreviousWorkRequest previousWorkRequest);
+
+    @POST("contractor/profile/image")
+    Call<SaveContractorImageResponse> saveContractorImage(@Header("oauth") String oauth, @Body SaveContractorImageRequest previousWorkRequest);
 }

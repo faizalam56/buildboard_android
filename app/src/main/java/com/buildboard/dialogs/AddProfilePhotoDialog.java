@@ -14,6 +14,8 @@ import com.buildboard.fonts.FontHelper;
 
 public class AddProfilePhotoDialog {
 
+    public ImageView imageProfile;
+
     public void showDialog(Activity activity, final IAddProfileCallback iUserTypeCallback) {
         final Dialog dialog = new Dialog(activity);
 
@@ -41,11 +43,10 @@ public class AddProfilePhotoDialog {
             }
         });
 
-        ImageView imageProfile = (ImageView) dialog.findViewById(R.id.image_profile);
+        imageProfile = (ImageView) dialog.findViewById(R.id.image_profile);
         imageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 iUserTypeCallback.onImageSelection();
             }
         });
