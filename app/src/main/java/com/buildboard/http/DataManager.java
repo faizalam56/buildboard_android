@@ -9,6 +9,7 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
@@ -486,6 +487,27 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
+    public void getAllTypeOfProjectList(Activity activity,final DataManagerListener dataManagerListener){
+        Call<ProjectAllTypeResponse> call = getDataManager().getAllTypeOfProjectsList(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<ProjectAllTypeResponse>() {
+            @Override
+            public void onResponse(Call<ProjectAllTypeResponse> call, Response<ProjectAllTypeResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(Call<ProjectAllTypeResponse> call, Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
     public void storePrevWork(Activity activity, PreviousWorkRequest previousWorkRequest, final DataManagerListener dataManagerListener) {
         Call<BusinessDocumentsResponse> call = getDataManager().storePrevWork(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), previousWorkRequest);
         call.enqueue(new Callback<BusinessDocumentsResponse>() {
