@@ -84,6 +84,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
+    <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
     <string name="trending_services">Trending Services</string>
@@ -106,6 +107,9 @@
     <string name="saved_projects_subtitle">Following\u0020projects\u0020has\u0020been\u0020saved</string>
     <string name="completed_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020completed</string>
     <string name="no_internet_text">No\u0020Internet</string>
+    <string name="current_projects">Current Projects</string>
+    <string name="open_project">Open Projects</string>
+    <string name="saved_project">Saved Projects</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
@@ -121,6 +125,7 @@
     <string name="error_contractor_type">Please select Contractor Type</string>
     <string name="please_wait">Please wait…</string>
     <string name="msg_please_wait">Please wait...</string>
+    <string name="msg_loading">Loading…</string>
     <string name="msg_no_data_found">No Data Found</string>
     <string name="trending_projects">Trending Projects</string>
     <string name="near_by_projects">Near by Projects</string>
@@ -129,8 +134,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="project_out_for_bid">Project Out For Bid</string>
-    <string name="current_project">Current Project</string>
-    <string name="completed_project">Completed Project</string>
+    <string name="current_project">Current Projects</string>
+    <string name="completed_project">Completed Projects</string>
     <string name="my_contractors">My Contractors</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="phone">Phone</string>
@@ -219,4 +224,11 @@
     <string name="add_another_address">+ Add another address</string>
     <string name="internet_connection_check">No Internet Connection, please try again</string>
     <string name="location_check">First Location can not be empty</string>
+    <string name="complete_project_description">Following projects have been completed.</string>
+    <string name="open_project_description">Following projects have been posted to marketplace.</string>
+    <string name="save_project_description">Following projects have been saved for further additions.</string>
+    <string name="current_project_description">Following projects are in progress.</string>
+    <string name="create_project_heading">Please select what kind of project you would like to start:</string>
+    <string name="create_new_project">Create New Project</string>
+
 </resources>
