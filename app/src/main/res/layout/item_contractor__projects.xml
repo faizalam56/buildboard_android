@@ -4,168 +4,197 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_10sdp">
-<LinearLayout android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:weightSum="10"
-    android:layout_height="wrap_content">
-    <android.support.v7.widget.CardView
-        android:layout_weight="4"
-        app:cardCornerRadius="@dimen/_5sdp"
-        android:id="@+id/card_service"
-        android:layout_height="wrap_content"
-        style="@style/card_view_style_marketplace"
-        android:layout_width="0dp">
 
-        <ImageView
-            android:id="@+id/image_service"
-            android:layout_width="100dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_service"
+            style="@style/card_view_style_marketplace"
+            android:layout_width="80dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/supplies"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_5sdp">
+
+            <ImageView
+                android:id="@+id/image_service"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/supplies"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
 
-    </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
 
-  <LinearLayout android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_weight="4"
-      android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical">
 
-      <TextView
-          android:id="@+id/text_service_name"
-          style="@style/textSize_smaller"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/_2sdp"
-          android:layout_marginStart="@dimen/_2sdp"
-          android:layout_marginTop="@dimen/_2sdp"
-          android:layout_marginBottom="@dimen/_2sdp"
-          android:text="Flooring"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/card_service" />
-      <LinearLayout android:orientation="horizontal"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-          <TextView
-              android:id="@+id/text_service_projecttype_title"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/text_service_name"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="Flooring"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_service" />
 
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
-              android:text="@string/item_projecttype_title"
-               />
-          <TextView
-              android:id="@+id/text_service_projecttype_text"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/text_service_projecttype_title"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/item_projecttype_title" />
 
-               />
-      </LinearLayout>
-      <LinearLayout android:orientation="horizontal"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-          <TextView
-              android:id="@+id/text_service_projectname_title"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
-              android:text="@string/item_projectname_title"
-              />
-          <TextView
-              android:id="@+id/text_service_projectname_text"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
+                <TextView
+                    android:id="@+id/text_service_projecttype_text"
+                    style="@style/textSize_smallest"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
 
 
-              />
-      </LinearLayout>
-      <LinearLayout android:orientation="horizontal"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-          <TextView
-              android:id="@+id/text_service_projectvalue_title"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
 
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
-              android:text="@string/item_projectvalue_title"
-              />
-          <TextView
-              android:id="@+id/text_service_projectvalue_text"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/text_service_projectname_title"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-              />
-      </LinearLayout>
-      <LinearLayout android:orientation="horizontal"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-          <TextView
-              android:id="@+id/text_service_project_completiondate_title"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/item_projectname_title" />
 
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
-              android:text="@string/item_project_completiondate_title"
-              />
-          <TextView
-              android:id="@+id/text_service_project_completiondate_text"
-              style="@style/textSize_smallest"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/_2sdp"
-              android:layout_marginStart="@dimen/_2sdp"
-              android:layout_marginTop="@dimen/_2sdp"
-              android:layout_marginBottom="@dimen/_2sdp"
+                <TextView
+                    android:id="@+id/text_service_projectname_text"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
 
 
-              />
-      </LinearLayout>
-  </LinearLayout>
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:layout_gravity="center|right"
-        android:orientation="vertical">
+                    />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_service_projectvalue_title"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/item_projectvalue_title" />
+
+                <TextView
+                    android:id="@+id/text_service_projectvalue_text"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_service_project_completiondate_title"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/item_project_completiondate_title" />
+
+                <TextView
+                    android:id="@+id/text_service_project_completiondate_text"
+                    style="@style/textSize_smallest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/baseline_chevron_right_black_18" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 </android.support.constraint.ConstraintLayout>
