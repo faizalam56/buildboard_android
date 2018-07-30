@@ -178,7 +178,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         BusinessDocumentsRequest businessDocumentsRequest = new BusinessDocumentsRequest();
         businessDocumentsRequest.setBusinessDocuments(businessDocuments);
         businessDocumentsRequest.setId(mUserId);
-//        businessDocumentsRequest.setId("38c0c020-8f01-11e8-b310-6778951ca517");
 
         return businessDocumentsRequest;
     }
