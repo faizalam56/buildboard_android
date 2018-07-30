@@ -540,13 +540,36 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas() !=null && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas());
                 else dataManagerListener.onError(response.body().getErrorObject());
             }
 
             @Override
             public void onFailure(@NonNull Call<SaveContractorImageResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getProjectDetails(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<ProjectAllTypeResponse> call = getDataManager().getConsumerProjectDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<ProjectAllTypeResponse>() {
+            @Override
+            public void onResponse(Call<ProjectAllTypeResponse> call, Response<ProjectAllTypeResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProjectAllTypeResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

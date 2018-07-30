@@ -102,9 +102,14 @@ public interface IApiInterface {
 
     @POST("marketplace/all-project-types")
     Call<ProjectAllTypeResponse> getAllTypeOfProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId);
+
     @POST("contractor/profile/prev-doc")
     Call<BusinessDocumentsResponse> storePrevWork(@Header("oauth") String oauth, @Body PreviousWorkRequest previousWorkRequest);
 
     @POST("contractor/profile/image")
     Call<SaveContractorImageResponse> saveContractorImage(@Header("oauth") String oauth, @Body SaveContractorImageRequest previousWorkRequest);
+
+    @GET("project-type")
+    Call<ProjectAllTypeResponse> getConsumerProjectDetails(@Header("oauth") String oauth, @Header("session") String sessionId);
+
 }

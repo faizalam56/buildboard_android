@@ -19,8 +19,8 @@ import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.profile.ProfileSettingsActivity;
+import com.buildboard.modules.home.modules.projects.ConsumerProjectsFragment;
 import com.buildboard.modules.home.modules.projects.ContractorProjectsFragment;
-import com.buildboard.modules.home.modules.projects.ProjectsFragment;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.view.BottomNavigationViewHelper;
 
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (AppPreference.getAppPreference(getApplicationContext()).getBoolean(IS_CONTRACTOR)) {
                         navigateFragment(ContractorProjectsFragment.newInstance());
                     } else {
-                        navigateFragment(ProjectsFragment.newInstance());
+                        navigateFragment(ConsumerProjectsFragment.newInstance());
                     }
 
                     return true;

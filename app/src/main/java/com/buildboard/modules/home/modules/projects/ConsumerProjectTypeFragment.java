@@ -5,27 +5,27 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
+import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ConsumerProjectTypeFragment extends Fragment {
+public class ConsumerProjectTypeFragment extends Fragment implements IRecyclerItemClickListener {
 
     @BindView(R.id.recycler_all_project_type)
     RecyclerView recyclerView;
@@ -76,10 +76,37 @@ public class ConsumerProjectTypeFragment extends Fragment {
     }
 
     private void setProjectsRecycler(ArrayList<ProjectAllType> projectsData) {
-        ConsumerProjectTypeAdapter mConsumerProjectTypeAdapter = new ConsumerProjectTypeAdapter(getActivity(), projectsData);
+        ConsumerProjectTypeAdapter mConsumerProjectTypeAdapter = new ConsumerProjectTypeAdapter(getActivity(), projectsData,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mConsumerProjectTypeAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object data) {
+        ProjectAllType projectType = (ProjectAllType) data;
+        getAllProjectDetails();
+    }
+
+    private void getAllProjectDetails() {
+        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        DataManager.getInstance().getProjectDetails(getActivity(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+            }
+        });
+    }
+
+    private void navigateFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
     }
 }

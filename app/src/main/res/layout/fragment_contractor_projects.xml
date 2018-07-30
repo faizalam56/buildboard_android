@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container_root"
-    tools:context="com.buildboard.modules.home.modules.projects.ProjectsFragment">
+    tools:context="com.buildboard.modules.home.modules.projects.ConsumerProjectsFragment">
 
     <Button
         android:id="@+id/button_current_projects"

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProjectsAdapter extends RecyclerView.Adapter {
+public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -54,7 +54,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
         }
     };
 
-    public ProjectsAdapter(Activity activity, ArrayList<ProjectDetail> projectDetails, RecyclerView recyclerView) {
+    public ConsumerProjectsAdapter(Activity activity, ArrayList<ProjectDetail> projectDetails, RecyclerView recyclerView) {
         Activity mActivity = activity;
         mProjectDetails = projectDetails;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
