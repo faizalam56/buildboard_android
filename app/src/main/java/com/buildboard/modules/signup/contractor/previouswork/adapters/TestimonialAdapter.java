@@ -44,7 +44,7 @@ public class TestimonialAdapter extends RecyclerView.Adapter<TestimonialAdapter.
 
     @Override
     public void onBindViewHolder(TestimonialAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mTestimonials.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mTestimonials.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -68,38 +68,38 @@ public class TestimonialAdapter extends RecyclerView.Adapter<TestimonialAdapter.
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editName.addTextChangedListener(new GenericTextWatcher(editName, new ITextWatcherCallback(){
+            editName.addTextChangedListener(new GenericTextWatcher(editName, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
-                    if (mTestimonials.get(getAdapterPosition()+1).get(0).getValue().size() > 0)
-                        mTestimonials.get(getAdapterPosition()+1).get(0).getValue().set(0, value);
+                    if (mTestimonials.get(getAdapterPosition() + 1).get(0).getValue().size() > 0)
+                        mTestimonials.get(getAdapterPosition() + 1).get(0).getValue().set(0, value);
                     else
-                        mTestimonials.get(getAdapterPosition()+1).get(0).getValue().add(value);
+                        mTestimonials.get(getAdapterPosition() + 1).get(0).getValue().add(value);
                 }
             }));
             editWorkPerformed.addTextChangedListener(new GenericTextWatcher(editWorkPerformed, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
-                    if (mTestimonials.get(getAdapterPosition()+1).get(1).getValue().size() > 0)
-                        mTestimonials.get(getAdapterPosition()+1).get(1).getValue().set(0, value);
+                    if (mTestimonials.get(getAdapterPosition() + 1).get(1).getValue().size() > 0)
+                        mTestimonials.get(getAdapterPosition() + 1).get(1).getValue().set(0, value);
                     else
-                        mTestimonials.get(getAdapterPosition()+1).get(1).getValue().add(value);
+                        mTestimonials.get(getAdapterPosition() + 1).get(1).getValue().add(value);
                 }
             }));
             editTestimonial.addTextChangedListener(new GenericTextWatcher(editTestimonial, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
-                    if (mTestimonials.get(getAdapterPosition()+1).get(2).getValue().size() > 0)
-                        mTestimonials.get(getAdapterPosition()+1).get(2).getValue().set(0, value);
+                    if (mTestimonials.get(getAdapterPosition() + 1).get(2).getValue().size() > 0)
+                        mTestimonials.get(getAdapterPosition() + 1).get(2).getValue().set(0, value);
                     else
-                        mTestimonials.get(getAdapterPosition()+1).get(2).getValue().add(value);
+                        mTestimonials.get(getAdapterPosition() + 1).get(2).getValue().add(value);
                 }
             }));
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iAddMoreCallback.addMore();
         }
     }

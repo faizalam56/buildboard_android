@@ -1,6 +1,5 @@
 package com.buildboard.modules.signup.contractor.previouswork.models;
 
-import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

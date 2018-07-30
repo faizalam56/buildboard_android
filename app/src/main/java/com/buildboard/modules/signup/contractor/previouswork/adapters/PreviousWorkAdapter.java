@@ -71,10 +71,10 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
                 @Override
                 public void getValue(String value) {
-                    if (mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().size() > 0)
-                        mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().set(0, value);
+                    if (mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().size() > 0)
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().set(0, value);
                     else
-                        mPreviousWorks.get(getAdapterPosition()+1).get(0).getValue().add(value);
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().add(value);
                 }
             }));
         }

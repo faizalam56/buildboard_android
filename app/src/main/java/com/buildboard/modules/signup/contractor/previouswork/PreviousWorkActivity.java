@@ -26,7 +26,6 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.PreviousWorkAdapter;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.TestimonialAdapter;
@@ -293,6 +292,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 responsImageUrl = response.toString();
                 saveContractorImage();
             }
+
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
@@ -313,6 +313,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 ProgressHelper.stop();
                 storePrevWork();
             }
+
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
