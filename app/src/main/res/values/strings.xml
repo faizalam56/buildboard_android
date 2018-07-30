@@ -231,4 +231,7 @@
     <string name="create_new_project">Create New Project</string>
 
     <string name="text_msg_permission_required">Permission required to read image</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="document">Document</string>
 </resources>

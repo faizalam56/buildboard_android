@@ -1,7 +1,12 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +16,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +45,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant {
+
+    private final int REQUEST_CODE = 2001;
 
     @BindView(R.id.title)
     TextView title;
@@ -79,6 +87,10 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
 
+    BottomSheetBehavior behavior;
+    @BindView(R.id.bottom_sheet)
+    LinearLayout bottomSheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,11 +112,48 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         setCertificationAdapter();
         setInsuranceAdapter();
         setWorkmanInsuranceAdapter();
+
+        behavior = BottomSheetBehavior.from(bottomSheet);
+
+        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // React to dragging events
+            }
+        });
     }
 
     @OnClick(R.id.button_next)
     void nextTapped() {
         storeContractorDocuments();
+    }
+
+    @OnClick(R.id.text_camera)
+    void cameraTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    @OnClick(R.id.text_gallery)
+    void galleryTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    @OnClick(R.id.text_document)
+    void documentTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        startActivityForResult(getFileChooserIntent(), REQUEST_CODE);
+    }
+
+    @OnClick(R.id.text_cancel)
+    void cancelTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void getIntentData() {
@@ -359,6 +408,11 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 addBusinessLicensing();
                 mBusinessLicensingAdapter.notifyDataSetChanged();
             }
+        }, new BusinessLicensingAdapter.ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBusinessLicensing.setLayoutManager(linearLayoutManager);
@@ -389,5 +443,29 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCertification.setLayoutManager(linearLayoutManager);
         recyclerCertification.setAdapter(mCertificationAdapter);
+    }
+
+    private Intent getFileChooserIntent() {
+        String[] mimeTypes = { "application/pdf", "application/msword"}; //"image/*",
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+            if (mimeTypes.length > 0) {
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            }
+        } else {
+            String mimeTypesStr = "";
+
+            for (String mimeType : mimeTypes) {
+                mimeTypesStr += mimeType + "|";
+            }
+
+            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
+        }
+
+        return intent;
     }
 }

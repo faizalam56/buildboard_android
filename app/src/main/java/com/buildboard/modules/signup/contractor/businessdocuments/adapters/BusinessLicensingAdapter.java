@@ -28,12 +28,15 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iBusinessDocumentsAddMoreCallback;
     private int size;
+    private ISelectAttachment iSelectAttachment;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback,
+                                    ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mBusinessLicensings = businessLicensings;
         mLayoutInflater = LayoutInflater.from(mContext);
         this.iBusinessDocumentsAddMoreCallback = iBusinessDocumentsAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
     }
 
     @Override
@@ -87,5 +90,14 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         void addmoreTapped(){
             iBusinessDocumentsAddMoreCallback.addMore();
         }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped(){
+            iSelectAttachment.selectAttachment(getAdapterPosition());
+        }
+    }
+
+    public interface ISelectAttachment {
+        void selectAttachment(int position);
     }
 }

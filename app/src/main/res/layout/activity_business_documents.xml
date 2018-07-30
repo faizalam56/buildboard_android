@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -180,3 +187,53 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        android:id="@+id/bottom_sheet"
+        android:background="@android:color/white"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_bottomsheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" />-->
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_camera"
+            style="@style/textSize_small"
+            android:text="@string/camera"
+            android:gravity="center"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_gallery"
+            style="@style/textSize_small"
+            android:text="@string/gallery"
+            android:gravity="center"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_document"
+            style="@style/textSize_small"
+            android:text="@string/document"
+            android:gravity="center"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_cancel"
+            style="@style/textSize_small"
+            android:text="@string/cancel"
+            android:textColor="@color/colorGrayLight"
+            android:gravity="center"
+            app:typeface="robotoRegular" />
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
