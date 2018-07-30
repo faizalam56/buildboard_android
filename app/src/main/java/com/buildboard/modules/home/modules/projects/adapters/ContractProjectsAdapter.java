@@ -12,14 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
-
 import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -27,7 +24,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,7 +59,6 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
             View view = mLayoutInflater.inflate(R.layout.item_loading, parent, false);
              return new LoadingViewHolder(view);
         }
-
         return null;
     }
 
@@ -71,8 +66,6 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
             ((ViewHolder) holder).bindData(position);
-
-
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             if (isLastPage)
@@ -100,24 +93,17 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         ImageView imageService;
         @BindView(R.id.card_service)
         CardView cardService;
-
         @BindView(R.id.text_service_name)
         TextView textServiceName;
-
         @BindView(R.id.text_service_projecttype_text)
         TextView textServiceProjectType;
-
         @BindView(R.id.text_service_projectname_text)
         TextView textServiceProjectName;
-
         @BindView(R.id.text_service_projectvalue_text)
         TextView textServiceContractValue;
-
         @BindView(R.id.text_service_project_completiondate_text)
         TextView textServiceCompletionDate;
-
         Button buttonView;
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -133,14 +119,11 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
             textServiceContractValue.setText(mProjectDetails.get(position).getCategory());
             actualEndTime=mProjectDetails.get(position).getEndDate().split("\\s+")[0];
              textServiceCompletionDate.setText(ConvertTime(actualEndTime.replaceAll("-","/")));
-
-
         }
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR,textServiceCompletionDate, textServiceProjectType,textServiceContractValue,buttonView, textServiceProjectName);
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD,textServiceName);
-
         }
     }
 
@@ -177,14 +160,9 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
                     setLoading(true);
                     if (onLoadMoreListener != null) {
                         onLoadMoreListener.onLoadMore();
-                    }
-                }
-            }
-        }
+                    }} }}
     };
     private String ConvertTime(String strDate){
-
-
 
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");

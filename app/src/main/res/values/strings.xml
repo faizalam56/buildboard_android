@@ -105,6 +105,7 @@
     <string name="current_projects_subtitle">Following\u0020projects\u0020are\u0020in\u0020progress</string>
     <string name="saved_projects_subtitle">Following\u0020projects\u0020has\u0020been\u0020saved</string>
     <string name="completed_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020completed</string>
+    <string name="no_internet_text">No\u0020Internet</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
