@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.projects;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -20,7 +22,9 @@ import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,30 +58,29 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     BuildBoardTextView textProjectDetail;
 
     public static ProjectsFragment newInstance() {
-        ProjectsFragment fragment = new ProjectsFragment();
-        return fragment;
+        return new ProjectsFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         setFonts();
 
-        if(ConnectionDetector.isNetworkConnected(getActivity())) {
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
             ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
             getProjectsList();
         } else {
             ProgressHelper.stop();
-            ConnectionDetector.createSnackBar(getActivity(),container);
+            ConnectionDetector.createSnackBar(getActivity(), container);
         }
 
         return view;
     }
 
     private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
-        ProgressHelper.start(getActivity(),getString(R.string.msg_loading));
+        ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
         mProjectDetails.addAll(projectDetails);
 
         if (mProjectsAdapter == null) {
@@ -98,6 +101,7 @@ public class ProjectsFragment extends Fragment implements AppConstant {
             ProgressHelper.stop();
             recyclerProjects.getAdapter().notifyItemInserted((mProjectDetails.size()));
         }
+
         if (mProjectsAdapter != null) {
             mProjectsAdapter.setLoading(false);
             if (mCurrentPage == lastPage)
@@ -112,7 +116,7 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setFonts() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD,buttonCreateNewProjects, buttonCompletedProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buttonCreateNewProjects, buttonCompletedProjects, buttonCurrentProjects, buttonOpenProjects, buttonSavedProjects);
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buildBoardTextProjectType);
     }
 
@@ -122,7 +126,7 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     }
 
     @OnClick(R.id.button_create_new_projects)
-    void navigateToFragment(){
+    void navigateToFragment() {
         navigateFragment(ConsumerProjectTypeFragment.newInstance());
     }
 
@@ -171,8 +175,8 @@ public class ProjectsFragment extends Fragment implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                projectsData = (ArrayList<ProjectsData>)response;
-                if(mCurrentStatus.equals(STATUS_OPEN)){
+                projectsData = (ArrayList<ProjectsData>) response;
+                if (mCurrentStatus.equals(STATUS_OPEN)) {
                     buildBoardTextProjectType.setText(getString(R.string.open_project));
                     textProjectDetail.setText(getString(R.string.open_project_description));
                 }

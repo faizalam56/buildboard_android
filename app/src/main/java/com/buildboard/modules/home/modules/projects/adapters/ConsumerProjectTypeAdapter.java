@@ -48,7 +48,7 @@ public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerPro
         @BindView(R.id.text_service_type)
         TextView textServiceType;
         @BindView(R.id.text_service_type_name)
-         TextView textServiceTypeName;
+        TextView textServiceTypeName;
 
         public ViewHolder(View view) {
             super(view);

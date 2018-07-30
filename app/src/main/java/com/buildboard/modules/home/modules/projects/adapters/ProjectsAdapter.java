@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,17 +22,40 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-
-    private Activity mActivity;
+    public boolean isLoading = false;
     private ArrayList<ProjectDetail> mProjectDetails;
     private OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
-    public boolean isLoading = false;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int visibleItemCount = mLinearLayoutManager.getChildCount();
+            int totalItemCount = mLinearLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    setLoading(true);
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                }
+            }
+        }
+    };
 
     public ProjectsAdapter(Activity activity, ArrayList<ProjectDetail> projectDetails, RecyclerView recyclerView) {
-        mActivity = activity;
+        Activity mActivity = activity;
         mProjectDetails = projectDetails;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(onScrollListener);
@@ -76,6 +102,22 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
         return (mProjectDetails.size() != 0 && !isLastPage) ? mProjectDetails.size() + 1 : mProjectDetails.size();
     }
 
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.onLoadMoreListener = mOnLoadMoreListener;
+    }
+
+    public void setLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+    }
+
+    public void setLastPage(boolean isLastPage) {
+        this.isLastPage = isLastPage;
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.image_service)
@@ -104,47 +146,5 @@ public class ProjectsAdapter extends RecyclerView.Adapter {
             super(view);
             progressBar = view.findViewById(R.id.progressBar_loading);
         }
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.onLoadMoreListener = mOnLoadMoreListener;
-    }
-
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            int visibleItemCount = mLinearLayoutManager.getChildCount();
-            int totalItemCount = mLinearLayoutManager.getItemCount();
-            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
-
-            if (!isLoading && !isLastPage) {
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                        && firstVisibleItemPosition >= 0) {
-                    setLoading(true);
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
-                    }
-                }
-            }
-        }
-    };
-
-    public void setLoading(boolean isLoading) {
-        this.isLoading = isLoading;
-    }
-
-    public void setLastPage(boolean isLastPage) {
-        this.isLastPage = isLastPage;
-    }
-
-    public interface OnLoadMoreListener {
-        void onLoadMore();
     }
 }

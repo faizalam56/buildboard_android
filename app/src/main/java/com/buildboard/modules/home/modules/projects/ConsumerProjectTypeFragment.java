@@ -11,25 +11,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ConsumerProjectTypeFragment extends Fragment {
 
+    @BindView(R.id.recycler_all_project_type)
+    RecyclerView recyclerView;
     private Unbinder unbinder;
     private ConstraintLayout containers;
     private ArrayList<ProjectAllType> projectsData;
-
-    @BindView(R.id.recycler_all_project_type)
-    RecyclerView recyclerView;
 
     public static ConsumerProjectTypeFragment newInstance() {
         return new ConsumerProjectTypeFragment();
@@ -38,10 +40,10 @@ public class ConsumerProjectTypeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_select_all_type_project, container, false);
+        View view = inflater.inflate(R.layout.fragment_select_all_type_project, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        if(ConnectionDetector.isNetworkConnected(getActivity())){
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
             getAllTypeOfProject();
         } else {
             ConnectionDetector.createSnackBar(getActivity(), containers);
@@ -62,9 +64,10 @@ public class ConsumerProjectTypeFragment extends Fragment {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                projectsData =  (ArrayList<ProjectAllType>)response;
+                projectsData = (ArrayList<ProjectAllType>) response;
                 setProjectsRecycler(projectsData);
             }
+
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
