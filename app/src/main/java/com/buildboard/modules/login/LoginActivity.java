@@ -27,7 +27,7 @@ import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
-import com.buildboard.modules.signup.contractor.SignUpContractorActivity;
+import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
