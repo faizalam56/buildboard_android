@@ -118,7 +118,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
             else showImageUploadDialog();
-        }
+        } else showImageUploadDialog();
     }
 
     private void getIntentData() {
