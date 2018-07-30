@@ -59,12 +59,9 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractors);
         ButterKnife.bind(this);
-
         toolbar.setTitle(stringContractors);
         setFont();
-
         getIntentData();
-
         editSearchByName.addTextChangedListener(searchTextWatcher);
     }
 

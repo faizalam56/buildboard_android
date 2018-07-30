@@ -1,6 +1,7 @@
 package com.buildboard.http;
 
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
+import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
@@ -67,6 +68,9 @@ public interface IApiInterface {
 
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth,@Header("session") String sessionId);
+
+    @GET("marketplace/contractor")
+    Call<MarketPlaceContractorResponse> getMarketplaceContractor(@Header("oauth") String oauth, @Header("session") String sessionId);
 
     @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
