@@ -31,7 +31,6 @@ public class RoundRectCornerImageView extends ImageView {
 
     private void init() {
         path = new Path();
-
     }
 
     @SuppressLint("DrawAllocation")
