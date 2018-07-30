@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -52,19 +53,11 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     Button buttonSavedProjects;
     @BindView(R.id.button_current_projects)
     Button buttonCurrentProjects;
-    @BindView(R.id.text_projects)
-    
-    TextView textProjects;
     @BindView(R.id.text_projects_details)
-    TextView textProjectsDetails;
-    private Unbinder unbinder;
-    private int mCurrentPage = 1;
-    ProjectsAdapter mProjectsAdapter;
-    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
-    private String mCurrentStatus = STATUS_OPEN;
-    BuildBoardTextView buildBoardTextProjectType;
-    @BindView(R.id.textProjectDetails)
     BuildBoardTextView textProjectDetail;
+    @BindView(R.id.text_projects)
+    BuildBoardTextView buildBoardTextProjectType;
+
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
@@ -185,13 +178,13 @@ public class ProjectsFragment extends Fragment implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 projectsData = (ArrayList<ProjectsData>) response;
+
                 if (mCurrentStatus.equals(STATUS_OPEN)) {
                     buildBoardTextProjectType.setText(getString(R.string.open_project));
                     textProjectDetail.setText(getString(R.string.open_project_description));
                 }
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
                 setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
-                setProjectsSubTitle(projectsData.size());
             }
 
             @Override
@@ -199,32 +192,5 @@ public class ProjectsFragment extends Fragment implements AppConstant {
                 ProgressHelper.stop();
             }
         });
-    }
-    private void setProjectsSubTitle(int count){
-
-        switch (mCurrentStatus){
-            case "open":
-                textProjectsDetails.setText("Following projects are in progress");
-                textProjects.setText("Open Projects("+count+")");
-                break;
-            case "completed":
-                textProjectsDetails.setText("Following projects have been completed");
-                textProjects.setText("Completed Projects("+count+")");
-                break;
-            case "current":
-               textProjectsDetails.setText("Following projects are in progress");
-                textProjects.setText("Current Projects("+count+")");
-                break;
-            case "saved":
-                textProjectsDetails.setText("Following projects has been saved");
-                textProjects.setText("Saved Projects("+count+")");
-                break;
-            case "lost":
-                textProjectsDetails.setText("Following projects have been lost");
-                textProjects.setText("Lost Projects("+count+")");
-                break;
-        }
-
-
     }
 }

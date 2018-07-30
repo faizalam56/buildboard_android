@@ -21,7 +21,6 @@ import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.profile.ProfileSettingsActivity;
 import com.buildboard.modules.home.modules.projects.ContractorProjectsFragment;
 import com.buildboard.modules.home.modules.projects.ProjectsFragment;
-import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.view.BottomNavigationViewHelper;
 
@@ -75,10 +74,11 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.navigation_projects:
                     setTitle(stringProjects);
                     changeToolbarColor(colorWhite, colorPrimary, false);
-                   if( AppPreference.getAppPreference(getApplicationContext()).getBoolean(IS_CONTRACTOR)){
-
-                       navigateFragment(ContractorProjectsFragment.newInstance());
-                }
+                    if (AppPreference.getAppPreference(getApplicationContext()).getBoolean(IS_CONTRACTOR)) {
+                        navigateFragment(ContractorProjectsFragment.newInstance());
+                    } else {
+                        navigateFragment(ProjectsFragment.newInstance());
+                    }
 
                     return true;
 
