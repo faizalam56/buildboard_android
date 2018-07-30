@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -38,10 +39,12 @@ import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWork
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkRequest;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorks;
 import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
+import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.io.File;
@@ -61,6 +64,7 @@ import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
 public class PreviousWorkActivity extends AppCompatActivity implements AppConstant {
 
+    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
 
     @BindView(R.id.title)
@@ -74,6 +78,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringPrivacyPolicy;
     @BindString(R.string.please_wait)
     String stringPleaseWait;
+    @BindString(R.string.text_msg_permission_required)
+    String stringReadStoragePermission;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -113,27 +119,12 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        mAddProfilePhotoDialog = new AddProfilePhotoDialog();
-        mAddProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
-            @Override
-            public void onImageSelection() {
-                if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, REQUEST_CODE);
-                } else {
-                    ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
-                }
-            }
 
-            @Override
-            public void onSaveImage() {
-                if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
-                    uploadImage(PreviousWorkActivity.this, prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))));
-                } else {
-                    ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
-                }
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionHelper permission = new PermissionHelper(this);
+            if (!permission.checkPermission(permissions))
+                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+        }
     }
 
     private void getIntentData() {
@@ -285,10 +276,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             switch (requestCode) {
 
                 case REQUEST_CODE:
-//                    Bundle extras = data.getExtras();
-//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                    mAddProfilePhotoDialog.imageProfile.setImageBitmap(imageBitmap);
-
                     selectedImage = data.getData();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
@@ -345,5 +332,45 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         File file = new File(imagePath);
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
         return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
+    }
+
+    private void showImageUploadDialog() {
+        mAddProfilePhotoDialog = new AddProfilePhotoDialog();
+        mAddProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
+            @Override
+            public void onImageSelection() {
+                if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
+                }
+            }
+
+            @Override
+            public void onSaveImage() {
+                if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
+                    uploadImage(PreviousWorkActivity.this, prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))));
+                } else {
+                    ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showImageUploadDialog();
+                } else {
+                    SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringReadStoragePermission);
+                }
+                return;
+            }
+        }
     }
 }
