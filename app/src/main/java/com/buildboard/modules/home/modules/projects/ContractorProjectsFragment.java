@@ -2,7 +2,6 @@ package com.buildboard.modules.home.modules.projects;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +16,10 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.projects.adapters.ContractProjectsAdapter;
-import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 

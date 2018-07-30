@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modules.home.modules.projects.ConsumerProjectTypeDetailsFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_project_type_heading"
+            style="@style/textSize_small"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/select_project_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:typeface="robotoMedium" />
+
+        <RadioGroup
+            android:id="@+id/radio_group_contact_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/_20sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_project_type_heading"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <com.buildboard.customviews.BuildBoardRadioButton
+                android:id="@+id/radio_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_border"
+                android:text="@string/interior"
+                android:padding="@dimen/_15sdp"
+                android:textSize="@dimen/_13ssp"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardRadioButton
+                android:id="@+id/radio_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp"
+                android:button="@drawable/radio_button_border"
+                android:text="@string/exterior"
+                android:textSize="@dimen/_13ssp"
+                app:typeface="robotoRegular" />
+        </RadioGroup>
+
+        <com.buildboard.customviews.BuildBoardButton
+            android:id="@+id/button_next"
+            style="@style/button_style"
+            android:background="@drawable/green_button_background"
+            android:imeOptions="actionDone"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.423"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radio_group_contact_mode"
+            app:layout_constraintVertical_bias="0.926" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

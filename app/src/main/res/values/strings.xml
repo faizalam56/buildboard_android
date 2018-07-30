@@ -231,4 +231,7 @@
     <string name="create_new_project">Create New Project</string>
 
     <string name="text_msg_permission_required">Permission required to read image</string>
+    <string name="select_project_type">Please select location for this service</string>
+    <string name="interior">Interior</string>
+    <string name="exterior">Exterior</string>
 </resources>
