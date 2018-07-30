@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -21,9 +20,7 @@ import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,8 +32,8 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     private ConstraintLayout container;
     private Unbinder unbinder;
     private int mCurrentPage = 1;
-    ProjectsAdapter mProjectsAdapter;
-    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
+    private ProjectsAdapter mProjectsAdapter;
+    private ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
     private String mCurrentStatus = STATUS_OPEN;
 
     @BindView(R.id.recycler_projects)
