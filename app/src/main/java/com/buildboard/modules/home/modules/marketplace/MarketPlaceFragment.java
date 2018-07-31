@@ -209,7 +209,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(getActivity(), constraintRoot, error);
             }
         });
     }

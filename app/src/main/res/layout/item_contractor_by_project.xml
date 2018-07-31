@@ -11,6 +11,11 @@
 
         <com.buildboard.customviews.RoundRectCornerImageView
             android:id="@+id/image_service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/supplies" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
+                android:padding="@dimen/_5sdp"
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@android:color/primary_text_dark"
