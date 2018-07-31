@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -64,7 +63,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     @BindView(R.id.view_nearby_contractor)
     View viewNearbyContractor;
     @BindView(R.id.text_no_internet)
-    BuildBoardTextView noInternet;
+    BuildBoardTextView textNoInternet;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
     @BindView(R.id.scroll)
@@ -100,7 +99,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         updateUi(false);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            noInternet.setVisibility(View.GONE);
+            textNoInternet.setVisibility(View.GONE);
             if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
                 textTrendingService.setText(stringTrendingProjects);
                 textNearbyContractors.setText(stringNearByProjects);
@@ -113,7 +112,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 getMarketplaceConsumer();
             }
         } else {
-            noInternet.setVisibility(View.VISIBLE);
+            textNoInternet.setVisibility(View.VISIBLE);
             View rootView = getActivity().getWindow().getDecorView().getRootView();
             ConnectionDetector.createSnackBar(getActivity(), rootView);
         }
@@ -214,8 +213,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void updateUi(boolean visibility) {
-        textViewAllNearby.setVisibility(visibility ? View.VISIBLE :View.GONE);
-        textViewAllByproject.setVisibility(visibility ? View.VISIBLE :View.GONE);
+        textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
