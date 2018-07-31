@@ -61,7 +61,6 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     @BindView(R.id.text_no_internet)
     BuildBoardTextView noInternetText;
 
-
     public static ConsumerProjectsFragment newInstance() {
         return new ConsumerProjectsFragment();
     }

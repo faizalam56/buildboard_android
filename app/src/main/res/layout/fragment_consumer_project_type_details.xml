@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:button="@drawable/radio_button_border"
                 android:text="@string/interior"
-                android:padding="@dimen/_15sdp"
+                android:padding="@dimen/_10sdp"
                 android:textSize="@dimen/_13ssp"
                 app:typeface="robotoRegular" />
 
@@ -48,7 +48,7 @@
                 android:id="@+id/radio_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_15sdp"
+                android:padding="@dimen/_10sdp"
                 android:button="@drawable/radio_button_border"
                 android:text="@string/exterior"
                 android:textSize="@dimen/_13ssp"

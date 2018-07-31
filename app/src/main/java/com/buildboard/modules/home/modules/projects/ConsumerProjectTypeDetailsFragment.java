@@ -1,13 +1,18 @@
 package com.buildboard.modules.home.modules.projects;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.buildboard.R;
+import com.buildboard.modules.home.HomeActivity;
+
+import java.util.Objects;
 
 public class ConsumerProjectTypeDetailsFragment extends Fragment {
 
@@ -20,5 +25,12 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
        View view =inflater.inflate(R.layout.fragment_consumer_project_type_details, container, false);
        return  view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) Objects.requireNonNull(getActivity())).setTitle(getString(R.string.select_location));
     }
 }

@@ -1,8 +1,10 @@
 package com.buildboard.modules.home.modules.projects;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,11 +17,14 @@ import android.view.ViewGroup;
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
+import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -55,6 +60,13 @@ public class ConsumerProjectTypeFragment extends Fragment implements IRecyclerIt
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) Objects.requireNonNull(getActivity())).setTitle(getString(R.string.create_new_project));
     }
 
     private void getAllTypeOfProject() {

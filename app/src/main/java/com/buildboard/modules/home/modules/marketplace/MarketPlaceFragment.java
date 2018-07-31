@@ -47,7 +47,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     RecyclerView recyclerNearbyContractors;
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorsByProjecttype;
-
     @BindView(R.id.text_trending_service)
     TextView textTrendingService;
     @BindView(R.id.text_nearby_contractors)
@@ -58,10 +57,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     TextView textViewAllNearby;
     @BindView(R.id.text_view_all_byproject)
     TextView textViewAllByproject;
-
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
-
     @BindView(R.id.view_services)
     View viewServices;
     @BindView(R.id.view_nearby_contractor)
@@ -81,8 +78,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     String stringProjectsOnMarketplace;
 
     public static MarketPlaceFragment newInstance() {
-        MarketPlaceFragment fragment = new MarketPlaceFragment();
-        return fragment;
+        return new MarketPlaceFragment();
     }
 
     @Override
