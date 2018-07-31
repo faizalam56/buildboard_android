@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -117,8 +118,10 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         textViewTitle.setText(title);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null) actionBar.setTitle(title);
     }
 
     private void changeToolbarColor(int background, int text, boolean imageSettingVisibility) {

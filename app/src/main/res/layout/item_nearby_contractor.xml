@@ -1,32 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:id="@+id/container"
+    android:layout_width="@dimen/_150sdp"
+    android:layout_height="@dimen/_100sdp"
+    android:layout_margin="@dimen/_5sdp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_service"
-        style="@style/card_view_style_marketplace">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
+        <com.buildboard.customviews.RoundRectCornerImageView
             android:id="@+id/image_service"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/carpenter"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-    </android.support.v7.widget.CardView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/supplies" />
 
-    <TextView
-        android:id="@+id/text_name"
-        style="@style/textSize_smaller"
-        android:text="John"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_service"
-        android:layout_marginStart="@dimen/_5sdp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_corner_image_layout"
+            android:clickable="false"
+            android:gravity="center">
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_name"
+                style="@style/textSize_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:focusable="false"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/primary_text_dark"
+                app:typeface="robotoMedium" />
+
+        </RelativeLayout>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
+

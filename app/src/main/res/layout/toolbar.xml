@@ -14,15 +14,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_back_arrow_green_24dp"/>
+
+        <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="start"
             android:textStyle="bold"
+            android:layout_toEndOf="@+id/image_back"
             android:textColor="@color/colorPrimary"
-            style="@style/textSize_large" />
+            style="@style/textSize_large"
+            android:layout_toRightOf="@+id/image_back"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_setting"
@@ -32,8 +44,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_gravity="end"
-            android:contentDescription="@null"
             android:visibility="gone"
-            android:src="@drawable/settings" />
+            android:contentDescription="@null"
+            android:src="@drawable/settings"
+            android:layout_marginEnd="@dimen/_20sdp" />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

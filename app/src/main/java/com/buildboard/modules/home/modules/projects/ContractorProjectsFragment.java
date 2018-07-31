@@ -58,7 +58,6 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     @BindView(R.id.text_no_internet)
     TextView noInternetText;
 
-
     public static ContractorProjectsFragment newInstance() {
         return new ContractorProjectsFragment();
     }
