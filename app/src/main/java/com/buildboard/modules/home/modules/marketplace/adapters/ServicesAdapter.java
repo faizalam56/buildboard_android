@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
@@ -52,10 +53,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         @BindView(R.id.text_service_name)
         TextView textServiceName;
-
         @BindView(R.id.image_service)
         ImageView imageService;
-
         @BindView(R.id.card_service)
         CardView cardViewRow;
 

@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.utils.Utils;
@@ -50,8 +52,7 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
-        TextView textName;
-
+        BuildBoardTextView textName;
         @BindView(R.id.image_service)
         ImageView imageService;
 

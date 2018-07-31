@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
@@ -24,8 +26,8 @@ import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,21 +50,25 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorsByProjecttype;
     @BindView(R.id.text_trending_service)
-    TextView textTrendingService;
+    BuildBoardTextView textTrendingService;
     @BindView(R.id.text_nearby_contractors)
-    TextView textNearbyContractors;
+    BuildBoardTextView textNearbyContractors;
     @BindView(R.id.text_contractors_by_projecttype)
-    TextView textContractorsByProjecttype;
+    BuildBoardTextView textContractorsByProjecttype;
     @BindView(R.id.text_view_all_nearby)
-    TextView textViewAllNearby;
+    BuildBoardTextView textViewAllNearby;
     @BindView(R.id.text_view_all_byproject)
-    TextView textViewAllByproject;
-    @BindView(R.id.constraint_root)
-    ConstraintLayout constraintRoot;
+    BuildBoardTextView textViewAllByproject;
     @BindView(R.id.view_services)
     View viewServices;
     @BindView(R.id.view_nearby_contractor)
     View viewNearbyContractor;
+    @BindView(R.id.text_no_internet)
+    BuildBoardTextView noInternet;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintLayout;
+    @BindView(R.id.scroll)
+    ScrollView scrollView;
 
     @BindString(R.string.trending_services)
     String stringTrendingServices;
@@ -88,17 +94,24 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
         setFont();
         updateUi(false);
-        //TODO: call contractor marketplace api
-        if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
-            textTrendingService.setText(stringTrendingProjects);
-            textNearbyContractors.setText(stringNearByProjects);
-            textContractorsByProjecttype.setText(stringProjectsOnMarketplace);
-           getMarketplaceConsumer();
+
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            noInternet.setVisibility(View.GONE);
+            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                textTrendingService.setText(stringTrendingProjects);
+                textNearbyContractors.setText(stringNearByProjects);
+                textContractorsByProjecttype.setText(stringProjectsOnMarketplace);
+                getMarketplaceConsumer();
+            } else {
+                textTrendingService.setText(stringTrendingServices);
+                textNearbyContractors.setText(stringNearByContractor);
+                textContractorsByProjecttype.setText(stringContractorByProjectType);
+                getMarketplaceConsumer();
+            }
         } else {
-            textTrendingService.setText(stringTrendingServices);
-            textNearbyContractors.setText(stringNearByContractor);
-            textContractorsByProjecttype.setText(stringContractorByProjectType);
-            getMarketplaceConsumer();
+            noInternet.setVisibility(View.VISIBLE);
+            View rootView = getActivity().getWindow().getDecorView().getRootView();
+            ConnectionDetector.createSnackBar(getActivity(), rootView);
         }
 
         return view;
@@ -163,16 +176,18 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(getActivity(), constraintRoot, error);
             }
         });
     }
 
     private void updateUi(boolean visibility) {
+        textViewAllNearby.setVisibility(visibility ? View.VISIBLE :View.GONE);
+        textViewAllByproject.setVisibility(visibility ? View.VISIBLE :View.GONE);
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
         viewServices.setVisibility(visibility ? View.VISIBLE : View.GONE);
         viewNearbyContractor.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        scrollView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

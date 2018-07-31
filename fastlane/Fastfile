@@ -50,7 +50,7 @@ platform :android do
            no_badge: true)
 
            hockey(
-              api_token: '8f6c93966a104a25b2ed74c417f89172',
+              api_token: '748a0e5639c7419b822280dd6466361a',
               notes_type: '0',
               notes: changelog_from_git_commits(commits_count: '100',
                                                 pretty: '___ %h %s %n')
@@ -62,7 +62,7 @@ platform :android do
            gradle(task: 'assembledevelopers', build_type: 'Debug')
 
          hockey(
-              api_token: '8f6c93966a104a25b2ed74c417f89172',
+              api_token: '748a0e5639c7419b822280dd6466361a',
               notes_type: '0',
               notes: changelog_from_git_commits(commits_count: '100',
                                                 pretty: '___ %h %s %n')
