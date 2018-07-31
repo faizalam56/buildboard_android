@@ -26,6 +26,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.PreviousWorkAdapter;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.TestimonialAdapter;
@@ -55,7 +56,7 @@ import okhttp3.RequestBody;
 
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
-public class PreviousWorkActivity extends AppCompatActivity implements AppConstant {
+public class PreviousWorkActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
 
     private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
@@ -93,6 +94,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private Uri selectedImage;
     private AddProfilePhotoDialog mAddProfilePhotoDialog;
     private String responsImageUrl;
+    private ImageUploadHelper mImageUploadHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         addPreviousWorkData();
         setTestimonialAdapter();
         setPreviousWorkAdapter();
+        mImageUploadHelper = ImageUploadHelper.getInstance();
+        mAddProfilePhotoDialog = new AddProfilePhotoDialog();
     }
 
     @OnClick(R.id.button_next)
@@ -117,8 +121,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-            else showImageUploadDialog();
-        } else showImageUploadDialog();
+            else
+                showImageUploadDialog();
+        } else
+            showImageUploadDialog();
     }
 
     private void getIntentData() {
@@ -281,26 +287,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         }
     }
 
-    public void uploadImage(Activity activity, MultipartBody.Part image) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
-        RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
-        DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                responsImageUrl = response.toString();
-                saveContractorImage();
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
-            }
-        });
-    }
-
     public void saveContractorImage() {
         SaveContractorImageRequest saveImageRequest = new SaveContractorImageRequest();
         saveImageRequest.setId(mUserId);
@@ -322,12 +308,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         });
     }
 
-    private MultipartBody.Part prepareFilePart(String imagePath) {
-        File file = new File(imagePath);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
-    }
-
     private void showImageUploadDialog() {
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
         mAddProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
@@ -344,7 +324,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSaveImage() {
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
-                    uploadImage(PreviousWorkActivity.this, prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))));
+                    mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))),
+                            constraintRoot, PreviousWorkActivity.this);
                 } else {
                     ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
                 }
@@ -366,5 +347,11 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 return;
             }
         }
+    }
+
+    @Override
+    public void imageUrl(String url) {
+        responsImageUrl = url;
+        saveContractorImage();
     }
 }
