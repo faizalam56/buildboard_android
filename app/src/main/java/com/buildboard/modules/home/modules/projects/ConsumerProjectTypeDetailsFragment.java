@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.buildboard.R;
 
-
 public class ConsumerProjectTypeDetailsFragment extends Fragment {
 
     public static ConsumerProjectTypeDetailsFragment newInstance() {

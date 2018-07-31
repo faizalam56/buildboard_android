@@ -30,6 +30,12 @@ import butterknife.Unbinder;
 
 public class ContractorProjectsFragment extends Fragment implements AppConstant {
 
+    private Unbinder unbinder;
+    private int mCurrentPage = 1;
+    ContractProjectsAdapter mProjectsAdapter;
+    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
+    private String mCurrentStatus = STATUS_OPEN;
+
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
     @BindView(R.id.button_current_projects)
@@ -50,12 +56,6 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     ConstraintLayout mCoordinatorLayout;
     @BindView(R.id.text_no_internet)
     TextView noInternetText;
-
-    private Unbinder unbinder;
-    private int mCurrentPage = 1;
-    ContractProjectsAdapter mProjectsAdapter;
-    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
-    private String mCurrentStatus = STATUS_OPEN;
 
     public static ContractorProjectsFragment newInstance() {
         ContractorProjectsFragment fragment = new ContractorProjectsFragment();

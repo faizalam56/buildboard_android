@@ -76,10 +76,8 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             noInternetText.setVisibility(View.GONE);
             recyclerProjects.setVisibility(View.VISIBLE);
-            ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
             getProjectsList();
         } else {
-            ProgressHelper.stop();
             ConnectionDetector.createSnackBar(getActivity(), container);
         }
 
@@ -170,6 +168,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void getProjectsList() {
+        ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
         DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
