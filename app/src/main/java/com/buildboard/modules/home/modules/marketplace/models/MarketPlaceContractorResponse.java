@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 

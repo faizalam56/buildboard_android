@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 
 public class MarketplaceContractorData {
@@ -9,7 +8,7 @@ public class MarketplaceContractorData {
     @SerializedName("trendingProjects")
     private ArrayList<TrendingService> trendingServices = new ArrayList<>();
     @SerializedName("nearByProject")
-    private ArrayList<NearByProjects> nearByProjects= new ArrayList<>();
+    private ArrayList<NearByProjects> nearByProjects = new ArrayList<>();
     @SerializedName("projectTypes")
     private ArrayList<ProjectType> projectTypes = new ArrayList<>();
 
@@ -28,6 +27,7 @@ public class MarketplaceContractorData {
     public void setProjectTypes(ArrayList<ProjectType> projectTypes) {
         this.projectTypes = projectTypes;
     }
+
     public ArrayList<NearByProjects> getNearByProjects() {
         return nearByProjects;
     }

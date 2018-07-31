@@ -1,12 +1,12 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.List;
 
-public class NearByProjects implements Serializable
-{
+public class NearByProjects implements Serializable {
+
+    private final static long serialVersionUID = 2094634918167730568L;
 
     @SerializedName("id")
     private String id;
@@ -40,7 +40,6 @@ public class NearByProjects implements Serializable
     private Consumer consumer;
     @SerializedName("quotes")
     private List<Quote> quotes = null;
-    private final static long serialVersionUID = 2094634918167730568L;
 
     public String getId() {
         return id;
@@ -169,5 +168,4 @@ public class NearByProjects implements Serializable
     public void setQuotes(List<Quote> quotes) {
         this.quotes = quotes;
     }
-
 }

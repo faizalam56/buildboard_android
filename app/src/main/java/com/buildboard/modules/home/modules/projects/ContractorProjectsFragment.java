@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.projects;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,9 +33,10 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
 
     private Unbinder unbinder;
     private int mCurrentPage = 1;
-    ContractProjectsAdapter mProjectsAdapter;
-    ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
+    private ContractProjectsAdapter mProjectsAdapter;
+    private ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
     private String mCurrentStatus = STATUS_OPEN;
+
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
     @BindView(R.id.button_current_projects)
@@ -58,12 +60,11 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
 
 
     public static ContractorProjectsFragment newInstance() {
-        ContractorProjectsFragment fragment = new ContractorProjectsFragment();
-        return fragment;
+        return new ContractorProjectsFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contractor_projects, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -228,7 +229,5 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                 textProjects.setText(getString(R.string.lost_project) + "(" + count + ")");
                 break;
         }
-
-
     }
 }

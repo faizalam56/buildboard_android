@@ -2,11 +2,11 @@ package com.buildboard.modules.home.modules.marketplace.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
-public class Quote implements Serializable
-{
+public class Quote implements Serializable {
+
+    private final static long serialVersionUID = -2070120511721318107L;
 
     @SerializedName("id")
     @Expose
@@ -65,7 +65,6 @@ public class Quote implements Serializable
     @SerializedName("status")
     @Expose
     private String status;
-    private final static long serialVersionUID = -2070120511721318107L;
 
     public String getId() {
         return id;
@@ -218,5 +217,4 @@ public class Quote implements Serializable
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

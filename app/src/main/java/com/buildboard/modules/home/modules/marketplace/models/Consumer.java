@@ -1,12 +1,11 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
-public class Consumer implements Serializable
-{
+public class Consumer implements Serializable {
 
+    private final static long serialVersionUID = -1398703760658531675L;
     @SerializedName("id")
     private String id;
     @SerializedName("first_name")
@@ -19,7 +18,6 @@ public class Consumer implements Serializable
     private String image;
     @SerializedName("role")
     private String role;
-    private final static long serialVersionUID = -1398703760658531675L;
 
     public String getId() {
         return id;
@@ -53,9 +51,7 @@ public class Consumer implements Serializable
         this.userId = userId;
     }
 
-    public String getImage() {
-        return image;
-    }
+    public String getImage() { return image; }
 
     public void setImage(String image) {
         this.image = image;
@@ -68,5 +64,4 @@ public class Consumer implements Serializable
     public void setRole(String role) {
         this.role = role;
     }
-
 }

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
-import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -40,6 +39,7 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
     private String actualEndTime;
+
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -166,7 +166,7 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-            Picasso.get().load( mProjectDetails.get(position).getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
+            Picasso.get().load(mProjectDetails.get(position).getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
             textServiceName.setText(mProjectDetails.get(position).getConsumerInfo().getFirstName());
             textServiceProjectType.setText(mProjectDetails.get(position).getProjectType().getTitle());
             textServiceProjectName.setText(mProjectDetails.get(position).getTitle());
