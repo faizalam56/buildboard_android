@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/image_service"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_120sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/roofing_experts"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -21,8 +21,8 @@
         <TextView
             android:id="@+id/text_name"
             style="@style/textSize_small"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_120sdp"
             android:layout_gravity="center"
             android:background="@color/colorOverlay"
             android:gravity="center"

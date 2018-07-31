@@ -72,10 +72,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void setData() {
             TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
-            if (trendingService == null) return;
+            if (trendingService == null)
+                return;
 
             textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
-            Utils.display(mContext, trendingService.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }

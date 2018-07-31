@@ -57,10 +57,8 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
         @BindView(R.id.text_name)
         TextView textName;
-
         @BindView(R.id.image_service)
         ImageView imageService;
-
         @BindView(R.id.card_service)
         CardView cardRow;
 
