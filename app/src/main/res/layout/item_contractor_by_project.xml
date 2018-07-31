@@ -11,10 +11,6 @@
 
         <com.buildboard.customviews.RoundRectCornerImageView
             android:id="@+id/image_service"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/supplies" />
 
         <RelativeLayout
             android:layout_width="match_parent"
