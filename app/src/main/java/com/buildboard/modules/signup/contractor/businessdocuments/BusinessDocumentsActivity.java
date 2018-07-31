@@ -1,10 +1,15 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +42,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.models.Documen
 import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
 import com.buildboard.utils.ProgressHelper;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,6 +54,7 @@ import butterknife.OnClick;
 public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant {
 
     private final int REQUEST_CODE = 2001;
+    private static final int FILE_SELECT_CODE = 0;
 
     @BindView(R.id.title)
     TextView title;
@@ -148,7 +156,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @OnClick(R.id.text_document)
     void documentTapped() {
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        startActivityForResult(getFileChooserIntent(), REQUEST_CODE);
+//        startActivityForResult(getFileChooserIntent(), REQUEST_CODE);
+        showFileChooser();
     }
 
     @OnClick(R.id.text_cancel)
@@ -467,5 +476,99 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         }
 
         return intent;
+    }
+
+    ////
+    private void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+//                    Log.d(TAG, "File Uri: " + uri.toString());
+                    // Get the path
+                    try {
+                        String path = getPath(this, uri);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+//                    Log.d(TAG, "File Path: " + path);
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static String getPath(Context context, Uri uri) throws URISyntaxException {
+        /*if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data" };
+            Cursor cursor = null;
+
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
+                e.printStackTrace();
+            }
+        }
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;*/
+
+        final String id = DocumentsContract.getDocumentId(uri);
+        String temp = uri.toString();
+        //content://downloads/public_downloads"
+        final Uri contentUri = ContentUris.withAppendedId(
+                Uri.parse("content://downloads/public_downloads"),
+                Long.valueOf(id));
+
+        return getDataColumn(context, contentUri, null, null);
+    }
+
+    public static String getDataColumn(Context context, Uri uri,
+                                       String selection, String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = { column };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection,
+                    selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
     }
 }
