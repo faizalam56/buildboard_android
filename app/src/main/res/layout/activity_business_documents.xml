@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/constraint_root"
+    tools:context=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity">
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,12 +14,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity">
+    android:layout_height="match_parent">
 
     <include
         layout="@layout/toolbar"
@@ -28,7 +33,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/_15sdp"
@@ -199,13 +203,6 @@
         android:background="@android:color/white"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_bottomsheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp" />-->
-
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_camera"
             style="@style/textSize_small"
@@ -224,6 +221,7 @@
             android:id="@+id/text_document"
             style="@style/textSize_small"
             android:text="@string/document"
+            android:visibility="visible"
             android:gravity="center"
             app:typeface="robotoRegular" />
 
@@ -237,3 +235,4 @@
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

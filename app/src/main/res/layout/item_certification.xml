@@ -56,13 +56,13 @@
         android:editable="false"
         android:hint="@string/attachment"
         android:imeOptions="actionNext"
-        app:layout_constraintEnd_toStartOf="@+id/image_attachment_certification"
+        app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_certification_desc"
         app:typeface="robotoRegular" />
 
     <ImageView
-        android:id="@+id/image_attachment_certification"
+        android:id="@+id/image_attachment"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
         android:src="@drawable/ic_attachment"
