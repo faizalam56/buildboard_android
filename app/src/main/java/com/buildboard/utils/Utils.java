@@ -2,22 +2,30 @@ package com.buildboard.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.buildboard.R;
 import com.buildboard.http.ErrorManager;
 import com.squareup.picasso.Picasso;
 
@@ -112,5 +120,18 @@ public class Utils {
             width = (int) (height * bitmapRatio);
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+
+    public static void showProgressColor(Activity activity , ProgressBar progressBar){
+        if(activity!=null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
+                DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(activity, R.color.colorGreen));
+                progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(wrapDrawable));
+            } else {
+                progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorGreen), PorterDuff.Mode.SRC_IN);
+            }
+        }
     }
 }

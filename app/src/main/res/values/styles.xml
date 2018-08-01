@@ -6,6 +6,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.GreenAccent">
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
+
     //10px
 
     <style name="textSize_smallest" parent="text_view_style">

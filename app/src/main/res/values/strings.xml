@@ -9,7 +9,7 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_incorrect_password_length">Password must have at-least 8 characters</string>
+    <string name="error_incorrect_password_length">Password must have at-least 6 characters</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -80,14 +80,14 @@
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
     <string name="name">Name</string>
-    <string name="error_enter_valid_phone_number">Phone Number must have atleast 10 digit</string>
+    <string name="error_enter_valid_phone_number">Phone Number must have between 9 to 15 digit</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
     <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-    <string name="trending_services">Trending Services</string>
+    <string name="trending_services">Trending/Top Rated Services</string>
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
@@ -121,10 +121,9 @@
     <string name="save_as_draft">Save as Draft</string>
     <string name="contractors">Contractors</string>
     <string name="by_project_type">by project type</string>
-    <string name="view_all">View all</string>
+    <string name="view_all"><u>View all</u></string>
     <string name="error_contractor_type">Please select Contractor Type</string>
-    <string name="please_wait">Please wait…</string>
-    <string name="msg_please_wait">Please wait...</string>
+    <string name="msg_please_wait">Please wait…</string>
     <string name="msg_loading">Loading…</string>
     <string name="msg_no_data_found">No Data Found</string>
     <string name="trending_projects">Trending Projects</string>
@@ -239,4 +238,10 @@
     <string name="my_preferred_contractor">My Preferred Contractors</string>
     <string name="my_location_address">My Location/Addresses</string>
     <string name="reviews">Reviews</string>
+    <string name="change_password">Change Password</string>
+    <string name="special_charactor">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
+    <string name="exit_msg">Do you want to exit?</string>
+    <string name="alert">Alert</string>
+    <string name="ok">Ok</string>
+
 </resources>
