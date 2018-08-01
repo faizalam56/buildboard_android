@@ -237,6 +237,6 @@
     <string name="exterior">Exterior</string>
     <string name="image_content_consumer_profile_picture">Consumer Profile Picture</string>
     <string name="my_preferred_contractor">My Preferred Contractors</string>
-    <string name="my_location_address">My Location Address</string>
+    <string name="my_location_address">My Location &amp; Addresses</string>
     <string name="reviews">Reviews</string>
 </resources>
