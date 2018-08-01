@@ -29,7 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ConsumerProjectTypeFragment extends Fragment implements IRecyclerItemClickListener {
+public class ConsumerProjectTypeFragment extends Fragment
+        implements IRecyclerItemClickListener, HomeActivity.OnBackPressedListener {
 
     @BindView(R.id.recycler_all_project_type)
     RecyclerView recyclerView;
@@ -46,6 +47,8 @@ public class ConsumerProjectTypeFragment extends Fragment implements IRecyclerIt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_all_type_project, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        if (getActivity() != null) ((HomeActivity) getActivity()).setOnBackPressedListener(this);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             getAllTypeOfProject();
@@ -119,5 +122,10 @@ public class ConsumerProjectTypeFragment extends Fragment implements IRecyclerIt
     private void navigateFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+    }
+
+    @Override
+    public void doBack() {
+        navigateFragment(ConsumerProjectsFragment.newInstance());
     }
 }

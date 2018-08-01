@@ -19,8 +19,6 @@ import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SnackBarFactory;
 
-import java.util.Objects;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +46,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @BindString(R.string.new_password) String stringNewPassword;
     @BindString(R.string.confirm_new_password) String stringConfirmNewPassword;
     @BindString(R.string.error_network) String stringErrorNetwork;
-    @BindString(R.string.please_wait) String stringPleaseWait;
+    @BindString(R.string.msg_please_wait) String stringPleaseWait;
     @BindString(R.string.please_enter) String stringPleaseEnter;
     @BindString(R.string.confirm_password) String stringConfirmPassword;
     @BindString(R.string.password_did_not_match) String stringPasswordDidNotMatch;

@@ -1,16 +1,23 @@
 package com.buildboard.modules.home.modules.projects;
 
+import android.app.Activity;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
@@ -31,6 +38,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
@@ -60,6 +69,8 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     BuildBoardTextView buildBoardTextProjectType;
     @BindView(R.id.text_no_internet)
     BuildBoardTextView noInternetText;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     public static ConsumerProjectsFragment newInstance() {
         return new ConsumerProjectsFragment();
@@ -71,12 +82,14 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         unbinder = ButterKnife.bind(this, view);
 
         setFonts();
+        showProgressColor(getActivity(), progressBar);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             noInternetText.setVisibility(View.GONE);
             recyclerProjects.setVisibility(View.VISIBLE);
             getProjectsList();
         } else {
+            hideProgressBar();
             ConnectionDetector.createSnackBar(getActivity(), container);
         }
 
@@ -84,11 +97,11 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
+        showProgressBar();
         mProjectDetails.addAll(projectDetails);
 
         if (mProjectsAdapter == null) {
-            ProgressHelper.stop();
+            hideProgressBar();
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerProjects.setLayoutManager(mLinearLayoutManager);
             mProjectsAdapter = new ConsumerProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
@@ -102,13 +115,14 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
                 }
             });
         } else {
-            ProgressHelper.stop();
+            hideProgressBar();
             recyclerProjects.getAdapter().notifyItemInserted((mProjectDetails.size()));
         }
 
         if (mProjectsAdapter != null) {
             mProjectsAdapter.setLoading(false);
             if (mCurrentPage == lastPage)
+                hideProgressBar();
                 mProjectsAdapter.setLastPage(true);
         }
     }
@@ -166,12 +180,19 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         getProjectsList();
     }
 
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
     private void getProjectsList() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
+        showProgressBar();
         DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
 
@@ -188,7 +209,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
             }
         });
     }

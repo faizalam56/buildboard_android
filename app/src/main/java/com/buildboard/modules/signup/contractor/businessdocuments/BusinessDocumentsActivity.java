@@ -49,7 +49,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindString(R.string.please_wait)
+    @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
 
     @BindView(R.id.text_terms_of_service)
