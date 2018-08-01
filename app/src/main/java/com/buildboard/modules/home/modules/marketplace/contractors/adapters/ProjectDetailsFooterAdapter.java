@@ -68,6 +68,7 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textTitle);
         }
+
         @OnClick(R.id.constraint_drafts_row_footer)
         public void rowTapped() {
             String Text = mArrayList.get(getAdapterPosition());

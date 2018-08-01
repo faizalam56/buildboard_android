@@ -42,6 +42,8 @@ import butterknife.Unbinder;
 
 public class MarketPlaceFragment extends Fragment implements AppConstant {
 
+    private String mTitle;
+    private Unbinder mUnbinder;
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
     @BindView(R.id.recycler_services_no_record)
@@ -74,7 +76,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     ConstraintLayout constraintLayout;
     @BindView(R.id.scroll)
     ScrollView scrollView;
-
     @BindString(R.string.trending_services)
     String stringTrendingServices;
     @BindString(R.string.near_by_contractors)
@@ -89,8 +90,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     String stringProjectsOnMarketplace;
     @BindString(R.string.browse_projects_by_projectstype)
     String stringBrowseProjects;
-    private String mTitle;
-    private Unbinder mUnbinder;
+
 
     public static MarketPlaceFragment newInstance() {
         return new MarketPlaceFragment();
@@ -146,11 +146,12 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
-        if(!trendingServices.isEmpty()){
+        if (!trendingServices.isEmpty()) {
             textServicesNoRecord.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             recyclerServices.setVisibility(View.GONE);
         }
+
         ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), trendingServices);
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -158,9 +159,10 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
-        if(!nearByContractorArrayList.isEmpty()){
+        if (!nearByContractorArrayList.isEmpty()) {
             textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
         }
+
         NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), nearByContractorArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -168,9 +170,10 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyProjectsRecycler(ArrayList<NearByProjects> nearByProjectsArrayList) {
-        if(!nearByProjectsArrayList.isEmpty()){
+        if (!nearByProjectsArrayList.isEmpty()) {
             textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
         }
+
         NearByProjectsAdapter selectionAdapter = new NearByProjectsAdapter(getActivity(), nearByProjectsArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -178,9 +181,10 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setContractorByProjectRecycler(ArrayList<ProjectType> projectTypes) {
-        if(!projectTypes.isEmpty()){
+        if (!projectTypes.isEmpty()) {
             textContractorsByProjecttypeNorecords.setVisibility(View.INVISIBLE);
         }
+
         ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), projectTypes);
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -234,11 +238,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             }
         });
     }
-@Override
-public void onCreate(Bundle saveinstancestate){
+
+    @Override
+    public void onCreate(Bundle saveinstancestate) {
         super.onCreate(saveinstancestate);
 
-}
+    }
+
     private void updateUi(boolean visibility) {
         textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);

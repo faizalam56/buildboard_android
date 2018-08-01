@@ -73,9 +73,10 @@ public class NearByProjectsActivity extends AppCompatActivity{
         setFont();
         getIntentData();
     }
+
     private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textAddressTitle,textDescriptionTitle,textStartDateTitle,textEndDateTitle);
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR,textAddressText, textDescription,textEndDate,textStartDate);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textAddressTitle, textDescriptionTitle, textStartDateTitle, textEndDateTitle);
+        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textAddressText, textDescription, textEndDate, textStartDate);
     }
 
     private void getIntentData() {
@@ -104,17 +105,18 @@ public class NearByProjectsActivity extends AppCompatActivity{
     private void handleSuccessResponse(Object response) {
         if (response == null) return;
         NearByProjectData contractorByProjectTypeData = (NearByProjectData) response;
-        Utils.display(NearByProjectsActivity.this,contractorByProjectTypeData.getImage(),projectImage,R.mipmap.ic_launcher);
+        Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
         textTitle.setText(contractorByProjectTypeData.getTitle());
-        textEndDate.setText(convertTime(contractorByProjectTypeData.getEndDate().split("\\s+")[0].replaceAll("-","/")));
-        textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-","/")));
+        textEndDate.setText(convertTime(contractorByProjectTypeData.getEndDate().split("\\s+")[0].replaceAll("-", "/")));
+        textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
         textDescription.setText(contractorByProjectTypeData.getDescription());
         textAddressText.setText(contractorByProjectTypeData.getAddress());
         //todo refctor: text allignmenmts
         setFooter();
 
     }
-    private void setFooter(){
+
+    private void setFooter() {
 
         mMenuArray.add("Attachments");
         mMenuArray.add("Requirements");
@@ -124,8 +126,9 @@ public class NearByProjectsActivity extends AppCompatActivity{
         recyclerFooter.setAdapter(projectDetailsFooterAdapter);
 
     }
+
     private String convertTime(String strDate) {
-        String converted_time="";
+        String converted_time = "";
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
@@ -135,7 +138,8 @@ public class NearByProjectsActivity extends AppCompatActivity{
             e.printStackTrace();
             return converted_time;
         }
-        converted_time=format2.format(date);
+
+        converted_time = format2.format(date);
         return converted_time;
     }
 }
