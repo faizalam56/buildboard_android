@@ -1,5 +1,6 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -57,7 +58,9 @@ import com.buildboard.view.SnackBarFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.BindString;
@@ -69,7 +72,7 @@ import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
 public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
 
-    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE};
+    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
     private static final int FILE_SELECT_CODE = 0;
 
@@ -123,6 +126,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private String responsImageUrl;
     private int mSelectedPosition;
     private Document mSelectedSession;
+    String mCurrentPhotoPath;
 
     private enum Document {
         BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
@@ -176,6 +180,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @OnClick(R.id.text_camera)
     void cameraTapped() {
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
     }
 
     @OnClick(R.id.text_gallery)
@@ -560,8 +565,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (data == null) return;
-
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case FILE_SELECT_CODE:
@@ -596,6 +599,27 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                         ConnectionDetector.createSnackBar(this, constraintRoot);
                     }
                     break;
+
+                case REQUEST_IMAGE_CAPTURE:
+                    if (ConnectionDetector.isNetworkConnected(this)) {
+//                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
+//                                Utils.getImagePath(this, data.getData()))),
+//                                constraintRoot, this);
+                        if(mCurrentPhotoPath == null) return;
+                        File path = new File(mCurrentPhotoPath);
+                        if (!path.exists()) path.mkdirs();
+                        File imageFile = new File(path, "image.jpg");
+
+                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
+                                mCurrentPhotoPath)),
+                                constraintRoot, this);
+                    } else {
+                        ConnectionDetector.createSnackBar(this, constraintRoot);
+                    }
+
+//                    Bundle extras = data.getExtras();
+//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                    mImageView.setImageBitmap(imageBitmap);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -681,7 +705,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @Override
     public void imageUrl(String url) {
         responsImageUrl = url;
-        setImageUrl();
+        //setImageUrl();
     }
 
     private void setImageUrl() {

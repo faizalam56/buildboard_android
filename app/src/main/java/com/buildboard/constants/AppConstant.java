@@ -64,4 +64,6 @@ public interface AppConstant {
     String INTENT_USER_ID = "intent_userid";
     String TERMS_OF_SERVICES_LINK = "http://www.google.com";
     String PRIVACY_POLICY_LINK = "http://www.google.com";
+
+    int REQUEST_IMAGE_CAPTURE = 1;
 }
