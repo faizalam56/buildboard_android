@@ -7,7 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -115,8 +117,11 @@
         <activity android:name=".modules.signup.contractor.businessinfo.SignUpContractorActivity" />
         <activity android:name=".modules.signup.contractor.worktype.WorkTypeActivity" />
         <activity android:name=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity" />
-        <activity android:name=".modules.home.modules.profile.EditProfileActivity"/>
-        <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>
+        <activity android:name=".modules.home.modules.profile.EditProfileActivity" />
+        <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity" />
+        <activity android:name=".modules.home.modules.profile.PreferredContractorActivity" />
+        <activity android:name=".modules.home.modules.profile.LocationAddressActivity" />
+        <activity android:name=".modules.home.modules.profile.ReviewActivity"></activity>
     </application>
 
 </manifest>

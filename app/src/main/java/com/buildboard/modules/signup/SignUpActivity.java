@@ -14,7 +14,9 @@ import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -27,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -82,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private Uri selectedImage;
     private String contactMode = PHONE;
     private ContractorTypeDetail contractorTypeDetail;
+
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
@@ -202,12 +204,14 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String[] arrayUserType;
     @BindString(R.string.please_enter_a_valid_address)
     String stringEnterValidAddress;
-    @BindString(R.string.please_wait)
+    @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
     @BindString(R.string.location_check)
     String stringCheckLocation;
+    @BindString(R.string.special_charactor)
+    String blockCharacterSet;
 
 
     @Override
@@ -267,7 +271,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        String password = editPassword.getText().toString().trim();
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
@@ -399,7 +403,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if (TextUtils.isEmpty(password)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg).show();
             return false;
-        } else if (password.length() < 8) {
+        } else if (password.length() < 6) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength).show();
             return false;
         }
@@ -409,7 +413,10 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return false;
         }
 
-        if (TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+        if (TextUtils.isEmpty(phoneNo)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
+            return false;
+        } else if (phoneNo.length() < 9){
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
@@ -421,7 +428,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        String password = editPassword.getText().toString().trim();
         String address = editAddress.getText().toString();
         String phoneNo = editPhoneNo.getText().toString();
 
@@ -548,7 +555,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         AlertDialog alertChangeAddressDialog = dialogBuilder.create();
         alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertChangeAddressDialog.show();
-
     }
 
     public void getIntentData() {

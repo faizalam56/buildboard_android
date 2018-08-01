@@ -1,5 +1,7 @@
 package com.buildboard.modules.home;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
 import com.buildboard.modules.home.modules.profile.ProfileFragment;
@@ -34,6 +37,8 @@ import butterknife.OnClick;
 import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
 
 public class HomeActivity extends AppCompatActivity {
+
+    protected OnBackPressedListener onBackPressedListener;
 
     @BindView(R.id.frame_home_container)
     FrameLayout frameHomeContainer;
@@ -57,6 +62,10 @@ public class HomeActivity extends AppCompatActivity {
     int colorPrimary;
     @BindColor(R.color.colorWhite)
     int colorWhite;
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -133,5 +142,45 @@ public class HomeActivity extends AppCompatActivity {
     @OnClick(R.id.image_setting)
     void profileSettingTapped() {
         startActivity(new Intent(this, ProfileSettingsActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        onBackPressedListener = null;
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressedListener != null) {
+            onBackPressedListener.doBack();
+        } else {
+            showAlert();
+        }
+    }
+
+    public interface OnBackPressedListener {
+        void doBack();
+    }
+
+    public void showAlert() {
+        android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.alert);
+        alertDialog.setMessage(R.string.exit_msg);
+        alertDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+        });
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

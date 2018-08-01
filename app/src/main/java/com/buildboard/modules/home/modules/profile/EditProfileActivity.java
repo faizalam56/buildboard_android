@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -195,7 +196,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String[] arrayUserType;
     @BindString(R.string.please_enter_a_valid_address)
     String stringEnterValidAddress;
-    @BindString(R.string.please_wait)
+    @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
@@ -355,7 +356,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             return false;
         }
 
-        if (TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+        if (TextUtils.isEmpty(phoneNo)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPhoneNumber).show();
+            return false;
+        } else if (phoneNo.length() < 9){
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
             return false;
         }
@@ -482,8 +486,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                 dialog.dismiss();
             }
         });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
+        AlertDialog alertChangeAddressDialog = dialogBuilder.create();
+        alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        alertChangeAddressDialog.show();
     }
 
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,12 +52,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_service_name)
+        @BindView(R.id.text_name)
         TextView textServiceName;
         @BindView(R.id.image_service)
         ImageView imageService;
-        @BindView(R.id.card_service)
-        CardView cardViewRow;
 
         public ViewHolder(View itemView) {
             super(itemView);
