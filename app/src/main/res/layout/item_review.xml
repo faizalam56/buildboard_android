@@ -30,9 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:text="Marc"
+        android:ellipsize="end"
+        android:text="Mark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/card_contractor"
+        app:layout_constraintStart_toEndOf="@id/card_contractor"
         app:layout_constraintTop_toTopOf="@+id/card_contractor"
         app:typeface="robotoLight" />
 
@@ -41,25 +42,38 @@
         style="@style/textSize_smaller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_2sdp"
-        android:text="Company Name: lorem ipsum"
+        android:text="Company Name: lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/text_contractor_name"
         app:layout_constraintTop_toBottomOf="@+id/text_contractor_name" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_review_date"
+        style="@style/textSize_smaller"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:text="08/27/2018"
+        app:layout_constraintStart_toStartOf="@+id/text_contractor_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_company_name" />
+
 
     <android.support.v7.widget.AppCompatRatingBar
         android:id="@+id/rating_contractor"
         style="@style/RatingBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="@dimen/_2sdp"
         android:numStars="5"
         android:progressTint="@color/colorRatingBar"
         android:rating="3"
-        app:layout_constraintBottom_toBottomOf="@+id/card_contractor"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/card_contractor"
-        app:layout_constraintStart_toStartOf="@+id/text_company_name"
         app:layout_constraintTop_toBottomOf="@+id/text_company_name" />
 </android.support.constraint.ConstraintLayout>
