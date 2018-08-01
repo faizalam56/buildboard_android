@@ -27,6 +27,9 @@ import butterknife.Unbinder;
 public class ProfileFragment extends Fragment {
 
     private static ProfileFragment sFragment;
+    private Unbinder unbinder;
+    private ProfileData profileData;
+
     @BindView(R.id.image_profile)
     ImageView imageProfile;
     @BindView(R.id.text_name)
@@ -37,8 +40,6 @@ public class ProfileFragment extends Fragment {
     BuildBoardTextView textPhone;
     @BindView(R.id.container_root)
     CoordinatorLayout mCoordinatorLayout;
-    private Unbinder unbinder;
-    private ProfileData profileData;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -83,7 +84,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick(R.id.row_my_preferred_contractor)
-    void rowpreferredContractorTapped() {
+    void rowPreferredContractorTapped() {
         Intent intent = new Intent(getActivity(), PreferredContractorActivity.class);
         startActivity(intent);
     }
