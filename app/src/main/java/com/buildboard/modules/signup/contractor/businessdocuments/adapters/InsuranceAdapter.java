@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -27,11 +28,13 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
+    private ISelectAttachment iSelectAttachment;
 
-    public InsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> insurances, IAddMoreCallback iAddMoreCallback) {
+    public InsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> insurances, IAddMoreCallback iAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         mInsurances = insurances;
         this.iAddMoreCallback = iAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -93,6 +96,11 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
         @OnClick(R.id.text_add_more)
         void addmoreTapped() {
             iAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped(){
+            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
         }
     }
 }

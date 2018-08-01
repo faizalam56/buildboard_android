@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -95,9 +96,5 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         void attachmentTapped(){
             iSelectAttachment.selectAttachment(getAdapterPosition());
         }
-    }
-
-    public interface ISelectAttachment {
-        void selectAttachment(int position);
     }
 }

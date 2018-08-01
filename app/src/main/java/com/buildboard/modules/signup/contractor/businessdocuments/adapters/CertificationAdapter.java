@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -27,11 +28,13 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
     private HashMap<Integer, ArrayList<DocumentData>> mCertifications;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
+    private ISelectAttachment iSelectAttachment;
 
-    public CertificationAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> certifications, IAddMoreCallback iAddMoreCallback) {
+    public CertificationAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> certifications, IAddMoreCallback iAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         mCertifications = certifications;
         this.iAddMoreCallback = iAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -93,6 +96,11 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
             iAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped(){
+            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
         }
     }
 }

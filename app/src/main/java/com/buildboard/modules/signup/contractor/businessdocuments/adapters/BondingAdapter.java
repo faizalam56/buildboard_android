@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -27,11 +28,14 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     private HashMap<Integer, ArrayList<DocumentData>> mBondinds;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
+    private ISelectAttachment iSelectAttachment;
 
-    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IAddMoreCallback iAddMoreCallback) {
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IAddMoreCallback iAddMoreCallback,
+                          ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mBondinds = bondinds;
         this.iAddMoreCallback = iAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -93,6 +97,11 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @OnClick(R.id.text_add_more)
         void addmoreTapped(){
             iAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped(){
+            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
         }
     }
 }
