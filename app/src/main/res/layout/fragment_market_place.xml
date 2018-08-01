@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:id="@+id/scroll"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:context="com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment">
 
         <android.support.constraint.ConstraintLayout
@@ -38,7 +38,20 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
-
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_services_no_record"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:text="@string/no_records_found"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:gravity="center"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/view_services"
+                app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
             <View
                 android:id="@+id/view_services"
                 android:layout_width="0dp"
@@ -48,7 +61,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_services" />
+                app:layout_constraintBottom_toTopOf="@+id/text_nearby_contractors"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_services_no_record" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_nearby_contractors"
@@ -67,9 +81,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:text="@string/view_all"
-                android:textColor="@color/colorBlueLight"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_services" />
+                app:layout_constraintTop_toBottomOf="@+id/view_services"
+                tools:layout_editor_absoluteY="256dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_nearby_contractors"
@@ -81,7 +96,20 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
-
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_nearby_contractors_norecords"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/no_records_found"
+                android:visibility="visible"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/view_nearby_contractor"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
             <View
                 android:id="@+id/view_nearby_contractor"
                 android:layout_width="0dp"
@@ -90,7 +118,7 @@
                 android:background="@color/colorDivider"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_nearby_contractors" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_nearby_contractors_norecords" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_contractors_by_projecttype"
@@ -109,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:text="@string/view_all"
-                android:textColor="@color/colorBlueLight"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
 
@@ -125,6 +153,22 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_contractors_by_projecttype_norecords"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="visible"
+                android:text="@string/no_records_found"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
