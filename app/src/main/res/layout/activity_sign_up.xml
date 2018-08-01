@@ -52,10 +52,6 @@
                 style="@style/textSize_smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/add_profile_picture"
                 android:textColor="@color/colorGreen"
@@ -69,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_add_profile_picture"
@@ -77,12 +73,14 @@
 
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
-                style="@style/edit_text_size_small"
+                style="@style/edit_text_size_smaller"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
+                android:digits="@string/special_charactor"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_first_name"
@@ -93,7 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_first_name"
@@ -101,12 +99,14 @@
 
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_last_name"
-                style="@style/edit_text_size_small"
+                style="@style/edit_text_size_smaller"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/last_name"
+                android:digits="@string/special_charactor"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_last_name"
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
@@ -125,12 +125,13 @@
 
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_email"
-                style="@style/edit_text_size_small"
+                style="@style/edit_text_size_smaller"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_email"
@@ -141,24 +142,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_email"
                 app:typeface="robotoMedium" />
 
-            <com.buildboard.customviews.BuildBoardEditText
-                android:id="@+id/edit_password"
-                style="@style/edit_text_size_small"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/green_drawable_border"
-                android:hint="@string/password"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
+                app:hintEnabled="false"
+                app:passwordToggleTint="@android:color/black"
+                app:passwordToggleEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_password"
-                app:typeface="robotoRegular" />
+                app:layout_constraintTop_toBottomOf="@+id/text_password">
+
+                <com.buildboard.customviews.BuildBoardEditText
+                    android:id="@+id/edit_password"
+                    style="@style/edit_text_size_smaller"
+                    android:hint="@string/password"
+                    android:background="@drawable/green_drawable_border"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/black"
+                    app:typeface="robotoRegular"/>
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint_consumer_address_container"
@@ -168,7 +180,7 @@
                 app:layout_constraintHorizontal_bias="0.421"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_password">
+                app:layout_constraintTop_toBottomOf="@+id/input_layout_password">
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_address"
@@ -179,18 +191,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:typeface="robotoMedium"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@android:color/black"/>
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/edit_address"
-                    style="@style/edit_text_size_small"
+                    style="@style/edit_text_size_smaller"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:inputType="textMultiLine"
-                    android:padding="@dimen/_2sdp"
                     android:maxLines="5"
                     android:minLines="2"
                     android:focusable="true"
                     android:clickable="true"
+                    android:padding="@dimen/_5sdp"
                     android:focusableInTouchMode="false"
                     android:layout_height="wrap_content"
                     android:background="@drawable/green_drawable_border"
@@ -205,7 +217,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_address"
@@ -213,13 +225,14 @@
 
                 <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_phoneno"
-                    style="@style/edit_text_size_small"
+                    style="@style/edit_text_size_smaller"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/phone_no"
                     android:imeOptions="actionNext"
                     android:inputType="number"
-                    android:maxLength="14"
+                    android:maxLength="15"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_phone"
@@ -227,13 +240,13 @@
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_contact_mode"
-                    style="@style/edit_text_size_small"
+                    style="@style/edit_text_size_smaller"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:background="@null"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:imeOptions="actionNext"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/black"
                     app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
                     app:typeface="robotoMedium" />
 
@@ -259,7 +272,7 @@
                         android:paddingStart="@dimen/_5sdp"
                         android:paddingEnd="@dimen/_5sdp"
                         android:text="@string/phone"
-                        android:textSize="@dimen/_13ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:typeface="robotoRegular" />
 
                     <com.buildboard.customviews.BuildBoardRadioButton
@@ -272,7 +285,7 @@
                         android:paddingStart="@dimen/_5sdp"
                         android:paddingEnd="@dimen/_5sdp"
                         android:text="@string/email"
-                        android:textSize="@dimen/_13ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:typeface="robotoRegular" />
                 </RadioGroup>
             </android.support.constraint.ConstraintLayout>
