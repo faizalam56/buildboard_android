@@ -9,7 +9,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -26,52 +26,56 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:contentDescription="@string/image_content_consumer_profile_picture"
                     android:src="@drawable/carpenter"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_name"
                     style="@style/textSize_large"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="8dp"
                     android:text="Steve William"
                     android:textColor="@color/colorProfileName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_profile"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile"
+                    app:layout_constraintTop_toTopOf="@+id/image_profile"
                     app:typeface="robotoMedium" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_email"
                     style="@style/textSize_small"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:text="steve.william@lorem.com"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_name"
                     app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_phone"
                     style="@style/textSize_small"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:text="+00.000.000.000"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_email"
                     app:layout_constraintTop_toBottomOf="@+id/text_email" />
             </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -82,104 +86,142 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.buildboard.customviews.BuildBoardButton
-                android:id="@+id/button_out_for_bid"
-                android:layout_width="@dimen/_125sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/green_button_background"
-                android:text="@string/project_out_for_bid"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/button_current_project"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.buildboard.customviews.BuildBoardButton
-                android:id="@+id/button_current_project"
-                android:layout_width="@dimen/_125sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/green_button_background"
-                android:text="@string/current_project"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/button_out_for_bid"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button_out_for_bid"
-                app:layout_constraintTop_toTopOf="@+id/button_out_for_bid" />
-
-            <com.buildboard.customviews.BuildBoardButton
-                android:id="@+id/button_completed_projects"
-                android:layout_width="@dimen/_125sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/green_button_background"
-                android:text="@string/completed_project"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/button_my_contractors"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_out_for_bid" />
-
-            <com.buildboard.customviews.BuildBoardButton
-                android:id="@+id/button_my_contractors"
-                android:layout_width="@dimen/_125sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/green_button_background"
-                android:text="@string/my_contractors"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/button_completed_projects"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button_completed_projects"
-                app:layout_constraintTop_toTopOf="@+id/button_completed_projects"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/textView2"
+            <!--row 1-->
+            <RelativeLayout
+                android:id="@+id/row_my_preferred_contractor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="@dimen/_20sdp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/my_contractors"
-                android:textColor="@color/colorProfileName"
-                android:textStyle="bold"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_completed_projects" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_my_contactor"
+                <ImageView
+                    android:id="@+id/image_preferred_contractor"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_camera_green" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_preferred_contractor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/image_preferred_contractor"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/my_preferred_contractor" />
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/baseline_chevron_right_black_18" />
+            </RelativeLayout>
+
+            <!--row 2-->
+            <RelativeLayout
+                android:id="@+id/row_my_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@id/row_my_preferred_contractor">
+
+                <ImageView
+                    android:id="@+id/image_location"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_camera_green" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/image_location"
+                    android:layout_toRightOf="@+id/image_location"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/my_location_address" />
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/baseline_chevron_right_black_18" />
+            </RelativeLayout>
+
+            <!--row 3-->
+            <RelativeLayout
+                android:id="@+id/row_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/row_my_location">
+
+                <ImageView
+                    android:id="@+id/image_reviews"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_camera_green" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/image_reviews"
+                    android:layout_toRightOf="@+id/image_reviews"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/reviews" />
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/baseline_chevron_right_black_18" />
+            </RelativeLayout>
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
