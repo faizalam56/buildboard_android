@@ -1,0 +1,240 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_service"
+                style="@style/card_view_style_marketplace"
+                android:layout_width="wrap_content"
+                app:cardElevation="@dimen/_3sdp"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_180sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/supplies" />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/text_title"
+                        style="@style/textSize_large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="left"
+                        android:textColor="@color/colorWhite"
+                        app:typeface="robotoRegular" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/description_title"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="12dp"
+                android:gravity="left"
+                android:text="@string/description"
+                android:textColor="@color/colorGreen"
+                app:typeface="robotoRegular"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/description_text"
+                style="@style/textSize_smaller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="left"
+                android:text="@string/description"
+                app:typeface="robotoRegular"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1ssp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@color/colorText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/startdate_title"
+                        style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="left"
+                        android:text="@string/startdate"
+                        android:textColor="@color/colorGreen"
+                        app:typeface="robotoRegular"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/startdate_text"
+                        style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:gravity="left"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/startdate"
+                        app:typeface="robotoRegular"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/enddate_title"
+                        style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="right"
+                        android:text="@string/enddate"
+                        android:textColor="@color/colorGreen"
+                        app:typeface="robotoRegular"
+                         />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/enddate_text"
+                        style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="right"
+                        android:text="@string/enddate"
+                        app:typeface="robotoRegular"
+                      />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1ssp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@color/colorText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/address_title"
+                         style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="12dp"
+                        android:gravity="left"
+                        android:text="@string/address"
+                        android:textColor="@color/colorGreen"
+                        app:typeface="robotoRegular"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/address_text"
+                         style="@style/textSize_smaller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:gravity="left"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/startdate"
+                        app:typeface="robotoRegular"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="16dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                app:layout_constraintBottom_toTopOf="@id/edit_write_msg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <com.buildboard.customviews.BuildBoardButton
+                android:id="@+id/button_quotes"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/green_button_background"
+                android:text="@string/quote_this_project"
+                android:textAllCaps="true"
+                android:layout_gravity="center"
+                 />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
