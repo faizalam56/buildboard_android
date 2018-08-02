@@ -46,7 +46,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
 
     @Override
     public void onBindViewHolder(WorkmanInsuranceAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mWorkmanInsurances.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mWorkmanInsurances.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback(){
+            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
@@ -86,13 +86,13 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iAddMoreCallback.addMore();
         }
 
         @OnClick(R.id.image_attachment)
-        void attachmentTapped(){
-            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
+        void attachmentTapped() {
+            iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
         }
     }
 }

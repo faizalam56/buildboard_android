@@ -94,7 +94,7 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
         private void setData() {
             int size = mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size();
-            switch (size){
+            switch (size) {
                 case 1:
                     Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
                     break;
@@ -118,11 +118,11 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         }
 
         private void setVisibility(int size) {
-            imageAttachment1.setVisibility(size>0?View.VISIBLE:View.GONE);
-            imageAttachment2.setVisibility(size>1?View.VISIBLE:View.GONE);
-            imageAttachment3.setVisibility(size>2?View.VISIBLE:View.GONE);
-            imageAttachment4.setVisibility(size>3?View.VISIBLE:View.GONE);
-            imageAttachment.setVisibility(size==4?View.GONE:View.VISIBLE);
+            imageAttachment1.setVisibility(size > 0 ? View.VISIBLE : View.GONE);
+            imageAttachment2.setVisibility(size > 1 ? View.VISIBLE : View.GONE);
+            imageAttachment3.setVisibility(size > 2 ? View.VISIBLE : View.GONE);
+            imageAttachment4.setVisibility(size > 3 ? View.VISIBLE : View.GONE);
+            imageAttachment.setVisibility(size == 4 ? View.GONE : View.VISIBLE);
         }
 
         @OnClick(R.id.text_add_more)

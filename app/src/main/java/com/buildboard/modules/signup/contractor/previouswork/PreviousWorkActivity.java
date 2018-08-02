@@ -397,7 +397,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             case REQUEST_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    showImageUploadDialog();
                 } else {
                     SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringReadStoragePermission);
                 }

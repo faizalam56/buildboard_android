@@ -64,27 +64,16 @@ public class ImageUploadHelper implements AppConstant {
         void imageUrl(String url);
     }
 
-    /*public void dispatchTakePictureIntent(Activity activity) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }*/
-
     public String dispatchTakePictureIntent(Activity activity) {
         String currentPhotoPath = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-            // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = createImageFile(activity);
                 currentPhotoPath = photoFile.getAbsolutePath();
             } catch (IOException ex) {
-                // Error occurred while creating the File
             }
-            // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(activity,
                         "com.buildboard.fileprovider",
@@ -100,7 +89,6 @@ public class ImageUploadHelper implements AppConstant {
     }
 
     private File createImageFile(Activity activity) throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -123,7 +111,6 @@ public class ImageUploadHelper implements AppConstant {
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
             Toast.makeText(activity, "Please install a File Manager.",
                     Toast.LENGTH_SHORT).show();
         }

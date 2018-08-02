@@ -47,7 +47,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mBondinds.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mBondinds.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback(){
+            editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
@@ -95,13 +95,13 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iAddMoreCallback.addMore();
         }
 
         @OnClick(R.id.image_attachment)
-        void attachmentTapped(){
-            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
+        void attachmentTapped() {
+            iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
         }
     }
 }

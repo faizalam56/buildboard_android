@@ -1,21 +1,15 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +20,6 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +41,6 @@ import com.buildboard.modules.signup.contractor.businessdocuments.models.Busines
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
-import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
@@ -56,11 +48,8 @@ import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.BindString;
@@ -155,20 +144,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
         mImageUploadHelper = ImageUploadHelper.getInstance();
         behavior = BottomSheetBehavior.from(bottomSheet);
-
-        /*behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                // React to dragging events
-            }
-        });*/
     }
 
     @OnClick(R.id.button_next)
@@ -362,11 +337,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private void addBonding() {
 
         ArrayList<DocumentData> bondingDetails = new ArrayList<>();
-        /*DocumentData bondState = new DocumentData();
-        bondState.setKey(KEY_STATE);
-        bondState.setType(TYPE_DROPDOWN);
-        bondState.setValue("");
-        bondingDetails.add(bondState);*/
 
         DocumentData bondCity = new DocumentData();
         bondCity.setKey(KEY_CITY);
@@ -567,10 +537,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
-//                    Log.d(TAG, "File Path: " + path);
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
                     break;
 
                 case REQUEST_CODE:
@@ -585,10 +551,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
                 case REQUEST_IMAGE_CAPTURE:
                     if (ConnectionDetector.isNetworkConnected(this)) {
-//                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
-//                                Utils.getImagePath(this, data.getData()))),
-//                                constraintRoot, this);
-                        if(mCurrentPhotoPath == null) return;
+                        if (mCurrentPhotoPath == null) return;
                         File path = new File(mCurrentPhotoPath);
                         if (!path.exists()) path.mkdirs();
                         File imageFile = new File(path, "image.jpg");
@@ -599,10 +562,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                     } else {
                         ConnectionDetector.createSnackBar(this, constraintRoot);
                     }
-
-//                    Bundle extras = data.getExtras();
-//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                    mImageView.setImageBitmap(imageBitmap);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
