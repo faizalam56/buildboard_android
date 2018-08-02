@@ -92,10 +92,11 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @BindView(R.id.recycler_bonding)
     RecyclerView recyclerBonding;
 
-    BottomSheetBehavior behavior;
+
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
     @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     private String mUserId = "";
     private InsuranceAdapter mInsuranceAdapter;
@@ -110,7 +111,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
 
-    ConstraintLayout constraintRoot;
+    BottomSheetBehavior behavior;
     private ImageUploadHelper mImageUploadHelper;
     private String responsImageUrl;
     private int mSelectedPosition;
