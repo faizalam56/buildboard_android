@@ -13,6 +13,8 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import java.util.List;
+
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -51,6 +53,9 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         @BindView(R.id.image_service)
         ImageView imageService;
 
+        @BindString(R.string.not_available)
+        String stringNotAvailable;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -58,13 +63,13 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName);
         }
 
         private void setData() {
             NearByContractor nearByContractor = mNearByContractors.get(getAdapterPosition());
             if (nearByContractor == null) return;
-            textName.setText(nearByContractor.getRole() != null ? nearByContractor.getRole() : "N/A");
+            textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : stringNotAvailable);
         }
     }
 }

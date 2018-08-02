@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.adapter.ReviewsAdapter;
 import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
@@ -24,11 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements EditProfileActivity.UpdateProfileListener {
 
     private static ProfileFragment sFragment;
-    private Unbinder unbinder;
-    private ProfileData profileData;
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
@@ -40,6 +38,9 @@ public class ProfileFragment extends Fragment {
     BuildBoardTextView textPhone;
     @BindView(R.id.container_root)
     CoordinatorLayout mCoordinatorLayout;
+
+    private Unbinder unbinder;
+    private ProfileData profileData;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -55,6 +56,7 @@ public class ProfileFragment extends Fragment {
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             if (profileData != null) setProfileData(profileData);
+            else getProfile();
         } else {
             ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
         }
@@ -75,9 +77,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (ConnectionDetector.isNetworkConnected(getActivity()))
-            getProfile();
-        else ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
     }
 
     private void setProfileData(ProfileData profileData) {
@@ -120,5 +119,12 @@ public class ProfileFragment extends Fragment {
                 ProgressHelper.stop();
             }
         });
+    }
+
+    @Override
+    public void updateProfile() {
+        if (ConnectionDetector.isNetworkConnected(getActivity()))
+            getProfile();
+        else ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
     }
 }
