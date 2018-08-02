@@ -92,6 +92,11 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @BindView(R.id.recycler_bonding)
     RecyclerView recyclerBonding;
 
+    BottomSheetBehavior behavior;
+    @BindView(R.id.bottom_sheet)
+    LinearLayout bottomSheet;
+    @BindView(R.id.constraint_root)
+
     private String mUserId = "";
     private InsuranceAdapter mInsuranceAdapter;
     private CertificationAdapter mCertificationAdapter;
@@ -105,10 +110,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
 
-    BottomSheetBehavior behavior;
-    @BindView(R.id.bottom_sheet)
-    LinearLayout bottomSheet;
-    @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
     private ImageUploadHelper mImageUploadHelper;
     private String responsImageUrl;
@@ -491,52 +492,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         recyclerCertification.setAdapter(mCertificationAdapter);
     }
 
-    private Intent getFileChooserIntent() {
-        String[] mimeTypes = {"application/pdf", "application/msword"}; //"image/*",
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0) {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else {
-            String mimeTypesStr = "";
-
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-
-            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
-        }
-
-        return intent;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case FILE_SELECT_CODE:
-                    // Get the Uri of the selected file
-                    Uri uri = data.getData();
-//                    Log.d(TAG, "File Uri: " + uri.toString());
-                    // Get the path
-                    try {
-                        String path = getPath(this, uri);
-                        if (path == null) return;
-                        path.length();
-                        File file = new File(path);
-
-                        boolean exists = file.exists();      // Check if the file exists
-                        boolean isDirectory = file.isDirectory(); // Check if it's a directory
-                        boolean isFile = file.isFile();
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
                     break;
 
                 case REQUEST_CODE:
@@ -565,67 +526,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public static String getPath(Context context, Uri uri) throws URISyntaxException {
-        /*if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
-            Cursor cursor = null;
-
-            try {
-                cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
-                }
-            } catch (Exception e) {
-                // Eat it
-                e.printStackTrace();
-            }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-
-        return null;*/
-
-        final String id = DocumentsContract.getDocumentId(uri);
-        String temp = uri.toString();
-        final String[] split = id.split(":");
-        final String type = split[0];
-//System.getenv("EXTERNAL_STORAGE")
-//        if ("primary".equalsIgnoreCase(type)) {
-        return Environment.getExternalStorageDirectory() + "/" + split[1];
-//        }
-        //content://downloads/public_downloads"
-
-        /*final Uri contentUri = ContentUris.withAppendedId(
-                Uri.parse("content://downloads/public_downloads"),
-//                Uri.parse("content://com.android.providers.downloads.documents/document"),
-                Long.valueOf(id));
-
-        return getDataColumn(context, contentUri, null, null);*/
-    }
-
-    public static String getDataColumn(Context context, Uri uri,
-                                       String selection, String[] selectionArgs) {
-
-        Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {column};
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection,
-                    selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                final int index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(index);
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return null;
     }
 
     @Override

@@ -92,6 +92,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    @BindView(R.id.bottom_sheet)
+    LinearLayout bottomSheet;
+
     private String mUserId = "";
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
@@ -104,8 +107,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     BottomSheetBehavior behavior;
     String mCurrentPhotoPath;
-    @BindView(R.id.bottom_sheet)
-    LinearLayout bottomSheet;
     private int mSelectedPosition;
     private boolean isAttachment;
 
@@ -341,6 +342,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 case REQUEST_IMAGE_CAPTURE:
                     if (ConnectionDetector.isNetworkConnected(this)) {
                         if (mCurrentPhotoPath == null) return;
+
                         File path = new File(mCurrentPhotoPath);
                         if (!path.exists()) path.mkdirs();
                         File imageFile = new File(path, "image.jpg");
