@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:id="@+id/container"
+    android:paddingBottom="@dimen/_5sdp"
     android:layout_margin="@dimen/_10sdp"
     android:layout_height="wrap_content">
 
@@ -13,8 +14,8 @@
 
         <ImageView
             android:id="@+id/image_service"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_110sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/supplies"
             app:layout_constraintLeft_toLeftOf="parent"

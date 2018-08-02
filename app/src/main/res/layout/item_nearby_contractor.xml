@@ -3,8 +3,6 @@
     android:id="@+id/card_service"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_margin="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="@dimen/_5sdp"
@@ -12,6 +10,8 @@
 
     <LinearLayout
         android:layout_width="@dimen/_140sdp"
+        android:clickable="false"
+        android:focusable="false"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -19,6 +19,8 @@
             android:id="@+id/image_service"
             android:layout_width="@dimen/_140sdp"
             android:layout_height="@dimen/_110sdp"
+            android:clickable="false"
+            android:focusable="false"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/supplies" />
@@ -27,6 +29,8 @@
             android:layout_width="@dimen/_140sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:clickable="false"
+            android:focusable="false"
             android:background="@drawable/rounded_bottom_corner">
 
             <com.buildboard.customviews.BuildBoardTextView
@@ -38,6 +42,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_gravity="start"
+                android:clickable="false"
+                android:focusable="false"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:layout_toLeftOf="@+id/textRatingBar"
@@ -59,6 +65,8 @@
                 android:background="@drawable/green_background"
                 android:gravity="center"
                 android:textStyle="bold"
+                android:clickable="false"
+                android:focusable="false"
                 android:textColor="@color/colorWhite"
                 android:minHeight="@dimen/_20sdp"
                 android:minWidth="@dimen/_25sdp"

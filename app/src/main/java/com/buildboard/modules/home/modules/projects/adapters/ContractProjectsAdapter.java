@@ -166,6 +166,7 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
+
             Picasso.get().load(mProjectDetails.get(position).getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
             textServiceName.setText(mProjectDetails.get(position).getConsumerInfo().getFirstName());
             textServiceProjectType.setText(mProjectDetails.get(position).getProjectType().getTitle());

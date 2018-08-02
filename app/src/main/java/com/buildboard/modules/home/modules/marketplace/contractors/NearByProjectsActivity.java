@@ -103,6 +103,7 @@ public class NearByProjectsActivity extends AppCompatActivity{
     }
 
     private void handleSuccessResponse(Object response) {
+
         if (response == null) return;
         NearByProjectData contractorByProjectTypeData = (NearByProjectData) response;
         Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
@@ -111,9 +112,7 @@ public class NearByProjectsActivity extends AppCompatActivity{
         textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
         textDescription.setText(contractorByProjectTypeData.getDescription());
         textAddressText.setText(contractorByProjectTypeData.getAddress());
-        //todo refctor: text allignmenmts
         setFooter();
-
     }
 
     private void setFooter() {

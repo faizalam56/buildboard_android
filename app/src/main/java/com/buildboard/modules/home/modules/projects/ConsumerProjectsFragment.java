@@ -122,7 +122,6 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     private void setFonts() {
@@ -184,6 +183,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
     private void getProjectsList() {
         showProgressBar();
+        recyclerProjects.setEnabled(false);
         DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {

@@ -22,14 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/card_service"
-                style="@style/card_view_style_marketplace"
-                android:layout_width="wrap_content"
-                app:cardElevation="@dimen/_3sdp"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
+                   <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -50,15 +43,14 @@
                         android:textColor="@color/colorWhite"
                         app:typeface="robotoRegular" />
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/description_title"
                 style="@style/textSize_smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginTop="12dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:gravity="left"
                 android:text="@string/description"
                 android:textColor="@color/colorGreen"
@@ -71,7 +63,8 @@
                 style="@style/textSize_smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="left"
                 android:text="@string/description"
@@ -82,9 +75,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1ssp"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:background="@color/colorText" />
 
             <LinearLayout
@@ -102,8 +95,8 @@
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:gravity="left"
                         android:text="@string/startdate"
                         android:textColor="@color/colorGreen"
@@ -116,7 +109,7 @@
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
                         android:gravity="left"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="@string/startdate"
@@ -142,8 +135,8 @@
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:gravity="right"
                         android:text="@string/enddate"
                         android:textColor="@color/colorGreen"
@@ -155,7 +148,7 @@
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="right"
                         android:text="@string/enddate"
@@ -166,9 +159,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1ssp"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:background="@color/colorText" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,8 +178,8 @@
                          style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:gravity="left"
                         android:text="@string/address"
                         android:textColor="@color/colorGreen"
@@ -199,8 +192,8 @@
                          style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
                         android:gravity="left"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="@string/startdate"
@@ -214,8 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 app:layout_constraintBottom_toTopOf="@id/edit_write_msg"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -226,8 +219,8 @@
                 style="@style/button_style"
                 android:layout_width="match_parent"
                 android:gravity="center"
-                android:layout_marginRight="@dimen/_25sdp"
-                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/green_button_background"

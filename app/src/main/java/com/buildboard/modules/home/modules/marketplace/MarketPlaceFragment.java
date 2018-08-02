@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.buildboard.R;
@@ -29,7 +30,6 @@ import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -39,6 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class MarketPlaceFragment extends Fragment implements AppConstant {
 
@@ -90,6 +92,12 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     String stringProjectsOnMarketplace;
     @BindString(R.string.browse_projects_by_projectstype)
     String stringBrowseProjects;
+    @BindView(R.id.progress_bar_service)
+    ProgressBar progressService;
+    @BindView(R.id.progress_bar_nearby)
+    ProgressBar progressNearby;
+    @BindView(R.id.progress_bar_projecttype)
+    ProgressBar progressProjecttype;
 
 
     public static MarketPlaceFragment newInstance() {
@@ -100,9 +108,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        textServicesNoRecord.setVisibility(View.VISIBLE);
-        textNearbyContractorsNorecord.setVisibility(View.VISIBLE);
-        textContractorsByProjecttypeNorecords.setVisibility(View.VISIBLE);
+        textServicesNoRecord.setVisibility(View.INVISIBLE);
+        textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
+        textContractorsByProjecttypeNorecords.setVisibility(View.INVISIBLE);
+        showProgressColor(getActivity(), progressNearby);
+        showProgressColor(getActivity(), progressProjecttype);
+        showProgressColor(getActivity(), progressService);
+
         setFont();
         updateUi(false);
 
@@ -118,6 +130,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 textTrendingService.setText(stringTrendingServices);
                 textNearbyContractors.setText(stringNearByContractor);
                 textContractorsByProjecttype.setText(stringContractorByProjectType);
+                updateUi(true);
                 getMarketplaceConsumer();
             }
         } else {
@@ -132,7 +145,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     @OnClick(R.id.text_view_all_nearby)
@@ -146,12 +158,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
-        if (!trendingServices.isEmpty()) {
-            textServicesNoRecord.setVisibility(View.INVISIBLE);
-        } else {
-            recyclerServices.setVisibility(View.GONE);
-        }
 
+        textServicesNoRecord.setVisibility(!trendingServices.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), trendingServices);
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -159,10 +167,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
-        if (!nearByContractorArrayList.isEmpty()) {
-            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
-        }
 
+        textNearbyContractorsNorecord.setVisibility(!nearByContractorArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), nearByContractorArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -170,10 +176,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyProjectsRecycler(ArrayList<NearByProjects> nearByProjectsArrayList) {
-        if (!nearByProjectsArrayList.isEmpty()) {
-            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
-        }
 
+        textNearbyContractorsNorecord.setVisibility(!nearByProjectsArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         NearByProjectsAdapter selectionAdapter = new NearByProjectsAdapter(getActivity(), nearByProjectsArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -181,10 +185,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setContractorByProjectRecycler(ArrayList<ProjectType> projectTypes) {
-        if (!projectTypes.isEmpty()) {
-            textContractorsByProjecttypeNorecords.setVisibility(View.INVISIBLE);
-        }
 
+        textContractorsByProjecttypeNorecords.setVisibility(!projectTypes.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), projectTypes);
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -196,13 +198,16 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void getMarketplaceConsumer() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        if (isAdded())
+
+            setProgressBar(true);
         DataManager.getInstance().getMarketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                setProgressBar(false);
                 if (response == null) return;
-                if(isAdded()) {
+
+                if (isAdded()) {
                     MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
                     updateUi(true);
                     setServicesRecycler(marketplaceConsumerData.getTrendingServices());
@@ -213,29 +218,31 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                setProgressBar(false);
             }
         });
     }
 
     private void getMarketplaceContractor() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        setProgressBar(true);
         DataManager.getInstance().getMarketplaceContractor(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                if (response == null) return;
 
-                MarketplaceContractorData marketplaceContractorData = (MarketplaceContractorData) response;
-                updateUi(true);
-                setServicesRecycler(marketplaceContractorData.getTrendingServices());
-                setNearbyProjectsRecycler(marketplaceContractorData.getNearByProjects());
-                setContractorByProjectRecycler(marketplaceContractorData.getProjectTypes());
+                setProgressBar(false);
+                if (response == null) return;
+                if (isAdded()) {
+                    MarketplaceContractorData marketplaceContractorData = (MarketplaceContractorData) response;
+                    updateUi(true);
+                    setServicesRecycler(marketplaceContractorData.getTrendingServices());
+                    setNearbyProjectsRecycler(marketplaceContractorData.getNearByProjects());
+                    setContractorByProjectRecycler(marketplaceContractorData.getProjectTypes());
+                }
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                setProgressBar(false);
             }
         });
     }
@@ -245,6 +252,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         super.onCreate(saveinstancestate);
     }
 
+      private void setProgressBar(Boolean visiblity){
+       progressNearby.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+       progressProjecttype.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+       progressService.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+
+
+   }
     private void updateUi(boolean visibility) {
         textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);

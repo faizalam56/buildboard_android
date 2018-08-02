@@ -67,7 +67,11 @@ public class ProfileFragment extends Fragment implements EditProfileActivity.Upd
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

@@ -2,40 +2,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraint_drafts_row_footer"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
-<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:clickable="false"
-    android:focusable="false"
-    android:orientation="horizontal">
-    <com.buildboard.customviews.BuildBoardTextView
-        android:id="@+id/text_title"
-        style="@style/textSize_small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="left|center"
-         android:padding="@dimen/_10sdp"
-        android:text="@string/no_records_found"
-        android:textSize="@dimen/_12ssp"
-        />
-    <Space android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/text_msg_sent"
-        style="@style/textSize_small"
-        android:layout_width="@dimen/_20sdp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="false"
         android:focusable="false"
-        android:layout_height="@dimen/_50sdp"
-        android:tint="@color/colorGreen"
-        android:src="@drawable/baseline_chevron_right_black_18"
-        android:textSize="@dimen/_12ssp"
-          />
-</LinearLayout>
+        android:orientation="horizontal">
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_title"
+            style="@style/textSize_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left|center"
+            android:paddingBottom="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:text="@string/no_records_found"
+            android:textSize="@dimen/_12ssp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/text_msg_sent"
+            style="@style/textSize_small"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="right"
+            android:clickable="false"
+            android:focusable="false"
+            android:src="@drawable/baseline_chevron_right_black_18"
+            android:textSize="@dimen/_12ssp"
+            android:tint="@color/colorGreen" />
+    </LinearLayout>
 </LinearLayout>
