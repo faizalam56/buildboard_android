@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.squareup.picasso.Picasso;
 
@@ -44,6 +45,8 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
+
+
         }
 
         @Override
@@ -166,13 +169,16 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-            Picasso.get().load(mProjectDetails.get(position).getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
-            textServiceName.setText(mProjectDetails.get(position).getConsumerInfo().getFirstName());
-            textServiceProjectType.setText(mProjectDetails.get(position).getProjectType().getTitle());
-            textServiceProjectName.setText(mProjectDetails.get(position).getTitle());
-            textServiceContractValue.setText(mProjectDetails.get(position).getCategory());
-            actualEndTime = mProjectDetails.get(position).getEndDate().split("\\s+")[0];
-            textServiceCompletionDate.setText(ConvertTime(actualEndTime.replaceAll("-", "/")));
+            try {
+                Picasso.get().load(mProjectDetails.get(position).getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
+                textServiceName.setText(mProjectDetails.get(position).getConsumerInfo().getFirstName());
+                textServiceProjectType.setText(mProjectDetails.get(position).getProjectType().getTitle());
+                textServiceProjectName.setText(mProjectDetails.get(position).getTitle());
+                textServiceContractValue.setText(mProjectDetails.get(position).getCategory());
+                actualEndTime = mProjectDetails.get(position).getEndDate().split("\\s+")[0];
+                textServiceCompletionDate.setText(ConvertTime(actualEndTime.replaceAll("-", "/")));
+            }catch (Exception ex){
+            }
         }
 
         private void setFont() {

@@ -111,7 +111,6 @@ public class NearByProjectsActivity extends AppCompatActivity{
         textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
         textDescription.setText(contractorByProjectTypeData.getDescription());
         textAddressText.setText(contractorByProjectTypeData.getAddress());
-        //todo refctor: text allignmenmts
         setFooter();
 
     }
