@@ -158,12 +158,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
-        if (!trendingServices.isEmpty()) {
-            textServicesNoRecord.setVisibility(View.INVISIBLE);
-        } else {
-            textServicesNoRecord.setVisibility(View.VISIBLE);
-        }
 
+        textServicesNoRecord.setVisibility(!trendingServices.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), trendingServices);
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -171,12 +167,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
-        if (!nearByContractorArrayList.isEmpty()) {
-            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
-        } else {
-            textNearbyContractorsNorecord.setVisibility(View.VISIBLE);
-        }
 
+        textNearbyContractorsNorecord.setVisibility(!nearByContractorArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), nearByContractorArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -184,12 +176,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyProjectsRecycler(ArrayList<NearByProjects> nearByProjectsArrayList) {
-        if (!nearByProjectsArrayList.isEmpty()) {
-            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
-        } else {
-            textNearbyContractorsNorecord.setVisibility(View.VISIBLE);
-        }
 
+        textNearbyContractorsNorecord.setVisibility(!nearByProjectsArrayList.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         NearByProjectsAdapter selectionAdapter = new NearByProjectsAdapter(getActivity(), nearByProjectsArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -197,12 +185,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setContractorByProjectRecycler(ArrayList<ProjectType> projectTypes) {
-        if (!projectTypes.isEmpty()) {
-            textContractorsByProjecttypeNorecords.setVisibility(View.INVISIBLE);
-        } else {
-            textContractorsByProjecttypeNorecords.setVisibility(View.VISIBLE);
-        }
 
+        textContractorsByProjecttypeNorecords.setVisibility(!projectTypes.isEmpty() ? View.INVISIBLE : View.VISIBLE);
         ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), projectTypes);
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -216,11 +200,11 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     private void getMarketplaceConsumer() {
         if (isAdded())
 
-            showProgressBar();
+            setProgressBar(true);
         DataManager.getInstance().getMarketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                setProgressBar(false);
                 if (response == null) return;
 
                 if (isAdded()) {
@@ -234,18 +218,18 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                setProgressBar(false);
             }
         });
     }
 
     private void getMarketplaceContractor() {
-        showProgressBar();
+        setProgressBar(true);
         DataManager.getInstance().getMarketplaceContractor(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
 
-                hideProgressBar();
+                setProgressBar(false);
                 if (response == null) return;
                 if (isAdded()) {
                     MarketplaceContractorData marketplaceContractorData = (MarketplaceContractorData) response;
@@ -258,7 +242,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                setProgressBar(false);
             }
         });
     }
@@ -268,20 +252,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         super.onCreate(saveinstancestate);
     }
 
-    private void showProgressBar() {
-        if (progressNearby != null && progressService != null && progressProjecttype != null)
-            progressNearby.setVisibility(View.VISIBLE);
-        progressProjecttype.setVisibility(View.VISIBLE);
-        progressService.setVisibility(View.VISIBLE);
-    }
+      private void setProgressBar(Boolean visiblity){
+       progressNearby.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+       progressProjecttype.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+       progressService.setVisibility(visiblity ? View.VISIBLE : View.GONE);
 
-    private void hideProgressBar() {
-        if (progressNearby != null && progressService != null && progressProjecttype != null)
-            progressNearby.setVisibility(View.GONE);
-        progressProjecttype.setVisibility(View.GONE);
-        progressService.setVisibility(View.GONE);
-    }
 
+   }
     private void updateUi(boolean visibility) {
         textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);

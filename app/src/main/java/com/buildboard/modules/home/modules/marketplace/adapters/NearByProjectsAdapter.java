@@ -95,7 +95,6 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
             } else {
                 ConnectionDetector.createSnackBar(mContext, mCoordinatorLayout);
             }
-
         }
     }
  }

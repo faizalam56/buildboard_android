@@ -174,7 +174,6 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
             textServiceContractValue.setText(mProjectDetails.get(position).getCategory());
             actualEndTime = mProjectDetails.get(position).getEndDate().split("\\s+")[0];
             textServiceCompletionDate.setText(ConvertTime(actualEndTime.replaceAll("-", "/")));
-
         }
 
         private void setFont() {
