@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "225562291168",
-    "firebase_url": "https://buildboard-1528784106277.firebaseio.com",
-    "project_id": "buildboard-1528784106277",
-    "storage_bucket": "buildboard-1528784106277.appspot.com"
+    "project_number": "597551672466",
+    "firebase_url": "https://indokargo-app.firebaseio.com",
+    "project_id": "indokargo-app",
+    "storage_bucket": "indokargo-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:225562291168:android:4caa595dbb406e01",
+        "mobilesdk_app_id": "1:597551672466:android:4caa595dbb406e01",
         "android_client_info": {
           "package_name": "com.buildboard"
         }
       },
       "oauth_client": [
         {
-          "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "597551672466-61ibba0qdpfjfktqs3i3ilov1fun5hno.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.buildboard",
+            "certificate_hash": "3509129c2d453df7aebd99c3b0690801cd8f21b0"
+          }
         },
         {
-          "client_id": "225562291168-u5bdhne9196ekgejdmdgkfqs2gtgt042.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
+          "client_id": "597551672466-9hguu26360h3cvk7ouuf7f9j10thnvfi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBzGJUBT16zFBlT2s8UfDOZEbzGNXlgyGM"
+          "current_key": "AIzaSyD9xJDei5Al7DbIwrkT-WHPgpzjznysZmQ"
         }
       ],
       "services": {
@@ -40,7 +40,51 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "225562291168-pksim8p82kbbqif136n2jenn3uhdk31f.apps.googleusercontent.com",
+              "client_id": "597551672466-9hguu26360h3cvk7ouuf7f9j10thnvfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597551672466:android:d91305a1990f6b0d",
+        "android_client_info": {
+          "package_name": "com.in.indokargo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597551672466-jh3is52ipsoloa4fni08g3tlrrjs2ibe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.in.indokargo",
+            "certificate_hash": "3509129c2d453df7aebd99c3b0690801cd8f21b0"
+          }
+        },
+        {
+          "client_id": "597551672466-9hguu26360h3cvk7ouuf7f9j10thnvfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9xJDei5Al7DbIwrkT-WHPgpzjznysZmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597551672466-9hguu26360h3cvk7ouuf7f9j10thnvfi.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
