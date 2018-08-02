@@ -250,9 +250,13 @@
     <string name="alert">Alert</string>
     <string name="ok">Ok</string>
     <string name="not_available">N/A</string>
+    <string name="primary_address">Primary Address</string>
 
 
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="document">Document</string>
+    <string name="primary_address">Primary Address</string>
+    <string name="confirm_primary_address">Do you want to make this address your Primary Address?</string>
+    <string name="success_primary_address_changed">Your primary address is successfully change.</string>
 </resources>

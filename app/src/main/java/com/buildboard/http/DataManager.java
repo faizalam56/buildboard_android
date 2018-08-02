@@ -14,6 +14,7 @@ import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressRequest;
 import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressResponse;
 import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.GetAddressesResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -666,6 +667,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<AddAddressResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void makePrimaryAddress(Activity activity, String id, final DataManagerListener dataManagerListener) {
+        Call<PrimaryAddressResponse> call = getDataManager().makePrimaryAddress(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), id);
+        call.enqueue(new Callback<PrimaryAddressResponse>() {
+            @Override
+            public void onResponse(Call<PrimaryAddressResponse> call, Response<PrimaryAddressResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PrimaryAddressResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
