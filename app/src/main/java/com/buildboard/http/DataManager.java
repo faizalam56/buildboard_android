@@ -11,6 +11,7 @@ import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContrac
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.GetAddressesResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -617,6 +618,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ProjectAllTypeResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getAddresses(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<GetAddressesResponse> call = getDataManager().getAddresses(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<GetAddressesResponse>() {
+            @Override
+            public void onResponse(Call<GetAddressesResponse> call, Response<GetAddressesResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0).getData());
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetAddressesResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

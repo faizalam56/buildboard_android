@@ -6,6 +6,7 @@ import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContrac
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.GetAddressesResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -119,4 +120,7 @@ public interface IApiInterface {
 
     @GET("projects/{project_id}?/")
     Call<NearByProjectsResponse> getNearByProjectsDetails(@Header("oauth") String oauth, @Path("project_id") String projectId,@Header("session") String sessionId);
+
+    @GET("consumer/address")
+    Call<GetAddressesResponse> getAddresses(@Header("oauth") String oauth, @Header("session") String sessionId);
 }
