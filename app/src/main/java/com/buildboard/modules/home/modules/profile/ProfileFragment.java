@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment implements EditProfileActivity.Upd
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-            }
+    }
 
     @Override
     public void onDestroy() {

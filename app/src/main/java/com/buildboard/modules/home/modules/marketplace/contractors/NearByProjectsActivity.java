@@ -103,6 +103,7 @@ public class NearByProjectsActivity extends AppCompatActivity{
     }
 
     private void handleSuccessResponse(Object response) {
+
         if (response == null) return;
         NearByProjectData contractorByProjectTypeData = (NearByProjectData) response;
         Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
@@ -112,7 +113,6 @@ public class NearByProjectsActivity extends AppCompatActivity{
         textDescription.setText(contractorByProjectTypeData.getDescription());
         textAddressText.setText(contractorByProjectTypeData.getAddress());
         setFooter();
-
     }
 
     private void setFooter() {

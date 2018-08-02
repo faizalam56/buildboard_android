@@ -30,7 +30,6 @@ import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -101,7 +100,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     ProgressBar progressProjecttype;
 
 
-
     public static MarketPlaceFragment newInstance() {
         return new MarketPlaceFragment();
     }
@@ -149,7 +147,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         super.onDestroyView();
     }
 
-   @OnClick(R.id.text_view_all_nearby)
+    @OnClick(R.id.text_view_all_nearby)
     void viewAllNearbyTapped() {
         startActivity(new Intent(getActivity(), ContractorByProjectTypeActivity.class));
     }
@@ -175,7 +173,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
         if (!nearByContractorArrayList.isEmpty()) {
             textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             textNearbyContractorsNorecord.setVisibility(View.VISIBLE);
         }
 
@@ -216,14 +214,16 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void getMarketplaceConsumer() {
-        if(isAdded())
-        showProgressBar();
+        if (isAdded())
+
+            showProgressBar();
         DataManager.getInstance().getMarketplaceConsumer(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
                 if (response == null) return;
-                if(isAdded()) {
+
+                if (isAdded()) {
                     MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
                     updateUi(true);
                     setServicesRecycler(marketplaceConsumerData.getTrendingServices());
@@ -255,6 +255,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                     setContractorByProjectRecycler(marketplaceContractorData.getProjectTypes());
                 }
             }
+
             @Override
             public void onError(Object error) {
                 hideProgressBar();
@@ -267,15 +268,16 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         super.onCreate(saveinstancestate);
     }
 
-    private void showProgressBar(){
+    private void showProgressBar() {
         if (progressNearby != null && progressService != null && progressProjecttype != null)
-        progressNearby.setVisibility(View.VISIBLE);
+            progressNearby.setVisibility(View.VISIBLE);
         progressProjecttype.setVisibility(View.VISIBLE);
         progressService.setVisibility(View.VISIBLE);
     }
-    private void hideProgressBar(){
+
+    private void hideProgressBar() {
         if (progressNearby != null && progressService != null && progressProjecttype != null)
-        progressNearby.setVisibility(View.GONE);
+            progressNearby.setVisibility(View.GONE);
         progressProjecttype.setVisibility(View.GONE);
         progressService.setVisibility(View.GONE);
     }

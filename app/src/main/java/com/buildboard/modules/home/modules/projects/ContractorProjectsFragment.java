@@ -105,7 +105,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
             mProjectsAdapter.setLoading(false);
             if (mCurrentPage == lastPage)
                 hideProgressBar();
-                mProjectsAdapter.setLastPage(true);
+            mProjectsAdapter.setLastPage(true);
         }
     }
 
@@ -113,8 +113,8 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     public void onResume() {
         super.onResume();
 
-        if(isAdded())
-        showProgressColor(getActivity(), progressBar);
+        if (isAdded())
+            showProgressColor(getActivity(), progressBar);
         getProjectsList();
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
@@ -129,13 +129,14 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
 
     }
 
-    public void hideProgressBar(){
-        if(progressBar!=null) {
+    public void hideProgressBar() {
+        if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
-    public void showProgressBar(){
-        if(progressBar!=null) {
+
+    public void showProgressBar() {
+        if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
         }
     }
@@ -207,12 +208,12 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                 @Override
                 public void onSuccess(Object response) {
 
-                        hideProgressBar();
-                        recyclerProjects.setEnabled(true);
-                        ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
-                        ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
+                    hideProgressBar();
+                    recyclerProjects.setEnabled(true);
+                    ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
+                    ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
 
-                    if (isAdded() && projectsData.size()>0) {
+                    if (isAdded() && projectsData.size() > 0) {
 
                         if (!projectDetails.isEmpty()) {
                             setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
@@ -225,9 +226,10 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                             } else {
                                 textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + getString(R.string.title_projects));
                             }
-                         }
+                        }
                     }
                 }
+
                 @Override
                 public void onError(Object error) {
                     hideProgressBar();
