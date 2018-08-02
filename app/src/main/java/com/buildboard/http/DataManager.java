@@ -11,7 +11,9 @@ import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContrac
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
-import com.buildboard.modules.home.modules.profile.models.addresses.GetAddressesResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressRequest;
+import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -641,6 +643,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<GetAddressesResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void addAddress(Activity activity, AddAddressRequest addAddressRequest, final DataManagerListener dataManagerListener) {
+        Call<AddAddressResponse> call = getDataManager().addAddress(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), addAddressRequest);
+        call.enqueue(new Callback<AddAddressResponse>() {
+            @Override
+            public void onResponse(Call<AddAddressResponse> call, Response<AddAddressResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AddAddressResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

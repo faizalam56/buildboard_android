@@ -1,14 +1,11 @@
 
-package com.buildboard.modules.home.modules.profile.models.addresses;
+package com.buildboard.modules.home.modules.profile.models.addresses.addaddress;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddressListData {
+public class Data {
 
-    @SerializedName("id")
-    @Expose
-    private String id;
     @SerializedName("consumer_id")
     @Expose
     private String consumerId;
@@ -24,14 +21,9 @@ public class AddressListData {
     @SerializedName("is_default")
     @Expose
     private Integer isDefault;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     public String getConsumerId() {
         return consumerId;
@@ -72,4 +64,13 @@ public class AddressListData {
     public void setIsDefault(Integer isDefault) {
         this.isDefault = isDefault;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

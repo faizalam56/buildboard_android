@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.modules.home.modules.profile.models.addresses.AddressListData;
+import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.AddressListData;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
