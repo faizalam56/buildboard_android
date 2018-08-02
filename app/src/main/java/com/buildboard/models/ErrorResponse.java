@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class ErrorResponse {
-
     @SerializedName("code")
     private String code;
     @SerializedName("messages")
@@ -26,4 +25,5 @@ public class ErrorResponse {
     public void setMessage(ArrayList<String> message) {
         this.message = message;
     }
+
 }

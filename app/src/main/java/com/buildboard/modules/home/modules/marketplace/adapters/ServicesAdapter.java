@@ -65,7 +65,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT);
         }
 
         private void setData() {
@@ -73,7 +72,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             if (trendingService == null)
                 return;
 
-            textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
+            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : "N/A");
         }
     }
 }

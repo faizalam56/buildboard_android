@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.utils.Utils;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +60,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         @BindView(R.id.image_service)
         ImageView imageService;
         @BindView(R.id.container)
-        ConstraintLayout container;
+        CardView container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -74,15 +77,16 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD);
+
         }
 
         private void setData() {
             ProjectType projectType = mProjectTypes.get(getAdapterPosition());
             if (projectType == null) return;
-
             textName.setText(projectType.getTitle() != null ? projectType.getTitle() : "N/A");
-            Utils.display(mContext, projectType.getImage(), imageService, R.mipmap.ic_launcher);
+            Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.drawable.ic_no_image).into(imageService);
         }
     }
 }

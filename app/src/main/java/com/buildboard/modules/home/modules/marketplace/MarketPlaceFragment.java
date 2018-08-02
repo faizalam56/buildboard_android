@@ -202,12 +202,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 if (response == null) return;
-
-                MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
-                updateUi(true);
-                setServicesRecycler(marketplaceConsumerData.getTrendingServices());
-                setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
-                setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
+                if(isAdded()) {
+                    MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
+                    updateUi(true);
+                    setServicesRecycler(marketplaceConsumerData.getTrendingServices());
+                    setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
+                    setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
+                }
             }
 
             @Override
@@ -242,7 +243,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     @Override
     public void onCreate(Bundle saveinstancestate) {
         super.onCreate(saveinstancestate);
-
     }
 
     private void updateUi(boolean visibility) {

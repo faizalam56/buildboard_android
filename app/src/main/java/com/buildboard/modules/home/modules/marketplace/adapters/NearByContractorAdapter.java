@@ -58,13 +58,13 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName);
         }
 
         private void setData() {
             NearByContractor nearByContractor = mNearByContractors.get(getAdapterPosition());
             if (nearByContractor == null) return;
-            textName.setText(nearByContractor.getRole() != null ? nearByContractor.getRole() : "N/A");
+            textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : "N/A");
         }
     }
 }

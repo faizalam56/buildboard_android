@@ -5,26 +5,26 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:layout_margin="@dimen/_5sdp"
+    android:layout_margin="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="@dimen/_5sdp"
     app:cardUseCompatPadding="false">
 
     <LinearLayout
-        android:layout_width="@dimen/_190sdp"
+        android:layout_width="@dimen/_140sdp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <com.buildboard.customviews.RoundRectCornerImageView
             android:id="@+id/image_service"
-            android:layout_width="@dimen/_190sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_110sdp"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/supplies" />
 
         <RelativeLayout
-            android:layout_width="@dimen/_190sdp"
+            android:layout_width="@dimen/_140sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/rounded_bottom_corner">
@@ -39,14 +39,17 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="start"
                 android:ellipsize="end"
-                android:textColor="@android:color/black"
+                android:maxLines="2"
+                android:layout_toLeftOf="@+id/textRatingBar"
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
                 android:paddingStart="@dimen/_5sdp"
                 android:text="Wood Work"
-                android:textAllCaps="true" />
+                android:textColor="@android:color/black"
+                android:layout_toStartOf="@+id/textRatingBar" />
 
             <TextView
+                android:id="@+id/textRatingBar"
                 style="@style/textSize_smallest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
