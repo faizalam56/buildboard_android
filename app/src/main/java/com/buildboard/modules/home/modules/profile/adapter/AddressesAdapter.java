@@ -71,6 +71,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
         @BindView(R.id.text_location)
         BuildBoardTextView textAddress;
+        @BindView(R.id.text_primary_address)
+        BuildBoardTextView textPrimaryAddress;
 
         @BindString(R.string.confirm_primary_address)
         String stringPrimaryAddress;
@@ -90,6 +92,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
             if (address == null) return;
             this.address = address;
             textAddress.setText(address.getAddress());
+
+            textPrimaryAddress.setVisibility(address.getIsDefault() == 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.image_location)
