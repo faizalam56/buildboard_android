@@ -15,8 +15,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
         android:layout_marginTop="@dimen/_40sdp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -185,6 +185,29 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_change_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_contact">
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_change_password"
+                    style="@style/textSize_small"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:drawablePadding="@dimen/_15sdp"
+                    android:text="@string/change_password"
+                    android:textSize="@dimen/_12ssp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:id="@+id/card_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,7 +219,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_contact">
+                app:layout_constraintTop_toBottomOf="@+id/card_change_password">
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_logout"

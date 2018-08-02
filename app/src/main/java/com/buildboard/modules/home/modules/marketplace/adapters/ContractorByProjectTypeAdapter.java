@@ -2,26 +2,23 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.utils.Utils;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INTENT_TITLE;
 
@@ -56,13 +53,11 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
-        TextView textName;
-
+        BuildBoardTextView textName;
         @BindView(R.id.image_service)
         ImageView imageService;
-
-        @BindView(R.id.card_service)
-        CardView cardRow;
+        @BindView(R.id.container)
+        ConstraintLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -70,7 +65,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             setFont();
         }
 
-        @OnClick(R.id.card_service)
+        @OnClick(R.id.container)
         public void rowTapped() {
             Intent intent = new Intent(mContext, ContractorsActivity.class);
             intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
@@ -79,7 +74,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textName);
         }
 
         private void setData() {

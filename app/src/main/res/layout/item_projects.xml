@@ -1,39 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="130dp"
     android:layout_margin="@dimen/_5sdp">
 
-    <com.buildboard.customviews.RoundRectCornerImageView
-        android:id="@+id/image_service"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:background="@drawable/supplies"
-        android:scaleType="fitXY" />
+        android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#b32e2b2b"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/text_service_type_name"
-            style="@style/textSize_medium"
+        <com.buildboard.customviews.RoundRectCornerImageView
+            android:id="@+id/image_service"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="Flooring"
-            android:textColor="@android:color/primary_text_dark" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/supplies" />
 
-        <TextView
-            android:id="@+id/text_service_type"
-            style="@style/textSize_smaller"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_service_type_name"
-            android:gravity="center"
-            android:text="Flooring"
-            android:textColor="@android:color/primary_text_dark" />
-    </RelativeLayout>
-</FrameLayout>
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_corner_image_layout"
+            android:clickable="false"
+            android:gravity="center">
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_service_type_name"
+                style="@style/textSize_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:focusable="false"
+                android:gravity="center"
+                android:textColor="@android:color/primary_text_dark"
+                app:typeface="robotoMedium" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_service_type"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_service_type_name"
+                android:focusable="false"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/primary_text_dark"
+                app:typeface="robotoMedium" />
+        </RelativeLayout>
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>
+

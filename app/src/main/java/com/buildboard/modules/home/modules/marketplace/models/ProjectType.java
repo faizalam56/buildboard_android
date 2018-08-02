@@ -19,7 +19,8 @@ public class ProjectType implements Parcelable {
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
-
+    @SerializedName("type")
+    private String type;
     protected ProjectType(Parcel in) {
         id = in.readString();
         title = in.readString();
@@ -102,5 +103,13 @@ public class ProjectType implements Parcelable {
         dest.writeString(image);
         dest.writeString(createdAt);
         dest.writeString(updatedAt);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

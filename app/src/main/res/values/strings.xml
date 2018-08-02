@@ -9,7 +9,7 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_incorrect_password_length">Password must have at-least 8 characters</string>
+    <string name="error_incorrect_password_length">Password must have at-least 6 characters</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -41,6 +41,7 @@
     <string name="terms_of_service">Terms of Service</string>
     <string name="business_name">Business Name</string>
     <string name="business_address">Business Address</string>
+    <string name="quote_this_project">Quote This Project</string>
     <string name="brief_summary_of_your_company">Brief summary of your company…</string>
     <string name="user_type">User Type</string>
     <string name="payment_details">Payment Details</string>
@@ -51,6 +52,10 @@
     <string name="name_on_card">Name on Card</string>
     <string name="skip">SKIP</string>
     <string name="expire">Expire</string>
+    <string name="description">Description</string>
+    <string name="startdate">Start Date</string>
+    <string name="show_on_map">Show on Map</string>
+    <string name="enddate">End Date</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
     <string name="msg_reset_password">Please enter your registered email address and we’ll send you a link to reset password.</string>
@@ -80,14 +85,14 @@
     <string name="error_working_area">Please select working area</string>
     <string name="error_summary">Please enter summary</string>
     <string name="name">Name</string>
-    <string name="error_enter_valid_phone_number">Phone Number must have atleast 10 digit</string>
+    <string name="error_enter_valid_phone_number">Phone Number must have between 9 to 15 digit</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
     <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-    <string name="trending_services">Trending Services</string>
+    <string name="trending_services">Trending/Top Rated Services</string>
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
@@ -106,9 +111,10 @@
     <string name="current_projects_subtitle">Following\u0020projects\u0020are\u0020in\u0020progress</string>
     <string name="saved_projects_subtitle">Following\u0020projects\u0020has\u0020been\u0020saved</string>
     <string name="completed_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020completed</string>
-    <string name="no_internet_text">No\u0020Internet</string>
+    <string name="no_internet_text">Internet Connection is not available</string>
     <string name="open_project">Open Projects</string>
     <string name="saved_project">Saved Projects</string>
+    <string name="lost_project">Lost Projects</string>
     <string name="inbox">Inbox</string>
     <string name="draft">Draft</string>
     <string name="drafts">Drafts</string>
@@ -120,16 +126,16 @@
     <string name="save_as_draft">Save as Draft</string>
     <string name="contractors">Contractors</string>
     <string name="by_project_type">by project type</string>
-    <string name="view_all">View all</string>
+    <string name="view_all"><u>View all</u></string>
+    <string name="no_records_found">No records found</string>
     <string name="error_contractor_type">Please select Contractor Type</string>
-    <string name="please_wait">Please wait…</string>
-    <string name="msg_please_wait">Please wait...</string>
+    <string name="msg_please_wait">Please wait…</string>
     <string name="msg_loading">Loading…</string>
     <string name="msg_no_data_found">No Data Found</string>
     <string name="trending_projects">Trending Projects</string>
     <string name="near_by_projects">Near by Projects</string>
     <string name="projects_on_marketplace">Projects on marketplace</string>
-
+    <string name="browse_projects_by_projectstype">Browse Projects By Projects Type</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="project_out_for_bid">Project Out For Bid</string>
@@ -229,8 +235,21 @@
     <string name="current_project_description">Following projects are in progress.</string>
     <string name="create_project_heading">Please select what kind of project you would like to start:</string>
     <string name="create_new_project">Create New Project</string>
-
     <string name="text_msg_permission_required">Permission required to read image</string>
+    <string name="select_location">Select Location</string>
+    <string name="select_project_type">Please select location for this service</string>
+    <string name="interior">Interior</string>
+    <string name="exterior">Exterior</string>
+    <string name="image_content_consumer_profile_picture">Consumer Profile Picture</string>
+    <string name="my_preferred_contractor">My Preferred Contractors</string>
+    <string name="my_location_address">My Location/Addresses</string>
+    <string name="reviews">Reviews</string>
+    <string name="change_password">Change Password</string>
+    <string name="special_charactor">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
+    <string name="exit_msg">Do you want to exit?</string>
+    <string name="alert">Alert</string>
+    <string name="ok">Ok</string>
+
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="document">Document</string>

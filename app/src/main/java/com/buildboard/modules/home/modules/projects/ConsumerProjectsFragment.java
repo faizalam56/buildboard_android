@@ -1,16 +1,23 @@
 package com.buildboard.modules.home.modules.projects;
 
+import android.app.Activity;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
@@ -18,26 +25,29 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.projects.adapters.ProjectsAdapter;
+import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectsAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProjectsFragment extends Fragment implements AppConstant {
+import static com.buildboard.utils.Utils.showProgressColor;
+
+public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
     private  ArrayList<ProjectsData> projectsData;
     private ConstraintLayout container;
     private Unbinder unbinder;
     private int mCurrentPage = 1;
-    private ProjectsAdapter mProjectsAdapter;
+    private ConsumerProjectsAdapter mProjectsAdapter;
     private ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
     private String mCurrentStatus = STATUS_OPEN;
 
@@ -57,24 +67,29 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     BuildBoardTextView textProjectDetail;
     @BindView(R.id.text_projects)
     BuildBoardTextView buildBoardTextProjectType;
+    @BindView(R.id.text_no_internet)
+    BuildBoardTextView noInternetText;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
-
-    public static ProjectsFragment newInstance() {
-        return new ProjectsFragment();
+    public static ConsumerProjectsFragment newInstance() {
+        return new ConsumerProjectsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_projects, container, false);
+        View view = inflater.inflate(R.layout.fragment_consumer_projects, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         setFonts();
+        showProgressColor(getActivity(), progressBar);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
+            noInternetText.setVisibility(View.GONE);
+            recyclerProjects.setVisibility(View.VISIBLE);
             getProjectsList();
         } else {
-            ProgressHelper.stop();
+            hideProgressBar();
             ConnectionDetector.createSnackBar(getActivity(), container);
         }
 
@@ -82,16 +97,16 @@ public class ProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_loading));
+        showProgressBar();
         mProjectDetails.addAll(projectDetails);
 
         if (mProjectsAdapter == null) {
-            ProgressHelper.stop();
+            hideProgressBar();
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerProjects.setLayoutManager(mLinearLayoutManager);
-            mProjectsAdapter = new ProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
+            mProjectsAdapter = new ConsumerProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
             recyclerProjects.setAdapter(mProjectsAdapter);
-            mProjectsAdapter.setOnLoadMoreListener(new ProjectsAdapter.OnLoadMoreListener() {
+            mProjectsAdapter.setOnLoadMoreListener(new ConsumerProjectsAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
                     mCurrentPage++;
@@ -100,13 +115,14 @@ public class ProjectsFragment extends Fragment implements AppConstant {
                 }
             });
         } else {
-            ProgressHelper.stop();
+            hideProgressBar();
             recyclerProjects.getAdapter().notifyItemInserted((mProjectDetails.size()));
         }
 
         if (mProjectsAdapter != null) {
             mProjectsAdapter.setLoading(false);
             if (mCurrentPage == lastPage)
+                hideProgressBar();
                 mProjectsAdapter.setLastPage(true);
         }
     }
@@ -137,8 +153,6 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectDetails.clear();
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_COMPLETED;
-        buildBoardTextProjectType.setText(getString(R.string.completed_project));
-        textProjectDetail.setText(getString(R.string.complete_project_description));
         getProjectsList();
     }
 
@@ -147,8 +161,6 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectDetails.clear();
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_OPEN;
-        buildBoardTextProjectType.setText(getString(R.string.open_project));
-        textProjectDetail.setText(getString(R.string.open_project_description));
         getProjectsList();
     }
 
@@ -158,8 +170,6 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_SAVED;
         getProjectsList();
-        buildBoardTextProjectType.setText(getString(R.string.saved_project));
-        textProjectDetail.setText(getString(R.string.save_project_description));
     }
 
     @OnClick(R.id.button_current_projects)
@@ -168,29 +178,61 @@ public class ProjectsFragment extends Fragment implements AppConstant {
         mProjectsAdapter = null;
         mCurrentStatus = STATUS_CURRENT;
         getProjectsList();
-        buildBoardTextProjectType.setText(R.string.current_project);
-        textProjectDetail.setText(getString(R.string.current_project_description));
+    }
+
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void getProjectsList() {
+        showProgressBar();
         DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                projectsData = (ArrayList<ProjectsData>) response;
-
-                if (mCurrentStatus.equals(STATUS_OPEN)) {
-                    buildBoardTextProjectType.setText(getString(R.string.open_project));
-                    textProjectDetail.setText(getString(R.string.open_project_description));
-                }
+                hideProgressBar();
+                ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
-                setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
-            }
+
+                if (!projectDetails.isEmpty()) {
+                    setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
+                    setProjectsSubTitle(projectDetails.size());
+                } else {
+                    if (mProjectsAdapter != null) {
+                        mProjectsAdapter.notifyDataSetChanged();
+                    }
+                    textProjectDetail.setText(getText(R.string.no_projects));
+                    buildBoardTextProjectType.setText(String.format("%s%s Projects", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase()));
+                }}
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
             }
         });
+    }
+
+    private void setProjectsSubTitle(int count){
+
+        switch (mCurrentStatus){
+            case STATUS_OPEN:
+                textProjectDetail.setText(R.string.open_projects_subtitle);
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.open_project), count));
+                break;
+            case STATUS_COMPLETED:
+                textProjectDetail.setText(R.string.completed_projects_subtitle);
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.completed_project), count));
+                break;
+            case STATUS_CURRENT:
+                textProjectDetail.setText(R.string.current_projects_subtitle);
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.current_project), count));
+                break;
+            case STATUS_SAVED:
+                textProjectDetail.setText(R.string.saved_projects_subtitle);
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.saved_project), count));
+                break;
+        }
     }
 }

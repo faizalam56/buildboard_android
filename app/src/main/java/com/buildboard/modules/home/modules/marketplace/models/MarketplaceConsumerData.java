@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class MarketplaceConsumerData {
 
-    @SerializedName("trendingServices")
+    @SerializedName("trendingContractors")
     private ArrayList<TrendingService> trendingServices = new ArrayList<>();
     @SerializedName("nearByContractor")
     private ArrayList<NearByContractor> nearByContractor = new ArrayList<>();

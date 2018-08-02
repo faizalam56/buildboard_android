@@ -1,121 +1,184 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    tools:context="com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment">
+    android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraint_root"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:id="@+id/scroll"
+        android:visibility="visible"
+        tools:context="com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment">
 
-        <TextView
-            android:id="@+id/text_trending_service"
-            style="@style/textSize_smaller"
-            android:text="@string/trending_services"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_services"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_trending_service"
-            android:layout_marginStart="@dimen/_5sdp" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_trending_service"
+                style="@style/textSize_smaller"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:textColor="@android:color/black"
+                android:text="@string/trending_services"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view_services"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorDivider"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_services" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_services"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_services_no_record"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:text="@string/no_records_found"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:gravity="center"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/view_services"
+                app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
+            <View
+                android:id="@+id/view_services"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/text_nearby_contractors"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_services_no_record" />
 
-        <TextView
-            android:id="@+id/text_nearby_contractors"
-            style="@style/textSize_smaller"
-            android:text="@string/near_by_contractors"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_services" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_nearby_contractors"
+                style="@style/textSize_smaller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/near_by_contractors"
+                android:textColor="@android:color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_services" />
 
-        <TextView
-            android:id="@+id/text_view_all_nearby"
-            style="@style/textSize_smaller"
-            android:text="@string/view_all"
-            android:layout_margin="@dimen/_10sdp"
-            android:textColor="@color/colorBlueLight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_services" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_view_all_nearby"
+                style="@style/textSize_smaller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/view_all"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_services"
+                tools:layout_editor_absoluteY="256dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_nearby_contractors"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors"
-            android:layout_marginStart="@dimen/_5sdp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_nearby_contractors"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_nearby_contractors_norecords"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/no_records_found"
+                android:visibility="visible"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/view_nearby_contractor"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
+            <View
+                android:id="@+id/view_nearby_contractor"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/colorDivider"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_nearby_contractors_norecords" />
 
-        <View
-            android:id="@+id/view_nearby_contractor"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorDivider"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_nearby_contractors" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_contractors_by_projecttype"
+                style="@style/textSize_smaller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:textColor="@android:color/black"
+                android:text="@string/contractors_by_project_type"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
 
-        <TextView
-            android:id="@+id/text_contractors_by_projecttype"
-            style="@style/textSize_smaller"
-            android:text="@string/contractors_by_project_type"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_view_all_byproject"
+                style="@style/textSize_smaller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/view_all"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
 
-        <TextView
-            android:id="@+id/text_view_all_byproject"
-            style="@style/textSize_smaller"
-            android:text="@string/view_all"
-            android:layout_margin="@dimen/_10sdp"
-            android:textColor="@color/colorBlueLight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_nearby_contractor" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_contractors_by_projecttype"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/recycler_contractors_by_projecttype_norecords"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="visible"
+                android:text="@string/no_records_found"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_contractors_by_projecttype"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_internet_text" />
+</LinearLayout>

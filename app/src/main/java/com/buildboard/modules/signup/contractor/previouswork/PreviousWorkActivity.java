@@ -75,7 +75,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindString(R.string.please_wait)
+    @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
     @BindString(R.string.text_msg_permission_required)
     String stringReadStoragePermission;

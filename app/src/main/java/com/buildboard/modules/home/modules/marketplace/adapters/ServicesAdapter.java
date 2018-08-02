@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
@@ -50,14 +52,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_service_name)
+        @BindView(R.id.text_name)
         TextView textServiceName;
-
         @BindView(R.id.image_service)
         ImageView imageService;
-
-        @BindView(R.id.card_service)
-        CardView cardViewRow;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -72,10 +70,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void setData() {
             TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
-            if (trendingService == null) return;
+            if (trendingService == null)
+                return;
 
             textServiceName.setText(trendingService.getTitle() != null ? trendingService.getTitle() : "N/A");
-            Utils.display(mContext, trendingService.getImage(), imageService, R.mipmap.ic_launcher);
         }
     }
 }

@@ -1,44 +1,41 @@
 package com.buildboard.customviews;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.RectF;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class RoundRectCornerImageView extends ImageView {
 
-    private float radius = 18.0f;
-    private Path path;
-    private RectF rect;
-
     public RoundRectCornerImageView(Context context) {
         super(context);
-        init();
     }
 
     public RoundRectCornerImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
-    public RoundRectCornerImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init();
+    public RoundRectCornerImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
-    private void init() {
-        path = new Path();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public RoundRectCornerImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @SuppressLint("DrawAllocation")
     @Override
-    protected void onDraw(Canvas canvas) {
-        rect = new RectF(0, 0, this.getWidth(), this.getHeight());
-        path.addRoundRect(rect, radius, radius, Path.Direction.CW);
-        canvas.clipPath(path);
-        super.onDraw(canvas);
+    public void setImageDrawable(Drawable drawable) {
+        float radius = 0.02f;
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        RoundedBitmapDrawable rid = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+        rid.setCornerRadius(bitmap.getWidth() * radius);
+        super.setImageDrawable(rid);
     }
 }

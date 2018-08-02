@@ -93,6 +93,9 @@
             android:name=".modules.home.modules.marketplace.contractors.ContractorsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".modules.home.modules.marketplace.contractors.NearByProjectsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -115,6 +118,9 @@
         <activity android:name=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity" />
         <activity android:name=".modules.home.modules.profile.EditProfileActivity"/>
         <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>
+        <activity android:name=".modules.home.modules.profile.PreferredContractorActivity" />
+        <activity android:name=".modules.home.modules.profile.LocationAddressActivity" />
+        <activity android:name=".modules.home.modules.profile.ReviewActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

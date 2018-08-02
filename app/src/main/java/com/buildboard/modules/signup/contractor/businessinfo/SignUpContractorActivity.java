@@ -106,7 +106,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringEnterValidAddress;
     @BindString(R.string.error_working_area)
     String stringErrorWorkingArea;
-    @BindString(R.string.please_wait)
+    @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
 
     @BindArray(R.array.array_working_area)

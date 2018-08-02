@@ -1,6 +1,8 @@
 package com.buildboard.http;
 
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
+import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
@@ -68,6 +70,9 @@ public interface IApiInterface {
     @GET("marketplace/consumer")
     Call<MarketplaceConsumerResponse> getMarketplaceConsumer(@Header("oauth") String oauth,@Header("session") String sessionId);
 
+    @GET("marketplace/contractor")
+    Call<MarketPlaceContractorResponse> getMarketplaceContractor(@Header("oauth") String oauth, @Header("session") String sessionId);
+
     @GET("marketplace/contractor-by-projectType/{type_of_contractor_id}?/")
     Call<ContractorByProjectTypeResponse> getContractorByProjectType(@Header("oauth") String oauth, @Path("type_of_contractor_id") String contractorTypeId,
                                                                      @Query("page") int page, @Query("radius") float radius, @Query("per_page") int perPage);
@@ -102,9 +107,16 @@ public interface IApiInterface {
 
     @POST("marketplace/all-project-types")
     Call<ProjectAllTypeResponse> getAllTypeOfProjectsList(@Header("oauth") String oauth, @Header("session") String sessionId);
+
     @POST("contractor/profile/prev-doc")
     Call<BusinessDocumentsResponse> storePrevWork(@Header("oauth") String oauth, @Body PreviousWorkRequest previousWorkRequest);
 
     @POST("contractor/profile/image")
     Call<SaveContractorImageResponse> saveContractorImage(@Header("oauth") String oauth, @Body SaveContractorImageRequest previousWorkRequest);
+
+    @GET("project-type")
+    Call<ProjectAllTypeResponse> getConsumerProjectDetails(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("projects/{project_id}?/")
+    Call<NearByProjectsResponse> getNearByProjectsDetails(@Header("oauth") String oauth, @Path("project_id") String projectId,@Header("session") String sessionId);
 }

@@ -1,30 +1,34 @@
 package com.buildboard.modules.home.modules.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.buildboard.R;
-import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.adapter.MyContractorsAdapter;
+import com.buildboard.modules.home.modules.profile.adapter.ReviewsAdapter;
 import com.buildboard.modules.home.modules.profile.models.ProfileData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ProfileFragment extends Fragment {
 
     private static ProfileFragment sFragment;
+    private Unbinder unbinder;
+    private ProfileData profileData;
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
@@ -34,21 +38,8 @@ public class ProfileFragment extends Fragment {
     BuildBoardTextView textEmail;
     @BindView(R.id.text_phone)
     BuildBoardTextView textPhone;
-    @BindView(R.id.button_out_for_bid)
-    BuildBoardButton buttonOutForBid;
-    @BindView(R.id.button_current_project)
-    BuildBoardButton buttonCurrentProject;
-    @BindView(R.id.button_completed_projects)
-    BuildBoardButton buttonCompletedProjects;
-    @BindView(R.id.button_my_contractors)
-    BuildBoardButton buttonMyContractors;
-    @BindView(R.id.recycler_my_contactor)
-    RecyclerView recyclerMyContractors;
     @BindView(R.id.container_root)
     CoordinatorLayout mCoordinatorLayout;
-
-    private Unbinder unbinder;
-    private ProfileData profileData;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -61,21 +52,53 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setProjectsRecycler();
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             if (profileData != null) setProfileData(profileData);
         } else {
-            ConnectionDetector.createSnackBar(getActivity(),mCoordinatorLayout);
+            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
         }
 
         return view;
     }
 
-    private void setProjectsRecycler() {
-        MyContractorsAdapter myContractorsAdapter = new MyContractorsAdapter(getActivity());
-        recyclerMyContractors.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerMyContractors.setAdapter(myContractorsAdapter);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ConnectionDetector.isNetworkConnected(getActivity()))
+            getProfile();
+        else ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+    }
+
+    private void setProfileData(ProfileData profileData) {
+        textName.setText(profileData.getFirstName());
+        textEmail.setText(profileData.getEmail());
+        textPhone.setText(profileData.getPhoneNo());
+        Picasso.get().load(profileData.getImage()).transform(new RoundedCornersTransform()).into(imageProfile);
+    }
+
+    @OnClick(R.id.row_my_preferred_contractor)
+    void rowPreferredContractorTapped() {
+        Intent intent = new Intent(getActivity(), PreferredContractorActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.row_my_location)
+    void rowLocationTapped() {
+        Intent intent = new Intent(getActivity(), LocationAddressActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.row_reviews)
+    void rowReviewTapped() {
+        Intent intent = new Intent(getActivity(), ReviewActivity.class);
+        startActivity(intent);
     }
 
     private void getProfile() {
@@ -93,26 +116,5 @@ public class ProfileFragment extends Fragment {
                 ProgressHelper.stop();
             }
         });
-    }
-
-    private void setProfileData(ProfileData profileData) {
-        textName.setText(profileData.getFirstName());
-        textEmail.setText(profileData.getEmail());
-        textPhone.setText(profileData.getPhoneNo());
-        Picasso.get().load(profileData.getImage()).into(imageProfile);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (ConnectionDetector.isNetworkConnected(getActivity()))
-            getProfile();
-        else ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
     }
 }

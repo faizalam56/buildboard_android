@@ -9,23 +9,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ScrollView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.marketplace.adapters.ContractorByProjectTypeAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.NearByContractorAdapter;
+import com.buildboard.modules.home.modules.marketplace.adapters.NearByProjectsAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerData;
+import com.buildboard.modules.home.modules.marketplace.models.MarketplaceContractorData;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
+import com.buildboard.modules.home.modules.marketplace.models.NearByProjects;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -40,33 +44,38 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
     private String mTitle;
     private Unbinder mUnbinder;
-
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
+    @BindView(R.id.recycler_services_no_record)
+    BuildBoardTextView textServicesNoRecord;
     @BindView(R.id.recycler_nearby_contractors)
     RecyclerView recyclerNearbyContractors;
+    @BindView(R.id.recycler_nearby_contractors_norecords)
+    BuildBoardTextView textNearbyContractorsNorecord;
     @BindView(R.id.recycler_contractors_by_projecttype)
     RecyclerView recyclerContractorsByProjecttype;
-
+    @BindView(R.id.recycler_contractors_by_projecttype_norecords)
+    BuildBoardTextView textContractorsByProjecttypeNorecords;
     @BindView(R.id.text_trending_service)
-    TextView textTrendingService;
+    BuildBoardTextView textTrendingService;
     @BindView(R.id.text_nearby_contractors)
-    TextView textNearbyContractors;
+    BuildBoardTextView textNearbyContractors;
     @BindView(R.id.text_contractors_by_projecttype)
-    TextView textContractorsByProjecttype;
+    BuildBoardTextView textContractorsByProjecttype;
     @BindView(R.id.text_view_all_nearby)
-    TextView textViewAllNearby;
+    BuildBoardTextView textViewAllNearby;
     @BindView(R.id.text_view_all_byproject)
-    TextView textViewAllByproject;
-
-    @BindView(R.id.constraint_root)
-    ConstraintLayout constraintRoot;
-
+    BuildBoardTextView textViewAllByproject;
     @BindView(R.id.view_services)
     View viewServices;
     @BindView(R.id.view_nearby_contractor)
     View viewNearbyContractor;
-
+    @BindView(R.id.text_no_internet)
+    BuildBoardTextView textNoInternet;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintLayout;
+    @BindView(R.id.scroll)
+    ScrollView scrollView;
     @BindString(R.string.trending_services)
     String stringTrendingServices;
     @BindString(R.string.near_by_contractors)
@@ -79,30 +88,42 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     String stringNearByProjects;
     @BindString(R.string.projects_on_marketplace)
     String stringProjectsOnMarketplace;
+    @BindString(R.string.browse_projects_by_projectstype)
+    String stringBrowseProjects;
+
 
     public static MarketPlaceFragment newInstance() {
-        MarketPlaceFragment fragment = new MarketPlaceFragment();
-        return fragment;
+        return new MarketPlaceFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-
+        textServicesNoRecord.setVisibility(View.VISIBLE);
+        textNearbyContractorsNorecord.setVisibility(View.VISIBLE);
+        textContractorsByProjecttypeNorecords.setVisibility(View.VISIBLE);
         setFont();
         updateUi(false);
-        //TODO: call contractor marketplace api
-        if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
-            textTrendingService.setText(stringTrendingProjects);
-            textNearbyContractors.setText(stringNearByProjects);
-            textContractorsByProjecttype.setText(stringProjectsOnMarketplace);
-           getMarketplaceConsumer();
+
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            textNoInternet.setVisibility(View.GONE);
+            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                textTrendingService.setText(stringTrendingProjects);
+                textNearbyContractors.setText(stringNearByProjects);
+                textContractorsByProjecttype.setText(stringBrowseProjects);
+                updateUi(true);
+                getMarketplaceContractor();
+            } else {
+                textTrendingService.setText(stringTrendingServices);
+                textNearbyContractors.setText(stringNearByContractor);
+                textContractorsByProjecttype.setText(stringContractorByProjectType);
+                getMarketplaceConsumer();
+            }
         } else {
-            textTrendingService.setText(stringTrendingServices);
-            textNearbyContractors.setText(stringNearByContractor);
-            textContractorsByProjecttype.setText(stringContractorByProjectType);
-            getMarketplaceConsumer();
+            textNoInternet.setVisibility(View.VISIBLE);
+            View rootView = getActivity().getWindow().getDecorView().getRootView();
+            ConnectionDetector.createSnackBar(getActivity(), rootView);
         }
 
         return view;
@@ -115,16 +136,22 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     @OnClick(R.id.text_view_all_nearby)
-    void viewAllNearbyTapped(){
+    void viewAllNearbyTapped() {
         startActivity(new Intent(getActivity(), ContractorByProjectTypeActivity.class));
     }
 
     @OnClick(R.id.text_view_all_byproject)
-    void viewByProjectTapped(){
+    void viewByProjectTapped() {
         startActivity(new Intent(getActivity(), ContractorByProjectTypeActivity.class));
     }
 
     private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
+        if (!trendingServices.isEmpty()) {
+            textServicesNoRecord.setVisibility(View.INVISIBLE);
+        } else {
+            recyclerServices.setVisibility(View.GONE);
+        }
+
         ServicesAdapter selectionAdapter = new ServicesAdapter(getActivity(), trendingServices);
         recyclerServices.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerServices.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -132,13 +159,32 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     private void setNearbyContractorsRecycler(ArrayList<NearByContractor> nearByContractorArrayList) {
+        if (!nearByContractorArrayList.isEmpty()) {
+            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
+        }
+
         NearByContractorAdapter selectionAdapter = new NearByContractorAdapter(getActivity(), nearByContractorArrayList);
         recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         recyclerNearbyContractors.setAdapter(selectionAdapter);
     }
 
+    private void setNearbyProjectsRecycler(ArrayList<NearByProjects> nearByProjectsArrayList) {
+        if (!nearByProjectsArrayList.isEmpty()) {
+            textNearbyContractorsNorecord.setVisibility(View.INVISIBLE);
+        }
+
+        NearByProjectsAdapter selectionAdapter = new NearByProjectsAdapter(getActivity(), nearByProjectsArrayList);
+        recyclerNearbyContractors.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerNearbyContractors.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        recyclerNearbyContractors.setAdapter(selectionAdapter);
+    }
+
     private void setContractorByProjectRecycler(ArrayList<ProjectType> projectTypes) {
+        if (!projectTypes.isEmpty()) {
+            textContractorsByProjecttypeNorecords.setVisibility(View.INVISIBLE);
+        }
+
         ContractorByProjectTypeAdapter selectionAdapter = new ContractorByProjectTypeAdapter(getActivity(), projectTypes);
         recyclerContractorsByProjecttype.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerContractorsByProjecttype.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -167,16 +213,46 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Utils.showError(getActivity(), constraintRoot, error);
             }
         });
     }
 
+    private void getMarketplaceContractor() {
+        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        DataManager.getInstance().getMarketplaceContractor(getActivity(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                MarketplaceContractorData marketplaceContractorData = (MarketplaceContractorData) response;
+                updateUi(true);
+                setServicesRecycler(marketplaceContractorData.getTrendingServices());
+                setNearbyProjectsRecycler(marketplaceContractorData.getNearByProjects());
+                setContractorByProjectRecycler(marketplaceContractorData.getProjectTypes());
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(Bundle saveinstancestate) {
+        super.onCreate(saveinstancestate);
+
+    }
+
     private void updateUi(boolean visibility) {
+        textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjecttype.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
         viewServices.setVisibility(visibility ? View.VISIBLE : View.GONE);
         viewNearbyContractor.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        scrollView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }
