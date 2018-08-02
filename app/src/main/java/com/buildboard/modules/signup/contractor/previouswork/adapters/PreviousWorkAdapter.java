@@ -59,6 +59,14 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
         @BindView(R.id.image_attachment)
         ImageView imageAttachment;
+        @BindView(R.id.image_attachment1)
+        ImageView imageAttachment1;
+        @BindView(R.id.image_attachment2)
+        ImageView imageAttachment2;
+        @BindView(R.id.image_attachment3)
+        ImageView imageAttachment3;
+        @BindView(R.id.image_attachment4)
+        ImageView imageAttachment4;
 
         @BindView(R.id.edit_description)
         BuildBoardEditText editDescription;

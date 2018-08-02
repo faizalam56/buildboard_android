@@ -23,7 +23,7 @@
             android:value="AIzaSyBk8-hOLoZC_C8OLdcMnnl3QGeNb_Bu7Xk" />
 
         <activity
-            android:name=".modules.splash.SplashActivity"
+            android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -114,7 +114,7 @@
         <activity android:name=".modules.signup.contractor.worktype.WorkTypeActivity" />
         <activity android:name=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity" />
         <activity android:name=".modules.home.modules.profile.EditProfileActivity"/>
-        <activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>
+        <!--<activity android:name=".modules.signup.contractor.previouswork.PreviousWorkActivity"/>-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
