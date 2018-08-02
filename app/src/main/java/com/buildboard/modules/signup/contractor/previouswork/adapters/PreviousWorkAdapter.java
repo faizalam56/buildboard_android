@@ -12,8 +12,10 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +30,13 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
     private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
+    private ISelectAttachment iSelectAttachment;
 
-    public PreviousWorkAdapter(Context context, HashMap<Integer, ArrayList<PreviousWorkData>> previousWorks, IAddMoreCallback iAddMoreCallback) {
+    public PreviousWorkAdapter(Context context, HashMap<Integer, ArrayList<PreviousWorkData>> previousWorks, IAddMoreCallback iAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mPreviousWorks = previousWorks;
         this.iAddMoreCallback = iAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -45,6 +49,7 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
     @Override
     public void onBindViewHolder(PreviousWorkAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mPreviousWorks.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.setData();
     }
 
     @Override
@@ -87,9 +92,47 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
             }));
         }
 
+        private void setData() {
+            int size = mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size();
+            switch (size){
+                case 1:
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
+                    break;
+                case 2:
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
+                    break;
+                case 3:
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(2)).into(imageAttachment3);
+                    break;
+                case 4:
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(2)).into(imageAttachment3);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(3)).into(imageAttachment4);
+                    break;
+            }
+            setVisibility(size);
+        }
+
+        private void setVisibility(int size) {
+            imageAttachment1.setVisibility(size>0?View.VISIBLE:View.GONE);
+            imageAttachment2.setVisibility(size>1?View.VISIBLE:View.GONE);
+            imageAttachment3.setVisibility(size>2?View.VISIBLE:View.GONE);
+            imageAttachment4.setVisibility(size>3?View.VISIBLE:View.GONE);
+            imageAttachment.setVisibility(size==4?View.GONE:View.VISIBLE);
+        }
+
         @OnClick(R.id.text_add_more)
         void addmoreTapped() {
             iAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped() {
+            iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
         }
     }
 }

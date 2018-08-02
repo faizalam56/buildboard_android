@@ -287,8 +287,7 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void uploadImage(Activity activity, RequestBody file, RequestBody fileType, MultipartBody.Part image, final DataManagerListener dataManagerListener) {
-        Call<ImageUploadResponse> call = getDataManager().uploadImage("Fml1bxKBEd3FXbkMu9Fm0dyW7b1lYnfleO5dKpb8rvwS4yeATv1Wdcz3OwkM",
-//        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+        Call<ImageUploadResponse> call = getDataManager().uploadImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 file, fileType, image);
         call.enqueue(new Callback<ImageUploadResponse>() {
             @Override

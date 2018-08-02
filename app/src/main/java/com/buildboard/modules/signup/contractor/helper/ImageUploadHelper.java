@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.FileProvider;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -110,5 +111,21 @@ public class ImageUploadHelper implements AppConstant {
         );
 
         return image;
+    }
+
+    public void showFileChooser(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            activity.startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(activity, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

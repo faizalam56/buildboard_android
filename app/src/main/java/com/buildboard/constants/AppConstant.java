@@ -12,6 +12,7 @@ public interface AppConstant {
     int PLACE_PICKER_REQUEST = 201;
     int IMAGE_UPLOAD_REQUEST_CODE = 200;
     int REQUEST_PERMISSION_CODE = 300;
+    int FILE_SELECT_CODE = 0;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";

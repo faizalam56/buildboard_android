@@ -74,7 +74,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
-    private static final int FILE_SELECT_CODE = 0;
 
     @BindView(R.id.title)
     TextView title;
@@ -157,7 +156,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mImageUploadHelper = ImageUploadHelper.getInstance();
         behavior = BottomSheetBehavior.from(bottomSheet);
 
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        /*behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_DRAGGING) {
@@ -169,7 +168,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 // React to dragging events
             }
-        });
+        });*/
     }
 
     @OnClick(R.id.button_next)
@@ -193,7 +192,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @OnClick(R.id.text_document)
     void documentTapped() {
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        showFileChooser();
+        mImageUploadHelper.showFileChooser(this);
     }
 
     @OnClick(R.id.text_cancel)
@@ -544,22 +543,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         }
 
         return intent;
-    }
-
-    private void showFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        try {
-            startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
-                    FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, "Please install a File Manager.",
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
