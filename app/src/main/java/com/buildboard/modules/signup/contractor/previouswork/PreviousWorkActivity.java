@@ -29,6 +29,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
@@ -213,6 +214,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                Intent intent = new Intent(PreviousWorkActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
 
             @Override
