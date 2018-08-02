@@ -38,7 +38,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
 
     @Override
     public NearByProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_nearby_projects, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
         return new ViewHolder(view);
     }
 
@@ -56,10 +56,12 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_service_name)
+        @BindView(R.id.text_name)
         TextView textName;
         @BindView(R.id.image_service)
         ImageView imageService;
+        @BindView(R.id.textRatingBar)
+        TextView textRatingbar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,9 +78,10 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
             if (nearByProjects == null) return;
             Picasso.get().load(nearByProjects.getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
             textName.setText(nearByProjects.getTitle());
+            textRatingbar.setVisibility(View.INVISIBLE);
         }
 
-        @OnClick(R.id.container)
+        @OnClick(R.id.card_service)
         public void rowTapped() {
             NearByProjects nearByProjects = mNearByProjects.get(getAdapterPosition());
             Intent intent = new Intent(mContext, NearByProjectsActivity.class);
