@@ -73,7 +73,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
@@ -117,5 +116,4 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             ConnectionDetector.createSnackBar(this,constraintRoot);
         }
     }
-
 }

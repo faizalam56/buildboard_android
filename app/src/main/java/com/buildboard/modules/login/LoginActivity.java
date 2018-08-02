@@ -51,7 +51,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
@@ -277,12 +276,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             updateUI(account);
-        }catch (ApiException e){
+        } catch (ApiException e) {
             updateUI(null);
             e.printStackTrace();
         }
     }
-
 
     private void getSocialLogin(final SocialLoginRequest socialLoginRequest, final String email) {
         if (socialLoginRequest == null)
@@ -395,5 +393,4 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             getSocialLogin(socialLoginRequest, email);
         }
     }
-
 }
