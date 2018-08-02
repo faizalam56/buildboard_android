@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -28,12 +29,15 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iBusinessDocumentsAddMoreCallback;
     private int size;
+    private ISelectAttachment iSelectAttachment;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback,
+                                    ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mBusinessLicensings = businessLicensings;
         mLayoutInflater = LayoutInflater.from(mContext);
         this.iBusinessDocumentsAddMoreCallback = iBusinessDocumentsAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
     @Override
     public void onBindViewHolder(BusinessLicensingAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mBusinessLicensings.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mBusinessLicensings.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback(){
+            editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
@@ -84,8 +88,13 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iBusinessDocumentsAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped() {
+            iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
         }
     }
 }

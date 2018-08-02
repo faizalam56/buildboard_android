@@ -17,16 +17,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:typeface="robotoRegular" />
 
-    <ImageView
-        android:id="@+id/image_attachment"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:padding="@dimen/_10sdp"
+    <LinearLayout
+        android:id="@+id/linear_attachments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true"
         android:layout_marginTop="@dimen/_15sdp"
-        android:background="@drawable/green_drawable_border"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_label_attach_photos"
-        app:srcCompat="@drawable/ic_attachment" />
+        app:layout_constraintTop_toBottomOf="@+id/text_label_attach_photos">
+
+        <ImageView
+            android:id="@+id/image_attachment1"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:padding="@dimen/_2sdp"
+            android:background="@drawable/green_drawable_border"
+            app:srcCompat="@drawable/ic_password" />
+
+        <ImageView
+            android:id="@+id/image_attachment2"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:padding="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            app:srcCompat="@drawable/ic_inbox" />
+
+        <ImageView
+            android:id="@+id/image_attachment3"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:padding="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            app:srcCompat="@drawable/ic_filter" />
+
+        <ImageView
+            android:id="@+id/image_attachment4"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:padding="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            app:srcCompat="@drawable/ic_compose" />
+
+        <ImageView
+            android:id="@+id/image_attachment"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            app:srcCompat="@drawable/ic_attachment" />
+
+    </LinearLayout>
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_label_description"
@@ -38,7 +87,7 @@
         android:textColor="@color/colorHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_attachment"
+        app:layout_constraintTop_toBottomOf="@+id/linear_attachments"
         app:typeface="robotoRegular" />
 
     <com.buildboard.customviews.BuildBoardEditText

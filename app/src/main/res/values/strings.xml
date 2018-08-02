@@ -252,4 +252,7 @@
     <string name="not_available">N/A</string>
 
 
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="document">Document</string>
 </resources>

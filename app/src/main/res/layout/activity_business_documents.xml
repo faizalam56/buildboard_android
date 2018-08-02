@@ -1,182 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.signup.contractor.businessdocuments.BusinessDocumentsActivity">
 
-    <include
-        layout="@layout/toolbar"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint_root"
+        <include
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/_15sdp"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_15sdp"
-            android:paddingTop="@dimen/_15sdp">
+            android:layout_height="wrap_content" />
 
-            <!-- Business License -->
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_label_business_licensing"
-                style="@style/textSize_smaller"
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/business_licensing"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:typeface="robotoRegular" />
+                android:paddingBottom="@dimen/_15sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:paddingTop="@dimen/_15sdp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_business_licensing"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_label_business_licensing" />
+                <!-- Business License -->
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_label_business_licensing"
+                    style="@style/textSize_smaller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/business_licensing"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:typeface="robotoRegular" />
 
-            <!-- End Business License -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_business_licensing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_label_business_licensing" />
 
-            <!-- Bonding -->
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_label_bonding"
-                style="@style/textSize_smaller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/bonding"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing"
-                app:typeface="robotoRegular" />
+                <!-- End Business License -->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_bonding"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_label_bonding" />
+                <!-- Bonding -->
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_label_bonding"
+                    style="@style/textSize_smaller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/bonding"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing"
+                    app:typeface="robotoRegular" />
 
-            <!-- End Bonding -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_bonding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_label_bonding" />
 
-            <!-- Insurance -->
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_label_insurance"
-                style="@style/textSize_smaller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/insurance"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_bonding"
-                app:typeface="robotoRegular" />
+                <!-- End Bonding -->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_insurance"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_label_insurance" />
+                <!-- Insurance -->
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_label_insurance"
+                    style="@style/textSize_smaller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/insurance"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_bonding"
+                    app:typeface="robotoRegular" />
 
-            <!-- End Insurance -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_insurance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_label_insurance" />
 
-            <!-- Workman's Comp Insurance -->
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_label_workman_insurance"
-                style="@style/textSize_smaller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/workman_s_comp_insurance"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_insurance"
-                app:typeface="robotoRegular" />
+                <!-- End Insurance -->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_workman_insurance"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_label_workman_insurance" />
+                <!-- Workman's Comp Insurance -->
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_label_workman_insurance"
+                    style="@style/textSize_smaller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/workman_s_comp_insurance"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_insurance"
+                    app:typeface="robotoRegular" />
 
-            <!-- End Workman's Comp Insurance -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_workman_insurance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_label_workman_insurance" />
 
-            <!-- Certification -->
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_label_certification"
-                style="@style/textSize_smaller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/certification"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance"
-                app:typeface="robotoRegular" />
+                <!-- End Workman's Comp Insurance -->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_certification"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_label_certification" />
+                <!-- Certification -->
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_label_certification"
+                    style="@style/textSize_smaller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/certification"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance"
+                    app:typeface="robotoRegular" />
 
-            <!-- End Certification -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_certification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_label_certification" />
 
-            <com.buildboard.customviews.BuildBoardButton
-                android:id="@+id/button_next"
-                style="@style/button_style"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="@drawable/gray_button_background"
-                android:text="@string/next"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_certification"
-                app:typeface="robotoRegular" />
+                <!-- End Certification -->
 
-            <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_terms_of_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:autoLink="all"
-                android:gravity="center"
-                android:linksClickable="true"
-                android:text="@string/privacy_policy_text"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_next"
-                app:typeface="robotoRegular" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.constraint.ConstraintLayout>
+                <com.buildboard.customviews.BuildBoardButton
+                    android:id="@+id/button_next"
+                    style="@style/button_style"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/gray_button_background"
+                    android:text="@string/next"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_certification"
+                    app:typeface="robotoRegular" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_terms_of_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:autoLink="all"
+                    android:gravity="center"
+                    android:linksClickable="true"
+                    android:text="@string/privacy_policy_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_next"
+                    app:typeface="robotoRegular" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_camera"
+            style="@style/textSize_small"
+            android:gravity="center"
+            android:text="@string/camera"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_gallery"
+            style="@style/textSize_small"
+            android:gravity="center"
+            android:text="@string/gallery"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_document"
+            style="@style/textSize_small"
+            android:gravity="center"
+            android:text="@string/document"
+            android:visibility="visible"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_cancel"
+            style="@style/textSize_small"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/colorGrayLight"
+            app:typeface="robotoRegular" />
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

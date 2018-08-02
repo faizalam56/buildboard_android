@@ -1,5 +1,6 @@
 package com.buildboard.modules.signup.contractor.previouswork;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +29,11 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.PreviousWorkAdapter;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.TestimonialAdapter;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkData;
@@ -55,9 +62,9 @@ import okhttp3.RequestBody;
 
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
-public class PreviousWorkActivity extends AppCompatActivity implements AppConstant {
+public class PreviousWorkActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
 
-    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE};
+    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
 
     @BindView(R.id.title)
@@ -85,6 +92,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    @BindView(R.id.bottom_sheet)
+    LinearLayout bottomSheet;
+
     private String mUserId = "";
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
@@ -93,6 +103,12 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private Uri selectedImage;
     private AddProfilePhotoDialog mAddProfilePhotoDialog;
     private String responsImageUrl;
+    private ImageUploadHelper mImageUploadHelper;
+
+    BottomSheetBehavior behavior;
+    String mCurrentPhotoPath;
+    private int mSelectedPosition;
+    private boolean isAttachment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +124,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         addPreviousWorkData();
         setTestimonialAdapter();
         setPreviousWorkAdapter();
+        mImageUploadHelper = ImageUploadHelper.getInstance();
+        mAddProfilePhotoDialog = new AddProfilePhotoDialog();
+        behavior = BottomSheetBehavior.from(bottomSheet);
     }
 
     @OnClick(R.id.button_next)
@@ -117,8 +136,36 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-            else showImageUploadDialog();
-        }
+            else
+                showImageUploadDialog();
+        } else
+            showImageUploadDialog();
+    }
+
+    @OnClick(R.id.text_camera)
+    void cameraTapped() {
+        isAttachment = true;
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
+    }
+
+    @OnClick(R.id.text_gallery)
+    void galleryTapped() {
+        isAttachment = true;
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @OnClick(R.id.text_document)
+    void documentTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mImageUploadHelper.showFileChooser(this);
+    }
+
+    @OnClick(R.id.text_cancel)
+    void cancelTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void getIntentData() {
@@ -168,6 +215,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                Intent intent = new Intent(PreviousWorkActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -239,6 +290,12 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 addPreviousWorkData();
                 mPreviousWorkAdapter.notifyDataSetChanged();
             }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+                mSelectedPosition = position;
+                attachmentTapped();
+            }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerPreviousWork.setLayoutManager(linearLayoutManager);
@@ -262,8 +319,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data == null) return;
-
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
@@ -271,34 +326,35 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 case REQUEST_CODE:
                     selectedImage = data.getData();
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                        mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
+                        if(isAttachment) {
+                            mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, selectedImage))),
+                                    constraintRoot, this);
+                        } else {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                            mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
+
+                case REQUEST_IMAGE_CAPTURE:
+                    if (ConnectionDetector.isNetworkConnected(this)) {
+                        if (mCurrentPhotoPath == null) return;
+
+                        File path = new File(mCurrentPhotoPath);
+                        if (!path.exists()) path.mkdirs();
+                        File imageFile = new File(path, "image.jpg");
+
+                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
+                                mCurrentPhotoPath)),
+                                constraintRoot, this);
+                    } else {
+                        ConnectionDetector.createSnackBar(this, constraintRoot);
+                    }
             }
         }
-    }
-
-    public void uploadImage(Activity activity, MultipartBody.Part image) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
-        RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
-        DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                responsImageUrl = response.toString();
-                saveContractorImage();
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
-            }
-        });
     }
 
     public void saveContractorImage() {
@@ -322,18 +378,13 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         });
     }
 
-    private MultipartBody.Part prepareFilePart(String imagePath) {
-        File file = new File(imagePath);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
-    }
-
     private void showImageUploadDialog() {
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
         mAddProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
             @Override
             public void onImageSelection() {
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
+                    isAttachment = false;
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, REQUEST_CODE);
                 } else {
@@ -344,7 +395,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSaveImage() {
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
-                    uploadImage(PreviousWorkActivity.this, prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))));
+                    isAttachment = false;
+                    mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))),
+                            constraintRoot, PreviousWorkActivity.this);
                 } else {
                     ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
                 }
@@ -359,12 +412,32 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             case REQUEST_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    showImageUploadDialog();
                 } else {
                     SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringReadStoragePermission);
                 }
                 return;
             }
         }
+    }
+
+    @Override
+    public void imageUrl(String url) {
+        responsImageUrl = url;
+
+        if (isAttachment) {
+            mPreviousWorks.get(mSelectedPosition).get(1).getValue().add(responsImageUrl);
+            mPreviousWorkAdapter.notifyDataSetChanged();
+        } else saveContractorImage();
+    }
+
+    private void attachmentTapped() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionHelper permission = new PermissionHelper(this);
+            if (!permission.checkPermission(permissions))
+                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+            else
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        } else
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 }

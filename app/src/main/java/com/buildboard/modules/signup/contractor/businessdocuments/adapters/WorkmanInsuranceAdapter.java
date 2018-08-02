@@ -11,6 +11,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.signup.contractor.businessdocuments.GenericTextWatcher;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.interfaces.ITextWatcherCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
 
@@ -27,11 +28,13 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
+    private ISelectAttachment iSelectAttachment;
 
-    public WorkmanInsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> workmanInsurances, IAddMoreCallback iAddMoreCallback) {
+    public WorkmanInsuranceAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> workmanInsurances, IAddMoreCallback iAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         mWorkmanInsurances = workmanInsurances;
         this.iAddMoreCallback = iAddMoreCallback;
+        this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -43,7 +46,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
 
     @Override
     public void onBindViewHolder(WorkmanInsuranceAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mWorkmanInsurances.size()-1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mWorkmanInsurances.size() - 1 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback(){
+            editProvider.addTextChangedListener(new GenericTextWatcher(editProvider, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
@@ -83,8 +86,13 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
         }
 
         @OnClick(R.id.text_add_more)
-        void addmoreTapped(){
+        void addmoreTapped() {
             iAddMoreCallback.addMore();
+        }
+
+        @OnClick(R.id.image_attachment)
+        void attachmentTapped() {
+            iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
         }
     }
 }

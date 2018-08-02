@@ -1,7 +1,17 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +34,21 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
+import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsRequest;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.DocumentData;
+import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
+import com.buildboard.permissions.PermissionHelper;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,7 +57,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant {
+import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+
+public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
+
+    private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private final int REQUEST_CODE = 2001;
 
     @BindView(R.id.title)
     TextView title;
@@ -51,6 +75,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     String stringPrivacyPolicy;
     @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
+    @BindString(R.string.text_msg_permission_required)
+    String stringReadStoragePermission;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -66,6 +92,11 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @BindView(R.id.recycler_bonding)
     RecyclerView recyclerBonding;
 
+    BottomSheetBehavior behavior;
+    @BindView(R.id.bottom_sheet)
+    LinearLayout bottomSheet;
+    @BindView(R.id.constraint_root)
+
     private String mUserId = "";
     private InsuranceAdapter mInsuranceAdapter;
     private CertificationAdapter mCertificationAdapter;
@@ -78,6 +109,17 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
+
+    ConstraintLayout constraintRoot;
+    private ImageUploadHelper mImageUploadHelper;
+    private String responsImageUrl;
+    private int mSelectedPosition;
+    private Document mSelectedSession;
+    String mCurrentPhotoPath;
+
+    private enum Document {
+        BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +142,38 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         setCertificationAdapter();
         setInsuranceAdapter();
         setWorkmanInsuranceAdapter();
+
+        mImageUploadHelper = ImageUploadHelper.getInstance();
+        behavior = BottomSheetBehavior.from(bottomSheet);
     }
 
     @OnClick(R.id.button_next)
     void nextTapped() {
         storeContractorDocuments();
+    }
+
+    @OnClick(R.id.text_camera)
+    void cameraTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
+    }
+
+    @OnClick(R.id.text_gallery)
+    void galleryTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @OnClick(R.id.text_document)
+    void documentTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mImageUploadHelper.showFileChooser(this);
+    }
+
+    @OnClick(R.id.text_cancel)
+    void cancelTapped() {
+        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void getIntentData() {
@@ -184,146 +253,141 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     private void addWorkmanInsurance() {
 
-            ArrayList<DocumentData> workmanInsuranceDetails = new ArrayList<>();
-            DocumentData insuranceProvider = new DocumentData();
-            insuranceProvider.setKey(KEY_INSURANCE_PROVIDER);
-            insuranceProvider.setType(TYPE_TEXT);
-            insuranceProvider.setValue("");
-            workmanInsuranceDetails.add(insuranceProvider);
+        ArrayList<DocumentData> workmanInsuranceDetails = new ArrayList<>();
+        DocumentData insuranceProvider = new DocumentData();
+        insuranceProvider.setKey(KEY_INSURANCE_PROVIDER);
+        insuranceProvider.setType(TYPE_TEXT);
+        insuranceProvider.setValue("");
+        workmanInsuranceDetails.add(insuranceProvider);
 
-            DocumentData insuranceDollarAmount = new DocumentData();
-            insuranceDollarAmount.setKey(KEY_INSURANCE_DOLLAR_AMOUNT);
-            insuranceDollarAmount.setType(TYPE_TEXT);
-            insuranceDollarAmount.setValue("");
-            workmanInsuranceDetails.add(insuranceDollarAmount);
+        DocumentData insuranceDollarAmount = new DocumentData();
+        insuranceDollarAmount.setKey(KEY_INSURANCE_DOLLAR_AMOUNT);
+        insuranceDollarAmount.setType(TYPE_TEXT);
+        insuranceDollarAmount.setValue("");
+        workmanInsuranceDetails.add(insuranceDollarAmount);
 
-            DocumentData insuranceAttachment = new DocumentData();
-            insuranceAttachment.setKey(KEY_ATTACHMENT_INSURANCE);
-            insuranceAttachment.setType(TYPE_ATTACHMENT);
-            insuranceAttachment.setValue("");
-            workmanInsuranceDetails.add(insuranceAttachment);
+        DocumentData insuranceAttachment = new DocumentData();
+        insuranceAttachment.setKey(KEY_ATTACHMENT_INSURANCE);
+        insuranceAttachment.setType(TYPE_ATTACHMENT);
+        insuranceAttachment.setValue("");
+        workmanInsuranceDetails.add(insuranceAttachment);
 
-            mWorkmanInsurances.put(mWorkmanInsurances.size()+1, workmanInsuranceDetails);
+        mWorkmanInsurances.put(mWorkmanInsurances.size() + 1, workmanInsuranceDetails);
     }
 
     private void addInsurance() {
 
-            ArrayList<DocumentData> insuranceDetails = new ArrayList<>();
-            DocumentData insuranceLiability = new DocumentData();
-            insuranceLiability.setKey(KEY_LIABILITY);
-            insuranceLiability.setType(TYPE_TEXT);
-            insuranceLiability.setValue("");
-            insuranceDetails.add(insuranceLiability);
+        ArrayList<DocumentData> insuranceDetails = new ArrayList<>();
+        DocumentData insuranceLiability = new DocumentData();
+        insuranceLiability.setKey(KEY_LIABILITY);
+        insuranceLiability.setType(TYPE_TEXT);
+        insuranceLiability.setValue("");
+        insuranceDetails.add(insuranceLiability);
 
-            DocumentData insuranceProvider = new DocumentData();
-            insuranceProvider.setKey(KEY_INSURANCE_PROVIDER);
-            insuranceProvider.setType(TYPE_TEXT);
-            insuranceProvider.setValue("");
-            insuranceDetails.add(insuranceProvider);
+        DocumentData insuranceProvider = new DocumentData();
+        insuranceProvider.setKey(KEY_INSURANCE_PROVIDER);
+        insuranceProvider.setType(TYPE_TEXT);
+        insuranceProvider.setValue("");
+        insuranceDetails.add(insuranceProvider);
 
-            DocumentData insuranceDollarAmount = new DocumentData();
-            insuranceDollarAmount.setKey(KEY_INSURANCE_DOLLAR_AMOUNT);
-            insuranceDollarAmount.setType(TYPE_TEXT);
-            insuranceDollarAmount.setValue("");
-            insuranceDetails.add(insuranceDollarAmount);
+        DocumentData insuranceDollarAmount = new DocumentData();
+        insuranceDollarAmount.setKey(KEY_INSURANCE_DOLLAR_AMOUNT);
+        insuranceDollarAmount.setType(TYPE_TEXT);
+        insuranceDollarAmount.setValue("");
+        insuranceDetails.add(insuranceDollarAmount);
 
-            DocumentData insuranceAttachment = new DocumentData();
-            insuranceAttachment.setKey(KEY_ATTACHMENT_INSURANCE);
-            insuranceAttachment.setType(TYPE_ATTACHMENT);
-            insuranceAttachment.setValue("");
-            insuranceDetails.add(insuranceAttachment);
+        DocumentData insuranceAttachment = new DocumentData();
+        insuranceAttachment.setKey(KEY_ATTACHMENT_INSURANCE);
+        insuranceAttachment.setType(TYPE_ATTACHMENT);
+        insuranceAttachment.setValue("");
+        insuranceDetails.add(insuranceAttachment);
 
-            mInsurances.put(mInsurances.size()+1, insuranceDetails);
+        mInsurances.put(mInsurances.size() + 1, insuranceDetails);
     }
 
     private void addCertification() {
 
-            ArrayList<DocumentData> certificationDetails = new ArrayList<>();
-            DocumentData certifying = new DocumentData();
-            certifying.setKey(KEY_CERTIFYING);
-            certifying.setType(TYPE_TEXT);
-            certifying.setValue("");
-            certificationDetails.add(certifying);
+        ArrayList<DocumentData> certificationDetails = new ArrayList<>();
+        DocumentData certifying = new DocumentData();
+        certifying.setKey(KEY_CERTIFYING);
+        certifying.setType(TYPE_TEXT);
+        certifying.setValue("");
+        certificationDetails.add(certifying);
 
-            DocumentData certificationNumber = new DocumentData();
-            certificationNumber.setKey(KEY_CERTFICATION_NUMBER);
-            certificationNumber.setType(TYPE_TEXT);
-            certificationNumber.setValue("");
-            certificationDetails.add(certificationNumber);
+        DocumentData certificationNumber = new DocumentData();
+        certificationNumber.setKey(KEY_CERTFICATION_NUMBER);
+        certificationNumber.setType(TYPE_TEXT);
+        certificationNumber.setValue("");
+        certificationDetails.add(certificationNumber);
 
-            DocumentData certificationDescript = new DocumentData();
-            certificationDescript.setKey(KEY_CERTFICATION_DESCRIPTION);
-            certificationDescript.setType(TYPE_TEXT);
-            certificationDescript.setValue("");
-            certificationDetails.add(certificationDescript);
+        DocumentData certificationDescript = new DocumentData();
+        certificationDescript.setKey(KEY_CERTFICATION_DESCRIPTION);
+        certificationDescript.setType(TYPE_TEXT);
+        certificationDescript.setValue("");
+        certificationDetails.add(certificationDescript);
 
-            DocumentData certificationAttachment = new DocumentData();
-            certificationAttachment.setKey(KEY_ATTACHMENT_CERTIFICATION);
-            certificationAttachment.setType(TYPE_ATTACHMENT);
-            certificationAttachment.setValue("");
-            certificationDetails.add(certificationAttachment);
+        DocumentData certificationAttachment = new DocumentData();
+        certificationAttachment.setKey(KEY_ATTACHMENT_CERTIFICATION);
+        certificationAttachment.setType(TYPE_ATTACHMENT);
+        certificationAttachment.setValue("");
+        certificationDetails.add(certificationAttachment);
 
-            mCertifications.put(mCertifications.size()+1, certificationDetails);
+        mCertifications.put(mCertifications.size() + 1, certificationDetails);
     }
 
     private void addBonding() {
 
-            ArrayList<DocumentData> bondingDetails = new ArrayList<>();
-            DocumentData bondState = new DocumentData();
-            bondState.setKey(KEY_STATE);
-            bondState.setType(TYPE_DROPDOWN);
-            bondState.setValue("");
-            bondingDetails.add(bondState);
+        ArrayList<DocumentData> bondingDetails = new ArrayList<>();
 
-            DocumentData bondCity = new DocumentData();
-            bondCity.setKey(KEY_CITY);
-            bondCity.setType(TYPE_DROPDOWN);
-            bondCity.setValue("");
-            bondingDetails.add(bondCity);
+        DocumentData bondCity = new DocumentData();
+        bondCity.setKey(KEY_CITY);
+        bondCity.setType(TYPE_DROPDOWN);
+        bondCity.setValue("");
+        bondingDetails.add(bondCity);
 
-            DocumentData bondNumber = new DocumentData();
-            bondNumber.setKey(KEY_BOND_NUMBER);
-            bondNumber.setType(TYPE_TEXT);
-            bondNumber.setValue("");
-            bondingDetails.add(bondNumber);
+        DocumentData bondNumber = new DocumentData();
+        bondNumber.setKey(KEY_BOND_NUMBER);
+        bondNumber.setType(TYPE_TEXT);
+        bondNumber.setValue("");
+        bondingDetails.add(bondNumber);
 
-            DocumentData bondingDollarAmount = new DocumentData();
-            bondingDollarAmount.setKey(KEY_BOND_DOLLAR_AMOUNT);
-            bondingDollarAmount.setType(TYPE_TEXT);
-            bondingDollarAmount.setValue("");
-            bondingDetails.add(bondingDollarAmount);
+        DocumentData bondingDollarAmount = new DocumentData();
+        bondingDollarAmount.setKey(KEY_BOND_DOLLAR_AMOUNT);
+        bondingDollarAmount.setType(TYPE_TEXT);
+        bondingDollarAmount.setValue("");
+        bondingDetails.add(bondingDollarAmount);
 
-            DocumentData bondAttachment = new DocumentData();
-            bondAttachment.setKey(KEY_ATTACHMENT_BOND);
-            bondAttachment.setType(TYPE_ATTACHMENT);
-            bondAttachment.setValue("");
-            bondingDetails.add(bondAttachment);
+        DocumentData bondAttachment = new DocumentData();
+        bondAttachment.setKey(KEY_ATTACHMENT_BOND);
+        bondAttachment.setType(TYPE_ATTACHMENT);
+        bondAttachment.setValue("");
+        bondingDetails.add(bondAttachment);
 
-            mBondings.put(mBondings.size()+1, bondingDetails);
+        mBondings.put(mBondings.size() + 1, bondingDetails);
     }
 
     private void addBusinessLicensing() {
 
-            ArrayList<DocumentData> businessLicensingDetails = new ArrayList<>();
-            DocumentData businessState = new DocumentData();
-            businessState.setKey(KEY_STATE);
-            businessState.setType(TYPE_DROPDOWN);
-            businessState.setValue("");
-            businessLicensingDetails.add(businessState);
+        ArrayList<DocumentData> businessLicensingDetails = new ArrayList<>();
+        DocumentData businessState = new DocumentData();
+        businessState.setKey(KEY_STATE);
+        businessState.setType(TYPE_DROPDOWN);
+        businessState.setValue("");
+        businessLicensingDetails.add(businessState);
 
-            DocumentData businessLicenceNo = new DocumentData();
-            businessLicenceNo.setKey(KEY_LICENSE_NUMBER);
-            businessLicenceNo.setType(TYPE_TEXT);
-            businessLicenceNo.setValue("");
-            businessLicensingDetails.add(businessLicenceNo);
+        DocumentData businessLicenceNo = new DocumentData();
+        businessLicenceNo.setKey(KEY_LICENSE_NUMBER);
+        businessLicenceNo.setType(TYPE_TEXT);
+        businessLicenceNo.setValue("");
+        businessLicensingDetails.add(businessLicenceNo);
 
-            DocumentData businessAttachment = new DocumentData();
-            businessAttachment.setKey(KEY_ATTACHMENT_BUSINESS);
-            businessAttachment.setType(TYPE_ATTACHMENT);
-            businessAttachment.setValue("");
-            businessLicensingDetails.add(businessAttachment);
+        DocumentData businessAttachment = new DocumentData();
+        businessAttachment.setKey(KEY_ATTACHMENT_BUSINESS);
+        businessAttachment.setType(TYPE_ATTACHMENT);
+        businessAttachment.setValue("");
+        businessLicensingDetails.add(businessAttachment);
 
-            mBusinessLicensings.put(mBusinessLicensings.size()+1, businessLicensingDetails);
+        mBusinessLicensings.put(mBusinessLicensings.size() + 1, businessLicensingDetails);
     }
 
     private void setInsuranceAdapter() {
@@ -332,6 +396,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             public void addMore() {
                 addInsurance();
                 mInsuranceAdapter.notifyDataSetChanged();
+            }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+                mSelectedPosition = position;
+                mSelectedSession = Document.INSURANCE;
+                attachmentTapped();
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -346,6 +417,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 addWorkmanInsurance();
                 mWorkmanInsuranceAdapter.notifyDataSetChanged();
             }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+                mSelectedPosition = position;
+                mSelectedSession = Document.WORKMAN;
+                attachmentTapped();
+            }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerWorkmanInsurance.setLayoutManager(linearLayoutManager);
@@ -358,6 +436,14 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             public void addMore() {
                 addBusinessLicensing();
                 mBusinessLicensingAdapter.notifyDataSetChanged();
+            }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+
+                mSelectedPosition = position;
+                mSelectedSession = Document.BUSINESS_LICENSING;
+                attachmentTapped();
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -372,6 +458,14 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 addBonding();
                 mBondingAdapter.notifyDataSetChanged();
             }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+
+                mSelectedPosition = position;
+                mSelectedSession = Document.BONDING;
+                attachmentTapped();
+            }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBonding.setLayoutManager(linearLayoutManager);
@@ -385,9 +479,110 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 addCertification();
                 mCertificationAdapter.notifyDataSetChanged();
             }
+        }, new ISelectAttachment() {
+            @Override
+            public void selectAttachment(int position) {
+                mSelectedPosition = position;
+                mSelectedSession = Document.CERTIFICATION;
+                attachmentTapped();
+            }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCertification.setLayoutManager(linearLayoutManager);
         recyclerCertification.setAdapter(mCertificationAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case FILE_SELECT_CODE:
+                    break;
+
+                case REQUEST_CODE:
+                    if (ConnectionDetector.isNetworkConnected(this)) {
+                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
+                                Utils.getImagePath(this, data.getData()))),
+                                constraintRoot, this);
+                    } else {
+                        ConnectionDetector.createSnackBar(this, constraintRoot);
+                    }
+                    break;
+
+                case REQUEST_IMAGE_CAPTURE:
+                    if (ConnectionDetector.isNetworkConnected(this)) {
+                        if (mCurrentPhotoPath == null) return;
+                        File path = new File(mCurrentPhotoPath);
+                        if (!path.exists()) path.mkdirs();
+                        File imageFile = new File(path, "image.jpg");
+
+                        mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
+                                mCurrentPhotoPath)),
+                                constraintRoot, this);
+                    } else {
+                        ConnectionDetector.createSnackBar(this, constraintRoot);
+                    }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    SnackBarFactory.createSnackBar(BusinessDocumentsActivity.this, constraintRoot, stringReadStoragePermission);
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void imageUrl(String url) {
+        responsImageUrl = url;
+        setImageUrl();
+    }
+
+    private void setImageUrl() {
+        switch (mSelectedSession) {
+
+            case BUSINESS_LICENSING:
+                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                break;
+
+            case BONDING:
+                mBondings.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                break;
+
+            case INSURANCE:
+                mInsurances.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                break;
+
+            case WORKMAN:
+                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                break;
+
+            case CERTIFICATION:
+                mCertifications.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                break;
+        }
+    }
+
+    private void attachmentTapped() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionHelper permission = new PermissionHelper(BusinessDocumentsActivity.this);
+            if (!permission.checkPermission(permissions))
+                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+            else
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        } else
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 }
