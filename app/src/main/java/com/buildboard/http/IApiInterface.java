@@ -6,7 +6,9 @@ import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContrac
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.models.ProfileResponse;
-import com.buildboard.modules.home.modules.profile.models.addresses.GetAddressesResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressRequest;
+import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressResponse;
+import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -123,4 +125,7 @@ public interface IApiInterface {
 
     @GET("consumer/address")
     Call<GetAddressesResponse> getAddresses(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @POST("consumer/address")
+    Call<AddAddressResponse> addAddress(@Header("oauth") String oauth, @Header("session") String sessionId, @Body AddAddressRequest addAddressRequest);
 }
