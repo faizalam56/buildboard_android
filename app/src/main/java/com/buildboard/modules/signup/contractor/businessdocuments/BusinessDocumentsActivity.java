@@ -705,7 +705,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @Override
     public void imageUrl(String url) {
         responsImageUrl = url;
-        //setImageUrl();
+        setImageUrl();
     }
 
     private void setImageUrl() {

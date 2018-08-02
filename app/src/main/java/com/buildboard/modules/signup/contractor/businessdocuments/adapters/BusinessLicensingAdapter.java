@@ -94,7 +94,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
 
         @OnClick(R.id.image_attachment)
         void attachmentTapped(){
-            iSelectAttachment.selectAttachment(getAdapterPosition());
+            iSelectAttachment.selectAttachment(getAdapterPosition()+1);
         }
     }
 }
