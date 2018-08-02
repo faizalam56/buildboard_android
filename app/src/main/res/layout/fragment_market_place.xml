@@ -55,6 +55,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
+
             <ProgressBar
                 android:id="@+id/progress_bar_service"
                 style="?android:attr/progressBarStyle"
@@ -62,10 +63,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/view_services"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/view_services"
-                app:layout_constraintTop_toBottomOf="@+id/text_trending_service"/>
+                app:layout_constraintTop_toBottomOf="@+id/text_trending_service" />
+
             <View
                 android:id="@+id/view_services"
                 android:layout_width="0dp"
@@ -128,6 +130,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
+
             <ProgressBar
                 android:id="@+id/progress_bar_nearby"
                 style="?android:attr/progressBarStyle"
@@ -138,7 +141,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/view_nearby_contractor"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors"/>
+                app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
+
             <View
                 android:id="@+id/view_nearby_contractor"
                 android:layout_width="0dp"
@@ -199,6 +203,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
+
             <ProgressBar
                 android:id="@+id/progress_bar_projecttype"
                 style="?android:attr/progressBarStyle"
@@ -209,7 +214,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype"/>
+                app:layout_constraintTop_toBottomOf="@+id/text_contractors_by_projecttype" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
