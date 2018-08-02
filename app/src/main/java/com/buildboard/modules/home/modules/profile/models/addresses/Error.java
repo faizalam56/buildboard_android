@@ -29,5 +29,4 @@ public class Error {
     public void setMessage(List<Object> message) {
         this.message = message;
     }
-
 }

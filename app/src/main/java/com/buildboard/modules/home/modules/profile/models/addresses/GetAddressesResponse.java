@@ -40,5 +40,4 @@ public class GetAddressesResponse {
     public void setError(Error error) {
         this.error = error;
     }
-
 }

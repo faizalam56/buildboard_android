@@ -72,5 +72,4 @@ public class AddressListData {
     public void setIsDefault(Integer isDefault) {
         this.isDefault = isDefault;
     }
-
 }
