@@ -2,10 +2,10 @@ package com.buildboard.modules.home.modules.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +16,9 @@ import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -25,6 +28,8 @@ import butterknife.OnClick;
 import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
+
+    private GoogleSignInClient mGoogleSignInClient;
 
     @BindView(R.id.title)
     TextView title;
@@ -68,9 +73,22 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
-                AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false,IS_LOGIN);
-                openActivity(LoginActivity.class, true);
+                if (mGoogleSignInClient != null) {
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Intent googlePlusLogoutIntent = new Intent(ProfileSettingsActivity.this, LoginActivity.class);
+                            startActivity(googlePlusLogoutIntent);
+                            finish();
+                        }
+                    });
+                } else {
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    openActivity(LoginActivity.class, true);
+                }
             }
             @Override
             public void onError(Object error) {

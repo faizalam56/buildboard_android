@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +28,8 @@ import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
-import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.SignUpActivity;
+import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
@@ -42,12 +43,15 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +67,9 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private CallbackManager mCallbackManager;
+    private GoogleSignInClient mGoogleSignInClient;
+
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
     @BindView(R.id.edit_password)
@@ -77,6 +84,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     BuildBoardButton buttonLoginFacebook;
     @BindView(R.id.button_login_google)
     BuildBoardButton buttonLoginGoogle;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+    @BindView(R.id.sign_in_button)
+    SignInButton signInButton;
+
     @BindString(R.string.contractor)
     String stringContractor;
     @BindString(R.string.consumer)
@@ -95,13 +107,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorInvalidEmail;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
-    @BindView(R.id.constraint_root)
-    ConstraintLayout constraintRoot;
     @BindArray(R.array.array_user_type)
     String[] arrayUsertype;
-
-    private CallbackManager mCallbackManager;
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +117,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         ButterKnife.bind(this);
         textSignUp.setPaintFlags(textSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         getAccessToken();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     @Override
@@ -121,9 +132,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case RC_SIGN_IN:
-                    handleGoogleSignInResult(data);
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    handleGoogleSignInResult(task);
                     break;
-
                 default:
                     mCallbackManager.onActivityResult(requestCode, resultCode, data);
             }
@@ -166,19 +177,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         signInFaceBook();
     }
 
-    @OnClick(R.id.button_login_google)
+    @OnClick({R.id.button_login_google, R.id.sign_in_button})
     void userGoogleLoginTapped() {
+        signInButton.performClick();
         signInGoogle();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.stopAutoManage(LoginActivity.this);
-            mGoogleApiClient.disconnect();
-        }
     }
 
     private boolean validateFields(String userEmail, String password) {
@@ -266,32 +268,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void signInGoogle() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .enableAutoManage(this, this)
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
-        }
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void handleGoogleSignInResult(Intent data) {
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        if (result != null && result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-
-            SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
-            socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
-            socialLoginRequest.setProviderId(account.getId());
-            String email = account.getEmail();
-
-            getSocialLogin(socialLoginRequest, email);
+    private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            updateUI(account);
+        } catch (ApiException e) {
+            updateUI(null);
+            e.printStackTrace();
         }
     }
 
@@ -394,5 +381,16 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void updateUI(@Nullable GoogleSignInAccount account) {
+        if (account != null) {
+            account.getId();
+            SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+            socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
+            socialLoginRequest.setProviderId(account.getId());
+            String email = account.getEmail();
+            getSocialLogin(socialLoginRequest, email);
+        }
     }
 }
