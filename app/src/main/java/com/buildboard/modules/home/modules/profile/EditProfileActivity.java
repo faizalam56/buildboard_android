@@ -80,6 +80,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private ContractorTypeDetail contractorTypeDetail;
     private int maxClicks = 3, currentNumber = 0;
     private String contactMode = PHONE;
+    public UpdateProfileListener mUpdateProfileListener;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
@@ -213,6 +214,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         getUserProfileData();
         setAsteriskToText();
 
+        mUpdateProfileListener = ProfileFragment.newInstance();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper permission = new PermissionHelper(this);
             if (!permission.checkPermission(permissions))
@@ -296,9 +299,12 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 if (response == null) return;
+
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
-                if (createConsumerData.getMessage() != null)
+                if (createConsumerData.getMessage() != null) {
                     Toast.makeText(EditProfileActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
+                    mUpdateProfileListener.updateProfile();
+                }
             }
 
             @Override
@@ -596,5 +602,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             });
             linearLayoutForm.addView(newView);
         }
+    }
+
+    public interface UpdateProfileListener {
+        void updateProfile();
     }
 }
