@@ -60,7 +60,7 @@
                 android:id="@+id/view_services"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:background="@color/colorDivider"
                 app:layout_constraintBottom_toTopOf="@+id/text_nearby_contractors"
                 app:layout_constraintHorizontal_bias="0.0"

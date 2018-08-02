@@ -19,6 +19,7 @@ import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -57,6 +58,9 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         @BindView(R.id.image_service)
         ImageView imageService;
 
+        @BindString(R.string.not_available)
+        String stringNotAvailable;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -72,7 +76,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             if (trendingService == null)
                 return;
 
-            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : "N/A");
+            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
         }
     }
 }

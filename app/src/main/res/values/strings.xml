@@ -249,5 +249,7 @@
     <string name="exit_msg">Do you want to exit?</string>
     <string name="alert">Alert</string>
     <string name="ok">Ok</string>
+    <string name="not_available">N/A</string>
+
 
 </resources>

@@ -176,7 +176,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         progressBar.setVisibility(View.VISIBLE);
     }
     public void hideProgressBar(){
-        if(progressBar!=null) {
+        if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
     }

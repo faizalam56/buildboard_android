@@ -19,6 +19,8 @@ import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -62,6 +64,9 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         @BindView(R.id.container)
         CardView container;
 
+        @BindString(R.string.not_available)
+        String stringNotAvailable;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -79,13 +84,12 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName);
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD);
-
         }
 
         private void setData() {
             ProjectType projectType = mProjectTypes.get(getAdapterPosition());
             if (projectType == null) return;
-            textName.setText(projectType.getTitle() != null ? projectType.getTitle() : "N/A");
+            textName.setText(projectType.getTitle() != null ? projectType.getTitle() : stringNotAvailable);
             Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.drawable.ic_no_image).into(imageService);
         }
     }

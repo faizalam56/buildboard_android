@@ -25,5 +25,4 @@ public class ErrorResponse {
     public void setMessage(ArrayList<String> message) {
         this.message = message;
     }
-
 }
