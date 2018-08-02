@@ -55,11 +55,10 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
     };
 
     public ConsumerProjectsAdapter(Activity activity, ArrayList<ProjectDetail> projectDetails, RecyclerView recyclerView) {
-        Activity mActivity = activity;
         mProjectDetails = projectDetails;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(onScrollListener);
-        mLayoutInflater = LayoutInflater.from(mActivity);
+        mLayoutInflater = LayoutInflater.from(activity);
     }
 
     @Override

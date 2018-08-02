@@ -1,16 +1,10 @@
 package com.buildboard.modules.home.modules.projects;
 
-import android.app.Activity;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -29,7 +22,6 @@ import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectsAda
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -184,7 +176,9 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         progressBar.setVisibility(View.VISIBLE);
     }
     public void hideProgressBar(){
-        progressBar.setVisibility(View.INVISIBLE);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void getProjectsList() {
@@ -196,16 +190,19 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
                 ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
 
-                if (!projectDetails.isEmpty()) {
-                    setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
-                    setProjectsSubTitle(projectDetails.size());
-                } else {
-                    if (mProjectsAdapter != null) {
-                        mProjectsAdapter.notifyDataSetChanged();
+                if (isAdded() && projectsData.size() > 0) {
+                    if (!projectDetails.isEmpty()) {
+                        setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
+                        setProjectsSubTitle(projectDetails.size());
+                    } else {
+                        if (mProjectsAdapter != null) {
+                            mProjectsAdapter.notifyDataSetChanged();
+                        }
+                        textProjectDetail.setText(getText(R.string.no_projects));
+                        buildBoardTextProjectType.setText(String.format("%s%s Projects", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase()));
                     }
-                    textProjectDetail.setText(getText(R.string.no_projects));
-                    buildBoardTextProjectType.setText(String.format("%s%s Projects", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase()));
-                }}
+                }
+            }
 
             @Override
             public void onError(Object error) {

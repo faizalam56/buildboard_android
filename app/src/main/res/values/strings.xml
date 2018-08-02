@@ -92,7 +92,7 @@
     <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-    <string name="trending_services">Trending/Top Rated Services</string>
+    <string name="trending_services">Trending/Top Rated Contractor</string>
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
@@ -249,5 +249,7 @@
     <string name="exit_msg">Do you want to exit?</string>
     <string name="alert">Alert</string>
     <string name="ok">Ok</string>
+    <string name="not_available">N/A</string>
+
 
 </resources>
