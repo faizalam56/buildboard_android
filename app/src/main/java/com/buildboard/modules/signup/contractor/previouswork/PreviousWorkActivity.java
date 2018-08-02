@@ -142,12 +142,14 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @OnClick(R.id.text_camera)
     void cameraTapped() {
+        isAttachment = true;
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
     }
 
     @OnClick(R.id.text_gallery)
     void galleryTapped() {
+        isAttachment = true;
         behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE);
@@ -318,8 +320,14 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 case REQUEST_CODE:
                     selectedImage = data.getData();
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                        mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
+                        if(isAttachment) {
+                            mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, selectedImage))),
+                                    constraintRoot, this);
+                        } else {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                            mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -332,7 +340,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                         if (!path.exists()) path.mkdirs();
                         File imageFile = new File(path, "image.jpg");
 
-                        isAttachment = true;
                         mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this,
                                 mCurrentPhotoPath)),
                                 constraintRoot, this);
@@ -370,6 +377,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onImageSelection() {
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
+                    isAttachment = false;
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, REQUEST_CODE);
                 } else {
