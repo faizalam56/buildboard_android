@@ -1,8 +1,7 @@
-package com.buildboard.modules.home.modules.profile;
+package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.models.ProfileData;
+import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.squareup.picasso.Picasso;
@@ -27,6 +26,8 @@ import butterknife.Unbinder;
 public class ProfileFragment extends Fragment implements EditProfileActivity.UpdateProfileListener {
 
     private static ProfileFragment sFragment;
+    private Unbinder unbinder;
+    private ProfileData profileData;
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
@@ -38,9 +39,6 @@ public class ProfileFragment extends Fragment implements EditProfileActivity.Upd
     BuildBoardTextView textPhone;
     @BindView(R.id.container_root)
     CoordinatorLayout mCoordinatorLayout;
-
-    private Unbinder unbinder;
-    private ProfileData profileData;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)

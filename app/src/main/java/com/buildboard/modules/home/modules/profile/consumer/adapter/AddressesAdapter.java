@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.adapter;
+package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,12 +13,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.LocationAddressActivity;
-import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressResponse;
-import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.AddressListData;
-import com.buildboard.modules.home.modules.profile.models.addresses.primaryaddress.PrimaryAddressResponse;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

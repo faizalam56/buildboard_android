@@ -258,7 +258,7 @@
     <string name="special_charactor">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
     <string name="exit_msg">Do you want to exit?</string>
     <string name="alert">Alert</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="not_available">N/A</string>
     <string name="primary_address">Primary Address</string>
     <string name="camera">Camera</string>

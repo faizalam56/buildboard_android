@@ -29,12 +29,12 @@
         android:id="@+id/text_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="2sp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:ellipsize="end"
         android:inputType="textMultiLine"
         android:maxLines="3"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/image_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_primary_address" />
+        app:layout_constraintTop_toBottomOf="@id/text_primary_address" />
 
     <ImageView
         android:id="@+id/image_location"

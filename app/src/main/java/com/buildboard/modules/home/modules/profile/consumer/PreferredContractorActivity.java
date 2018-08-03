@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile;
+package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ContractorsAdapter;
-import com.buildboard.modules.home.modules.profile.adapter.PreferredContractorAdapter;
+import com.buildboard.modules.home.modules.profile.consumer.adapter.PreferredContractorAdapter;
 
 import butterknife.BindString;
 import butterknife.BindView;

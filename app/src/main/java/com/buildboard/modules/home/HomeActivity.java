@@ -1,6 +1,5 @@
 package com.buildboard.modules.home;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
-import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.modules.mailbox.MailboxFragment;
 import com.buildboard.modules.home.modules.marketplace.MarketPlaceFragment;
-import com.buildboard.modules.home.modules.profile.ProfileFragment;
-import com.buildboard.modules.home.modules.profile.ProfileSettingsActivity;
+import com.buildboard.modules.home.modules.profile.consumer.ProfileFragment;
+import com.buildboard.modules.home.modules.profile.consumer.ProfileSettingsActivity;
 import com.buildboard.modules.home.modules.projects.ConsumerProjectsFragment;
 import com.buildboard.modules.home.modules.projects.ContractorProjectsFragment;
 import com.buildboard.preferences.AppPreference;

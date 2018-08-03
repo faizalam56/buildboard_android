@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.adapter;
+package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +10,6 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
-import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ContractorsAdapter;
-import com.buildboard.utils.Utils;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

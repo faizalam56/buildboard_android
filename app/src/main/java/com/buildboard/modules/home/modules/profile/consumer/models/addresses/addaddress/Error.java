@@ -1,5 +1,5 @@
 
-package com.buildboard.modules.home.modules.profile.models.addresses.addaddress;
+package com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
