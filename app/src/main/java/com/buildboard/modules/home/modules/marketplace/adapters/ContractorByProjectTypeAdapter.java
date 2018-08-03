@@ -90,7 +90,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             ProjectType projectType = mProjectTypes.get(getAdapterPosition());
             if (projectType == null) return;
             textName.setText(projectType.getTitle() != null ? projectType.getTitle() : stringNotAvailable);
-            Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.drawable.ic_no_image).into(imageService);
+            Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.ic_launcher).into(imageService);//TODO change placeholder
         }
     }
 }
