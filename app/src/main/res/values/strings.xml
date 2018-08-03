@@ -96,6 +96,7 @@
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
+    <string name="new_projects">New Projects</string>
     <string name="completed_projects">Completed\nProjects</string>
     <string name="open_projects">Open\nProjects</string>
     <string name="lost_projects">Lost\nProjects</string>

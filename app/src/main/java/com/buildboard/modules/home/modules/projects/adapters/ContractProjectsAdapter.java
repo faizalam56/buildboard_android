@@ -2,6 +2,8 @@ package com.buildboard.modules.home.modules.projects.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +17,10 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
+import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -25,6 +30,9 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.buildboard.constants.AppConstant.DATA;
 
 public class ContractProjectsAdapter extends RecyclerView.Adapter {
 
@@ -142,6 +150,8 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.constraint_root)
+        ConstraintLayout rootLayout;
         @BindView(R.id.image_service)
         ImageView imageService;
         @BindView(R.id.card_service)
@@ -162,6 +172,19 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.constraint_root)
+        public void rowTapped() {
+
+            if (ConnectionDetector.isNetworkConnected(mContext)) {
+                ProjectDetail nearByProjects = mProjectDetails.get(getAdapterPosition());
+                Intent intent = new Intent(mContext, NearByProjectsActivity.class);
+                intent.putExtra(DATA, nearByProjects.getId());
+                mContext.startActivity(intent);
+            } else {
+                ConnectionDetector.createSnackBar(mContext, rootLayout);
+            }
         }
 
         private void bindData(int position) {
