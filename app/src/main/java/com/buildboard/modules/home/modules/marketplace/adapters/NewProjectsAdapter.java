@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
 import com.buildboard.modules.home.modules.marketplace.models.NearByProjects;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
@@ -25,32 +26,32 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
 
-public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAdapter.ViewHolder> {
+public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<NearByProjects> mNearByProjects;
+    private List<NewProject> mNewProjects;
     private LayoutInflater mLayoutInflater;
 
-    public NearByProjectsAdapter(Context context, List<NearByProjects> nearByProjects) {
+    public NewProjectsAdapter(Context context, List<NewProject> nearByProjects) {
         mContext = context;
-        mNearByProjects = nearByProjects;
+        mNewProjects = nearByProjects;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
-    public NearByProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NewProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(NearByProjectsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(NewProjectsAdapter.ViewHolder holder, int position) {
         holder.setData();
     }
 
     @Override
     public int getItemCount() {
-        return mNearByProjects.size();
+        return mNewProjects.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,7 +76,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
         }
 
         private void setData() {
-            NearByProjects nearByProjects = mNearByProjects.get(getAdapterPosition());
+            NewProject nearByProjects = mNewProjects.get(getAdapterPosition());
             if (nearByProjects == null) return;
             Picasso.get().load(nearByProjects.getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);
             textName.setText(nearByProjects.getTitle().substring(0,1).toUpperCase() + nearByProjects.getTitle().substring(1));
@@ -86,7 +87,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
         public void rowTapped() {
 
             if (ConnectionDetector.isNetworkConnected(mContext)) {
-                NearByProjects nearByProjects = mNearByProjects.get(getAdapterPosition());
+                NewProject nearByProjects = mNewProjects.get(getAdapterPosition());
                 Intent intent = new Intent(mContext, NearByProjectsActivity.class);
                 intent.putExtra(DATA, nearByProjects.getId());
                 mContext.startActivity(intent);

@@ -21,7 +21,6 @@ import com.buildboard.modules.home.modules.projects.adapters.ContractProjectsAda
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -70,17 +69,26 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contractor_projects, container, false);
+        View view = inflater.inflate(R.layout.fragment_contractor_project, container, false);
         unbinder = ButterKnife.bind(this, view);
-        noInternetText.setVisibility(View.GONE);
         setFonts();
+        hideProgressBar();
+        showProgressColor(getActivity(), progressBar);
+
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            noInternetText.setVisibility(View.GONE);
+            recyclerProjects.setVisibility(View.VISIBLE);
+            getProjectsList();
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), container);
+            setNoInternetText();
+        }
 
         return view;
     }
 
     private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
         mProjectDetails.addAll(projectDetails);
-        showProgressBar();
         if (mProjectsAdapter == null) {
             hideProgressBar();
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -112,21 +120,6 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     @Override
     public void onResume() {
         super.onResume();
-
-        if (isAdded())
-            showProgressColor(getActivity(), progressBar);
-        getProjectsList();
-
-        if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            noInternetText.setVisibility(View.GONE);
-            recyclerProjects.setVisibility(View.VISIBLE);
-            showProgressBar();
-            getProjectsList();
-        } else {
-            hideProgressBar();
-            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
-        }
-
     }
 
     public void hideProgressBar() {
@@ -239,14 +232,18 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
             ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
             if (mProjectsAdapter != null) {
                 if (mProjectsAdapter.getItemCount() == 0) {
-                    noInternetText.setVisibility(View.VISIBLE);
-                    recyclerProjects.setVisibility(View.GONE);
+                    setNoInternetText();
                 }
             } else {
-                noInternetText.setVisibility(View.VISIBLE);
-                recyclerProjects.setVisibility(View.GONE);
+                setNoInternetText();
             }
         }
+    }
+    private void setNoInternetText(){
+        noInternetText.setVisibility(View.VISIBLE);
+        recyclerProjects.setVisibility(View.GONE);
+        textProjectsDetails.setText("");
+        textProjects.setText("");
     }
 
     private void setProjectsSubTitle(int count) {
@@ -254,23 +251,23 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
         switch (mCurrentStatus) {
             case AppConstant.STATUS_OPEN:
                 textProjectsDetails.setText(R.string.open_quotes_subtitle);
-                textProjects.setText(getString(R.string.open_quotes) + "(" + count + ")");
+                textProjects.setText(getString(R.string.open_quotes) + " (" + count + ")");
                 break;
             case AppConstant.STATUS_COMPLETED:
                 textProjectsDetails.setText(R.string.completed_projects_subtitle);
-                textProjects.setText(getString(R.string.completed_project) + "(" + count + ")");
+                textProjects.setText(getString(R.string.completed_project) + " (" + count + ")");
                 break;
             case AppConstant.STATUS_CURRENT:
                 textProjectsDetails.setText(R.string.current_projects_subtitle);
-                textProjects.setText(getString(R.string.current_project) + "(" + count + ")");
+                textProjects.setText(getString(R.string.current_project) + " (" + count + ")");
                 break;
             case AppConstant.STATUS_SAVED:
                 textProjectsDetails.setText(R.string.saved_quotes_subtitle);
-                textProjects.setText(getString(R.string.saved_quotes) + "(" + count + ")");
+                textProjects.setText(getString(R.string.saved_quotes) + " (" + count + ")");
                 break;
             case AppConstant.STATUS_LOST:
                 textProjectsDetails.setText(R.string.lost_quotes_subtitle);
-                textProjects.setText(getString(R.string.lost_quotes) + "(" + count + ")");
+                textProjects.setText(getString(R.string.lost_quotes) + " (" + count + ")");
                 break;
         }
     }

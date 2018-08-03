@@ -6,8 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
@@ -29,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INTENT_TITLE;
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class NearByProjectsActivity extends AppCompatActivity{
 
@@ -63,13 +68,17 @@ public class NearByProjectsActivity extends AppCompatActivity{
     BuildBoardTextView toolbarTitle;
     @BindView(R.id.recycler_footer)
     RecyclerView recyclerFooter;
-
+    @BindView(R.id.progress_bar_service)
+    ProgressBar progressBar;
+    @BindView(R.id.scrollBar)
+    ScrollView scrollView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_projects);
         ButterKnife.bind(this);
         toolbarTitle.setText(titleProjectDesc);
+        showProgressColor(this, progressBar);
         setFont();
         getIntentData();
     }
@@ -85,18 +94,24 @@ public class NearByProjectsActivity extends AppCompatActivity{
         }
     }
 
+    private void setProgressBar(Boolean visiblity) {
+        progressBar.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+        scrollView.setVisibility(visiblity ? View.GONE : View.VISIBLE);
+        toolbar.setVisibility(visiblity ? View.GONE : View.VISIBLE);
+     }
+
     private void getNearByProjectsByProjectId(String projectId) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        setProgressBar(true);
         DataManager.getInstance().getNearByProjects(this, projectId, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                setProgressBar(false);
                 handleSuccessResponse(response);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                setProgressBar(false);
                 Utils.showError(NearByProjectsActivity.this, constraintRoot, error);
             }
         });

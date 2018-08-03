@@ -3,13 +3,19 @@
     android:id="@+id/container"
     android:layout_width="@dimen/_170sdp"
     android:layout_height="@dimen/_90sdp"
-    app:cardElevation="@dimen/_5sdp"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:background="?android:selectableItemBackground"
     app:cardCornerRadius="@dimen/_5sdp"
-    android:layout_margin="@dimen/_5sdp">
+    app:cardElevation="@dimen/_4sdp">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
+        android:focusable="false"
+        android:clickable="false"
         android:layout_height="match_parent">
 
         <ImageView
@@ -18,11 +24,15 @@
             android:layout_height="match_parent"
             android:contentDescription="@null"
             android:scaleType="fitXY"
+            android:focusable="false"
+            android:clickable="false"
             android:src="@drawable/supplies" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
+            android:clickable="false"
             android:background="@drawable/rounded_corner_image_layout"
             android:gravity="center">
 
@@ -32,13 +42,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:focusable="false"
                 android:clickable="false"
-                android:padding="@dimen/_5sdp"
+                android:focusable="false"
                 android:gravity="center"
-                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
                 android:textAllCaps="true"
                 android:textColor="@android:color/primary_text_dark"
+                android:textStyle="bold"
                 app:typeface="robotoMedium" />
 
         </RelativeLayout>
