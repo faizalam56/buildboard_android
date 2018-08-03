@@ -1,5 +1,5 @@
 
-package com.buildboard.modules.home.modules.profile.models.addresses.getaddress;
+package com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

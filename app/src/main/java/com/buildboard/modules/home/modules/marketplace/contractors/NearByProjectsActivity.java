@@ -105,6 +105,7 @@ public class NearByProjectsActivity extends AppCompatActivity{
     private void handleSuccessResponse(Object response) {
 
         if (response == null) return;
+
         NearByProjectData contractorByProjectTypeData = (NearByProjectData) response;
         Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
         textTitle.setText(contractorByProjectTypeData.getTitle());
@@ -123,7 +124,6 @@ public class NearByProjectsActivity extends AppCompatActivity{
         recyclerFooter.setLayoutManager(new LinearLayoutManager(this));
         recyclerFooter.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerFooter.setAdapter(projectDetailsFooterAdapter);
-
     }
 
     private String convertTime(String strDate) {
@@ -137,7 +137,6 @@ public class NearByProjectsActivity extends AppCompatActivity{
             e.printStackTrace();
             return converted_time;
         }
-
         converted_time = format2.format(date);
         return converted_time;
     }

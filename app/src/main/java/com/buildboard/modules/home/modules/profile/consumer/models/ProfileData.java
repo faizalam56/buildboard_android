@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.models;
+package com.buildboard.modules.home.modules.profile.consumer.models;
 
 import com.google.gson.annotations.SerializedName;
 

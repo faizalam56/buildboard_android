@@ -53,8 +53,6 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
         return mNearByProjects.size();
     }
 
-
-
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_name)
@@ -97,4 +95,4 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
             }
         }
     }
- }
+}

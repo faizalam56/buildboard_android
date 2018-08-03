@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile;
+package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
 import android.os.Bundle;

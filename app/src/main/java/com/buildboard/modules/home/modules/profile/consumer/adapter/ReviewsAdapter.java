@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.adapter;
+package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
