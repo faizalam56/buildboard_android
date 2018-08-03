@@ -3,6 +3,9 @@ package com.buildboard.modules.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,9 +14,13 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -38,11 +45,11 @@ import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -56,6 +63,8 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import butterknife.BindArray;
@@ -88,6 +97,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     ConstraintLayout constraintRoot;
     @BindView(R.id.sign_in_button)
     SignInButton signInButton;
+    @BindView(R.id.login_button)
+    LoginButton loginButton;
 
     @BindString(R.string.contractor)
     String stringContractor;
@@ -121,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mCallbackManager = CallbackManager.Factory.create();
     }
 
     @Override
@@ -172,8 +184,9 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         openActivity(ForgotPasswordActivity.class, false, false, null, null);
     }
 
-    @OnClick(R.id.button_login_facebook)
+    @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
+        loginButton.performClick();
         signInFaceBook();
     }
 
@@ -195,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (TextUtils.isEmpty(password)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
             return false;
-        } else if (password.length() < 8) {
+        } else if (password.length() < 6) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorIncorrectPassword);
             return false;
         }
@@ -220,9 +233,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     public void signInFaceBook() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "user_photos", "public_profile"));
-        mCallbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
 
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -233,10 +244,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onCancel() {
+                Log.e("cancle",  "");
             }
 
             @Override
             public void onError(FacebookException exception) {
+                exception.printStackTrace();
             }
         });
     }

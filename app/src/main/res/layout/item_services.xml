@@ -58,7 +58,7 @@
                 android:textColor="@android:color/black"
                 android:layout_toStartOf="@+id/textRatingBar" />
 
-            <TextView
+            <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/textRatingBar"
                 style="@style/textSize_smallest"
                 android:layout_width="wrap_content"
@@ -75,7 +75,8 @@
                 android:minHeight="@dimen/_20sdp"
                 android:minWidth="@dimen/_25sdp"
                 android:padding="@dimen/_1sdp"
-                android:text="4.5" />
+                android:visibility="invisible"
+                />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

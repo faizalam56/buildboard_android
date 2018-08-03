@@ -77,6 +77,9 @@ public class NearByContractor {
     @SerializedName("role")
     @Expose
     private String role;
+    @SerializedName("rating_count")
+    @Expose
+    private String ratingCount;
 
     public Double getDistance() {
         return distance;
@@ -268,5 +271,13 @@ public class NearByContractor {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(String ratingCount) {
+        this.ratingCount = ratingCount;
     }
 }

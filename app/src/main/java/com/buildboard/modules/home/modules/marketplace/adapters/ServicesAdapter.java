@@ -14,9 +14,12 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindString;
@@ -57,6 +60,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         TextView textServiceName;
         @BindView(R.id.image_service)
         ImageView imageService;
+        @BindView(R.id.textRatingBar)
+        BuildBoardTextView textRatingBar;
 
         @BindString(R.string.not_available)
         String stringNotAvailable;
@@ -76,7 +81,14 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             if (trendingService == null)
                 return;
 
+            if(trendingService.getRatingCount() != null) {
+                textRatingBar.setVisibility(View.VISIBLE);
+                textRatingBar.setText(trendingService.getRatingCount());
+            } else {
+                textRatingBar.setVisibility(View.INVISIBLE);
+            }
             textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
+            Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.drawable.ic_no_image).into(imageService);
         }
     }
 }

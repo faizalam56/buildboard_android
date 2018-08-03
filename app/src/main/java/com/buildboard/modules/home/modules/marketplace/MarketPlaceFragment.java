@@ -73,10 +73,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     BuildBoardTextView textViewAllNearby;
     @BindView(R.id.text_view_all_byproject)
     BuildBoardTextView textViewAllByproject;
-    @BindView(R.id.text_view_all_newprojects)
-    BuildBoardTextView textViewAllNewProjects;
-    @BindView(R.id.text_view_all_trending)
-    BuildBoardTextView textViewAllTrendingrojects;
     @BindView(R.id.text_no_internet)
     BuildBoardTextView textNoInternet;
     @BindView(R.id.constraint_root)
@@ -93,8 +89,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     String stringTrendingProjects;
     @BindString(R.string.near_by_projects)
     String stringNearByProjects;
-    @BindView(R.id.text_new_service)
-    BuildBoardTextView textNewProjectsTitle;
     @BindString(R.string.projects_on_marketplace)
     String stringProjectsOnMarketplace;
     @BindString(R.string.browse_projects_by_projectstype)
@@ -121,11 +115,9 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         showProgressColor(getActivity(), progressNearby);
         showProgressColor(getActivity(), progressProjectType);
         showProgressColor(getActivity(), progressService);
-        showProgressColor(getActivity(), progressNewProject);
 
         setFont();
         updateUi(false);
-        setNoRecordFoundTextVisiblity(false);
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             textNoInternet.setVisibility(View.GONE);
             if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
