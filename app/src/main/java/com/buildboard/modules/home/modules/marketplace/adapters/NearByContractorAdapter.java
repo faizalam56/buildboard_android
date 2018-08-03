@@ -82,7 +82,7 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             }
 
             textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : stringNotAvailable);
-            Picasso.get().load(nearByContractor.getImage()).placeholder(R.drawable.ic_profile).into(imageService);
+            Picasso.get().load(nearByContractor.getImage()).placeholder(R.mipmap.ic_launcher).into(imageService);//TODO change placeholder
         }
     }
 }
