@@ -304,6 +304,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                 if (createConsumerData.getMessage() != null) {
                     Toast.makeText(EditProfileActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
                     mUpdateProfileListener.updateProfile();
+                    startActivity(new Intent(EditProfileActivity.this,ProfileSettingsActivity.class));
                 }
             }
 

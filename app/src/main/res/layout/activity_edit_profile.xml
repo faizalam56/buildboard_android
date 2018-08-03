@@ -65,6 +65,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
             <com.buildboard.customviews.BuildBoardTextView
+                style="@style/textSize_smallest"
                 android:id="@+id/text_first_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -78,7 +79,7 @@
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_first_name"
                 style="@style/edit_text_size_smaller"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
@@ -91,6 +92,7 @@
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
+                style="@style/textSize_smallest"
                 android:id="@+id/text_last_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -104,7 +106,7 @@
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_last_name"
                 style="@style/edit_text_size_smaller"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/green_drawable_border"
                 android:hint="@string/last_name"
                 android:digits="@string/special_charactor"
@@ -117,10 +119,11 @@
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
+                style="@style/textSize_smallest"
                 android:id="@+id/text_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +133,7 @@
             <com.buildboard.customviews.BuildBoardEditText
                 android:id="@+id/edit_email"
                 style="@style/edit_text_size_smaller"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/green_drawable_border"
                 android:enabled="false"
                 android:hint="@string/email"
@@ -153,10 +156,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email">
 
                 <com.buildboard.customviews.BuildBoardTextView
+                    style="@style/textSize_smallest"
                     android:id="@+id/text_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +171,7 @@
                     android:id="@+id/edit_address"
                     style="@style/edit_text_size_smaller"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
@@ -192,10 +196,10 @@
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/textAddAnotherAddress"
-                    style="@style/textSize_smaller"
+                    style="@style/textSize_smallest"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/add_another_address"
                     android:textColor="@color/colorGreen"
                     android:textStyle="bold"
@@ -206,10 +210,11 @@
                     app:typeface="robotoMedium" />
 
                 <com.buildboard.customviews.BuildBoardTextView
+                    style="@style/textSize_smallest"
                     android:id="@+id/text_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -219,7 +224,7 @@
                 <com.buildboard.customviews.BuildBoardEditText
                     android:id="@+id/edit_phoneno"
                     style="@style/edit_text_size_smaller"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/green_drawable_border"
                     android:hint="@string/phone_no"
                     android:imeOptions="actionNext"
@@ -232,9 +237,11 @@
                     app:typeface="robotoRegular" />
 
                 <com.buildboard.customviews.BuildBoardTextView
+                    style="@style/textSize_smallest"
                     android:id="@+id/text_contact_mode"
-                    style="@style/edit_text_size_smaller"
-                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:background="@null"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -247,6 +254,7 @@
                     android:id="@+id/radio_group_contact_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_marginStart="@dimen/_2sdp"
                     android:orientation="horizontal"
@@ -285,7 +293,8 @@
             <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_next"
                 style="@style/button_style"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/green_button_background"
                 android:imeOptions="actionDone"
                 android:text="@string/save"

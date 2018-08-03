@@ -12,6 +12,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindString;
@@ -52,6 +54,8 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         BuildBoardTextView textName;
         @BindView(R.id.image_service)
         ImageView imageService;
+        @BindView(R.id.textRatingBar)
+        BuildBoardTextView textRatingBar;
 
         @BindString(R.string.not_available)
         String stringNotAvailable;
@@ -69,7 +73,16 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         private void setData() {
             NearByContractor nearByContractor = mNearByContractors.get(getAdapterPosition());
             if (nearByContractor == null) return;
+
+            if(nearByContractor.getRatingCount() != null) {
+                textRatingBar.setVisibility(View.VISIBLE);
+                textRatingBar.setText(nearByContractor.getRatingCount());
+            } else {
+                textRatingBar.setVisibility(View.INVISIBLE);
+            }
+
             textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : stringNotAvailable);
+            Picasso.get().load(nearByContractor.getImage()).placeholder(R.drawable.ic_profile).into(imageService);
         }
     }
 }

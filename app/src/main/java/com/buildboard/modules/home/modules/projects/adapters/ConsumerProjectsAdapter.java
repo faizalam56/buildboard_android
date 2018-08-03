@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
+import android.widget.RelativeLayout;
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
-
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import static com.buildboard.constants.AppConstant.STATUS_CURRENT;
+import static com.buildboard.constants.AppConstant.STATUS_OPEN;
 
 public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
 
@@ -122,19 +124,56 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
         @BindView(R.id.image_service)
         ImageView imageService;
         @BindView(R.id.text_service_type)
-        TextView textServiceType;
+        BuildBoardTextView textServiceType;
         @BindView(R.id.text_service_type_name)
-        TextView textServiceTypeName;
+        BuildBoardTextView textServiceTypeName;
+        @BindView(R.id.text_started_date)
+        BuildBoardTextView textStartedDate;
+        @BindView(R.id.text_bid_count)
+        BuildBoardTextView textBidCount;
+        @BindView(R.id.text_number_of_bid)
+        BuildBoardTextView textNumberOfBid;
+        @BindView(R.id.text_view_count)
+        BuildBoardTextView textViewCount;
+        @BindView(R.id.text_view)
+        BuildBoardTextView textView;
+        @BindView(R.id.relative_bid_related)
+        RelativeLayout bidRelatedRelativeLayout;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            setFont();
+        }
+
+        private void setFont() {
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceTypeName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textServiceType, textStartedDate, textViewCount, textView, textBidCount, textNumberOfBid);
         }
 
         private void bindData(int position) {
+            if (mProjectDetails.get(position).getStatus().equalsIgnoreCase(STATUS_OPEN)
+                    || mProjectDetails.get(position).getStatus().equalsIgnoreCase(STATUS_CURRENT)) {
+
+                if (mProjectDetails.get(position).getQuotesCount() != null && mProjectDetails.get(position).getViewsCount() != null) {
+                    bidRelatedRelativeLayout.setVisibility(View.VISIBLE);
+                    textBidCount.setText(mProjectDetails.get(position).getQuotesCount());
+                    textViewCount.setText(mProjectDetails.get(position).getViewsCount());
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) textStartedDate.getLayoutParams();
+                    layoutParams.setMargins(0, 0, 0, 15);
+                } else {
+                    bidRelatedRelativeLayout.setVisibility(View.GONE);
+                }
+            } else {
+                bidRelatedRelativeLayout.setVisibility(View.GONE);
+            }
             textServiceType.setText(mProjectDetails.get(position).getProjectType().getTitle());
             textServiceTypeName.setText(mProjectDetails.get(position).getTitle());
+            textStartedDate.setText(String.format("Started On: %s",
+                    mProjectDetails.get(position).getStartDate().substring(0, 10)));
+            Picasso.get().load(mProjectDetails.get(position).getImage())
+                    .placeholder(R.drawable.supplies).into(imageService);
         }
     }
 

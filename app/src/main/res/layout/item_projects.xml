@@ -4,7 +4,8 @@
     android:layout_height="130dp"
     android:layout_margin="@dimen/_5sdp">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,7 +14,8 @@
             android:id="@+id/image_service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
             android:src="@drawable/supplies" />
 
         <RelativeLayout
@@ -31,8 +33,8 @@
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
                 android:gravity="center"
-                android:textColor="@android:color/primary_text_dark"
-                app:typeface="robotoMedium" />
+                android:text="dfdfdfdfdfdf"
+                android:textColor="@android:color/primary_text_dark" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_service_type"
@@ -40,11 +42,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_service_type_name"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:focusable="false"
                 android:gravity="center"
+                android:text="dfdfdfdfdfdfdf"
                 android:textAllCaps="true"
-                android:textColor="@android:color/primary_text_dark"
-                app:typeface="robotoMedium" />
+                android:textColor="@android:color/primary_text_dark" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_started_date"
+                style="@style/textSize_smaller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_service_type"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:focusable="false"
+                android:gravity="center"
+                android:text="dfdfdfdfdfdfdf"
+                android:textColor="@android:color/primary_text_dark" />
+
+            <RelativeLayout
+                android:id="@+id/relative_bid_related"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_started_date"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_minus15sdp"
+                android:gravity="end|bottom">
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_bid_count"
+                    style="@style/textSize_smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:background="@drawable/green_background"
+                    android:gravity="center"
+                    android:minHeight="@dimen/_10sdp"
+                    android:minWidth="@dimen/_20sdp"
+                    android:padding="@dimen/_1sdp"
+                    android:text="5"
+                    android:textColor="@android:color/primary_text_dark" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_number_of_bid"
+                    style="@style/textSize_smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/text_bid_count"
+                    android:layout_toRightOf="@+id/text_bid_count"
+                    android:text="No. of Bids"
+                    android:textColor="@android:color/primary_text_dark" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_view_count"
+                    style="@style/textSize_smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_toEndOf="@+id/text_number_of_bid"
+                    android:layout_toRightOf="@+id/text_number_of_bid"
+                    android:background="@drawable/green_background"
+                    android:gravity="center"
+                    android:minHeight="@dimen/_15sdp"
+                    android:minWidth="@dimen/_20sdp"
+                    android:text="16"
+                    android:padding="@dimen/_1sdp"
+                    android:textColor="@android:color/primary_text_dark" />
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_view"
+                    style="@style/textSize_smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/text_view_count"
+                    android:layout_toRightOf="@+id/text_view_count"
+                    android:gravity="center_vertical"
+                    android:text="views"
+                    android:textColor="@android:color/primary_text_dark"
+                    app:typeface="robotoMedium" />
+            </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
