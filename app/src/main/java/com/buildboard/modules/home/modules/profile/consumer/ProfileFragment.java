@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.squareup.picasso.Picasso;
@@ -23,11 +26,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment implements EditProfileActivity.UpdateProfileListener {
+public class ProfileFragment extends Fragment
+        implements EditProfileActivity.UpdateProfileListener, AppConstant {
 
     private static ProfileFragment sFragment;
     private Unbinder unbinder;
-    private ProfileData profileData;
+    public ProfileData profileData;
 
     @BindView(R.id.image_profile)
     ImageView imageProfile;
@@ -39,6 +43,14 @@ public class ProfileFragment extends Fragment implements EditProfileActivity.Upd
     BuildBoardTextView textPhone;
     @BindView(R.id.container_root)
     CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.row_my_preferred_contractor)
+    RelativeLayout relativeLayoutPrefContractor;
+    @BindView(R.id.row_my_location)
+    RelativeLayout relativeLayoutLocation;
+    @BindView(R.id.divider_my_pref_contractor)
+    View dividerContractor;
+    @BindView(R.id.divider_my_location_addresses)
+    View dividerLocation;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -53,6 +65,13 @@ public class ProfileFragment extends Fragment implements EditProfileActivity.Upd
         unbinder = ButterKnife.bind(this, view);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                relativeLayoutPrefContractor.setVisibility(View.GONE);
+                relativeLayoutLocation.setVisibility(View.GONE);
+                dividerContractor.setVisibility(View.GONE);
+                dividerLocation.setVisibility(View.GONE);
+            }
+
             if (profileData != null) setProfileData(profileData);
             else getProfile();
         } else {

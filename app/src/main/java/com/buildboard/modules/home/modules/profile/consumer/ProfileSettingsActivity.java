@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
@@ -27,7 +28,7 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
-public class ProfileSettingsActivity extends AppCompatActivity {
+public class ProfileSettingsActivity extends AppCompatActivity implements AppConstant {
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -75,6 +76,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 ProgressHelper.stop();
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
                     mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -84,9 +86,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                             finish();
                         }
                     });
+
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    ProfileFragment.newInstance().profileData = null;
                     openActivity(LoginActivity.class, true);
                 }
             }
