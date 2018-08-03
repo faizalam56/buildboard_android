@@ -96,6 +96,7 @@
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
+    <string name="new_projects">New Projects</string>
     <string name="completed_projects">Completed\nProjects</string>
     <string name="open_projects">Open\nProjects</string>
     <string name="lost_projects">Lost\nProjects</string>
@@ -266,4 +267,5 @@
     <string name="document">Document</string>
     <string name="confirm_primary_address">Do you want to make this address your Primary Address?</string>
     <string name="success_primary_address_changed">Your primary address is successfully change.</string>
+    <string name="summary">Summary</string>
 </resources>
