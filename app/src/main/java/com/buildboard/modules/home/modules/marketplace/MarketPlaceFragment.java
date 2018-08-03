@@ -44,8 +44,6 @@ import static com.buildboard.utils.Utils.showProgressColor;
 
 public class MarketPlaceFragment extends Fragment implements AppConstant {
 
-    private String mTitle;
-    private Unbinder mUnbinder;
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
     @BindView(R.id.recycler_services_no_record)
@@ -98,7 +96,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     ProgressBar progressNearby;
     @BindView(R.id.progress_bar_projecttype)
     ProgressBar progressProjecttype;
-
+    private String mTitle;
+    private Unbinder mUnbinder;
 
     public static MarketPlaceFragment newInstance() {
         return new MarketPlaceFragment();
@@ -230,7 +229,9 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
             public void onSuccess(Object response) {
 
                 setProgressBar(false);
+
                 if (response == null) return;
+
                 if (isAdded()) {
                     MarketplaceContractorData marketplaceContractorData = (MarketplaceContractorData) response;
                     updateUi(true);
@@ -252,13 +253,12 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         super.onCreate(saveinstancestate);
     }
 
-      private void setProgressBar(Boolean visiblity){
-       progressNearby.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-       progressProjecttype.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-       progressService.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+    private void setProgressBar(Boolean visiblity) {
+        progressNearby.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+        progressProjecttype.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+        progressService.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+    }
 
-
-   }
     private void updateUi(boolean visibility) {
         textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);
