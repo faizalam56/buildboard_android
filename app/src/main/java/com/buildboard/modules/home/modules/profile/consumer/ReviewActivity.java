@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,11 +31,15 @@ public class ReviewActivity extends AppCompatActivity {
     RecyclerView recyclerReviews;
     @BindView(R.id.text_no_record_found)
     BuildBoardTextView textNoDataFound;
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintLayout;
 
     @BindString(R.string.reviews)
     String stringTitle;
     @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
+    @BindString(R.string.no_internet_text)
+    String stringNoInternet;
 
     private ReviewsAdapter mReviewAdapter;
     private int mCurrentPage = 1;
@@ -48,9 +53,12 @@ public class ReviewActivity extends AppCompatActivity {
 
         textTitle.setText(stringTitle);
 
-        if (!ConnectionDetector.isNetworkConnected(this)) return;
-
-        getReviews();
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            getReviews();
+        } else {
+            textNoDataFound.setText(stringNoInternet);
+            ConnectionDetector.createSnackBar(this, constraintLayout);
+        }
     }
 
     private void getReviews() {
