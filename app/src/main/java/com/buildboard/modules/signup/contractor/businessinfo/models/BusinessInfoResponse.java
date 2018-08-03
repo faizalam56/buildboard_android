@@ -1,8 +1,9 @@
 
 package com.buildboard.modules.signup.contractor.businessinfo.models;
 
-import java.lang.Error;
 import java.util.List;
+
+import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,7 +17,7 @@ public class BusinessInfoResponse {
     private List<BusinessInfoData> data = null;
     @SerializedName("error")
     @Expose
-    private java.lang.Error error;
+    private ErrorResponse error;
 
     public String getStatus() {
         return status;
@@ -34,11 +35,11 @@ public class BusinessInfoResponse {
         this.data = data;
     }
 
-    public java.lang.Error getError() {
+    public ErrorResponse getError() {
         return error;
     }
 
-    public void setError(Error error) {
+    public void setError(ErrorResponse error) {
         this.error = error;
     }
 

@@ -22,11 +22,14 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -47,6 +50,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+
     @BindView(R.id.edit_business_name)
     BuildBoardEditText editBusinessName;
     @BindView(R.id.edit_business_address)
@@ -63,8 +67,28 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     BuildBoardEditText editSummary;
     @BindView(R.id.edit_phoneno)
     BuildBoardEditText editPhoneno;
+
     @BindView(R.id.spinner_working_area)
     Spinner spinnerWorkingArea;
+
+    @BindView(R.id.text_terms_of_service)
+    BuildBoardTextView textTermsOfService;
+    @BindView(R.id.text_business_name)
+    BuildBoardTextView textBusinessName;
+    @BindView(R.id.text_business_address)
+    BuildBoardTextView textBusinessAddress;
+    @BindView(R.id.text_first_name)
+    BuildBoardTextView textFirstName;
+    @BindView(R.id.text_last_name)
+    BuildBoardTextView textLastName;
+    @BindView(R.id.text_email)
+    BuildBoardTextView textEmail;
+    @BindView(R.id.text_password)
+    BuildBoardTextView textPassword;
+    @BindView(R.id.text_phoneno)
+    BuildBoardTextView textPhone;
+    @BindView(R.id.text_summary)
+    BuildBoardTextView textSummary;
 
     @BindString(R.string.sign_up)
     String stringSignUp;
@@ -72,8 +96,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindView(R.id.text_terms_of_service)
-    BuildBoardTextView textTermsOfService;
     @BindString(R.string.error_enter_first_name)
     String stringErrorFirstName;
     @BindString(R.string.error_enter_last_name)
@@ -125,6 +147,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         ButterKnife.bind(this);
 
         title.setText(stringSignUp);
+        setAsteriskToText();
         setTermsServiceText();
         getIntentData();
     }
@@ -144,6 +167,12 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
     @OnClick(R.id.button_next)
     void nextTapped() {
+
+        if (!ConnectionDetector.isNetworkConnected(this)) {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+
+            return;
+        }
         String password;
         String businessName = editBusinessName.getText().toString();
         String businessAddress = editBusinessAddress.getText().toString();
@@ -221,7 +250,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         populateWorkingArea();
     }
 
-    private void populateWorkingArea () {
+    private void populateWorkingArea() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayWorkingArea);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWorkingArea.setAdapter(adapter);
@@ -255,12 +284,13 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });
     }
 
-    private BusinessInfoRequest getBusinessInfoRequest (String businessName, String businessAddress, String principalFirstName,
-                                                        String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
+    private BusinessInfoRequest getBusinessInfoRequest(String businessName, String businessAddress, String principalFirstName,
+                                                       String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
         BusinessInfoRequest businessInfoRequest = new BusinessInfoRequest();
 
         businessInfoRequest.setBusinessName(businessName);
@@ -268,8 +298,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         businessInfoRequest.setFirstName(principalFirstName);
         businessInfoRequest.setLastName(principalLastName);
         businessInfoRequest.setEmail(email);
-        if(!TextUtils.isEmpty(phoneNo))
-        businessInfoRequest.setPhone(phoneNo);
+        if (!TextUtils.isEmpty(phoneNo))
+            businessInfoRequest.setPhone(phoneNo);
 
         if (!password.equalsIgnoreCase("not_required")) // TODO hardcoded string
             businessInfoRequest.setPassword(password);
@@ -322,7 +352,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             return false;
         }
 
-
         if (TextUtils.isEmpty(principalLastName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorLastName);
             return false;
@@ -336,16 +365,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             return false;
         }
 
-        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(summary)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringSummary).show();
-            return false;
-        }
-
         if (!password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
             if (TextUtils.isEmpty(password)) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
@@ -354,6 +373,16 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
                 return false;
             }
+        }
+
+        if (!TextUtils.isEmpty(phoneNo) && phoneNo.length() < 10) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorValidPhoneNumber).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(summary)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringSummary).show();
+            return false;
         }
 
         return true;
@@ -384,4 +413,15 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
+    private void setAsteriskToText() {
+        textBusinessName.setText(Utils.setStarToLabel(getString(R.string.business_name)));
+        textBusinessAddress.setText(Utils.setStarToLabel(getString(R.string.business_address)));
+        textFirstName.setText(Utils.setStarToLabel(getString(R.string.principal_first_name)));
+        textLastName.setText(Utils.setStarToLabel(getString(R.string.principal_last_name)));
+        textEmail.setText(Utils.setStarToLabel(getString(R.string.email)));
+        textPassword.setText(Utils.setStarToLabel(getString(R.string.password)));
+        textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
+        textSummary.setText(Utils.setStarToLabel(getString(R.string.summary)));
+    }
 }
