@@ -86,9 +86,9 @@
                 android:id="@+id/text_trending_service"
                 style="@style/textSize_smaller"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/trending_services"
                 android:textColor="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_newservices_no_record" />
@@ -98,15 +98,16 @@
                 style="@style/textSize_smaller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/view_all"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_newservices_no_record"
                 tools:layout_editor_absoluteY="256dp" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_services"
                 android:layout_width="0dp"
@@ -153,9 +154,9 @@
                 style="@style/textSize_smaller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/near_by_contractors"
                 android:textColor="@android:color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -166,10 +167,10 @@
                 style="@style/textSize_smaller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/view_all"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintRight_toRightOf="parent"
@@ -216,14 +217,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_nearby_contractors" />
 
-
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_contractors_by_projecttype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/contractors_by_project_type"
                 android:textColor="@android:color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
