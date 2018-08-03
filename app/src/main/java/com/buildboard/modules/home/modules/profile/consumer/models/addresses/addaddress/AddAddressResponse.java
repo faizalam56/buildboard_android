@@ -1,11 +1,13 @@
 
-package com.buildboard.modules.home.modules.profile.models.addresses.getaddress;
+package com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress;
 
 import java.util.List;
+
+import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GetAddressesResponse {
+public class AddAddressResponse {
 
     @SerializedName("status")
     @Expose
@@ -15,7 +17,7 @@ public class GetAddressesResponse {
     private List<Data> data = null;
     @SerializedName("error")
     @Expose
-    private Error error;
+    private ErrorResponse error;
 
     public String getStatus() {
         return status;
@@ -33,11 +35,12 @@ public class GetAddressesResponse {
         this.data = data;
     }
 
-    public Error getError() {
+    public ErrorResponse getError() {
         return error;
     }
 
-    public void setError(Error error) {
+    public void setError(ErrorResponse error) {
         this.error = error;
     }
+
 }

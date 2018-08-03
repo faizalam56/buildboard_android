@@ -1,16 +1,15 @@
-package com.buildboard.modules.home.modules.profile.models;
-
+package com.buildboard.modules.home.modules.profile.consumer.models;
 
 import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class LogoutResponse {
+public class ProfileResponse {
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<String> datas = new ArrayList<>();
+    private ArrayList<ProfileData> datas = new ArrayList<>();
     @SerializedName("error")
     private ErrorResponse error;
 
@@ -30,11 +29,11 @@ public class LogoutResponse {
         this.error = error;
     }
 
-    public ArrayList<String> getDatas() {
+    public ArrayList<ProfileData> getDatas() {
         return datas;
     }
 
-    public void setDatas(ArrayList<String> datas) {
+    public void setDatas(ArrayList<ProfileData> datas) {
         this.datas = datas;
     }
 }

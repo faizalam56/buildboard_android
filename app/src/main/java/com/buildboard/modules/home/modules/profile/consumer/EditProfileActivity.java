@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile;
+package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -32,7 +32,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.home.modules.profile.models.ProfileData;
+import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;

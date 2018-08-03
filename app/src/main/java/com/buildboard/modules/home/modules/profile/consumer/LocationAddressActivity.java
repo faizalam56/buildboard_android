@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile;
+package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.adapter.AddressesAdapter;
-import com.buildboard.modules.home.modules.profile.models.addresses.addaddress.AddAddressRequest;
-import com.buildboard.modules.home.modules.profile.models.addresses.getaddress.AddressListData;
+import com.buildboard.modules.home.modules.profile.consumer.adapter.AddressesAdapter;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
@@ -23,7 +23,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
