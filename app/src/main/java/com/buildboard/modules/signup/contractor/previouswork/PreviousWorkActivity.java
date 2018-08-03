@@ -19,6 +19,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,6 +82,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringPleaseWait;
     @BindString(R.string.text_msg_permission_required)
     String stringReadStoragePermission;
+    @BindString(R.string.please_select_image)
+    String stringSelectImage;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -380,6 +384,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     private void showImageUploadDialog() {
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
+
         mAddProfilePhotoDialog.showDialog(this, new AddProfilePhotoDialog.IAddProfileCallback() {
             @Override
             public void onImageSelection() {
@@ -394,6 +399,11 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
             @Override
             public void onSaveImage() {
+                if(selectedImage == null){
+                    SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringSelectImage);
+                    return;
+                }
+
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
                     isAttachment = false;
                     mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))),
@@ -403,6 +413,15 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 }
             }
         });
+        if(selectedImage != null) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
