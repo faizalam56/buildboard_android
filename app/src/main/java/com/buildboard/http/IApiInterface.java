@@ -10,6 +10,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.add
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
+import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -132,4 +133,7 @@ public interface IApiInterface {
 
     @PUT("consumer/address")
     Call<PrimaryAddressResponse> makePrimaryAddress(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("id") String id);
+
+    @GET("reviews")
+    Call<ReviewsResponse> getReviews(@Header("oauth") String oauth, @Header("session") String sessionId);
 }
