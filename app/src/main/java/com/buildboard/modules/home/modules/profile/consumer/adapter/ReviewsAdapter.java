@@ -12,7 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
-import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
+import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,11 +25,19 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     public boolean isLoading = false;
-    private ArrayList<ProjectDetail> mProjectDetails;
+    private Activity mActivity;
+    private ArrayList<ReviewData> mReviewsList;
     private OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
+
+    public ReviewsAdapter(Activity activity, ArrayList<ReviewData> reviewsList, RecyclerView recyclerView) {
+        mActivity = activity;
+        mReviewsList = reviewsList;
+        mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        mLayoutInflater = LayoutInflater.from(mActivity);
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,13 +71,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 20;
-    }
-
-    public ReviewsAdapter(Activity activity, RecyclerView recyclerView) {
-        Activity mActivity = activity;
-        mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        mLayoutInflater = LayoutInflater.from(mActivity);
+        return mReviewsList.size();
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
@@ -91,10 +94,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
 
         @BindView(R.id.image_contractor)
         ImageView imageContractor;
-        @BindView(R.id.text_contractor_name)
-        TextView textContractorName;
-        @BindView(R.id.text_company_name)
-        TextView textServiceTypeName;
+        @BindView(R.id.text_business_name)
+        TextView textBusinessName;
+        @BindView(R.id.text_review)
+        TextView textReview;
         @BindView(R.id.rating_contractor)
         RatingBar ratingBar;
 
@@ -104,15 +107,49 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-            }
+            Picasso.get()
+                    .load(mReviewsList.get(position).getContractor().getImage())
+                    .into(imageContractor);
+            textBusinessName.setText(mReviewsList.get(position).getContractor().getBusinessName());
+            textReview.setText(mReviewsList.get(position).getReview());
+            ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
+
+        }
     }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
-        private ProgressBar progressBar;
 
+        private ProgressBar progressBar;
         private LoadingViewHolder(View view) {
             super(view);
             progressBar = view.findViewById(R.id.progressBar_loading);
         }
+
     }
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int visibleItemCount = mLinearLayoutManager.getChildCount();
+            int totalItemCount = mLinearLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    setLoading(true);
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                }
+            }
+        }
+    };
 }

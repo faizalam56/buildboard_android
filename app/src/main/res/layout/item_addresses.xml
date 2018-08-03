@@ -36,7 +36,6 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_3sdp"
         android:ellipsize="end"
-        android:inputType="textMultiLine"
         android:maxLines="3"
         android:text="@string/my_location_address"
         app:layout_constraintBottom_toBottomOf="parent"
