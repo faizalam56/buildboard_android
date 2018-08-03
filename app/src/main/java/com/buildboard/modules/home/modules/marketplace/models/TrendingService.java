@@ -80,6 +80,9 @@ public class TrendingService implements Parcelable {
     @SerializedName("role")
     @Expose
     private String role;
+    @SerializedName("rating_count")
+    @Expose
+    private String ratingCount;
 
     protected TrendingService(Parcel in) {
         id = in.readString();
@@ -398,5 +401,13 @@ public class TrendingService implements Parcelable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(String ratingCount) {
+        this.ratingCount = ratingCount;
     }
 }

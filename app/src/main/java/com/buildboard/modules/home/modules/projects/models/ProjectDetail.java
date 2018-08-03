@@ -29,12 +29,19 @@ public class ProjectDetail {
     private String updatedAt;
     @SerializedName("image")
     private String image;
+    @SerializedName("quotes_count")
+    private String quotesCount;
+    @SerializedName("views_count")
+    private String viewsCount;
     @SerializedName("preferred_contractors")
     private Object preferredContractors;
     @SerializedName("project_type")
     private ProjectType projectType;
     @SerializedName("consumer")
     private ConsumerInfo consumerInfo;
+
+
+
     public String getId() {
         return id;
     }
@@ -152,5 +159,21 @@ public class ProjectDetail {
 
     public void setConsumerInfo(ConsumerInfo consumerInfo) {
         this.consumerInfo = consumerInfo;
+    }
+
+    public String getViewsCount() {
+        return viewsCount;
+    }
+
+    public void setViewsCount(String viewsCount) {
+        this.viewsCount = viewsCount;
+    }
+
+    public String getQuotesCount() {
+        return quotesCount;
+    }
+
+    public void setQuotesCount(String quotesCount) {
+        this.quotesCount = quotesCount;
     }
 }

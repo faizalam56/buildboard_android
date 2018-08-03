@@ -66,10 +66,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     BuildBoardTextView textViewAllNearby;
     @BindView(R.id.text_view_all_byproject)
     BuildBoardTextView textViewAllByproject;
-    @BindView(R.id.view_services)
-    View viewServices;
-    @BindView(R.id.view_nearby_contractor)
-    View viewNearbyContractor;
     @BindView(R.id.text_no_internet)
     BuildBoardTextView textNoInternet;
     @BindView(R.id.constraint_root)
@@ -265,8 +261,6 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjectType.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textNearbyContractors.setVisibility(visibility ? View.VISIBLE : View.GONE);
-        viewServices.setVisibility(visibility ? View.VISIBLE : View.GONE);
-        viewNearbyContractor.setVisibility(visibility ? View.VISIBLE : View.GONE);
         scrollView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }
