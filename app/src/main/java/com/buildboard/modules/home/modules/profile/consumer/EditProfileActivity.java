@@ -30,6 +30,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
@@ -62,12 +63,15 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+import static com.buildboard.utils.Utils.selectImage;
 
 public class EditProfileActivity extends AppCompatActivity implements AppConstant {
 
-    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private final int REQUEST_CODE = 2001;
+    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+    private final int PICK_IMAGE_CAMERA = 2001;
+    private final int PICK_IMAGE_GALLERY = 2002;
     private String apiKey;
     private String schemaSpecificPart;
     private LatLng addressLatLng;
@@ -80,6 +84,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private ContractorTypeDetail contractorTypeDetail;
     private int maxClicks = 3, currentNumber = 0;
     private String contactMode = PHONE;
+    private Bitmap bitmap;
     public UpdateProfileListener mUpdateProfileListener;
 
     @BindView(R.id.radio_group_contact_mode)
@@ -210,6 +215,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
 
+        getIntentData();
         title.setText(stringEditProfile);
         getUserProfileData();
         setAsteriskToText();
@@ -221,15 +227,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
         }
-
-        Uri uri = getIntent().getData();
-        if (uri != null && uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = splitApiKey();
-        }
-
-        if (!TextUtils.isEmpty(apiKey))
-            verifyUser(apiKey);
 
         radioGroupContactMode.setOnCheckedChangeListener(checkedChangeListener);
     }
@@ -256,6 +253,27 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         }
     }
 
+
+    public void getIntentData() {
+        if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
+            provider = getIntent().getStringExtra(INTENT_PROVIDER);
+            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+            mEmail = getIntent().getStringExtra(INTENT_EMAIL);
+        }
+
+        if (provider != null && providerId != null) {
+            editEmail.setText(mEmail);
+            editEmail.setFocusable(false);
+            editEmail.setFocusableInTouchMode(false);
+            editEmail.setClickable(false);
+            editEmail.setCursorVisible(false);
+        } else {
+            editEmail.setFocusable(true);
+            editEmail.setFocusableInTouchMode(true);
+            editEmail.setClickable(true);
+            editEmail.setCursorVisible(true);
+        }
+    }
     @OnClick(R.id.button_next)
     void nextButtonTapped() {
         String firstName = editFirstName.getText().toString();
@@ -275,8 +293,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     @OnClick({R.id.image_profile, R.id.text_add_profile_picture})
     void imageProfileTapped() {
         if (ConnectionDetector.isNetworkConnected(this)) {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE);
+            selectImage(this);
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
         }
@@ -385,39 +402,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         }
     }
 
-    private String splitApiKey() {
-        Uri uri = getIntent().getData();
-        String apiKey = null;
-        assert uri != null;
-        if (uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
-        }
-
-        return apiKey;
-    }
-
-    private void verifyUser(String apiKey) {
-        ProgressHelper.start(this, stringPleaseWait);
-
-        DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                Toast.makeText(EditProfileActivity.this, activateUserResponse.getDatas().get(0), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(EditProfileActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -449,13 +433,24 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                     getAddressLatLng(PlacePicker.getPlace(this, data));
                     break;
 
-                case REQUEST_CODE:
+                case PICK_IMAGE_GALLERY:
                     selectedImage = data.getData();
-                    uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, selectedImage))));
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         imageProfile.setImageBitmap(bitmap);
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PICK_IMAGE_CAMERA:
+                    try {
+                        Bundle extras = data.getExtras();
+                        if (extras != null) {
+                            bitmap = (Bitmap) extras.get("data");
+                            selectedImage=  getImageUri(this,bitmap);
+                            imageProfile.setImageBitmap(bitmap);
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
@@ -468,34 +463,36 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     private void showAddressDialog(Place place) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
-        dialogBuilder.setView(dialogView);
-        final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
-        final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
-        buildBoardEditText.setText(place.getName());
-        textView.setText(place.getAddress());
-        dialogBuilder.setTitle(getString(R.string.confirm_location));
-        dialogBuilder.setPositiveButton(getString(R.string.done), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String newLocation = buildBoardEditText.getText().toString();
-                String selectedLocation = textView.getText().toString();
-                if (TextUtils.isEmpty(newLocation)) {
-                    SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, stringCheckLocation);
-                } else {
-                    editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+        if (place != null) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
+            dialogBuilder.setView(dialogView);
+            final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
+            final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
+            buildBoardEditText.setText(place.getName());
+            textView.setText(place.getAddress());
+            dialogBuilder.setTitle(getString(R.string.confirm_location));
+            dialogBuilder.setPositiveButton(getString(R.string.done), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String newLocation = buildBoardEditText.getText().toString();
+                    String selectedLocation = textView.getText().toString();
+                    if (TextUtils.isEmpty(newLocation)) {
+                        SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, stringCheckLocation);
+                    } else {
+                        editAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                    }
                 }
-            }
-        });
-        dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertChangeAddressDialog = dialogBuilder.create();
-        alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        alertChangeAddressDialog.show();
+            });
+            dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alertChangeAddressDialog = dialogBuilder.create();
+            alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            alertChangeAddressDialog.show();
+        }
     }
 
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -560,7 +557,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
     private void setProfileData(ProfileData profileData) {
         if (profileData != null) {
-            Picasso.get().load(profileData.getImage()).error(R.drawable.upload_profile_image).into(imageProfile);
+            Picasso.get().load(profileData.getImage()).resize(80,80).error(R.drawable.upload_profile_image).into(imageProfile);
             addressLatLng = new LatLng(profileData.getLatitude(),profileData.getLongitude());
             editFirstName.setText(profileData.getFirstName());
             editLastName.setText(profileData.getLastName());

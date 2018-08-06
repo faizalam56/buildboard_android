@@ -4,9 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.buildboard.customviews.BuildBoardTextView
+        style="@style/textSize_smallest"
+        android:id="@+id/text_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="your address"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/editPlaceName"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
@@ -15,24 +32,48 @@
         android:background="@drawable/green_drawable_border"
         android:hint="@string/current_address"
         android:imeOptions="actionNext"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_5sdp"
         android:inputType="textPersonName"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:typeface="robotoRegular" />
+        app:layout_constraintTop_toBottomOf="@+id/text_heading"
+        android:paddingLeft="@dimen/_5sdp" />
 
     <com.buildboard.customviews.BuildBoardTextView
-        android:id="@+id/textSelectedLocation"
+        style="@style/textSize_smallest"
+        android:id="@+id/text_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:padding="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="primary address"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium"
+        app:layout_constraintTop_toBottomOf="@+id/editPlaceName" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/textSelectedLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/green_drawable_border"
+        android:minLines="2"
+        android:gravity="start|center_vertical"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:paddingLeft="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPlaceName" />
+        app:layout_constraintTop_toBottomOf="@+id/text_location" />
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.buildboard.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -132,6 +132,45 @@ public class Utils {
             } else {
                 progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorGreen), PorterDuff.Mode.SRC_IN);
             }
+        }
+    }
+
+    public static Uri getImageUri(Context mContext, Bitmap photo) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), photo, "", null);
+        return Uri.parse(path);
+    }
+
+
+    public static void selectImage(final Activity activity) {
+        final int PICK_IMAGE_CAMERA = 2001;
+        final int PICK_IMAGE_GALLERY = 2002;
+        try {
+            final CharSequence[] options = {"Take Photo", "Choose From Gallery", "Cancel"};
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
+            builder.setTitle("Select Option");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals("Take Photo")) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        activity.startActivityForResult(intent, PICK_IMAGE_CAMERA);
+                    } else if (options[item].equals("Choose From Gallery")) {
+                        dialog.dismiss();
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        activity.startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
+                    } else if (options[item].equals("Cancel")) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+            builder.show();
+
+        } catch (Exception e) {
+            Toast.makeText(activity, "Permission error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 }

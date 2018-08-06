@@ -14,9 +14,7 @@ import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -37,9 +35,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.login.LoginActivity;
-import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
@@ -68,12 +64,15 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+import static com.buildboard.utils.Utils.selectImage;
 
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
-    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private final int REQUEST_CODE = 2001;
+    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
+    private final int PICK_IMAGE_CAMERA = 2001;
+    private final int PICK_IMAGE_GALLERY = 2002;
     private String apiKey;
     private String schemaSpecificPart;
     private LatLng addressLatLng;
@@ -81,6 +80,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private String providerId;
     private String mEmail;
     private Uri selectedImage;
+    private Bitmap bitmap;
     private String contactMode = PHONE;
     private ContractorTypeDetail contractorTypeDetail;
 
@@ -231,15 +231,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
         getIntentData();
 
-        Uri uri = getIntent().getData();
-        if (uri != null && uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = splitApiKey();
-        }
-
-        if (!TextUtils.isEmpty(apiKey))
-            verifyUser(apiKey);
-
         radioGroupContactMode.setOnCheckedChangeListener(checkedChangeListener);
     }
 
@@ -291,8 +282,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     @OnClick({R.id.image_profile, R.id.text_add_profile_picture})
     void imageProfileTapped() {
         if (ConnectionDetector.isNetworkConnected(this)) {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE);
+            selectImage(this);
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
         }
@@ -437,46 +427,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
-    private String splitApiKey() {
-        Uri uri = getIntent().getData();
-        String apiKey = null;
-        assert uri != null;
-        if (uri.getSchemeSpecificPart() != null) {
-            schemaSpecificPart = uri.getSchemeSpecificPart();
-            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
-        }
-
-        return apiKey;
-    }
-
-    private void verifyUser(String apiKey) {
-        ProgressHelper.start(this, stringPleaseWait);
-
-        DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                PopUpHelper.showAlertPopup(SignUpActivity.this,activateUserResponse.getDatas().get(0), new PopUpHelper.ConfirmPopUp() {
-                    @Override
-                    public void onConfirm(boolean isConfirm) {
-                        startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                        finish();
-                    }
-                    @Override
-                    public void onDismiss(boolean isDismiss) { }
-                });
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                ErrorManager errorManager = new ErrorManager(SignUpActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -508,12 +458,24 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
                     getAddressLatLng(PlacePicker.getPlace(this, data));
                     break;
 
-                case REQUEST_CODE:
+                case PICK_IMAGE_GALLERY:
                     selectedImage = data.getData();
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         imageProfile.setImageBitmap(bitmap);
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PICK_IMAGE_CAMERA:
+                    try {
+                        Bundle extras = data.getExtras();
+                        if (extras != null) {
+                            bitmap = (Bitmap) extras.get("data");
+                            selectedImage=  getImageUri(this,bitmap);
+                            imageProfile.setImageBitmap(bitmap);
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
@@ -527,6 +489,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void showAddressDialog(Place place) {
+        if (place != null) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
@@ -555,6 +518,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         AlertDialog alertChangeAddressDialog = dialogBuilder.create();
         alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertChangeAddressDialog.show();
+        }
     }
 
     public void getIntentData() {

@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.buildboard.dialogs.PopUpHelper;
+import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.buildboard.R;
@@ -78,6 +82,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     private static final int RC_SIGN_IN = 9001;
     private CallbackManager mCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
+    private String apiKey;
+    private String schemaSpecificPart;
 
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
@@ -120,12 +126,24 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String[] arrayUserType;
     @BindArray(R.array.array_user_type)
     String[] arrayUsertype;
+    @BindString(R.string.msg_please_wait)
+    String stringPleaseWait;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = splitApiKey();
+        }
+
+        if (!TextUtils.isEmpty(apiKey))
+            verifyUser(apiKey);
+
         textSignUp.setPaintFlags(textSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         getAccessToken();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -134,7 +152,44 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mCallbackManager = CallbackManager.Factory.create();
     }
+    private String splitApiKey() {
+        Uri uri = getIntent().getData();
+        String apiKey = null;
+        assert uri != null;
+        if (uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
+        }
 
+        return apiKey;
+    }
+
+    private void verifyUser(String apiKey) {
+        ProgressHelper.start(this, stringPleaseWait);
+
+        DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
+                PopUpHelper.showAlertPopup(LoginActivity.this,activateUserResponse.getDatas().get(0), new PopUpHelper.ConfirmPopUp() {
+                    @Override
+                    public void onConfirm(boolean isConfirm) {
+
+                    }
+                    @Override
+                    public void onDismiss(boolean isDismiss) { }
+                });
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
+            }
+        });
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
