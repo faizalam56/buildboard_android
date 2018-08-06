@@ -23,6 +23,9 @@ import static com.buildboard.constants.AppConstant.DATA;
 
 public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
 
+    private ArrayList<String> mMenuArray = new ArrayList<>();
+    private ArrayList<String> mAttachmentArray = new ArrayList<>();
+    private Context mContext;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
@@ -31,14 +34,12 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
     RecyclerView recyclerAttachmets;
     @BindView(R.id.text_noattachmets)
     TextView textNoAttachment;
-    private ArrayList<String> mMenuArray = new ArrayList<>();
-    private ArrayList<String> mAttachmentArray = new ArrayList<>();
-    private Context mContext;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractor_attachments);
         ButterKnife.bind(this);
+
         toolbarTitle.setText(AppConstant.TEXT_ATTACHMENT);
         mContext = this;
         getIntentData();

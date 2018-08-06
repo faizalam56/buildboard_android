@@ -1,9 +1,6 @@
 package com.buildboard.modules.home.modules.marketplace.contractors;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.buildboard.R;
-import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.mailbox.inbox.adapters.InboxAdapter;
-import com.buildboard.modules.home.modules.marketplace.adapters.NearByProjectsAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ProjectDetailsFooterAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectData;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,11 +32,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
-import static com.buildboard.constants.AppConstant.INTENT_TITLE;
 import static com.buildboard.utils.Utils.showProgressColor;
 
 public class NearByProjectsActivity extends AppCompatActivity {
 
+    private ArrayList<String> mMenuArray = new ArrayList<>();
+    private NearByProjectData mNearByProjectData;
     @BindView(R.id.constraint_root)
     LinearLayout constraintRoot;
     @BindView(R.id.image_service)
@@ -79,13 +72,12 @@ public class NearByProjectsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     @BindView(R.id.scrollBar)
     ScrollView scrollView;
-    private ArrayList<String> mMenuArray = new ArrayList<>();
-    private NearByProjectData contractorByProjectTypeData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_projects);
         ButterKnife.bind(this);
+
         toolbarTitle.setText(titleProjectDesc);
         showProgressColor(this, progressBar);
         setFont();
@@ -130,14 +122,14 @@ public class NearByProjectsActivity extends AppCompatActivity {
 
         if (response == null) return;
 
-        contractorByProjectTypeData = (NearByProjectData) response;
-        Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
-        textTitle.setText(contractorByProjectTypeData.getTitle());
-        textEndDate.setText(convertTime(contractorByProjectTypeData.getEndDate().split("\\s+")[0].replaceAll("-", "/")));
-        textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
-        textDescription.setText(contractorByProjectTypeData.getDescription());
-        textAddressText.setText(contractorByProjectTypeData.getAddress());
-        setFooter(contractorByProjectTypeData);
+        mNearByProjectData = (NearByProjectData) response;
+        Utils.display(NearByProjectsActivity.this, mNearByProjectData.getImage(), projectImage, R.mipmap.ic_launcher);
+        textTitle.setText(mNearByProjectData.getTitle());
+        textEndDate.setText(convertTime(mNearByProjectData.getEndDate().split("\\s+")[0].replaceAll("-", "/")));
+        textStartDate.setText(convertTime(mNearByProjectData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
+        textDescription.setText(mNearByProjectData.getDescription());
+        textAddressText.setText(mNearByProjectData.getAddress());
+        setFooter(mNearByProjectData);
     }
 
     private void setFooter(NearByProjectData contractorByProjectTypeData) {
@@ -169,8 +161,8 @@ public class NearByProjectsActivity extends AppCompatActivity {
     public void redirectToMap() {
 
         Utils.openAddressInMap(NearByProjectsActivity.this,
-                new LatLng(contractorByProjectTypeData.getLatitude(),
-                        contractorByProjectTypeData.getLongitude()),
-                contractorByProjectTypeData.getAddress());
+                new LatLng(mNearByProjectData.getLatitude(),
+                        mNearByProjectData.getLongitude()),
+                mNearByProjectData.getAddress());
     }
 }

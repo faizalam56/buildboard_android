@@ -96,7 +96,6 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
                     intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
                     mContext.startActivity(intent);
                     break;
-
             }
         }
     }
