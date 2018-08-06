@@ -266,11 +266,19 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="document">Document</string>
+    <string name="facebook">facebook</string>
+    <string name="google">google</string>
+    <string name="user_not_signed_alert_msg">You have not signed up yet, please signUp</string>
     <string name="confirm_primary_address">Do you want to make this address your Primary Address?</string>
     <string name="success_primary_address_changed">Your primary address is successfully change.</string>
     <string name="summary">Summary</string>
-    <string name="google">google</string>
-    <string name="facebook">facebook</string>
-    <string name="user_not_signed_alert_msg">You have not signed up yet, please signUp</string>
-
+    <string name="select_option">Select Option</string>
+    <string name="image_from_gallery">Choose From Gallery</string>
+    <string name="image_from_camera">Take Photo</string>
+    <string name="permission_alert_message">Permission required</string>
+    <string-array name="array_choose_image">
+        <item>Choose From Gallery</item>
+        <item>Take Photo</item>
+        <item>Cancel</item>
+    </string-array>
 </resources>

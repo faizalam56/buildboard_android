@@ -34,18 +34,14 @@
                 android:id="@+id/image_profile"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@null"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_camera_green" />
+                android:background="@drawable/ic_camera_green" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_add_profile_picture"
@@ -178,7 +174,7 @@
                     android:inputType="textMultiLine"
                     android:padding="@dimen/_5sdp"
                     android:maxLines="5"
-                    android:minLines="2"
+                    android:minLines="1"
                     android:textColor="@android:color/black"
                     android:focusableInTouchMode="false"
                     app:layout_constraintStart_toStartOf="parent"
