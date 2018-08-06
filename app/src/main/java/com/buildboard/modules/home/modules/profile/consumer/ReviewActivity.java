@@ -13,8 +13,10 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.adapter.ReviewsAdapter;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewData;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
+import com.buildboard.modules.signup.imageupload.ImageUploadActivity;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -24,6 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ReviewActivity extends AppCompatActivity {
+
+    private ReviewsAdapter mReviewAdapter;
+    private int mCurrentPage = 1;
+    private ArrayList<ReviewData> mReviewsList = new ArrayList<>();
 
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
@@ -40,10 +46,6 @@ public class ReviewActivity extends AppCompatActivity {
     String stringPleaseWait;
     @BindString(R.string.no_internet_text)
     String stringNoInternet;
-
-    private ReviewsAdapter mReviewAdapter;
-    private int mCurrentPage = 1;
-    private ArrayList<ReviewData> mReviewsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void getReviews() {
         ProgressHelper.start(this, stringPleaseWait);
-
         DataManager.getInstance().getReviews(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
@@ -84,6 +85,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
+                Utils.showError(ReviewActivity.this, constraintLayout, error);
             }
         });
     }

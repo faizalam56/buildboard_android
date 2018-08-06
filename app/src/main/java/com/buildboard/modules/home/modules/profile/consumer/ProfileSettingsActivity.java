@@ -54,6 +54,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+
     @BindString(R.string.settings)
     String stringSettings;
     @BindString(R.string.successfullyLogout)
@@ -86,7 +87,6 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                             finish();
                         }
                     });
-
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -95,6 +95,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     openActivity(LoginActivity.class, true);
                 }
             }
+
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
@@ -115,10 +116,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.text_edit_profile)
     public void moveToClass() {
-        if (ConnectionDetector.isNetworkConnected(this)) {
+        if (ConnectionDetector.isNetworkConnected(this))
             startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
-        } else {
-            ConnectionDetector.createSnackBar(this,constraintRoot);
-        }
+        else ConnectionDetector.createSnackBar(this,constraintRoot);
     }
 }
