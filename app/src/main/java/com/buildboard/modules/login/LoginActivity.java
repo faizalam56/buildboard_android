@@ -193,6 +193,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             }
         });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
