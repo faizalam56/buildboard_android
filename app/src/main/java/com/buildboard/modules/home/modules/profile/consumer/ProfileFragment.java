@@ -105,18 +105,33 @@ public class ProfileFragment extends Fragment
 
     @OnClick(R.id.row_my_preferred_contractor)
     void rowPreferredContractorTapped() {
+        if (!ConnectionDetector.isNetworkConnected(getActivity())) {
+            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), PreferredContractorActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.row_my_location)
     void rowLocationTapped() {
+        if (!ConnectionDetector.isNetworkConnected(getActivity())) {
+            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), LocationAddressActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.row_reviews)
     void rowReviewTapped() {
+        if (!ConnectionDetector.isNetworkConnected(getActivity())) {
+            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), ReviewActivity.class);
         startActivity(intent);
     }
