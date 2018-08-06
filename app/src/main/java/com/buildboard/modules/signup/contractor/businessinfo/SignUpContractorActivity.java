@@ -234,6 +234,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
         if (mProvider != null && mProviderId != null) {
             editPassword.setVisibility(View.GONE);
+            textPassword.setVisibility(View.GONE);
             editEmail.setText(mEmail);
             editEmail.setFocusable(false);
             editEmail.setFocusableInTouchMode(false);
@@ -241,6 +242,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             editEmail.setCursorVisible(false);
         } else {
             editPassword.setVisibility(View.VISIBLE);
+            textPassword.setVisibility(View.VISIBLE);
             editEmail.setFocusable(true);
             editEmail.setFocusableInTouchMode(true);
             editEmail.setClickable(true);
