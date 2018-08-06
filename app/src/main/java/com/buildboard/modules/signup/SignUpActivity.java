@@ -134,6 +134,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -220,6 +222,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+
         title.setText(stringSignUp);
         setAsteriskToText();
         setTermsServiceText();
@@ -233,6 +236,16 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         getIntentData();
 
         radioGroupContactMode.setOnCheckedChangeListener(checkedChangeListener);
+    }
+
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void setAsteriskToText() {
@@ -300,11 +313,11 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             return;
         }
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().createConsumer(SignUpActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
@@ -323,7 +336,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
@@ -582,18 +595,18 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     };
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
         RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
         DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 createAccount(response.toString());
             }
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpActivity.this, constraintRoot, error);
             }
         });
