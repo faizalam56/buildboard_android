@@ -137,4 +137,9 @@
         <item name="colorControlNormal">@android:color/darker_gray</item>
         <item name="colorControlActivated">@color/com_facebook_blue</item>
     </style>
+
+    <style name="Checkbox" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/colorGreenLight</item>
+        <item name="android:textColorSecondary">@color/colorGreenLight</item>
+    </style>
 </resources>
