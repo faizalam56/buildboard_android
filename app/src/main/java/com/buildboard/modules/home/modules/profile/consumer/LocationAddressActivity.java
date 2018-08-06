@@ -33,6 +33,8 @@ import butterknife.OnClick;
 
 public class LocationAddressActivity extends AppCompatActivity implements AppConstant {
 
+    private AddressesAdapter addressesAdapter;
+
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
     @BindView(R.id.fab)
@@ -41,12 +43,11 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
     RecyclerView recyclerAddresses;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
+
     @BindString(R.string.my_location_address)
     String stringTitle;
     @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
-
-    private AddressesAdapter addressesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
