@@ -1,33 +1,27 @@
 package com.buildboard.modules.login;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -37,9 +31,9 @@ import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
-import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.Utils;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
@@ -59,25 +53,25 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.Utils.showProgressColor;
+
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
     private CallbackManager mCallbackManager;
     private GoogleSignInClient mGoogleSignInClient;
+    private String apiKey;
+    private String schemaSpecificPart;
 
     @BindView(R.id.edit_useremail)
     BuildBoardEditText editUserEmail;
@@ -99,6 +93,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     SignInButton signInButton;
     @BindView(R.id.login_button)
     LoginButton loginButton;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @BindString(R.string.contractor)
     String stringContractor;
@@ -120,12 +116,26 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String[] arrayUserType;
     @BindArray(R.array.array_user_type)
     String[] arrayUsertype;
+    @BindString(R.string.msg_please_wait)
+    String stringPleaseWait;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        showProgressColor(this, progressBar);
+
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = splitApiKey();
+        }
+
+        if (!TextUtils.isEmpty(apiKey))
+            verifyUser(apiKey);
+
         textSignUp.setPaintFlags(textSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         getAccessToken();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -133,6 +143,50 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mCallbackManager = CallbackManager.Factory.create();
+    }
+    private String splitApiKey() {
+        Uri uri = getIntent().getData();
+        String apiKey = null;
+        assert uri != null;
+        if (uri.getSchemeSpecificPart() != null) {
+            schemaSpecificPart = uri.getSchemeSpecificPart();
+            apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
+        }
+
+        return apiKey;
+    }
+
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void verifyUser(String apiKey) {
+        showProgressBar();
+
+        DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+               hideProgressBar();
+                ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
+                PopUpHelper.showInfoAlertPopup(LoginActivity.this, activateUserResponse.getDatas().get(0), new PopUpHelper.InfoPopupListener() {
+                    @Override
+                    public void onConfirm() {}
+                });
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
+                errorManager.handleErrorResponse();
+            }
+        });
     }
 
     @Override
@@ -171,11 +225,15 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        String userEmail = editUserEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            String userEmail = editUserEmail.getText().toString();
+            String password = editPassword.getText().toString();
 
-        if (validateFields(userEmail, password)) {
-            login(userEmail, password);
+            if (validateFields(userEmail, password)) {
+                login(userEmail, password);
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -186,14 +244,22 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
-        loginButton.performClick();
-        signInFaceBook();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            loginButton.performClick();
+            signInFaceBook();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     @OnClick({R.id.button_login_google, R.id.sign_in_button})
     void userGoogleLoginTapped() {
-        signInButton.performClick();
-        signInGoogle();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            signInButton.performClick();
+            signInGoogle();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     private boolean validateFields(String userEmail, String password) {
@@ -234,18 +300,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     public void signInFaceBook() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
-
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.e("Success", loginResult + "");
                 requestFBUserProfile(loginResult);
             }
 
             @Override
-            public void onCancel() {
-                Log.e("cancle",  "");
-            }
+            public void onCancel() {}
 
             @Override
             public void onError(FacebookException exception) {
@@ -260,10 +322,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
-                socialLoginRequest.setProvider("facebook"); // TODO remove hardcoded string
-                socialLoginRequest.setProviderId(userId);
 
+                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+                socialLoginRequest.setProvider(getString(R.string.facebook));
+                socialLoginRequest.setProviderId(userId);
                 String email = null;
                 try {
                     email = object.getString("email");
@@ -299,18 +361,18 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (socialLoginRequest == null)
             return;
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().getSocialLogin(this, socialLoginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 openActivity(HomeActivity.class, true, false, null, email);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
-                Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signUp", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
+                hideProgressBar();
+                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
                 redirectToSignUp(socialLoginRequest, email);
             }
         });
@@ -322,9 +384,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void getAccessToken() {
+        showProgressBar();
         DataManager.getInstance().getAccessToken(new GetAccessTokenRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+                hideProgressBar();
                 if (response == null) return;
 
                 TokenData tokenData = (TokenData) response;
@@ -334,7 +398,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object response) {
-                Utils.showError(LoginActivity.this, constraintRoot, response);
+                hideProgressBar();
             }
         });
     }
@@ -344,11 +408,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         loginRequest.setEmail(username);
         loginRequest.setPassword(password);
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 LoginData loginData = (LoginData) response;
@@ -365,8 +429,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(LoginActivity.this, constraintRoot, error);
+                hideProgressBar();
             }
         });
     }
@@ -376,31 +439,25 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void showUserTypePopup(final boolean isSocialLogin, final SocialLoginRequest socialLoginRequest, final String email) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.select_user_type);
-        builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
+        UserTypeDialog alert = new UserTypeDialog();
+        alert.showDialog(this, new UserTypeDialog.IUserTypeCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        openActivity(SignUpActivity.class, false, isSocialLogin, socialLoginRequest, email);
-                        break;
-                    case 1:
-                        openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
-                        break;
-                }
+            public void onConsumerSelection() {
+                openActivity(SignUpActivity.class, false, isSocialLogin, socialLoginRequest, email);
+            }
+
+            @Override
+            public void onContractorSelection() {
+                openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
             account.getId();
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
-            socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
+            socialLoginRequest.setProvider(getString(R.string.google));
             socialLoginRequest.setProviderId(account.getId());
             String email = account.getEmail();
             getSocialLogin(socialLoginRequest, email);

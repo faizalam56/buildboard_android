@@ -292,10 +292,10 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
-    public void getNearByProjects(Activity activity, String projectId, final DataManagerListener dataManagerListener) {
 
+    public void getNearByProjects(Activity activity, String projectId, final DataManagerListener dataManagerListener) {
         Call<NearByProjectsResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
-                projectId,AppPreference.getAppPreference(activity).getString(SESSION_ID));
+                projectId, AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<NearByProjectsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NearByProjectsResponse> call, @NonNull Response<NearByProjectsResponse> response) {
@@ -714,6 +714,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ReviewsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void deleteAddress(Activity activity, String id, final DataManagerListener dataManagerListener) {
+        Call<PrimaryAddressResponse> call = getDataManager().deleteAddress(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), id);
+        call.enqueue(new Callback<PrimaryAddressResponse>() {
+            @Override
+            public void onResponse(Call<PrimaryAddressResponse> call, Response<PrimaryAddressResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PrimaryAddressResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

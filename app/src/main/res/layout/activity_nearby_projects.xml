@@ -3,56 +3,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity">
+    android:gravity="center|top"
+    android:orientation="vertical">
 
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
+
     <ProgressBar
         android:id="@+id/progress_bar_service"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
         android:visibility="gone" />
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/scrollBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-                   <RelativeLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_service"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/_180sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/supplies" />
 
-                    <ImageView
-                        android:id="@+id/image_service"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_180sdp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/supplies" />
-
-                    <com.buildboard.customviews.BuildBoardTextView
-                        android:id="@+id/text_title"
-                        style="@style/textSize_large"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="left"
-                        android:textColor="@color/colorWhite"
-                        app:typeface="robotoRegular" />
-                </RelativeLayout>
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_title"
+                    style="@style/textSize_large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="left"
+                    android:textColor="@color/colorWhite"
+                    app:typeface="robotoRegular" />
+            </RelativeLayout>
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/description_title"
@@ -64,9 +66,7 @@
                 android:gravity="left"
                 android:text="@string/description"
                 android:textColor="@color/colorGreen"
-                app:typeface="robotoRegular"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="16dp" />
+                app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/description_text"
@@ -78,16 +78,14 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="left"
                 android:text="@string/description"
-                app:typeface="robotoRegular"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="16dp" />
+                app:typeface="robotoRegular" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1ssp"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorText" />
 
             <LinearLayout
@@ -110,9 +108,7 @@
                         android:gravity="left"
                         android:text="@string/startdate"
                         android:textColor="@color/colorGreen"
-                        app:typeface="robotoRegular"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="16dp" />
+                        app:typeface="robotoRegular" />
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/startdate_text"
@@ -120,12 +116,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:gravity="left"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="left"
                         android:text="@string/startdate"
-                        app:typeface="robotoRegular"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="16dp" />
+                        app:typeface="robotoRegular" />
                 </LinearLayout>
 
                 <Space
@@ -135,9 +129,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:gravity="right"
-                    android:layout_gravity="right"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <com.buildboard.customviews.BuildBoardTextView
@@ -150,8 +144,7 @@
                         android:gravity="right"
                         android:text="@string/enddate"
                         android:textColor="@color/colorGreen"
-                        app:typeface="robotoRegular"
-                         />
+                        app:typeface="robotoRegular" />
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/enddate_text"
@@ -162,63 +155,90 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="right"
                         android:text="@string/enddate"
-                        app:typeface="robotoRegular"
-                      />
+                        app:typeface="robotoRegular" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1ssp"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorText" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/address_title"
-                         style="@style/textSize_smaller"
+                        style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:gravity="left"
+                        android:gravity="bottom"
                         android:text="@string/address"
                         android:textColor="@color/colorGreen"
-                        app:typeface="robotoRegular"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="16dp" />
+                        app:typeface="robotoRegular" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/button_showonmap"
+                        style="@style/button_style"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:gravity="bottom"
+                        android:paddingRight="@dimen/_15sdp"
+                        android:text="@string/view_on_map"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/address_text"
-                         style="@style/textSize_smaller"
+                        style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_15sdp"
                         android:gravity="left"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/startdate"
-                        app:typeface="robotoRegular"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteX="16dp" />
+                        android:singleLine="false"
+                        app:typeface="robotoRegular" />
+
                 </LinearLayout>
             </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 app:layout_constraintBottom_toTopOf="@id/edit_write_msg"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -228,16 +248,15 @@
                 android:id="@+id/button_quotes"
                 style="@style/button_style"
                 android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@drawable/green_button_background"
-                android:text="@string/quote_this_project"
-                android:textAllCaps="true"
                 android:layout_gravity="center"
-                 />
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/green_button_background"
+                android:gravity="center"
+                android:text="@string/quote_this_project"
+                android:textAllCaps="true" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -63,6 +63,44 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         });
     }
 
+    public void removeItem(int position) {
+        showConfirmation(position);
+    }
+
+    private void deleteAddress(String addressId) {
+        DataManager.getInstance().deleteAddress(mActivity, addressId, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+
+                Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+            }
+        });
+    }
+
+    private void showConfirmation(final int position) {
+        PopUpHelper.showConfirmPopup(mActivity, mActivity.getString(R.string.confirmation_delete_address), new PopUpHelper.ConfirmPopUp() {
+            @Override
+            public void onConfirm(boolean isConfirm) {
+                deleteAddress(mAddressList.get(position).getId());
+                mAddressList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mAddressList.size());
+            }
+
+            @Override
+            public void onDismiss(boolean isDismiss) {
+                notifyDataSetChanged();
+            }
+        });
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_location)

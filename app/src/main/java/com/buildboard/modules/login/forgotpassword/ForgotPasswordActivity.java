@@ -6,8 +6,10 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -17,6 +19,7 @@ import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
@@ -25,6 +28,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -40,6 +45,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Button buttonSendMail;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @BindString(R.string.error_enter_email)
     String stringErrorEnterEmail;
@@ -53,6 +60,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
+
+        showProgressColor(this, progressBar);
+
         editEmail.setFocusableInTouchMode(true);
         editEmail.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -62,8 +72,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_send_mail)
     void sendEmailTapped() {
-        String email = editEmail.getText().toString();
-        if (validateFields(email)) forgotPassword(email);
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            String email = editEmail.getText().toString();
+            if (validateFields(email)) forgotPassword(email);
+        } else {
+            ConnectionDetector.createSnackBar(this,constraintRoot);
+        }
+    }
+
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private boolean validateFields(String email) {
@@ -79,13 +103,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void forgotPassword(String email) {
+        showProgressBar();
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
         forgotPasswordRequest.setEmail(email);
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
         DataManager.getInstance().forgotPassword(this, forgotPasswordRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 confirmPopup(response.toString());
@@ -93,8 +117,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(ForgotPasswordActivity.this, constraintRoot, error);
+                hideProgressBar();
             }
         });
     }
