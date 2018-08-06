@@ -269,4 +269,5 @@
     <string name="confirm_primary_address">Do you want to make this address your Primary Address?</string>
     <string name="success_primary_address_changed">Your primary address is successfully change.</string>
     <string name="summary">Summary</string>
+    <string name="msg_contractor_signup_success">Contractor successfully created</string>
 </resources>

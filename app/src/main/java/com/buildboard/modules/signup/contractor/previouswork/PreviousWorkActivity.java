@@ -2,6 +2,7 @@ package com.buildboard.modules.signup.contractor.previouswork;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +33,9 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
@@ -99,7 +103,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
 
-    private String mUserId = "";
+    private String mUserId = "519306a0-9969-11e8-9dff-4b4c9e4516c1";
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
     private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
@@ -219,15 +223,13 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                Intent intent = new Intent(PreviousWorkActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                showPrevworkSuccessDialog();
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
             }
         });
     }
@@ -330,7 +332,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 case REQUEST_CODE:
                     selectedImage = data.getData();
                     try {
-                        if(isAttachment) {
+                        if (isAttachment) {
                             mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, selectedImage))),
                                     constraintRoot, this);
                         } else {
@@ -399,7 +401,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
             @Override
             public void onSaveImage() {
-                if(selectedImage == null){
+                if (selectedImage == null) {
                     SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringSelectImage);
                     return;
                 }
@@ -413,7 +415,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 }
             }
         });
-        if(selectedImage != null) {
+        if (selectedImage != null) {
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
@@ -458,5 +460,23 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    private void showPrevworkSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PreviousWorkActivity.this);
+        builder.setMessage(R.string.msg_contractor_signup_success);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(PreviousWorkActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
