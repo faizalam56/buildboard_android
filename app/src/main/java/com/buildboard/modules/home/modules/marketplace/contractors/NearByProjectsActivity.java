@@ -38,6 +38,7 @@ public class NearByProjectsActivity extends AppCompatActivity {
 
     private ArrayList<String> mMenuArray = new ArrayList<>();
     private NearByProjectData mNearByProjectData;
+
     @BindView(R.id.constraint_root)
     LinearLayout constraintRoot;
     @BindView(R.id.image_service)

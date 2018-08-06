@@ -66,8 +66,7 @@
                 android:gravity="left"
                 android:text="@string/description"
                 android:textColor="@color/colorGreen"
-                app:typeface="robotoRegular"
-                tools:ignore="MissingConstraints" />
+                app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/description_text"
@@ -79,8 +78,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="left"
                 android:text="@string/description"
-                app:typeface="robotoRegular"
-                tools:ignore="MissingConstraints" />
+                app:typeface="robotoRegular" />
 
             <View
                 android:layout_width="match_parent"
@@ -172,24 +170,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/address_title"
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:gravity="left"
+                        android:gravity="bottom"
                         android:text="@string/address"
                         android:textColor="@color/colorGreen"
                         app:typeface="robotoRegular" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.buildboard.customviews.BuildBoardTextView
+                        android:id="@+id/button_showonmap"
+                        style="@style/button_style"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:gravity="bottom"
+                        android:paddingRight="@dimen/_15sdp"
+                        android:text="@string/view_on_map"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/address_text"
@@ -198,35 +225,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="left"
-                        android:maxWidth="250dp"
                         android:singleLine="false"
-                        android:text=""
                         app:typeface="robotoRegular" />
-                </LinearLayout>
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.buildboard.customviews.BuildBoardTextView
-                        android:id="@+id/button_showonmap"
-                        style="@style/button_style"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:paddingRight="@dimen/_15sdp"
-                        android:text="@string/view_on_map"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
             </LinearLayout>
 

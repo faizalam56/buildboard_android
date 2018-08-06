@@ -26,6 +26,7 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
     private ArrayList<String> mMenuArray = new ArrayList<>();
     private ArrayList<String> mAttachmentArray = new ArrayList<>();
     private Context mContext;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
@@ -49,11 +50,11 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
         if (getIntent().hasExtra(DATA)) {
             mAttachmentArray = (ArrayList<String>) getIntent().getSerializableExtra(DATA);
 
-            if (mAttachmentArray != null)
-                if (mAttachmentArray.isEmpty()) {
-                    textNoAttachment.setVisibility(View.VISIBLE);
-                    recyclerAttachmets.setVisibility(View.GONE);
-                }
+            if (mAttachmentArray == null || mAttachmentArray.isEmpty()) {
+                textNoAttachment.setVisibility(View.VISIBLE);
+                recyclerAttachmets.setVisibility(View.GONE);
+            }
+
             setNearbyContractorsRecycler(mAttachmentArray);
         }
     }
