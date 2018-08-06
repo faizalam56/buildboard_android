@@ -40,6 +40,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -136,4 +137,7 @@ public interface IApiInterface {
 
     @GET("reviews")
     Call<ReviewsResponse> getReviews(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @DELETE("consumer/address/{id}")
+    Call<PrimaryAddressResponse> deleteAddress(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("id") String id);
 }
