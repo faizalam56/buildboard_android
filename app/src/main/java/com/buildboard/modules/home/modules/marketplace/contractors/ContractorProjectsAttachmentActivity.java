@@ -3,6 +3,7 @@ package com.buildboard.modules.home.modules.marketplace.contractors;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ContractorProjectAttachmetsAdapter;
+import com.buildboard.view.AutoFitGridLayoutManager;
 
 import java.util.ArrayList;
 
@@ -61,7 +63,7 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
 
     private void setNearbyContractorsRecycler(ArrayList<String> AttachmentArray) {
         ContractorProjectAttachmetsAdapter selectionAdapter = new ContractorProjectAttachmetsAdapter(mContext, AttachmentArray);
-        recyclerAttachmets.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        recyclerAttachmets.setLayoutManager(new GridLayoutManager(mContext, 2));
         recyclerAttachmets.setAdapter(selectionAdapter);
     }
 }
