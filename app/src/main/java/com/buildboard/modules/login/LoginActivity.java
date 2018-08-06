@@ -1,26 +1,16 @@
 package com.buildboard.modules.login;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
-
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -59,14 +49,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -234,21 +219,20 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     public void signInFaceBook() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
-
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.e("Success", loginResult + "");
                 requestFBUserProfile(loginResult);
             }
 
             @Override
             public void onCancel() {
-                Log.e("cancle",  "");
+                Log.e("Facebook", "Login attempt canceled.");
             }
 
             @Override
             public void onError(FacebookException exception) {
+                Log.e("Facebook", "Login attempt failed.");
                 exception.printStackTrace();
             }
         });
@@ -260,10 +244,10 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
-                socialLoginRequest.setProvider("facebook"); // TODO remove hardcoded string
-                socialLoginRequest.setProviderId(userId);
 
+                SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
+                socialLoginRequest.setProvider(getString(R.string.facebook));
+                socialLoginRequest.setProviderId(userId);
                 String email = null;
                 try {
                     email = object.getString("email");
@@ -310,7 +294,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
-                Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signUp", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
+                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
                 redirectToSignUp(socialLoginRequest, email);
             }
         });
@@ -376,31 +360,25 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void showUserTypePopup(final boolean isSocialLogin, final SocialLoginRequest socialLoginRequest, final String email) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.select_user_type);
-        builder.setItems(arrayUserType, new DialogInterface.OnClickListener() {
+        UserTypeDialog alert = new UserTypeDialog();
+        alert.showDialog(this, new UserTypeDialog.IUserTypeCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        openActivity(SignUpActivity.class, false, isSocialLogin, socialLoginRequest, email);
-                        break;
-                    case 1:
-                        openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
-                        break;
-                }
+            public void onConsumerSelection() {
+                openActivity(SignUpActivity.class, false, isSocialLogin, socialLoginRequest, email);
+            }
+
+            @Override
+            public void onContractorSelection() {
+                openActivity(SignUpContractorActivity.class, false, isSocialLogin, socialLoginRequest, email);
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
             account.getId();
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
-            socialLoginRequest.setProvider("google"); // TODO remove hardcoded string
+            socialLoginRequest.setProvider(getString(R.string.google));
             socialLoginRequest.setProviderId(account.getId());
             String email = account.getEmail();
             getSocialLogin(socialLoginRequest, email);
