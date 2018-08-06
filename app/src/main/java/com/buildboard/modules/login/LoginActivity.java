@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -42,7 +44,6 @@ import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.preferences.AppPreference;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
@@ -63,19 +64,16 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class LoginActivity extends AppCompatActivity implements AppConstant, GoogleApiClient.OnConnectionFailedListener {
 
@@ -105,6 +103,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     SignInButton signInButton;
     @BindView(R.id.login_button)
     LoginButton loginButton;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @BindString(R.string.contractor)
     String stringContractor;
@@ -135,6 +135,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        showProgressColor(this, progressBar);
+
         Uri uri = getIntent().getData();
         if (uri != null && uri.getSchemeSpecificPart() != null) {
             schemaSpecificPart = uri.getSchemeSpecificPart();
@@ -164,27 +166,33 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return apiKey;
     }
 
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
     private void verifyUser(String apiKey) {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar();
 
         DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+               hideProgressBar();
                 ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
-                PopUpHelper.showAlertPopup(LoginActivity.this,activateUserResponse.getDatas().get(0), new PopUpHelper.ConfirmPopUp() {
+                PopUpHelper.showInfoAlertPopup(LoginActivity.this, activateUserResponse.getDatas().get(0), new PopUpHelper.InfoPopupListener() {
                     @Override
-                    public void onConfirm(boolean isConfirm) {
-
-                    }
-                    @Override
-                    public void onDismiss(boolean isDismiss) { }
+                    public void onConfirm() {}
                 });
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
                 errorManager.handleErrorResponse();
             }
@@ -293,13 +301,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.e("Success", loginResult + "");
                 requestFBUserProfile(loginResult);
             }
 
             @Override
             public void onCancel() {
-                Log.e("cancle",  "");
             }
 
             @Override
@@ -354,17 +360,17 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (socialLoginRequest == null)
             return;
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().getSocialLogin(this, socialLoginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 openActivity(HomeActivity.class, true, false, null, email);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Toast.makeText(LoginActivity.this, "You haven't signed up yet, please signUp", Toast.LENGTH_LONG).show(); //TODO remove hardcoded data
                 redirectToSignUp(socialLoginRequest, email);
             }
@@ -399,11 +405,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         loginRequest.setEmail(username);
         loginRequest.setPassword(password);
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 LoginData loginData = (LoginData) response;
@@ -420,7 +426,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
