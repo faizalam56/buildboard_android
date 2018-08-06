@@ -239,7 +239,8 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
             }
         }
     }
-    private void setNoInternetText(){
+
+    private void setNoInternetText() {
         noInternetText.setVisibility(View.VISIBLE);
         recyclerProjects.setVisibility(View.GONE);
         textProjectsDetails.setText("");

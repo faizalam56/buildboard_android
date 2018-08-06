@@ -88,7 +88,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
             textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
-            Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.ic_launcher).into(imageService);
+            Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }
     }
 }
