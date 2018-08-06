@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
-import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
-import com.buildboard.modules.home.modules.marketplace.models.NearByProjects;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectData;
 
 import java.util.ArrayList;
 
@@ -20,18 +20,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.buildboard.constants.AppConstant.DATA;
+import static com.buildboard.constants.AppConstant.TEXT_ATTACHMENT;
 
 public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDetailsFooterAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<String> mArrayList;
     private LayoutInflater mLayoutInflater;
+    private NearByProjectData mNearByProjectData;
+    private ArrayList<String> mAttachmentsArray;
 
-    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList) {
+    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, NearByProjectData nearByProjectData) {
         mContext = context;
         mArrayList = arrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
+        mNearByProjectData = nearByProjectData;
     }
 
     @Override
@@ -69,10 +72,32 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textTitle);
         }
 
+        private ArrayList<String> getAttachmentArry(int position) {
+            mAttachmentsArray = new ArrayList<>();
+
+            for (int index = 0; index < mNearByProjectData.getAdditionalAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectData.getAdditionalAttachment().get(index));
+            }
+
+            for (int index = 0; index < mNearByProjectData.getPrefferedMaterialAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectData.getPrefferedMaterialAttachment().get(index));
+            }
+            return mAttachmentsArray;
+        }
+
         @OnClick(R.id.constraint_drafts_row_footer)
         public void rowTapped() {
             String Text = mArrayList.get(getAdapterPosition());
 
+            switch (Text) {
+
+                case TEXT_ATTACHMENT:
+                    Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
+                    intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
+                    mContext.startActivity(intent);
+                    break;
+
+            }
         }
     }
 }

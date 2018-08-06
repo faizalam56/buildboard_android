@@ -3,6 +3,7 @@ package com.buildboard.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -80,6 +83,12 @@ public class Utils {
         return builder;
     }
 
+    public static void openAddressInMap(Activity mActivity, LatLng latLng, String address) {
+        Uri mapUri = Uri.parse("geo:0,0?q=" + latLng.latitude + "," + latLng.longitude + address);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        mActivity.startActivity(mapIntent);
+    }
 
     public static String resizeAndCompressImageBeforeSend(Context context, String filePath) {
         int compressQuality = 70;

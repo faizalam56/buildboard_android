@@ -293,7 +293,8 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
     public void getNearByProjects(Activity activity, String projectId, final DataManagerListener dataManagerListener) {
-
+        String acc=AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN);
+        String ses=AppPreference.getAppPreference(activity).getString(SESSION_ID);
         Call<NearByProjectsResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 projectId,AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<NearByProjectsResponse>() {

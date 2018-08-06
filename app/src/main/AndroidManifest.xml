@@ -105,6 +105,9 @@
             android:name=".modules.home.modules.marketplace.contractors.NearByProjectsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".modules.selection.ContractorTypeSelectionActivity"
             android:screenOrientation="portrait" />
         <activity

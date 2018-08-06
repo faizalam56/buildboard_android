@@ -1,5 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace.contractors;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
@@ -24,20 +27,24 @@ import com.buildboard.modules.home.modules.marketplace.contractors.models.NearBy
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INTENT_TITLE;
 import static com.buildboard.utils.Utils.showProgressColor;
 
-public class NearByProjectsActivity extends AppCompatActivity{
+public class NearByProjectsActivity extends AppCompatActivity {
 
-    private ArrayList<String> mMenuArray=new ArrayList<>();
     @BindView(R.id.constraint_root)
     LinearLayout constraintRoot;
     @BindView(R.id.image_service)
@@ -72,6 +79,8 @@ public class NearByProjectsActivity extends AppCompatActivity{
     ProgressBar progressBar;
     @BindView(R.id.scrollBar)
     ScrollView scrollView;
+    private ArrayList<String> mMenuArray = new ArrayList<>();
+    private NearByProjectData contractorByProjectTypeData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +107,7 @@ public class NearByProjectsActivity extends AppCompatActivity{
         progressBar.setVisibility(visiblity ? View.VISIBLE : View.GONE);
         scrollView.setVisibility(visiblity ? View.GONE : View.VISIBLE);
         toolbar.setVisibility(visiblity ? View.GONE : View.VISIBLE);
-     }
+    }
 
     private void getNearByProjectsByProjectId(String projectId) {
         setProgressBar(true);
@@ -121,21 +130,21 @@ public class NearByProjectsActivity extends AppCompatActivity{
 
         if (response == null) return;
 
-        NearByProjectData contractorByProjectTypeData = (NearByProjectData) response;
+        contractorByProjectTypeData = (NearByProjectData) response;
         Utils.display(NearByProjectsActivity.this, contractorByProjectTypeData.getImage(), projectImage, R.mipmap.ic_launcher);
         textTitle.setText(contractorByProjectTypeData.getTitle());
         textEndDate.setText(convertTime(contractorByProjectTypeData.getEndDate().split("\\s+")[0].replaceAll("-", "/")));
         textStartDate.setText(convertTime(contractorByProjectTypeData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));
         textDescription.setText(contractorByProjectTypeData.getDescription());
         textAddressText.setText(contractorByProjectTypeData.getAddress());
-        setFooter();
+        setFooter(contractorByProjectTypeData);
     }
 
-    private void setFooter() {
+    private void setFooter(NearByProjectData contractorByProjectTypeData) {
 
         mMenuArray.add("Attachments");
         mMenuArray.add("Requirements");
-        ProjectDetailsFooterAdapter projectDetailsFooterAdapter = new ProjectDetailsFooterAdapter(this, mMenuArray);
+        ProjectDetailsFooterAdapter projectDetailsFooterAdapter = new ProjectDetailsFooterAdapter(this, mMenuArray, contractorByProjectTypeData);
         recyclerFooter.setLayoutManager(new LinearLayoutManager(this));
         recyclerFooter.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerFooter.setAdapter(projectDetailsFooterAdapter);
@@ -154,5 +163,14 @@ public class NearByProjectsActivity extends AppCompatActivity{
         }
         converted_time = format2.format(date);
         return converted_time;
+    }
+
+    @OnClick(R.id.button_showonmap)
+    public void redirectToMap() {
+
+        Utils.openAddressInMap(NearByProjectsActivity.this,
+                new LatLng(contractorByProjectTypeData.getLatitude(),
+                        contractorByProjectTypeData.getLongitude()),
+                contractorByProjectTypeData.getAddress());
     }
 }

@@ -56,6 +56,7 @@
     <string name="startdate">Start Date</string>
     <string name="show_on_map">Show on Map</string>
     <string name="enddate">End Date</string>
+    <string name="no_attachmets">No Attachments</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
     <string name="msg_reset_password">Please enter your registered email address and we’ll send you a link to reset password.</string>
@@ -153,6 +154,7 @@
     <string name="project_out_for_bid">Project Out For Bid</string>
     <string name="current_project">Current Projects</string>
     <string name="completed_project">Completed Projects</string>
+    <string name="view_on_map"><u>View On Map</u></string>
     <string name="my_contractors">My Contractors</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="phone">Phone</string>

@@ -40,6 +40,7 @@ public interface AppConstant {
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
     String TYPE_ATTACHMENT = "attachment";
+    String TEXT_ATTACHMENT = "Attachments";
     String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
