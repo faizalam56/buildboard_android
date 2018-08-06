@@ -3,9 +3,6 @@ package com.buildboard.modules.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,25 +12,19 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
-import com.buildboard.dialogs.PopUpHelper;
-import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
+import com.buildboard.http.ErrorManager;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -43,8 +34,9 @@ import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
+import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
-import com.buildboard.utils.Utils;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
@@ -64,9 +56,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -234,11 +229,15 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        String userEmail = editUserEmail.getText().toString();
-        String password = editPassword.getText().toString();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            String userEmail = editUserEmail.getText().toString();
+            String password = editPassword.getText().toString();
 
-        if (validateFields(userEmail, password)) {
-            login(userEmail, password);
+            if (validateFields(userEmail, password)) {
+                login(userEmail, password);
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -249,14 +248,22 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
-        loginButton.performClick();
-        signInFaceBook();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            loginButton.performClick();
+            signInFaceBook();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     @OnClick({R.id.button_login_google, R.id.sign_in_button})
     void userGoogleLoginTapped() {
-        signInButton.performClick();
-        signInGoogle();
+        if(ConnectionDetector.isNetworkConnected(this)) {
+            signInButton.performClick();
+            signInGoogle();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     private boolean validateFields(String userEmail, String password) {
@@ -383,9 +390,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void getAccessToken() {
+        showProgressBar();
         DataManager.getInstance().getAccessToken(new GetAccessTokenRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+                hideProgressBar();
                 if (response == null) return;
 
                 TokenData tokenData = (TokenData) response;
@@ -395,7 +404,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object response) {
-                Utils.showError(LoginActivity.this, constraintRoot, response);
+                hideProgressBar();
             }
         });
     }
@@ -427,7 +436,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }
