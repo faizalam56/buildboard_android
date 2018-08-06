@@ -48,25 +48,25 @@ public class Utils {
         errorManager.handleErrorResponse();
     }
 
-   public static String getImagePath(Activity activity,Uri uri) {
-       String path = null;
-       try {
-           if (uri != null) {
-               String[] projection = {MediaStore.Images.Media.DATA};
-               Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
+    public static String getImagePath(Activity activity, Uri uri) {
+        String path = null;
+        try {
+            if (uri != null) {
+                String[] projection = {MediaStore.Images.Media.DATA};
+                Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
 
-               if (cursor == null) return null;
+                if (cursor == null) return null;
 
-               int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-               cursor.moveToFirst();
-               path = cursor.getString(column_index);
-               cursor.close();
-           }
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-       return path;
-   }
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                path = cursor.getString(column_index);
+                cursor.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
 
     @NonNull
     public static SpannableStringBuilder setStarToLabel(String text) {
@@ -123,8 +123,8 @@ public class Utils {
     }
 
 
-    public static void showProgressColor(Activity activity , ProgressBar progressBar){
-        if(activity!=null) {
+    public static void showProgressColor(Activity activity, ProgressBar progressBar) {
+        if (activity != null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
                 DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(activity, R.color.colorGreen));
@@ -169,7 +169,7 @@ public class Utils {
             builder.show();
 
         } catch (Exception e) {
-            Toast.makeText(activity,activity.getString(R.string.image_from_gallery) , Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.image_from_gallery), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

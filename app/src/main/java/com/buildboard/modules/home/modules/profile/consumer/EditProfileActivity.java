@@ -72,19 +72,17 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
     private final int PICK_IMAGE_CAMERA = 2001;
     private final int PICK_IMAGE_GALLERY = 2002;
-    private String apiKey;
-    private String schemaSpecificPart;
-    private LatLng addressLatLng;
-    private String provider;
-    private String providerId;
+    private LatLng mAddressLatLng;
+    private String mProvider;
+    private String mProviderId;
     private String mEmail;
-    private Uri selectedImage;
-    private ProfileData profileData;
-    private String responsImageUrl;
+    private Uri mSelectedImage;
+    private ProfileData mProfileData;
+    private String mResponsImageUrl;
     private ContractorTypeDetail contractorTypeDetail;
-    private int maxClicks = 3, currentNumber = 0;
+    private int maxClicks = 3, mCurrentNumber = 0;
     private String contactMode = PHONE;
-    private Bitmap bitmap;
+    private Bitmap mBitmap;
     public UpdateProfileListener mUpdateProfileListener;
 
     @BindView(R.id.radio_group_contact_mode)
@@ -125,10 +123,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     BuildBoardTextView textContactMode;
     @BindView(R.id.edit_email)
     BuildBoardEditText editEmail;
-    @BindView(R.id.button_next)
-    BuildBoardButton buttonNext;
-    @BindView(R.id.constraint_consumer_address_container)
-    ConstraintLayout constraintConsumerAddressContainer;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
@@ -256,12 +250,12 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
     public void getIntentData() {
         if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
-            provider = getIntent().getStringExtra(INTENT_PROVIDER);
-            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+            mProvider = getIntent().getStringExtra(INTENT_PROVIDER);
+            mProviderId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
         }
 
-        if (provider != null && providerId != null) {
+        if (mProvider != null && mProviderId != null) {
             editEmail.setText(mEmail);
             editEmail.setFocusable(false);
             editEmail.setFocusableInTouchMode(false);
@@ -283,7 +277,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
         if (ConnectionDetector.isNetworkConnected(this)) {
             if (validateFields(firstName, lastName, address, phoneNo)) {
-                signUpMethod(firstName, lastName, address, phoneNo, contactMode, responsImageUrl);
+                signUpMethod(firstName, lastName, address, phoneNo, contactMode, mResponsImageUrl);
             }
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
@@ -344,14 +338,14 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         if (!TextUtils.isEmpty(imageUrl))
             consumerRequest.setImage(imageUrl);
 
-        if (addressLatLng != null) {
-            consumerRequest.setLatitude(String.valueOf(addressLatLng.latitude));
-            consumerRequest.setLongitude(String.valueOf(addressLatLng.longitude));
+        if (mAddressLatLng != null) {
+            consumerRequest.setLatitude(String.valueOf(mAddressLatLng.latitude));
+            consumerRequest.setLongitude(String.valueOf(mAddressLatLng.longitude));
         }
 
-        if (!TextUtils.isEmpty(provider) && !TextUtils.isEmpty(providerId)) {
-            consumerRequest.setProvider(provider);
-            consumerRequest.setProviderId(providerId);
+        if (!TextUtils.isEmpty(mProvider) && !TextUtils.isEmpty(mProviderId)) {
+            consumerRequest.setProvider(mProvider);
+            consumerRequest.setProviderId(mProviderId);
         }
 
         return consumerRequest;
@@ -434,10 +428,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                     break;
 
                 case PICK_IMAGE_GALLERY:
-                    selectedImage = data.getData();
+                    mSelectedImage = data.getData();
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                        imageProfile.setImageBitmap(bitmap);
+                        mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
+                        imageProfile.setImageBitmap(mBitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -446,9 +440,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                     try {
                         Bundle extras = data.getExtras();
                         if (extras != null) {
-                            bitmap = (Bitmap) extras.get("data");
-                            selectedImage=  getImageUri(this,bitmap);
-                            imageProfile.setImageBitmap(bitmap);
+                            mBitmap = (Bitmap) extras.get("data");
+                            mSelectedImage=  getImageUri(this,mBitmap);
+                            imageProfile.setImageBitmap(mBitmap);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -459,14 +453,14 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
     private void getAddressLatLng(final Place place) {
         showAddressDialog(place);
-        addressLatLng = place.getLatLng();
+        mAddressLatLng = place.getLatLng();
     }
 
     private void showAddressDialog(Place place) {
         if (place != null) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = this.getLayoutInflater();
-            @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
+            final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
             dialogBuilder.setView(dialogView);
             final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
             final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
@@ -517,7 +511,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                responsImageUrl = response.toString();
+                mResponsImageUrl = response.toString();
             }
             @Override
             public void onError(Object error) {
@@ -545,8 +539,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                profileData = (ProfileData) response;
-                setProfileData(profileData);
+                mProfileData = (ProfileData) response;
+                setProfileData(mProfileData);
             }
             @Override
             public void onError(Object error) {
@@ -558,7 +552,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private void setProfileData(ProfileData profileData) {
         if (profileData != null) {
             Picasso.get().load(profileData.getImage()).resize(80,80).error(R.drawable.upload_profile_image).into(imageProfile);
-            addressLatLng = new LatLng(profileData.getLatitude(),profileData.getLongitude());
+            mAddressLatLng = new LatLng(profileData.getLatitude(),profileData.getLongitude());
             editFirstName.setText(profileData.getFirstName());
             editLastName.setText(profileData.getLastName());
             editEmail.setText(profileData.getEmail());
@@ -576,23 +570,23 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     @OnClick(R.id.textAddAnotherAddress)
     public void addNewAddressBox() {
         final LinearLayout linearLayoutForm = this.findViewById(R.id.linearLayoutForm);
-        if (currentNumber == maxClicks) {
+        if (mCurrentNumber == maxClicks) {
             textAddAnotherAddress.setVisibility(View.GONE);
         } else {
             textAddAnotherAddress.setVisibility(View.VISIBLE);
-            currentNumber = currentNumber + 1;
+            mCurrentNumber = mCurrentNumber + 1;
             final LinearLayout newView = (LinearLayout) this.getLayoutInflater().inflate(R.layout.dialog_custom_add_address_layout, null);
             newView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             BuildBoardTextView text_address = newView.findViewById(R.id.text_address);
             BuildBoardTextView edit_address = newView.findViewById(R.id.edit_address);
-            text_address.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.address), currentNumber));
-            edit_address.setHint(getString(R.string.address) + " " + currentNumber);
+            text_address.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.address), mCurrentNumber));
+            edit_address.setHint(getString(R.string.address) + " " + mCurrentNumber);
             ImageView btnRemove = newView.findViewById(R.id.btnRemove);
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentNumber--;
-                    if (textAddAnotherAddress.getVisibility() == View.GONE || currentNumber > 3) {
+                    mCurrentNumber--;
+                    if (textAddAnotherAddress.getVisibility() == View.GONE || mCurrentNumber > 3) {
                         textAddAnotherAddress.setVisibility(View.VISIBLE);
                     }
                     linearLayoutForm.removeView(newView);
