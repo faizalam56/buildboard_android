@@ -147,21 +147,21 @@ public class Utils {
         final int PICK_IMAGE_CAMERA = 2001;
         final int PICK_IMAGE_GALLERY = 2002;
         try {
-            final CharSequence[] options = {"Take Photo", "Choose From Gallery", "Cancel"};
+            final CharSequence[] options = activity.getResources().getStringArray(R.array.array_choose_image);
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
-            builder.setTitle("Select Option");
+            builder.setTitle(activity.getString(R.string.select_option));
             builder.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
-                    if (options[item].equals("Take Photo")) {
+                    if (options[item].equals(activity.getString(R.string.image_from_camera))) {
                         dialog.dismiss();
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         activity.startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                    } else if (options[item].equals("Choose From Gallery")) {
+                    } else if (options[item].equals(activity.getString(R.string.image_from_gallery))) {
                         dialog.dismiss();
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         activity.startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                    } else if (options[item].equals("Cancel")) {
+                    } else if (options[item].equals(activity.getString(R.string.cancel))) {
                         dialog.dismiss();
                     }
                 }
@@ -169,7 +169,7 @@ public class Utils {
             builder.show();
 
         } catch (Exception e) {
-            Toast.makeText(activity, "Permission error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,activity.getString(R.string.image_from_gallery) , Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

@@ -27,19 +27,44 @@
 
         <com.buildboard.customviews.BuildBoardEditText
             android:id="@+id/edit_useremail"
-            style="@style/edit_text_size_smaller"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textSize="@dimen/_14ssp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:textColor="@android:color/black"
             app:layout_constraintTop_toBottomOf="@+id/image_app_icon" />
 
-        <com.buildboard.customviews.BuildBoardEditText
-            android:id="@+id/edit_password"
-            style="@style/edit_text_size_smaller"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@+id/edit_useremail" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal"
+            app:hintEnabled="false"
+            android:drawablePadding="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_useremail"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@android:color/black">
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:imeOptions="actionNext"
+                android:textSize="@dimen/_14ssp"
+                android:inputType="textPassword"
+                android:textColor="@android:color/black"
+                app:typeface="robotoRegular" />
+        </android.support.design.widget.TextInputLayout>
 
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_forgot_password"
@@ -53,7 +78,7 @@
             android:paddingStart="@dimen/_15sdp"
             android:text="@string/forgot_password"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_password"
+            app:layout_constraintTop_toBottomOf="@+id/input_layout_password"
             tools:ignore="RtlSymmetry" />
 
         <com.buildboard.customviews.BuildBoardButton
@@ -62,9 +87,9 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/green_button_background"
             android:text="@string/sign_in"
-            app:layout_constraintTop_toBottomOf="@+id/text_forgot_password"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_forgot_password" />
 
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_sign_up"
@@ -116,9 +141,9 @@
             android:background="@drawable/blue_button_background"
             android:text="@string/login_with_facebook"
             android:textAllCaps="false"
-            app:layout_constraintTop_toBottomOf="@+id/view_divider"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_divider" />
 
         <com.buildboard.customviews.BuildBoardButton
             android:id="@+id/button_login_google"
@@ -126,13 +151,13 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/red_button_background"
+            android:clickable="true"
             android:text="@string/login_with_google"
             android:textAllCaps="false"
-            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_login_facebook"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_login_facebook" />
 
 
         <com.google.android.gms.common.SignInButton
