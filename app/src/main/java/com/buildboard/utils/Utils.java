@@ -3,6 +3,7 @@ package com.buildboard.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -48,25 +50,25 @@ public class Utils {
         errorManager.handleErrorResponse();
     }
 
-   public static String getImagePath(Activity activity,Uri uri) {
-       String path = null;
-       try {
-           if (uri != null) {
-               String[] projection = {MediaStore.Images.Media.DATA};
-               Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
+    public static String getImagePath(Activity activity, Uri uri) {
+        String path = null;
+        try {
+            if (uri != null) {
+                String[] projection = {MediaStore.Images.Media.DATA};
+                Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
 
-               if (cursor == null) return null;
+                if (cursor == null) return null;
 
-               int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-               cursor.moveToFirst();
-               path = cursor.getString(column_index);
-               cursor.close();
-           }
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-       return path;
-   }
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                path = cursor.getString(column_index);
+                cursor.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
 
     @NonNull
     public static SpannableStringBuilder setStarToLabel(String text) {
@@ -80,6 +82,12 @@ public class Utils {
         return builder;
     }
 
+    public static void openAddressInMap(Activity mActivity, LatLng latLng, String address) {
+        Uri mapUri = Uri.parse("geo:0,0?q=" + latLng.latitude + "," + latLng.longitude + address);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        mActivity.startActivity(mapIntent);
+    }
 
     public static String resizeAndCompressImageBeforeSend(Context context, String filePath) {
         int compressQuality = 70;
@@ -123,8 +131,8 @@ public class Utils {
     }
 
 
-    public static void showProgressColor(Activity activity , ProgressBar progressBar){
-        if(activity!=null) {
+    public static void showProgressColor(Activity activity, ProgressBar progressBar) {
+        if (activity != null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
                 DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(activity, R.color.colorGreen));
@@ -132,6 +140,45 @@ public class Utils {
             } else {
                 progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorGreen), PorterDuff.Mode.SRC_IN);
             }
+        }
+    }
+
+    public static Uri getImageUri(Context mContext, Bitmap photo) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), photo, "", null);
+        return Uri.parse(path);
+    }
+
+
+    public static void selectImage(final Activity activity) {
+        final int PICK_IMAGE_CAMERA = 2001;
+        final int PICK_IMAGE_GALLERY = 2002;
+        try {
+            final CharSequence[] options = activity.getResources().getStringArray(R.array.array_choose_image);
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(activity);
+            builder.setTitle(activity.getString(R.string.select_option));
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals(activity.getString(R.string.image_from_camera))) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        activity.startActivityForResult(intent, PICK_IMAGE_CAMERA);
+                    } else if (options[item].equals(activity.getString(R.string.image_from_gallery))) {
+                        dialog.dismiss();
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        activity.startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
+                    } else if (options[item].equals(activity.getString(R.string.cancel))) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+            builder.show();
+
+        } catch (Exception e) {
+            Toast.makeText(activity, activity.getString(R.string.image_from_gallery), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 }

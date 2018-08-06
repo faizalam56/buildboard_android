@@ -56,6 +56,7 @@
     <string name="startdate">Start Date</string>
     <string name="show_on_map">Show on Map</string>
     <string name="enddate">End Date</string>
+    <string name="no_attachmets">No Attachments</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>
     <string name="msg_reset_password">Please enter your registered email address and we’ll send you a link to reset password.</string>
@@ -153,6 +154,7 @@
     <string name="project_out_for_bid">Project Out For Bid</string>
     <string name="current_project">Current Projects</string>
     <string name="completed_project">Completed Projects</string>
+    <string name="view_on_map"><u>View On Map</u></string>
     <string name="my_contractors">My Contractors</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="phone">Phone</string>
@@ -266,13 +268,29 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="document">Document</string>
+    <string name="facebook">facebook</string>
+    <string name="google">google</string>
+    <string name="user_not_signed_alert_msg">You have not signed up yet, please signUp</string>
     <string name="confirm_primary_address">Do you want to make this address your Primary Address?</string>
     <string name="success_primary_address_changed">Your primary address is successfully change.</string>
     <string name="summary">Summary</string>
     <string name="google">google</string>
     <string name="facebook">facebook</string>
     <string name="user_not_signed_alert_msg">You have not signed up yet, please signUp</string>
+
+    <string name="google">google</string>
+    <string name="facebook">facebook</string>
+    <string name="user_not_signed_alert_msg">You have not signed up yet, please signUp</string>
     <string name="undo">UNDO</string>
     <string name="confirmation_delete_address">Do you want to delete this address?</string>
 
+    <string name="select_option">Select Option</string>
+    <string name="image_from_gallery">Choose From Gallery</string>
+    <string name="image_from_camera">Take Photo</string>
+    <string name="permission_alert_message">Permission required</string>
+    <string-array name="array_choose_image">
+        <item>Choose From Gallery</item>
+        <item>Take Photo</item>
+        <item>Cancel</item>
+    </string-array>
 </resources>
