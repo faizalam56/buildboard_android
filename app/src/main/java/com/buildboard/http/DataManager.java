@@ -2,6 +2,7 @@ package com.buildboard.http;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
@@ -42,7 +43,9 @@ import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.preferences.AppPreference;
+
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -482,7 +485,10 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                if (response.body().getStatus() != null
+                        && response.body().getStatus().equals(SUCCESS)
+                        && response.body().getDatas() != null
+                        && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }

@@ -73,6 +73,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private String mProvider;
     private String mProviderId;
     private String mEmail;
+    private String mFirstName;
+    private String mLastName;
     private Uri mSelectedImage;
     private ProfileData mProfileData;
     private String mResponsImageUrl;
@@ -266,10 +268,15 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             mProvider = getIntent().getStringExtra(INTENT_PROVIDER);
             mProviderId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
+            mFirstName = getIntent().getStringExtra(INTENT_FIRST_NAME);
+            mLastName = getIntent().getStringExtra(INTENT_LAST_NAME);
         }
 
-        if (mProvider != null && mProviderId != null)
+        if (mProvider != null && mProviderId != null) {
             editEmail.setText(mEmail);
+            editFirstName.setText(mFirstName);
+            editLastName.setText(mLastName);
+        }
 
         editEmail.setFocusable(mProviderId != null ? false : true);
         editEmail.setFocusableInTouchMode(mProviderId != null ? false : true);
