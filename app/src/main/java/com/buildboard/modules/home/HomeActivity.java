@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView textViewTitle;
     @BindView(R.id.image_setting)
     ImageView imageProfileSetting;
+
     @BindString(R.string.title_marketplace)
     String stringMarketPlace;
     @BindString(R.string.title_projects)
@@ -56,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     String stringMailbox;
     @BindString(R.string.title_profile)
     String stringProfile;
+
     @BindColor(R.color.colorPrimary)
     int colorPrimary;
     @BindColor(R.color.colorWhite)

@@ -1,100 +1,33 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/relative_root"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.buildboard.modules.home.modules.mailbox.MailboxFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_compose"
-        app:cardElevation="@dimen/_3sdp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_messages"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_messages"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/text_compose"
-            style="@style/textSize_small"
-            android:paddingLeft="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_compose"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/compose"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_inbox"
-        app:cardElevation="@dimen/_3sdp"
-        android:layout_width="match_parent"
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_error_message"
+        style="@style/textSize_smallest"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_compose">
-
-        <TextView
-            android:id="@+id/text_inbox"
-            style="@style/textSize_small"
-            android:paddingLeft="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_inbox"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/inbox"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_draft"
-        app:cardElevation="@dimen/_3sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_inbox">
-
-        <TextView
-            android:id="@+id/text_draft"
-            style="@style/textSize_small"
-            android:paddingLeft="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_draft"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/draft"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_bin"
-        app:cardElevation="@dimen/_3sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_draft">
-
-        <TextView
-            android:id="@+id/text_bin"
-            style="@style/textSize_small"
-            android:paddingLeft="@dimen/_5sdp"
-            android:drawableLeft="@drawable/ic_bin"
-            android:drawablePadding="@dimen/_15sdp"
-            android:text="@string/bin"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp" />
-    </android.support.v7.widget.CardView>
-
-</android.support.constraint.ConstraintLayout>
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_10sdp"
+        android:text="sdfsdafsdfsdafsdafsdaf"
+        android:visibility="visible"/>
+</RelativeLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_70sdp"
+    android:padding="@dimen/_5sdp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:selectableItemBackground">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_receiver"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/supplies" />
+    </android.support.v7.widget.CardView>
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_receiver_name"
+        style="@style/textSize_small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@+id/text_message_date"
+        app:layout_constraintStart_toEndOf="@id/card_message"
+        app:layout_constraintTop_toTopOf="@+id/card_message"
+        app:typeface="robotoLight" />
+
+    <ImageView
+        android:id="@+id/image_arrow"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_chevron_right_black_24"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_message"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        app:layout_constraintEnd_toStartOf="@+id/image_arrow"
+        app:layout_constraintStart_toStartOf="@+id/text_receiver_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_receiver_name" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_message_date"
+        style="@style/textSize_smaller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/text_receiver_name"
+        app:layout_constraintEnd_toStartOf="@+id/image_arrow"
+        app:layout_constraintTop_toTopOf="@+id/text_receiver_name" />
+
+</android.support.constraint.ConstraintLayout>

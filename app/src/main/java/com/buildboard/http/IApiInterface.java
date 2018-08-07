@@ -1,5 +1,6 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
@@ -140,4 +141,7 @@ public interface IApiInterface {
 
     @DELETE("consumer/address/{id}")
     Call<PrimaryAddressResponse> deleteAddress(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("id") String id);
+
+    @GET("messages")
+    Call<MessagesResponse> getMessages(@Header("oauth") String oauth, @Header("session") String sessionId);
 }
