@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.marketplace.contractors.models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -37,8 +36,8 @@ public class NewProject {
     private List<String> additionalAttachment = null;
     @SerializedName("preffered_material_description")
     private Object prefferedMaterialDescription;
-     @SerializedName("preffered_material_attachment")
-     private List<String> prefferedMaterialAttachment = null;
+    @SerializedName("preffered_material_attachment")
+    private List<String> prefferedMaterialAttachment = null;
     @SerializedName("contractor")
     private Object contractor;
     @SerializedName("start_date")
@@ -154,13 +153,14 @@ public class NewProject {
         this.projectPhoto = projectPhoto;
     }
 
-     public List<String> getAdditionalAttachment() {
-         return additionalAttachment;
-     }
+    public List<String> getAdditionalAttachment() {
+        return additionalAttachment;
+    }
 
-     public void setAdditionalAttachment(List<String> additionalAttachment) {
-         this.additionalAttachment = additionalAttachment;
-     }
+    public void setAdditionalAttachment(List<String> additionalAttachment) {
+        this.additionalAttachment = additionalAttachment;
+    }
+
     public Object getPrefferedMaterialDescription() {
         return prefferedMaterialDescription;
     }
