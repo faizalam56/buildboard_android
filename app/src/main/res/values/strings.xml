@@ -287,4 +287,7 @@
         <item>Cancel</item>
     </string-array>
     <string name="msg_contractor_signup_success">Contractor successfully created</string>
+    <string name="working_radius">Working Radius</string>
+    <string name="year_in_business">Years in Business</string>
+    <string name="error_enter_business_year">Please enter year in business</string>
 </resources>
