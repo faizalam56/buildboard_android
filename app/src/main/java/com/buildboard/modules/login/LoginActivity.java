@@ -55,7 +55,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Arrays;
 import butterknife.BindArray;
 import butterknife.BindString;
