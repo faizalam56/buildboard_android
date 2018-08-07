@@ -455,7 +455,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     public void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
-            account.getId();
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
             socialLoginRequest.setProvider(getString(R.string.google));
             socialLoginRequest.setProviderId(account.getId());
