@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.buildboard.R;
@@ -13,6 +14,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectData;
+import com.buildboard.utils.ConnectionDetector;
 
 import java.util.ArrayList;
 
@@ -57,6 +59,8 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
 
         @BindView(R.id.text_title)
         TextView textTitle;
+        @BindView(R.id.constraint_drafts_row_footer)
+        LinearLayout linearRootLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,15 +91,20 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
 
         @OnClick(R.id.constraint_drafts_row_footer)
         public void rowTapped() {
-            String Text = mArrayList.get(getAdapterPosition());
 
-            switch (Text) {
+            if (ConnectionDetector.isNetworkConnected(mContext)) {
+                String Text = mArrayList.get(getAdapterPosition());
 
-                case TEXT_ATTACHMENT:
-                    Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
-                    intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
-                    mContext.startActivity(intent);
-                    break;
+                switch (Text) {
+
+                    case TEXT_ATTACHMENT:
+                        Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
+                        intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
+                        mContext.startActivity(intent);
+                        break;
+                }
+            } else {
+                ConnectionDetector.createSnackBar(mContext, linearRootLayout);
             }
         }
     }
