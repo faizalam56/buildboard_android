@@ -33,12 +33,12 @@ public class NewProject {
     private String address;
     @SerializedName("project_photo")
     private List<String> projectPhoto = null;
-    /*@SerializedName("additional_attachment")
-    private List<String> additionalAttachment = null;*/
+    @SerializedName("additional_attachment")
+    private List<String> additionalAttachment = null;
     @SerializedName("preffered_material_description")
     private Object prefferedMaterialDescription;
-    /* @SerializedName("preffered_material_attachment")
-     private List<String> prefferedMaterialAttachment = null;*/
+     @SerializedName("preffered_material_attachment")
+     private List<String> prefferedMaterialAttachment = null;
     @SerializedName("contractor")
     private Object contractor;
     @SerializedName("start_date")
@@ -154,14 +154,13 @@ public class NewProject {
         this.projectPhoto = projectPhoto;
     }
 
-    /* public List<String> getAdditionalAttachment() {
+     public List<String> getAdditionalAttachment() {
          return additionalAttachment;
      }
 
      public void setAdditionalAttachment(List<String> additionalAttachment) {
          this.additionalAttachment = additionalAttachment;
      }
- */
     public Object getPrefferedMaterialDescription() {
         return prefferedMaterialDescription;
     }
@@ -170,13 +169,13 @@ public class NewProject {
         this.prefferedMaterialDescription = prefferedMaterialDescription;
     }
 
-    /*public List<String> getPrefferedMaterialAttachment() {
+    public List<String> getPrefferedMaterialAttachment() {
         return prefferedMaterialAttachment;
     }
 
     public void setPrefferedMaterialAttachment(List<String> prefferedMaterialAttachment) {
         this.prefferedMaterialAttachment = prefferedMaterialAttachment;
-    }*/
+    }
 
     public Object getContractor() {
         return contractor;
