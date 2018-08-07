@@ -286,4 +286,5 @@
         <item>Take Photo</item>
         <item>Cancel</item>
     </string-array>
+    <string name="error_no_messages">No messages yet</string>
 </resources>

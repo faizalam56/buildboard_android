@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_16sdp"
         app:rippleColor="@color/colorWhite"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />
