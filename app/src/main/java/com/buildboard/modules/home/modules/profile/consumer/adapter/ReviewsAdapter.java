@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewData;
 import com.buildboard.preferences.AppPreference;
 import com.squareup.picasso.Picasso;
@@ -21,9 +22,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
-
-public class ReviewsAdapter extends RecyclerView.Adapter {
+public class ReviewsAdapter extends RecyclerView.Adapter implements AppConstant {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -64,10 +63,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             if (isLastPage)
-                loadingViewHolder.progressBar.setVisibility(View.GONE);
+                loadingViewHolder.mProgressBar.setVisibility(View.GONE);
             else {
-                loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
-                loadingViewHolder.progressBar.setIndeterminate(true);
+                loadingViewHolder.mProgressBar.setVisibility(View.VISIBLE);
+                loadingViewHolder.mProgressBar.setIndeterminate(true);
             }
         }
     }
@@ -112,36 +111,39 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
         private void bindData(int position) {
 
             if (AppPreference.getAppPreference(mActivity).getBoolean(IS_CONTRACTOR)) {
-
-                Picasso.get()
-                        .load(mReviewsList.get(position).getConsumer().getImage())
-                        .into(imageContractor);
-                textBusinessName.setText(mReviewsList.get(position).getConsumer().getFirstName() + " " + mReviewsList.get(position).getConsumer().getLastName());
-                textReview.setText(mReviewsList.get(position).getReview());
-                ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
+                setReviewData(mReviewsList.get(position).getConsumer().getImage(),
+                        mReviewsList.get(position).getConsumer().getFirstName() + " " + mReviewsList.get(position).getConsumer().getLastName(),
+                        mReviewsList.get(position).getReview(),
+                        mReviewsList.get(position).getRating());
             } else {
-
-                Picasso.get()
-                        .load(mReviewsList.get(position).getContractor().getImage())
-                        .into(imageContractor);
-                textBusinessName.setText(mReviewsList.get(position).getContractor().getBusinessName());
-                textReview.setText(mReviewsList.get(position).getReview());
-                ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
-
+                setReviewData(mReviewsList.get(position).getContractor().getImage(),
+                        mReviewsList.get(position).getContractor().getBusinessName(),
+                        mReviewsList.get(position).getReview(),
+                        mReviewsList.get(position).getRating());
             }
+        }
+
+        private void setReviewData(String image, String name, String review, int rating) {
+
+            Picasso.get()
+                    .load(image)
+                    .into(imageContractor);
+            textBusinessName.setText(name);
+            textReview.setText(review);
+            ratingBar.setRating(rating > 5 ? 5 : rating);
         }
     }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-        private ProgressBar progressBar;
+        private ProgressBar mProgressBar;
+
         private LoadingViewHolder(View view) {
             super(view);
-            progressBar = view.findViewById(R.id.progressBar_loading);
+            mProgressBar = view.findViewById(R.id.progressBar_loading);
         }
 
     }
-
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
