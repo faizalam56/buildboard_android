@@ -62,8 +62,8 @@ public class MailboxFragment extends Fragment {
 
         boolean isNetworkConnected = ConnectionDetector.isNetworkConnected(getActivity());
 
-        recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.GONE);
-        textErrorMessage.setVisibility(isNetworkConnected ? View.GONE : View.VISIBLE);
+        recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.INVISIBLE);
+        textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
 
         if (isNetworkConnected)
             getMessages();
@@ -89,8 +89,8 @@ public class MailboxFragment extends Fragment {
                 MessagesResponse messagesResponse = (MessagesResponse) response;
 
                 boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
-                recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.GONE);
-                textErrorMessage.setVisibility(isMessageAvailable ? View.GONE : View.VISIBLE);
+                recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
+                textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
 
                 if (messagesResponse != null && messagesResponse.getData().get(0).getData() != null &&
                         messagesResponse.getData().get(0).getData().size() > 0) {
