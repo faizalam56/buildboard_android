@@ -33,7 +33,7 @@
             android:layout_height="@dimen/_40sdp"
             android:background="@drawable/green_drawable_border"
             android:scaleType="centerCrop"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_password" />
@@ -43,7 +43,7 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="@+id/image_attachment1"
             app:layout_constraintTop_toTopOf="@+id/image_attachment1"
             app:srcCompat="@drawable/close" />
@@ -55,7 +55,7 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment1"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_inbox" />
@@ -65,7 +65,7 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="@+id/image_attachment2"
             app:layout_constraintTop_toTopOf="@+id/image_attachment2"
             app:srcCompat="@drawable/close" />
@@ -77,7 +77,7 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment2"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_filter" />
@@ -87,7 +87,7 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="@+id/image_attachment3"
             app:layout_constraintTop_toTopOf="@+id/image_attachment3"
             app:srcCompat="@drawable/close" />
@@ -99,7 +99,7 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_compose" />
@@ -109,7 +109,7 @@
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:padding="@dimen/_2sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="@+id/image_attachment4"
             app:layout_constraintTop_toTopOf="@+id/image_attachment4"
             app:srcCompat="@drawable/close" />
