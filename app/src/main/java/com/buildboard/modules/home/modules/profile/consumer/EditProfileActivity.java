@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,7 +38,6 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -62,13 +62,26 @@ import okhttp3.RequestBody;
 
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.selectImage;
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class EditProfileActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private final int PICK_IMAGE_CAMERA = 2001;
     private final int PICK_IMAGE_GALLERY = 2002;
+    private LatLng mAddressLatLng;
+    private String mProvider;
+    private String mProviderId;
+    private String mEmail;
+    private Uri mSelectedImage;
+    private ProfileData mProfileData;
+    private String mResponsImageUrl;
+    private ContractorTypeDetail contractorTypeDetail;
+    private int maxClicks = 3, mCurrentNumber = 0;
+    private String mContactMode = PHONE;
+    private Bitmap mBitmap;
     public UpdateProfileListener mUpdateProfileListener;
+
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroupContactMode;
     @BindView(R.id.radio_phone)
@@ -109,6 +122,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     BuildBoardEditText editEmail;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     @BindString(R.string.gender)
     String stringGender;
     @BindString(R.string.female)
@@ -185,30 +201,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringSelectImage;
     @BindString(R.string.location_check)
     String stringCheckLocation;
-    private LatLng mAddressLatLng;
-    private String mProvider;
-    private String mProviderId;
-    private String mEmail;
-    private Uri mSelectedImage;
-    private ProfileData mProfileData;
-    private String mResponsImageUrl;
-    private ContractorTypeDetail contractorTypeDetail;
-    private int maxClicks = 3, mCurrentNumber = 0;
-    private String contactMode = PHONE;
-    RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.radio_phone:
-                    contactMode = PHONE;
-                    break;
-                case R.id.radio_email:
-                    contactMode = EMAIL;
-                    break;
-            }
-        }
-    };
-    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,6 +212,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         title.setText(stringEditProfile);
         getUserProfileData();
         setAsteriskToText();
+        showProgressColor(this, progressBar);
 
         mUpdateProfileListener = ProfileFragment.newInstance();
 
@@ -241,16 +234,30 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         textContactMode.setText(Utils.setStarToLabel(getString(R.string.preferred_contact_mode)));
     }
 
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
     @OnClick(R.id.edit_address)
     void consumerAddressTapped() {
-        try {
-            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-            Intent intent = intentBuilder.build(this);
-            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            try {
+                PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+                Intent intent = intentBuilder.build(this);
+                startActivityForResult(intent, PLACE_PICKER_REQUEST);
 
-        } catch (GooglePlayServicesRepairableException
-                | GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+            } catch (GooglePlayServicesRepairableException
+                    | GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -279,7 +286,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
         if (ConnectionDetector.isNetworkConnected(this)) {
             if (validateFields(firstName, lastName, address, phoneNo)) {
-                signUpMethod(firstName, lastName, address, phoneNo, contactMode, mResponsImageUrl);
+                signUpMethod(firstName, lastName, address, phoneNo, mContactMode, mResponsImageUrl);
             }
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
@@ -306,11 +313,11 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             return;
         }
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().updateConsumer(EditProfileActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
@@ -323,7 +330,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
@@ -387,6 +394,20 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         return true;
     }
 
+    RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId) {
+                case R.id.radio_phone:
+                    mContactMode = PHONE;
+                    break;
+                case R.id.radio_email:
+                    mContactMode = EMAIL;
+                    break;
+            }
+        }
+    };
+
     private void createAccount(String imageUrl) {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
@@ -394,7 +415,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         String phoneNo = editPhoneNo.getText().toString();
 
         if (validateFields(firstName, lastName, address, phoneNo)) {
-            signUpMethod(firstName, lastName, address, phoneNo, contactMode, imageUrl);
+            signUpMethod(firstName, lastName, address, phoneNo, mContactMode, imageUrl);
         }
     }
 
@@ -493,19 +514,19 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar();
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
         RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
         DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 mResponsImageUrl = response.toString();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
@@ -524,18 +545,18 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     private void getUserProfileData() {
-        ProgressHelper.start(EditProfileActivity.this, getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().getProfile(EditProfileActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 mProfileData = (ProfileData) response;
                 setProfileData(mProfileData);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
             }
         });
     }

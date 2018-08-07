@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -55,7 +56,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Arrays;
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -455,7 +455,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     public void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
-            account.getId();
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
             socialLoginRequest.setProvider(getString(R.string.google));
             socialLoginRequest.setProviderId(account.getId());
