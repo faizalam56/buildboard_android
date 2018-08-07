@@ -23,6 +23,15 @@ public class LoginData {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("address1")
+    @Expose
+    private Object address1;
+    @SerializedName("address2")
+    @Expose
+    private Object address2;
+    @SerializedName("address3")
+    @Expose
+    private Object address3;
     @SerializedName("contact_mode")
     @Expose
     private Object contactMode;
@@ -169,5 +178,29 @@ public class LoginData {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Object getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(Object address1) {
+        this.address1 = address1;
+    }
+
+    public Object getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(Object address2) {
+        this.address2 = address2;
+    }
+
+    public Object getAddress3() {
+        return address3;
+    }
+
+    public void setAddress3(Object address3) {
+        this.address3 = address3;
     }
 }

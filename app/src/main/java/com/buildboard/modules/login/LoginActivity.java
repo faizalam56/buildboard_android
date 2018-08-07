@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -23,6 +23,7 @@ import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -30,6 +31,7 @@ import com.buildboard.modules.login.models.getAccessToken.TokenData;
 import com.buildboard.modules.login.models.login.LoginData;
 import com.buildboard.modules.login.models.login.LoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
@@ -54,9 +56,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -293,6 +298,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             intent.putExtra(INTENT_PROVIDER, socialLoginRequest.getProvider());
             intent.putExtra(INTENT_PROVIDER_ID, socialLoginRequest.getProviderId());
             intent.putExtra(INTENT_EMAIL, email);
+            intent.putExtra(INTENT_FIRST_NAME, socialLoginRequest.getFirstName());
+            intent.putExtra(INTENT_LAST_NAME, socialLoginRequest.getLastName());
             startActivity(intent);
             finish();
         } else startActivity(intent);
@@ -316,19 +323,20 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         });
     }
 
-    private void requestFBUserProfile(LoginResult loginResult) {
+    private void requestFBUserProfile(final LoginResult loginResult) {
         final String userId = loginResult.getAccessToken().getUserId();
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-
                 SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
                 socialLoginRequest.setProvider(getString(R.string.facebook));
                 socialLoginRequest.setProviderId(userId);
                 String email = null;
                 try {
                     email = object.getString("email");
+                    socialLoginRequest.setFirstName(object.getString("first_name"));
+                    socialLoginRequest.setLastName(object.getString("last_name"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -366,14 +374,25 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
-                openActivity(HomeActivity.class, true, false, null, email);
+                if (response == null) return;
+
+                SocialLoginResponse socialLoginResponse = (SocialLoginResponse) response;
+                if (socialLoginResponse.getDatas().get(0) != null) {
+                    LoginData loginData = socialLoginResponse.getDatas().get(0);
+                    AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
+                    openActivity(HomeActivity.class, false, true, socialLoginRequest, email);
+                }
             }
 
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
-                redirectToSignUp(socialLoginRequest, email);
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                if(errorResponse.getCode().equals(ERROR_CODE)){
+                    Toast.makeText(LoginActivity.this,String.valueOf(errorResponse.getMessage()), Toast.LENGTH_LONG).show();
+                    redirectToSignUp(socialLoginRequest, email);
+                }
+                Toast.makeText(LoginActivity.this,String.valueOf(errorResponse.getMessage()), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -458,6 +477,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
             socialLoginRequest.setProvider(getString(R.string.google));
             socialLoginRequest.setProviderId(account.getId());
+            socialLoginRequest.setFirstName(account.getGivenName());
+            socialLoginRequest.setLastName(account.getFamilyName());
             String email = account.getEmail();
             getSocialLogin(socialLoginRequest, email);
         }
