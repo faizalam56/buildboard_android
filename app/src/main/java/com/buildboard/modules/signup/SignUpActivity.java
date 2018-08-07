@@ -43,7 +43,6 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
@@ -68,6 +67,7 @@ import okhttp3.RequestBody;
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
@@ -223,6 +223,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        showProgressColor(this, progressBar);
         title.setText(stringSignUp);
         setAsteriskToText();
         setTermsServiceText();
@@ -260,14 +261,18 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.edit_address)
     void consumerAddressTapped() {
-        try {
-            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-            Intent intent = intentBuilder.build(this);
-            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            try {
+                PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+                Intent intent = intentBuilder.build(this);
+                startActivityForResult(intent, PLACE_PICKER_REQUEST);
 
-        } catch (GooglePlayServicesRepairableException
-                | GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+            } catch (GooglePlayServicesRepairableException
+                    | GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
