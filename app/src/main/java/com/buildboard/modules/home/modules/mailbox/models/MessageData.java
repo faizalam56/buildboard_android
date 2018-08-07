@@ -61,5 +61,4 @@ public class MessageData {
     public void setReceiver(Receiver receiver) {
         this.receiver = receiver;
     }
-
 }

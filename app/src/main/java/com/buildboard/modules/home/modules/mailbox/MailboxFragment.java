@@ -99,7 +99,6 @@ public class MailboxFragment extends Fragment {
                 } else {
                     textErrorMessage.setText(stringNoMessages);
                 }
-
             }
 
             @Override

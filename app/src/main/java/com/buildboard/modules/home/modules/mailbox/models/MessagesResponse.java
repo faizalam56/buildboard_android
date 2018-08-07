@@ -42,5 +42,4 @@ public class MessagesResponse {
     public void setError(ErrorResponse error) {
         this.error = error;
     }
-
 }

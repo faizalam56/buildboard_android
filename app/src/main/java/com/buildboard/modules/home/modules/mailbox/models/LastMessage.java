@@ -72,5 +72,4 @@ public class LastMessage {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
 }
