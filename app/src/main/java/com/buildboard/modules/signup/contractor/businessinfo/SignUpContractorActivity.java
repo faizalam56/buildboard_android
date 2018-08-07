@@ -232,22 +232,15 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
         }
 
-        if (mProvider != null && mProviderId != null) {
-            editPassword.setVisibility(View.GONE);
-            textPassword.setVisibility(View.GONE);
+        editPassword.setVisibility((mProvider != null && mProviderId != null)? View.GONE: View.VISIBLE);
+        textPassword.setVisibility((mProvider != null && mProviderId != null)? View.GONE: View.VISIBLE);
+        editEmail.setFocusable(!(mProvider != null && mProviderId != null));
+        editPassword.setFocusableInTouchMode(!(mProvider != null && mProviderId != null));
+        editPassword.setClickable(!(mProvider != null && mProviderId != null));
+        editPassword.setCursorVisible(!(mProvider != null && mProviderId != null));
+
+        if (mProvider != null && mProviderId != null)
             editEmail.setText(mEmail);
-            editEmail.setFocusable(false);
-            editEmail.setFocusableInTouchMode(false);
-            editEmail.setClickable(false);
-            editEmail.setCursorVisible(false);
-        } else {
-            editPassword.setVisibility(View.VISIBLE);
-            textPassword.setVisibility(View.VISIBLE);
-            editEmail.setFocusable(true);
-            editEmail.setFocusableInTouchMode(true);
-            editEmail.setClickable(true);
-            editEmail.setCursorVisible(true);
-        }
 
         populateWorkingArea();
     }

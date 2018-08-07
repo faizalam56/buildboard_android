@@ -103,7 +103,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
 
-    private String mUserId = "519306a0-9969-11e8-9dff-4b4c9e4516c1";
+    private String mUserId = "";
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
     private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
