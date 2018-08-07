@@ -330,12 +330,15 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             switch (requestCode) {
 
                 case REQUEST_CODE:
-                    selectedImage = data.getData();
                     try {
                         if (isAttachment) {
-                            mImageUploadHelper.uploadImage(this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, selectedImage))),
+                            if (ConnectionDetector.isNetworkConnected(this))
+                            mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, data.getData()))),
                                     constraintRoot, this);
+                            else
+                                ConnectionDetector.createSnackBar(this, constraintRoot);
                         } else {
+                            selectedImage = data.getData();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                             mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
                         }
