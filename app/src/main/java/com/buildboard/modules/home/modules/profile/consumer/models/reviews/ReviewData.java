@@ -20,7 +20,7 @@ public class ReviewData {
     private Contractor contractor;
     @SerializedName("consumer")
     @Expose
-    private String consumer;
+    private Consumer consumer;
     @SerializedName("project")
     @Expose
     private Project project;
@@ -63,11 +63,11 @@ public class ReviewData {
         this.contractor = contractor;
     }
 
-    public String getConsumer() {
+    public Consumer getConsumer() {
         return consumer;
     }
 
-    public void setConsumer(String consumer) {
+    public void setConsumer(Consumer consumer) {
         this.consumer = consumer;
     }
 

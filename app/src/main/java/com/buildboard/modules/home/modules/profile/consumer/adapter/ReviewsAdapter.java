@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewData;
+import com.buildboard.preferences.AppPreference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
 
 public class ReviewsAdapter extends RecyclerView.Adapter {
 
@@ -107,13 +110,25 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-            Picasso.get()
-                    .load(mReviewsList.get(position).getContractor().getImage())
-                    .into(imageContractor);
-            textBusinessName.setText(mReviewsList.get(position).getContractor().getBusinessName());
-            textReview.setText(mReviewsList.get(position).getReview());
-            ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
 
+            if (AppPreference.getAppPreference(mActivity).getBoolean(IS_CONTRACTOR)) {
+
+                Picasso.get()
+                        .load(mReviewsList.get(position).getConsumer().getImage())
+                        .into(imageContractor);
+                textBusinessName.setText(mReviewsList.get(position).getConsumer().getFirstName() + " " + mReviewsList.get(position).getConsumer().getLastName());
+                textReview.setText(mReviewsList.get(position).getReview());
+                ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
+            } else {
+
+                Picasso.get()
+                        .load(mReviewsList.get(position).getContractor().getImage())
+                        .into(imageContractor);
+                textBusinessName.setText(mReviewsList.get(position).getContractor().getBusinessName());
+                textReview.setText(mReviewsList.get(position).getReview());
+                ratingBar.setRating(mReviewsList.get(position).getRating() > 5 ? 5 : mReviewsList.get(position).getRating());
+
+            }
         }
     }
 
