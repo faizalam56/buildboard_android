@@ -23,7 +23,6 @@ import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -387,12 +386,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                ErrorResponse errorResponse = (ErrorResponse) error;
-                if(errorResponse.getCode().equals(ERROR_CODE)){
-                    Toast.makeText(LoginActivity.this,String.valueOf(errorResponse.getMessage()), Toast.LENGTH_LONG).show();
-                    redirectToSignUp(socialLoginRequest, email);
-                }
-                Toast.makeText(LoginActivity.this,String.valueOf(errorResponse.getMessage()), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
+                redirectToSignUp(socialLoginRequest, email);
             }
         });
     }
