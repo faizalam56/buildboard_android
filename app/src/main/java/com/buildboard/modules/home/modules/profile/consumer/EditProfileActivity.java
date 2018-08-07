@@ -78,7 +78,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private String mResponsImageUrl;
     private ContractorTypeDetail contractorTypeDetail;
     private int maxClicks = 3, mCurrentNumber = 0;
-    private String contactMode = PHONE;
+    private String mContactMode = PHONE;
     private Bitmap mBitmap;
     public UpdateProfileListener mUpdateProfileListener;
 
@@ -290,7 +290,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
         if (ConnectionDetector.isNetworkConnected(this)) {
             if (validateFields(firstName, lastName, address, phoneNo)) {
-                signUpMethod(firstName, lastName, address, phoneNo, contactMode, mResponsImageUrl);
+                signUpMethod(firstName, lastName, address, phoneNo, mContactMode, mResponsImageUrl);
             }
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
@@ -403,10 +403,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
                 case R.id.radio_phone:
-                    contactMode = PHONE;
+                    mContactMode = PHONE;
                     break;
                 case R.id.radio_email:
-                    contactMode = EMAIL;
+                    mContactMode = EMAIL;
                     break;
             }
         }
@@ -419,7 +419,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         String phoneNo = editPhoneNo.getText().toString();
 
         if (validateFields(firstName, lastName, address, phoneNo)) {
-            signUpMethod(firstName, lastName, address, phoneNo, contactMode, imageUrl);
+            signUpMethod(firstName, lastName, address, phoneNo, mContactMode, imageUrl);
         }
     }
 
