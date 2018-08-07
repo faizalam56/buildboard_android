@@ -145,6 +145,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private String mEmail;
     private LatLng addressLatLng;
     private String workingArea;
+    private String mFirstNane;
+    private String mLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +239,14 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             mProvider = getIntent().getStringExtra(INTENT_PROVIDER);
             mProviderId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
+        }
+
+        if (getIntent().hasExtra(INTENT_FIRST_NAME) && getIntent().hasExtra(INTENT_LAST_NAME)) {
+            mFirstNane = getIntent().getStringExtra(INTENT_FIRST_NAME);
+            mLastName = getIntent().getStringExtra(INTENT_LAST_NAME);
+
+            editPrincipalFirstName.setText(mFirstNane != null ? mFirstNane : "");
+            editPrincipalLastName.setText(mLastName != null ? mLastName : "");
         }
 
         editPassword.setVisibility((mProvider != null && mProviderId != null) ? View.GONE : View.VISIBLE);

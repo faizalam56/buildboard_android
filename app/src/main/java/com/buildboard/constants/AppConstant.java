@@ -29,6 +29,8 @@ public interface AppConstant {
     String INTENT_PROVIDER_ID = "intent_provider_id";
     String INTENT_EMAIL = "intent_email";
     String INTENT_WORK_TYPE_ID = "intent_work_type_id";
+    String INTENT_FIRST_NAME = "intent_first_name";
+    String INTENT_LAST_NAME = "intent_last_name";
     String STATUS_OPEN = "open";
     String STATUS_COMPLETED = "completed";
     String STATUS_SAVED = "saved";
@@ -68,4 +70,6 @@ public interface AppConstant {
     String PRIVACY_POLICY_LINK = "http://www.google.com";
 
     int REQUEST_IMAGE_CAPTURE = 1;
+    String FIRST_NAME = "first_name";
+    String LAST_NAME = "last_name";
 }

@@ -333,8 +333,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                     try {
                         if (isAttachment) {
                             if (ConnectionDetector.isNetworkConnected(this))
-                            mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, data.getData()))),
-                                    constraintRoot, this);
+                                mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, data.getData()))),
+                                        constraintRoot, this);
                             else
                                 ConnectionDetector.createSnackBar(this, constraintRoot);
                         } else {
