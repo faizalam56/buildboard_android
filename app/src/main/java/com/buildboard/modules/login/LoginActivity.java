@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -38,6 +37,7 @@ import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorAct
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;

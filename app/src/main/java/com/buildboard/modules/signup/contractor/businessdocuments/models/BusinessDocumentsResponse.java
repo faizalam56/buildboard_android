@@ -1,5 +1,6 @@
 package com.buildboard.modules.signup.contractor.businessdocuments.models;
 
+import com.buildboard.models.ErrorResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class BusinessDocumentsResponse {
     @SerializedName("data")
     private ArrayList<String> data = new ArrayList<>();
     @SerializedName("error")
-    private Error error;
+    private ErrorResponse error;
 
     public String getStatus() {
         return status;
@@ -29,11 +30,11 @@ public class BusinessDocumentsResponse {
         this.data = data;
     }
 
-    public Error getError() {
+    public ErrorResponse getError() {
         return error;
     }
 
-    public void setError(Error error) {
+    public void setError(ErrorResponse error) {
         this.error = error;
     }
 }

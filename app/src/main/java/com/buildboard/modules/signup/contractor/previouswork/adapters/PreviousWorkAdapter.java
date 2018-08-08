@@ -72,6 +72,14 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         ImageView imageAttachment3;
         @BindView(R.id.image_attachment4)
         ImageView imageAttachment4;
+        @BindView(R.id.image_close_attachment1)
+        ImageView imageCloseAttachment1;
+        @BindView(R.id.image_close_attachment2)
+        ImageView imageCloseAttachment2;
+        @BindView(R.id.image_close_attachment3)
+        ImageView imageCloseAttachment3;
+        @BindView(R.id.image_close_attachment4)
+        ImageView imageCloseAttachment4;
 
         @BindView(R.id.edit_description)
         BuildBoardEditText editDescription;
@@ -119,9 +127,13 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
         private void setVisibility(int size) {
             imageAttachment1.setVisibility(size > 0 ? View.VISIBLE : View.GONE);
+            imageCloseAttachment1.setVisibility(size > 0 ? View.VISIBLE : View.GONE);
             imageAttachment2.setVisibility(size > 1 ? View.VISIBLE : View.GONE);
+            imageCloseAttachment2.setVisibility(size > 1 ? View.VISIBLE : View.GONE);
             imageAttachment3.setVisibility(size > 2 ? View.VISIBLE : View.GONE);
+            imageCloseAttachment3.setVisibility(size > 2 ? View.VISIBLE : View.GONE);
             imageAttachment4.setVisibility(size > 3 ? View.VISIBLE : View.GONE);
+            imageCloseAttachment4.setVisibility(size > 3 ? View.VISIBLE : View.GONE);
             imageAttachment.setVisibility(size == 4 ? View.GONE : View.VISIBLE);
         }
 
@@ -133,6 +145,30 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         @OnClick(R.id.image_attachment)
         void attachmentTapped() {
             iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
+        }
+
+        @OnClick(R.id.image_close_attachment1)
+        void attachment1CloseTapped() {
+            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(0);
+            notifyDataSetChanged();
+        }
+
+        @OnClick(R.id.image_close_attachment2)
+        void attachment2CloseTapped() {
+            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(1);
+            notifyDataSetChanged();
+        }
+
+        @OnClick(R.id.image_close_attachment3)
+        void attachment3CloseTapped() {
+            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(2);
+            notifyDataSetChanged();
+        }
+
+        @OnClick(R.id.image_close_attachment4)
+        void attachment4CloseTapped() {
+            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(3);
+            notifyDataSetChanged();
         }
     }
 }
