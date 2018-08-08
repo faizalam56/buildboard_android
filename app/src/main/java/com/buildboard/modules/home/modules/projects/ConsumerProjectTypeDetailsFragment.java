@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.projects;
 
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
