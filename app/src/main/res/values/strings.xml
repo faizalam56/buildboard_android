@@ -286,6 +286,7 @@
         <item>Take Photo</item>
         <item>Cancel</item>
     </string-array>
+    <string name="error_no_messages">No messages yet</string>
     <string name="msg_contractor_signup_success">Contractor successfully created</string>
     <string name="working_radius">Working Radius</string>
     <string name="year_in_business">Years in Business</string>

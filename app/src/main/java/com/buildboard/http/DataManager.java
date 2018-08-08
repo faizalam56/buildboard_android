@@ -2,9 +2,11 @@ package com.buildboard.http;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
@@ -41,7 +43,9 @@ import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerResponse;
 import com.buildboard.preferences.AppPreference;
+
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -248,7 +252,6 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceContractor(Activity activity, final DataManagerListener dataManagerListener) {
-
         Call<MarketPlaceContractorResponse> call = getDataManager().getMarketplaceContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketPlaceContractorResponse>() {
             @Override
@@ -482,7 +485,10 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                if (response.body().getStatus() != null
+                        && response.body().getStatus().equals(SUCCESS)
+                        && response.body().getDatas() != null
+                        && response.body().getDatas().size() > 0)
                     dataManagerListener.onSuccess(response.body().getDatas().get(0));
                 else dataManagerListener.onError(response.body().getError());
             }
@@ -737,6 +743,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<PrimaryAddressResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getMessages(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<MessagesResponse> call = getDataManager().getMessages(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<MessagesResponse>() {
+            @Override
+            public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessagesResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

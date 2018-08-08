@@ -13,6 +13,7 @@ public interface AppConstant {
     int IMAGE_UPLOAD_REQUEST_CODE = 200;
     int REQUEST_PERMISSION_CODE = 300;
     int FILE_SELECT_CODE = 0;
+    int ERROR_CODE = 200;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
@@ -28,9 +29,9 @@ public interface AppConstant {
     String INTENT_PROVIDER = "intent_provider";
     String INTENT_PROVIDER_ID = "intent_provider_id";
     String INTENT_EMAIL = "intent_email";
-    String INTENT_WORK_TYPE_ID = "intent_work_type_id";
     String INTENT_FIRST_NAME = "intent_first_name";
     String INTENT_LAST_NAME = "intent_last_name";
+    String INTENT_WORK_TYPE_ID = "intent_work_type_id";
     String STATUS_OPEN = "open";
     String STATUS_COMPLETED = "completed";
     String STATUS_SAVED = "saved";

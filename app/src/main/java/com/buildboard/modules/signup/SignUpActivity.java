@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -43,7 +44,6 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
@@ -68,18 +68,19 @@ import okhttp3.RequestBody;
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
     private final int PICK_IMAGE_CAMERA = 2001;
     private final int PICK_IMAGE_GALLERY = 2002;
-    private String apiKey;
-    private String schemaSpecificPart;
     private LatLng addressLatLng;
-    private String provider;
-    private String providerId;
+    private String mProvider;
+    private String mProviderId;
     private String mEmail;
+    private String mFirstName;
+    private String mLastName;
     private Uri selectedImage;
     private Bitmap bitmap;
     private String contactMode = PHONE;
@@ -136,6 +137,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     ConstraintLayout constraintRoot;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.input_layout_password)
+    TextInputLayout textInputLayout;
 
     @BindString(R.string.gender)
     String stringGender;
@@ -223,6 +226,7 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        showProgressColor(this, progressBar);
         title.setText(stringSignUp);
         setAsteriskToText();
         setTermsServiceText();
@@ -260,14 +264,18 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     @OnClick(R.id.edit_address)
     void consumerAddressTapped() {
-        try {
-            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-            Intent intent = intentBuilder.build(this);
-            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            try {
+                PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+                Intent intent = intentBuilder.build(this);
+                startActivityForResult(intent, PLACE_PICKER_REQUEST);
 
-        } catch (GooglePlayServicesRepairableException
-                | GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+            } catch (GooglePlayServicesRepairableException
+                    | GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -360,9 +368,9 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
             consumerRequest.setLongitude(String.valueOf(addressLatLng.longitude));
         }
 
-        if (!TextUtils.isEmpty(provider) && !TextUtils.isEmpty(providerId)) {
-            consumerRequest.setProvider(provider);
-            consumerRequest.setProviderId(providerId);
+        if (!TextUtils.isEmpty(mProvider) && !TextUtils.isEmpty(mProviderId)) {
+            consumerRequest.setProvider(mProvider);
+            consumerRequest.setProviderId(mProviderId);
         }
 
         return consumerRequest;
@@ -537,23 +545,32 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
 
     public void getIntentData() {
         if (getIntent().hasExtra(INTENT_PROVIDER) && getIntent().hasExtra(INTENT_PROVIDER_ID) && getIntent().hasExtra(INTENT_EMAIL)) {
-            provider = getIntent().getStringExtra(INTENT_PROVIDER);
-            providerId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
+            mProvider = getIntent().getStringExtra(INTENT_PROVIDER);
+            mProviderId = getIntent().getStringExtra(INTENT_PROVIDER_ID);
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
+            mFirstName = getIntent().getStringExtra(INTENT_FIRST_NAME);
+            mLastName = getIntent().getStringExtra(INTENT_LAST_NAME);
         }
 
-        if (provider != null && providerId != null) {
+        if (mProvider != null && mProviderId != null) {
             editEmail.setText(mEmail);
-            editEmail.setFocusable(false);
-            editEmail.setFocusableInTouchMode(false);
-            editEmail.setClickable(false);
-            editEmail.setCursorVisible(false);
+            editFirstName.setText(mFirstName);
+            editLastName.setText(mLastName);
+            editPassword.setText(IS_LOGIN);
+            showActiveState(View.GONE, false);
         } else {
-            editEmail.setFocusable(true);
-            editEmail.setFocusableInTouchMode(true);
-            editEmail.setClickable(true);
-            editEmail.setCursorVisible(true);
+            showActiveState(View.VISIBLE, true);
         }
+    }
+
+    public void showActiveState(int view, boolean isVisible){
+        editEmail.setFocusable(isVisible);
+        editEmail.setFocusableInTouchMode(isVisible);
+        editEmail.setClickable(isVisible);
+        editEmail.setCursorVisible(isVisible);
+        textPassword.setVisibility(view);
+        editPassword.setVisibility(view);
+        textInputLayout.setVisibility(view);
     }
 
     ClickableSpan clickableSpanTermsService = new ClickableSpan() {

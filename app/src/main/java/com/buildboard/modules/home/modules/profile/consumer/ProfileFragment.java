@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.buildboard.R;
@@ -25,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class ProfileFragment extends Fragment
         implements EditProfileActivity.UpdateProfileListener, AppConstant {
@@ -51,6 +54,8 @@ public class ProfileFragment extends Fragment
     View dividerContractor;
     @BindView(R.id.divider_my_location_addresses)
     View dividerLocation;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -63,6 +68,7 @@ public class ProfileFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
+        showProgressColor(getActivity(), progressBar);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
@@ -74,11 +80,22 @@ public class ProfileFragment extends Fragment
 
             if (profileData != null) setProfileData(profileData);
             else getProfile();
+
         } else {
             ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
         }
 
         return view;
+    }
+
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar(){
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -137,18 +154,18 @@ public class ProfileFragment extends Fragment
     }
 
     private void getProfile() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        showProgressBar();
         DataManager.getInstance().getProfile(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 profileData = (ProfileData) response;
                 setProfileData(profileData);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
             }
         });
     }
