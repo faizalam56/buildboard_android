@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -23,6 +23,7 @@ import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -36,6 +37,7 @@ import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorAct
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
@@ -386,8 +388,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
-                redirectToSignUp(socialLoginRequest, email);
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                if(errorResponse.getCode().equals("200")) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
+                    redirectToSignUp(socialLoginRequest, email);
+                } else {
+                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
+                }
             }
         });
     }
@@ -445,6 +452,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 hideProgressBar();
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }
         });
     }

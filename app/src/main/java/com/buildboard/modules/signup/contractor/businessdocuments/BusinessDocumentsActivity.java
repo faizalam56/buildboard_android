@@ -233,6 +233,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             @Override
             public void onError(Object error) {
                 ProgressHelper.stop();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
             }
         });
     }

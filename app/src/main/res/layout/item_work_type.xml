@@ -7,12 +7,14 @@
 
     <CheckBox
         android:id="@+id/checkbox_work_type"
+        android:theme="@style/Checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="@dimen/_5sdp" />
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_work_name"

@@ -67,6 +67,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     BuildBoardEditText editSummary;
     @BindView(R.id.edit_phoneno)
     BuildBoardEditText editPhoneno;
+    @BindView(R.id.edit_business_year)
+    BuildBoardEditText editBusinessYear;
 
     @BindView(R.id.spinner_working_area)
     Spinner spinnerWorkingArea;
@@ -89,6 +91,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     BuildBoardTextView textPhone;
     @BindView(R.id.text_summary)
     BuildBoardTextView textSummary;
+    @BindView(R.id.text_business_year)
+    BuildBoardTextView textBusinessYear;
 
     @BindString(R.string.sign_up)
     String stringSignUp;
@@ -130,6 +134,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringErrorWorkingArea;
     @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
+    @BindString(R.string.error_enter_business_year)
+    String stringErrorBusinessYear;
 
     @BindArray(R.array.array_working_area)
     String[] arrayWorkingArea;
@@ -139,6 +145,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private String mEmail;
     private LatLng addressLatLng;
     private String workingArea;
+    private String mFirstNane;
+    private String mLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +189,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         String email = editEmail.getText().toString();
         String summary = editSummary.getText().toString();
         String phoneNo = editPhoneno.getText().toString();
+        String businessYear = editBusinessYear.getText().toString();
 
         if (mProviderId != null && mProvider != null) {
             password = "not_required"; //TODO remove hardcoded string
@@ -189,7 +198,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         }
 
         if (validateContractorFields(businessName, businessAddress, principalFirstName, principalLastName,
-                email, password, workingArea, summary, phoneNo)) {
+                email, password, workingArea, summary, phoneNo, businessYear)) {
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
                     email, password, workingArea, summary, phoneNo);
             saveBusinessInfo(businessInfoRequest);
@@ -232,20 +241,23 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             mEmail = getIntent().getStringExtra(INTENT_EMAIL);
         }
 
-        if (mProvider != null && mProviderId != null) {
-            editPassword.setVisibility(View.GONE);
-            editEmail.setText(mEmail);
-            editEmail.setFocusable(false);
-            editEmail.setFocusableInTouchMode(false);
-            editEmail.setClickable(false);
-            editEmail.setCursorVisible(false);
-        } else {
-            editPassword.setVisibility(View.VISIBLE);
-            editEmail.setFocusable(true);
-            editEmail.setFocusableInTouchMode(true);
-            editEmail.setClickable(true);
-            editEmail.setCursorVisible(true);
+        if (getIntent().hasExtra(INTENT_FIRST_NAME) && getIntent().hasExtra(INTENT_LAST_NAME)) {
+            mFirstNane = getIntent().getStringExtra(INTENT_FIRST_NAME);
+            mLastName = getIntent().getStringExtra(INTENT_LAST_NAME);
+
+            editPrincipalFirstName.setText(mFirstNane != null ? mFirstNane : "");
+            editPrincipalLastName.setText(mLastName != null ? mLastName : "");
         }
+
+        editPassword.setVisibility((mProvider != null && mProviderId != null) ? View.GONE : View.VISIBLE);
+        textPassword.setVisibility((mProvider != null && mProviderId != null) ? View.GONE : View.VISIBLE);
+        editEmail.setFocusable(!(mProvider != null && mProviderId != null));
+        editPassword.setFocusableInTouchMode(!(mProvider != null && mProviderId != null));
+        editPassword.setClickable(!(mProvider != null && mProviderId != null));
+        editPassword.setCursorVisible(!(mProvider != null && mProviderId != null));
+
+        if (mProvider != null && mProviderId != null)
+            editEmail.setText(mEmail);
 
         populateWorkingArea();
     }
@@ -327,7 +339,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private boolean validateContractorFields(String businessName, String businessAddress, String principalFirstName,
-                                             String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
+                                             String principalLastName, String email, String password, String workingArea, String summary, String phoneNo, String businessYear) {
 
         if (TextUtils.isEmpty(businessName)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessName).show();
@@ -336,6 +348,14 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
         if (TextUtils.isEmpty(businessAddress)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessAddress).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(businessYear)) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessYear);
+            return false;
+        } else if (Integer.parseInt(businessYear) == 0) {
+            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorBusinessYear);
             return false;
         }
 
@@ -369,7 +389,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             if (TextUtils.isEmpty(password)) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
                 return false;
-            } else if (password.length() < 8) {
+            } else if (password.length() < 6) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordLength);
                 return false;
             }
@@ -423,5 +443,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         textPassword.setText(Utils.setStarToLabel(getString(R.string.password)));
         textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
         textSummary.setText(Utils.setStarToLabel(getString(R.string.summary)));
+        textBusinessYear.setText(Utils.setStarToLabel(getString(R.string.year_in_business)));
     }
 }
