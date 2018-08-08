@@ -5,35 +5,75 @@
     android:layout_marginTop="@dimen/_15sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_certifying_body"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/certifying_body"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certifying_body"
         style="@style/edit_text_size_small"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certifying_body"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_certifying_body"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_certification_number"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/certification_number"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_certifying_body"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certification_number"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certification_number"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_certifying_body"
+        app:layout_constraintTop_toBottomOf="@+id/text_certification_number"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_certification_desc"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/certification_brief_description"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_certification_number"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certification_desc"
         style="@style/edit_text_size_small"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certification_brief_description"
         android:imeOptions="actionNext"
@@ -42,7 +82,7 @@
         android:padding="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_certification_number"
+        app:layout_constraintTop_toBottomOf="@+id/text_certification_desc"
         app:typeface="robotoRegular" />
 
     <com.buildboard.customviews.BuildBoardEditText
@@ -70,18 +110,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edit_attachment_certification" />
 
-    <LinearLayout
-        android:id="@+id/linear_layout_certification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_certification">
-
-    </LinearLayout>
-
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_add_more"
         style="@style/textSize_smaller"
@@ -91,6 +119,6 @@
         android:text="@string/add_more"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_certification"
+        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_certification"
         app:typeface="robotoMedium" />
 </android.support.constraint.ConstraintLayout>
