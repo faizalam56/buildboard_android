@@ -283,6 +283,10 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         textServicesNoRecord.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
         textNearbyContractorsNorecord.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
         textContractorsByProjecttypeNorecords.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
-        textNewProjectsNoRecords.setVisibility(visiblity && isContractor ? View.VISIBLE : View.GONE);
+        if (isContractor) {
+            textNewProjectsNoRecords.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
+        } else {
+            textNewProjectsNoRecords.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+        }
     }
 }
