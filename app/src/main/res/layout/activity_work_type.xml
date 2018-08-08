@@ -40,7 +40,7 @@
             <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_next"
                 style="@style/button_style"
-                android:background="@drawable/gray_button_background"
+                android:background="@drawable/green_button_background"
                 android:text="@string/next"
                 android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintLeft_toLeftOf="parent"

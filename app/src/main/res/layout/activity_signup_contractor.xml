@@ -71,7 +71,7 @@
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
-                android:id="@+id/text_first_name"
+                android:id="@+id/text_business_year"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -79,6 +79,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_business_address"
+                app:typeface="robotoMedium" />
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_business_year"
+                style="@style/edit_text_size_small"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/green_drawable_border"
+                android:imeOptions="actionNext"
+                android:maxLength="3"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@+id/text_business_year"
+                app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_business_year"
                 app:typeface="robotoMedium" />
 
             <com.buildboard.customviews.BuildBoardEditText
@@ -177,9 +199,21 @@
                 android:hint="@string/phone_no"
                 android:maxLength="15"
                 android:imeOptions="actionNext"
-                android:inputType="phone"
+                android:inputType="number"
                 app:layout_constraintTop_toBottomOf="@+id/text_phoneno"
                 app:typeface="robotoRegular" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_working_radius"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/working_radius"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_phoneno"
+                app:typeface="robotoMedium" />
 
             <Spinner
                 android:id="@+id/spinner_working_area"
@@ -191,7 +225,7 @@
                 android:focusable="false"
                 android:imeOptions="actionNext"
                 android:text="@string/working_area"
-                app:layout_constraintTop_toBottomOf="@+id/edit_phoneno" />
+                app:layout_constraintTop_toBottomOf="@+id/text_working_radius" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_summary"

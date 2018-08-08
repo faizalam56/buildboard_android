@@ -71,4 +71,6 @@ public interface AppConstant {
     String PRIVACY_POLICY_LINK = "http://www.google.com";
 
     int REQUEST_IMAGE_CAPTURE = 1;
+    String FIRST_NAME = "first_name";
+    String LAST_NAME = "last_name";
 }
