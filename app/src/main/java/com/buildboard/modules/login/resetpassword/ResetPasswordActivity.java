@@ -86,7 +86,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(password)) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringPleaseEnter + " " + stringPassword);
             return false;
-        } else if (password.length() < 8) {
+        } else if (password.length() < 6) {
             SnackBarFactory.createSnackBar(this, constraintRoot, stringPleaseEnter + " " + stringEightChar);
             return false;
         } else if (TextUtils.isEmpty(confirmPassword)) {
