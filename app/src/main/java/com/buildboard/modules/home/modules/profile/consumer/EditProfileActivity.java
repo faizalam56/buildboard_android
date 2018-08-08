@@ -193,8 +193,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindArray(R.array.user_type_array)
-    String[] arrayUserType;
     @BindString(R.string.please_enter_a_valid_address)
     String stringEnterValidAddress;
     @BindString(R.string.msg_please_wait)
@@ -203,6 +201,8 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     String stringSelectImage;
     @BindString(R.string.location_check)
     String stringCheckLocation;
+    @BindArray(R.array.user_type_array)
+    String[] arrayUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -404,14 +404,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.radio_phone:
-                    mContactMode = PHONE;
-                    break;
-                case R.id.radio_email:
-                    mContactMode = EMAIL;
-                    break;
-            }
+            mContactMode = radioPhone.isSelected() ? PHONE : EMAIL;
         }
     };
 
@@ -435,19 +428,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
-
-                case WORKING_AREA_REQUEST_CODE:
-                    break;
-
-                case CONTRACTOR_TYPE_REQUEST_CODE:
-                    contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
-                    break;
-
-                case CONTACT_MODE_REQUEST_CODE:
-                    break;
-
-                case USER_TYPE_REQUEST_CODE:
-                    break;
 
                 case IMAGE_UPLOAD_REQUEST_CODE:
                     createAccount(data.getStringExtra(INTENT_IMAGE_URL));
