@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.mailbox;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,25 +13,30 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
+import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
-import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewData;
+import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MailboxFragment extends Fragment {
+public class MailboxFragment extends Fragment implements AppConstant {
 
     @BindView(R.id.recycler_messages)
     RecyclerView recyclerMessages;
@@ -76,6 +83,78 @@ public class MailboxFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    @OnClick(R.id.fab)
+    public void addChat(){
+
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                getContactListForContractor();
+            } else {
+                getContactListForConsumer();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), relativeLayout);
+        }
+    }
+
+    private void getContactListForContractor(){
+        ProgressHelper.showProgressBar(getActivity(), progressMessages);
+        DataManager.getInstance().getRelatedConsumer(getActivity(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.hideProgressBar();
+                if (response == null) return;
+
+                ConsumerRelatedResponse messagesResponse = (ConsumerRelatedResponse) response;
+
+                if (messagesResponse != null && messagesResponse.getData().get(0).getConsumerRelatedData() != null &&
+                        messagesResponse.getData().get(0).getConsumerRelatedData().size() > 0) {
+
+                    Intent intent = new Intent(getActivity(), ContactListActivity.class);
+                    intent.putExtra(DATA, (Serializable) messagesResponse.getData().get(0).getConsumerRelatedData());
+                    intent.putExtra(IS_CONTRACTOR, true);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.hideProgressBar();
+                Utils.showError(getActivity(), relativeLayout, error);
+            }
+        });
+
+    }
+
+    private void getContactListForConsumer() {
+        ProgressHelper.showProgressBar(getActivity(), progressMessages);
+        DataManager.getInstance().getRelatedContractor(getActivity(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.hideProgressBar();
+                if (response == null) return;
+
+                ContractorRelatedResponse messagesResponse = (ContractorRelatedResponse) response;
+
+                if (messagesResponse != null && messagesResponse.getData().get(0).getConsumerRelatedData() != null &&
+                        messagesResponse.getData().get(0).getConsumerRelatedData().size() > 0) {
+
+                    Intent intent = new Intent(getActivity(), ContactListActivity.class);
+                    intent.putExtra(DATA, (Serializable) messagesResponse.getData().get(0).getConsumerRelatedData());
+                    intent.putExtra(IS_CONTRACTOR, false);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.hideProgressBar();
+                Utils.showError(getActivity(), relativeLayout, error);
+            }
+        });
+
     }
 
     private void getMessages() {

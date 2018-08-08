@@ -1,6 +1,8 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
+import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
@@ -144,4 +146,10 @@ public interface IApiInterface {
 
     @GET("messages")
     Call<MessagesResponse> getMessages(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("related-consumer")
+    Call<ConsumerRelatedResponse> getRelatedConsumer(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("related-contractor")
+    Call<ContractorRelatedResponse> getRelatedContractor(@Header("oauth") String oauth, @Header("session") String sessionId);
 }

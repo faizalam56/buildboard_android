@@ -438,6 +438,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
                 }
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
+                AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getUserId(), USER_ID);
                 openActivity(HomeActivity.class, true, false, null, null);
             }
 
