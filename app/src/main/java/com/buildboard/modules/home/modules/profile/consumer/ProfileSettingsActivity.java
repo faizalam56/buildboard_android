@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
@@ -25,8 +26,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.buildboard.constants.AppConstant.IS_LOGIN;
 
 public class ProfileSettingsActivity extends AppCompatActivity implements AppConstant {
 
@@ -59,6 +58,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     String stringSettings;
     @BindString(R.string.successfullyLogout)
     String stringLogout;
+    @BindString(R.string.msg_confirm_logout)
+    String stringConfirmLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +71,29 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
+        PopUpHelper.showConfirmPopup(this, stringConfirmLogout, new PopUpHelper.ConfirmPopUp() {
+            @Override
+            public void onConfirm(boolean isConfirm) {
+                logoutUser();
+            }
+
+            @Override
+            public void onDismiss(boolean isDismiss) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.text_edit_profile)
+    public void moveToClass() {
+        if (ConnectionDetector.isNetworkConnected(this))
+            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+        else ConnectionDetector.createSnackBar(this, constraintRoot);
+    }
+
+    private void logoutUser() {
+        ProgressHelper.start(ProfileSettingsActivity.this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().logout(ProfileSettingsActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
@@ -112,12 +134,5 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
             startActivity(homeIntent);
             finish();
         } else startActivity(intent);
-    }
-
-    @OnClick(R.id.text_edit_profile)
-    public void moveToClass() {
-        if (ConnectionDetector.isNetworkConnected(this))
-            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
-        else ConnectionDetector.createSnackBar(this,constraintRoot);
     }
 }
