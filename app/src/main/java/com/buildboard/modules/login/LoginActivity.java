@@ -25,6 +25,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.home.modules.profile.consumer.ProfileSettingsActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
@@ -43,8 +44,10 @@ import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -251,7 +254,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
         if(ConnectionDetector.isNetworkConnected(this)) {
-            loginButton.performClick();
+           // loginButton.performClick();
             signInFaceBook();
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
@@ -330,6 +333,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
+                AppPreference.getAppPreference(LoginActivity.this).setString(String.valueOf(loginResult.getAccessToken()), FACEBOOK_TOKEN);
                 SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
                 socialLoginRequest.setProvider(getString(R.string.facebook));
                 socialLoginRequest.setProviderId(userId);
@@ -380,6 +384,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                 SocialLoginResponse socialLoginResponse = (SocialLoginResponse) response;
                 if (socialLoginResponse.getDatas().get(0) != null) {
                     LoginData loginData = socialLoginResponse.getDatas().get(0);
+                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
                     AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
                     openActivity(HomeActivity.class, false, true, socialLoginRequest, email);
                 }

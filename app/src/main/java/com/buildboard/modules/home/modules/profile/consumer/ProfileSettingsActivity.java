@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -13,12 +14,12 @@ import android.widget.Toast;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.http.DataManager;
-import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,11 +29,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.buildboard.constants.AppConstant.IS_LOGIN;
-
 public class ProfileSettingsActivity extends AppCompatActivity implements AppConstant {
 
     private GoogleSignInClient mGoogleSignInClient;
+    private String mFacebookToken;
 
     @BindView(R.id.title)
     TextView title;
@@ -69,8 +69,14 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
+        getFacebookToken();
         title.setText(stringSettings);
     }
+
+    private void getFacebookToken() {
+        mFacebookToken = AppPreference.getAppPreference(ProfileSettingsActivity.this).getString(FACEBOOK_TOKEN);
+    }
+
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
@@ -91,6 +97,12 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                             finish();
                         }
                     });
+                } else if (mFacebookToken != null) {
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    openActivity(LoginActivity.class, true);
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -127,7 +139,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_privacy_policy)
     public void privacyPolicyTapped(){
-
+        openLink(PRIVACY_POLICY_LINK);
     }
 
     @OnClick(R.id.card_change_password)
@@ -137,16 +149,21 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_term_of_use)
     public void termsOfUseTapped(){
-
+        openLink(TERMS_OF_SERVICES_LINK);
     }
 
     @OnClick(R.id.card_faq)
     public void faqTapped(){
-
+        openLink(FAQ_LINK);
     }
 
     @OnClick(R.id.card_contact)
     public void contactUsTapped(){
+        openLink(CONTACT_US);
+    }
 
+    private void openLink(String link) {
+        Uri uri = Uri.parse(link);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }
