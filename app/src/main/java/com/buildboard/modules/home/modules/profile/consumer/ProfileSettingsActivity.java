@@ -103,6 +103,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -115,6 +116,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     ProfileFragment.newInstance().profileData = null;
                     openActivity(LoginActivity.class, true);
                 }
