@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import butterknife.OnClick;
 public class ProfileSettingsActivity extends AppCompatActivity implements AppConstant {
 
     private GoogleSignInClient mGoogleSignInClient;
+    private String mFacebookToken;
 
     @BindView(R.id.title)
     TextView title;
@@ -55,6 +57,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindString(R.string.settings)
     String stringSettings;
@@ -68,11 +72,20 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
         ButterKnife.bind(this);
+        getFacebookToken();
         title.setText(stringSettings);
+    }
+
+    private void getFacebookToken() {
+        mFacebookToken = AppPreference.getAppPreference(ProfileSettingsActivity.this).getString(FACEBOOK_TOKEN);
     }
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
+        ProgressHelper.showProgressBar(this,progressBar);
+        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
         PopUpHelper.showConfirmPopup(this, stringConfirmLogout, new PopUpHelper.ConfirmPopUp() {
             @Override
             public void onConfirm(boolean isConfirm) {
@@ -98,7 +111,6 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         DataManager.getInstance().logout(ProfileSettingsActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -111,6 +123,12 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                             finish();
                         }
                     });
+                } else if (mFacebookToken != null) {
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    openActivity(LoginActivity.class, true);
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -122,7 +140,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(ProfileSettingsActivity.this, constraintRoot, error);
             }
         });
@@ -141,5 +159,33 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @OnClick(R.id.card_privacy_policy)
+    public void privacyPolicyTapped(){
+        openLink(PRIVACY_POLICY_LINK);
+    }
+
+    @OnClick(R.id.card_change_password)
+    public void changePasswordTapped(){ }
+
+    @OnClick(R.id.card_term_of_use)
+    public void termsOfUseTapped(){
+        openLink(TERMS_OF_SERVICES_LINK);
+    }
+
+    @OnClick(R.id.card_faq)
+    public void faqTapped(){
+        openLink(FAQ_LINK);
+    }
+
+    @OnClick(R.id.card_contact)
+    public void contactUsTapped(){
+        openLink(CONTACT_US);
+    }
+
+    private void openLink(String link) {
+        Uri uri = Uri.parse(link);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }
