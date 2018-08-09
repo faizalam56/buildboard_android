@@ -40,6 +40,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -330,6 +331,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
+
                 SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
                 socialLoginRequest.setProvider(getString(R.string.facebook));
                 socialLoginRequest.setProviderId(userId);
