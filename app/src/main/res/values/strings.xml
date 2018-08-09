@@ -259,7 +259,7 @@
     <string name="my_location_address">My Location/Addresses</string>
     <string name="reviews">Reviews</string>
     <string name="change_password">Change Password</string>
-    <string name="special_charactor">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
+    <string name="special_charactor">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</string>
     <string name="exit_msg">Do you want to exit?</string>
     <string name="alert">Alert</string>
     <string name="ok">OK</string>

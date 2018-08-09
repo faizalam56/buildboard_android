@@ -136,9 +136,19 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
             finish();
         } else startActivity(intent);
     }
+<<<<<<< HEAD
+=======
+
+    @OnClick(R.id.text_edit_profile)
+    public void moveToClass() {
+        if (ConnectionDetector.isNetworkConnected(this))
+            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+        else ConnectionDetector.createSnackBar(this,constraintRoot);
+    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+>>>>>>> dev
 }
