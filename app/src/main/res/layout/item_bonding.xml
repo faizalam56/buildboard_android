@@ -5,42 +5,95 @@
     android:layout_marginTop="@dimen/_15sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_city"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/city"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_city"
         style="@style/edit_text_size_small"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/city"
+        android:layout_marginTop="@dimen/_10sdp"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_city"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_bond_number"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/bond_number"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_city"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_bond_number"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_number"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_city"
+        app:layout_constraintTop_toBottomOf="@+id/text_bond_number"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_bond_amount"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/bond_dollar_amount"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_bond_number"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_bond_amount"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_dollar_amount"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_bond_number"
+        app:layout_constraintTop_toBottomOf="@+id/text_bond_amount"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_bond_attachment"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/attachment"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_bond_amount"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_bonding"
@@ -48,14 +101,14 @@
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_bond_amount"
+        app:layout_constraintTop_toBottomOf="@+id/text_bond_attachment"
         app:typeface="robotoRegular" />
 
     <ImageView
@@ -67,18 +120,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edit_attachment_bonding" />
 
-    <LinearLayout
-        android:id="@+id/linear_layout_bonding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_bonding">
-
-    </LinearLayout>
-
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_add_more"
         style="@style/textSize_smaller"
@@ -88,6 +129,6 @@
         android:text="@string/add_more"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_bonding"
+        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_bonding"
         app:typeface="robotoMedium" />
 </android.support.constraint.ConstraintLayout>

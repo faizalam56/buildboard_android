@@ -5,29 +5,69 @@
     android:layout_marginTop="@dimen/_15sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_insurance_provider"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/insurance_provider"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_provider_workman"
         style="@style/edit_text_size_small"
         android:background="@drawable/green_drawable_border"
+        android:layout_marginTop="@dimen/_10sdp"
         android:hint="@string/insurance_provider"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_insurance_provider"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_insurance_amount"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/insurance_dollar_amount"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_provider_workman"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_amount_workman"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/insurance_dollar_amount"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_provider_workman"
+        app:layout_constraintTop_toBottomOf="@+id/text_insurance_amount"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_attachment"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/attachment"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_amount_workman"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_workman_insurance"
@@ -42,7 +82,7 @@
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_insurance_amount_workman"
+        app:layout_constraintTop_toBottomOf="@+id/text_attachment"
         app:typeface="robotoRegular" />
 
     <ImageView
@@ -54,18 +94,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edit_attachment_workman_insurance" />
 
-    <LinearLayout
-        android:id="@+id/linear_layout_insurance_workman"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_workman_insurance">
-
-    </LinearLayout>
-
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_add_more"
         style="@style/textSize_smaller"
@@ -75,6 +103,6 @@
         android:text="@string/add_more"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_insurance_workman"
+        app:layout_constraintTop_toBottomOf="@+id/edit_attachment_workman_insurance"
         app:typeface="robotoMedium" />
 </android.support.constraint.ConstraintLayout>
