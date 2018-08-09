@@ -156,6 +156,7 @@
 
         <activity android:name=".modules.home.modules.profile.contractor.EditContractorProfileActivity" />
         <activity android:name=".modules.home.modules.profile.consumer.ChangePasswordActivity"/>
+        <activity android:name=".modules.home.modules.marketplace.ContractorProfile" />
     </application>
 
 </manifest>

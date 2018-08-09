@@ -303,4 +303,6 @@
     <string name="type_of_work">Type Of Work</string>
     <string name="msg_primary_address">It\'s already a primary address</string>
     <string name="msg_confirm_logout">Are you sure you want logout?</string>
+    <string name="brief_summary_of_company">Brief Summary Of Company</string>
+    <string name="buildboard_verified">BUILDBOARD Verified</string>
 </resources>

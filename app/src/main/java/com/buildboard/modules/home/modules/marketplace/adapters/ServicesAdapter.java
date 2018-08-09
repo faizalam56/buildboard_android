@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -25,6 +27,7 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
 
@@ -70,6 +73,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
             setFont();
+        }
+
+        @OnClick(R.id.card_service)
+        void cardTapped() {
+            Intent intent = new Intent(mContext, ContractorProfile.class);
+            mContext.startActivity(intent);
         }
 
         private void setFont() {

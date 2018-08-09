@@ -96,7 +96,6 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
                 String Text = mArrayList.get(getAdapterPosition());
 
                 switch (Text) {
-
                     case TEXT_ATTACHMENT:
                         Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
                         intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
