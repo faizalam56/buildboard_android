@@ -39,7 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LocationAddressActivity extends AppCompatActivity implements AppConstant {
+public class LocationAddressActivity extends AppCompatActivity
+        implements AppConstant, AddressesAdapter.IChangePrimaryAddressListener {
 
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
@@ -49,6 +50,7 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
     RecyclerView recyclerAddresses;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
+
     @BindString(R.string.my_location_address)
     String stringTitle;
     @BindString(R.string.msg_please_wait)
@@ -86,6 +88,11 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
                     break;
             }
         }
+    }
+
+    @Override
+    public void onPrimaryAddressChanged() {
+        getAddresses();
     }
 
     @OnClick(R.id.fab)

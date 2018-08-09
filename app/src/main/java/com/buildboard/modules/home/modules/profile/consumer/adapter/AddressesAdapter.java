@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +31,12 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
     private Activity mActivity;
     private ArrayList<AddressListData> mAddressList;
+    private IChangePrimaryAddressListener mPrimaryAddressListener;
 
     public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList) {
         mActivity = activity;
         mAddressList = addressList;
+        mPrimaryAddressListener = (IChangePrimaryAddressListener) activity;
         sortPrimaryTop();
     }
 
@@ -167,6 +170,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                     ProgressHelper.stop();
                     if (response == null) return;
 
+                    mPrimaryAddressListener.onPrimaryAddressChanged();
                     Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -176,5 +180,9 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                 }
             });
         }
+    }
+
+    public interface IChangePrimaryAddressListener {
+        void onPrimaryAddressChanged();
     }
 }
