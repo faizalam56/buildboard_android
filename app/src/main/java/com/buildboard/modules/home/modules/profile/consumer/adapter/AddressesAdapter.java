@@ -121,6 +121,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         String stringPleaseWait;
         @BindString(R.string.success_primary_address_changed)
         String stringAddChanged;
+        @BindString(R.string.msg_primary_address)
+        String stringAlreadyPrimary;
 
         private AddressListData address;
 
@@ -145,6 +147,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
         @OnClick(R.id.constraint_root)
         void addressRowTapped() {
+            if (getLayoutPosition() == 0) {
+                Toast.makeText(mActivity, stringAlreadyPrimary, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             PopUpHelper.showConfirmPopup(mActivity, stringPrimaryAddress, new PopUpHelper.ConfirmPopUp() {
                 @Override
                 public void onConfirm(boolean isConfirm) {
