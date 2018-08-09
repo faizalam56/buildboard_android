@@ -17,18 +17,26 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.adapters.InboxAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.Data;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessageData;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedData;
+import com.buildboard.modules.home.modules.profile.consumer.LocationAddressActivity;
+import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
+import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +46,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InboxActivity extends AppCompatActivity implements AppConstant{
+public class InboxActivity extends AppCompatActivity implements AppConstant {
 
-    private final ArrayList<MessageModel> datas = new ArrayList<>();
     private InboxAdapter inboxAdapter;
     private Context mContext;
     private ArrayList<Data> mMessagesList = new ArrayList<>();
     private int mCurrentPage = 1;
-    private String mUserId=null;
+    private String mUserId = null;
+    private InboxMessagesResponse mMessagesResponse;
+    private String mSelfUserId;
 
     @BindView(R.id.title)
     TextView title;
@@ -61,9 +70,17 @@ public class InboxActivity extends AppCompatActivity implements AppConstant{
     Button buttonSaveAsDraft;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
+    @BindView(R.id.progress_messages)
+    ProgressBar progressBar;
+    @BindView(R.id.text_error_message)
+    BuildBoardTextView textErrorMessage;
 
     @BindString(R.string.inbox)
     String stringInbox;
+    @BindString(R.string.no_chat_yet)
+    String textNoChatMessage;
+    @BindString(R.string.text)
+    String textMessageType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,19 +88,37 @@ public class InboxActivity extends AppCompatActivity implements AppConstant{
         setContentView(R.layout.activity_inbox);
         ButterKnife.bind(this);
 
-        mContext=this;
+        mContext = this;
+        mSelfUserId = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
         title.setText(stringInbox);
         setFonts();
         getIntentData();
-     }
+    }
 
     @OnClick(R.id.linear_reply)
     void replyTapped() {
-        if (!TextUtils.isEmpty(editWriteMsg.getText())) {
-            datas.add(new MessageModel(editWriteMsg.getText().toString(), true));
-            inboxAdapter.notifyDataSetChanged();
-            recyclerMessages.scrollToPosition(datas.size() - 1);
-            editWriteMsg.setText("");
+        if (ConnectionDetector.isNetworkConnected(mContext)) {
+            if (!TextUtils.isEmpty(editWriteMsg.getText())) {
+
+                List<Data> messagedata = new ArrayList<>();
+                Data data = new Data();
+                data.setBody(editWriteMsg.getText().toString());
+                data.setRecipientId(mUserId);
+                data.setType(textMessageType);
+                messagedata.add(data);
+                sendMessage(editWriteMsg.getText().toString());
+                editWriteMsg.setText("");
+
+                if (inboxAdapter == null) {
+                    setInboxRecycler(messagedata, mCurrentPage);
+                } else {
+                    mMessagesList.addAll(messagedata);
+                    inboxAdapter.notifyDataSetChanged();
+                    recyclerMessages.scrollToPosition(mMessagesList.size() - 1);
+                }
+            }
+        } else {
+            ConnectionDetector.createSnackBar(mContext, constraintLayout);
         }
     }
 
@@ -94,25 +129,45 @@ public class InboxActivity extends AppCompatActivity implements AppConstant{
         }
     }
 
-    private void getMessages(String userId){
-         DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, new DataManager.DataManagerListener() {
+    private void sendMessage(String message) {
+
+        SendMessageRequest sendMessageRequest = new SendMessageRequest();
+        sendMessageRequest.setBody(message);
+        sendMessageRequest.setType(textMessageType);
+        sendMessageRequest.setRecipientid(mUserId);
+        DataManager.getInstance().sendMessage(this, sendMessageRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                if (response == null) return;
+            }
+
+            @Override
+            public void onError(Object error) {
+
+            }
+        });
+    }
+
+    private void getMessages(String userId) {
+        ProgressHelper.showProgressBar(InboxActivity.this, progressBar);
+        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
-                InboxMessagesResponse messagesResponse = (InboxMessagesResponse) response;
+                mMessagesResponse = (InboxMessagesResponse) response;
 
-                boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
+                boolean isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
                 recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
-                //textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
+                textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
 
-                if (messagesResponse != null && messagesResponse.getData().get(0).getData() != null &&
-                        messagesResponse.getData().get(0).getData().size() > 0) {
-                    setInboxRecycler(messagesResponse.getData().get(0).getData(),
-                            messagesResponse.getData().get(0).getLastPage());
+                if (mMessagesResponse != null && mMessagesResponse.getData().get(0).getData() != null &&
+                        mMessagesResponse.getData().get(0).getData().size() > 0) {
+                    setInboxRecycler(mMessagesResponse.getData().get(0).getData(),
+                            mMessagesResponse.getData().get(0).getLastPage());
                 } else {
-                   // textErrorMessage.setText(stringNoMessages);
+                    textErrorMessage.setText(textNoChatMessage);
                 }
             }
 
@@ -122,18 +177,18 @@ public class InboxActivity extends AppCompatActivity implements AppConstant{
                 Utils.showError(InboxActivity.this, constraintLayout, error);
             }
         });
-     }
+    }
 
     private void setInboxRecycler(List<Data> inboxData, int lastPage) {
         mMessagesList.addAll(inboxData);
 
         if (inboxAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(InboxActivity.this);
+            mLinearLayoutManager.setStackFromEnd(true);
             recyclerMessages.setLayoutManager(mLinearLayoutManager);
-            recyclerMessages.addItemDecoration(new SimpleDividerItemDecoration(InboxActivity.this));
             inboxAdapter = new InboxAdapter(InboxActivity.this, mMessagesList, recyclerMessages);
             recyclerMessages.setAdapter(inboxAdapter);
-            recyclerMessages.scrollToPosition(datas.size() - 1);
+            recyclerMessages.scrollToPosition(inboxData.size() - 1);
             inboxAdapter.setOnLoadMoreListener(new InboxAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
@@ -153,43 +208,8 @@ public class InboxActivity extends AppCompatActivity implements AppConstant{
         }
     }
 
-    private ArrayList<MessageModel> getDatas() {
-        datas.add(new MessageModel("jsbdjsbj", false));
-        datas.add(new MessageModel("Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a gal", false));
-        datas.add(new MessageModel("jsbdjsbj", true));
-        datas.add(new MessageModel("jsbdjsbj", true));
-        datas.add(new MessageModel("Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a gal", false));
-        datas.add(new MessageModel("jsbdjsbj", true));
-        datas.add(new MessageModel("jsbdjsbj", false));
-        datas.add(new MessageModel("Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a gal", false));
-        datas.add(new MessageModel("jsbdjsbj", true));
-        datas.add(new MessageModel("jsbdsnf,dsmfsddjsbj", true));
-        datas.add(new MessageModel("jsdsmnfm,dbdjsbj", true));
-        datas.add(new MessageModel("jsmdsnm,sadnbdjsbj", true));
-
-        return datas;
-    }
-
     private void setFonts() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editWriteMsg, buttonSaveAsDraft);
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buttonSaveAsDraft);
-    }
-
-    public class MessageModel {
-        String msg;
-        boolean isSentMsg;
-
-        MessageModel(String msg, boolean isSentMsg) {
-            this.msg = msg;
-            this.isSentMsg = isSentMsg;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public boolean isSentMsg() {
-            return isSentMsg;
-        }
     }
 }

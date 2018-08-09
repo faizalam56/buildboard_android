@@ -1,6 +1,8 @@
 package com.buildboard.http;
 
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
@@ -156,4 +158,7 @@ public interface IApiInterface {
 
     @GET("related-contractor")
     Call<ContractorRelatedResponse> getRelatedContractor(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @POST("send-message")
+    Call<SendMessageResponse> sendMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SendMessageRequest sendMessageRequest);
 }

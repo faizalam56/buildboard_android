@@ -108,16 +108,15 @@ public class InboxAdapter extends RecyclerView.Adapter {
 
         private void bindData(int position) {
             String User_Id = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
-
             Data messageModel = mArrayList.get(getAdapterPosition());
+            textSentMsg.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.VISIBLE : View.GONE);
+            textReceiveMsg.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.GONE : View.VISIBLE);
 
-            textSentMsg.setVisibility(messageModel.getRecipientId().equals(User_Id) ? View.VISIBLE : View.GONE);
-            textReceiveMsg.setVisibility(messageModel.getRecipientId().equals(User_Id) ? View.GONE : View.VISIBLE);
-
-            if (messageModel.getRecipientId().equals(User_Id))
+            if (!messageModel.getRecipientId().equals(User_Id)) {
                 textSentMsg.setText(messageModel.getBody());
-            else
+            } else {
                 textReceiveMsg.setText(messageModel.getBody());
+            }
         }
 
         private void setFont() {

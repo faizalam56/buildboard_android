@@ -69,6 +69,7 @@ public class MailboxFragment extends Fragment implements AppConstant {
 
         boolean isNetworkConnected = ConnectionDetector.isNetworkConnected(getActivity());
 
+        if(recyclerMessages!=null)
         recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.INVISIBLE);
         textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
 
@@ -86,75 +87,14 @@ public class MailboxFragment extends Fragment implements AppConstant {
     }
 
     @OnClick(R.id.fab)
-    public void addChat(){
+    public void addChat() {
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
-                getContactListForContractor();
-            } else {
-                getContactListForConsumer();
-            }
+            Intent intent = new Intent(getActivity(), ContactListActivity.class);
+            startActivity(intent);
         } else {
             ConnectionDetector.createSnackBar(getActivity(), relativeLayout);
         }
-    }
-
-    private void getContactListForContractor(){
-        ProgressHelper.showProgressBar(getActivity(), progressMessages);
-        DataManager.getInstance().getRelatedConsumer(getActivity(), new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.hideProgressBar();
-                if (response == null) return;
-
-                ConsumerRelatedResponse messagesResponse = (ConsumerRelatedResponse) response;
-
-                if (messagesResponse != null && messagesResponse.getData().get(0).getConsumerRelatedData() != null &&
-                        messagesResponse.getData().get(0).getConsumerRelatedData().size() > 0) {
-
-                    Intent intent = new Intent(getActivity(), ContactListActivity.class);
-                    intent.putExtra(DATA, (Serializable) messagesResponse.getData().get(0).getConsumerRelatedData());
-                    intent.putExtra(IS_CONTRACTOR, true);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.hideProgressBar();
-                Utils.showError(getActivity(), relativeLayout, error);
-            }
-        });
-
-    }
-
-    private void getContactListForConsumer() {
-        ProgressHelper.showProgressBar(getActivity(), progressMessages);
-        DataManager.getInstance().getRelatedContractor(getActivity(), new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.hideProgressBar();
-                if (response == null) return;
-
-                ContractorRelatedResponse messagesResponse = (ContractorRelatedResponse) response;
-
-                if (messagesResponse != null && messagesResponse.getData().get(0).getConsumerRelatedData() != null &&
-                        messagesResponse.getData().get(0).getConsumerRelatedData().size() > 0) {
-
-                    Intent intent = new Intent(getActivity(), ContactListActivity.class);
-                    intent.putExtra(DATA, (Serializable) messagesResponse.getData().get(0).getConsumerRelatedData());
-                    intent.putExtra(IS_CONTRACTOR, false);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.hideProgressBar();
-                Utils.showError(getActivity(), relativeLayout, error);
-            }
-        });
-
     }
 
     private void getMessages() {
@@ -167,19 +107,22 @@ public class MailboxFragment extends Fragment implements AppConstant {
 
                 MessagesResponse messagesResponse = (MessagesResponse) response;
 
-                boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
-                recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
-                textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
+                if (isAdded() && messagesResponse.getData().get(0).getData().size() > 0) {
 
-                if (messagesResponse != null && messagesResponse.getData().get(0).getData() != null &&
-                        messagesResponse.getData().get(0).getData().size() > 0) {
-                    setRecycler(messagesResponse.getData().get(0).getData(),
-                            messagesResponse.getData().get(0).getLastPage());
-                } else {
-                    textErrorMessage.setText(stringNoMessages);
+                    boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
+                    if (recyclerMessages != null)
+                        recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
+                    textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
+
+                    if (messagesResponse != null && messagesResponse.getData().get(0).getData() != null &&
+                            messagesResponse.getData().get(0).getData().size() > 0) {
+                        setRecycler(messagesResponse.getData().get(0).getData(),
+                                messagesResponse.getData().get(0).getLastPage());
+                    } else {
+                        textErrorMessage.setText(stringNoMessages);
+                    }
                 }
             }
-
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();

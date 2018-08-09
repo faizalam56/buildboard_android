@@ -1,6 +1,9 @@
 package com.buildboard.modules.home.modules.mailbox.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +15,9 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedData;
+import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -22,24 +27,27 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.buildboard.constants.AppConstant.DATA;
 
 public class RelatedConsumerListAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     public boolean isLoading = false;
-    private Activity mActivity;
+    private Context mContext;
     private ArrayList<ConsumerRelatedData> mMessageList;
     private MessagesAdapter.OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
 
-    public RelatedConsumerListAdapter(Activity activity, ArrayList<ConsumerRelatedData> messageDataList, RecyclerView recyclerView) {
-        mActivity = activity;
+    public RelatedConsumerListAdapter(Context context, ArrayList<ConsumerRelatedData> messageDataList, RecyclerView recyclerView) {
+        mContext = context;
         mMessageList = messageDataList;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        mLayoutInflater = LayoutInflater.from(mActivity);
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
@@ -98,6 +106,8 @@ public class RelatedConsumerListAdapter extends RecyclerView.Adapter {
         ImageView imageReciever;
         @BindView(R.id.text_receiver_name)
         TextView textReceiverName;
+        @BindView(R.id.constraint_root)
+        ConstraintLayout constraintLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -109,6 +119,17 @@ public class RelatedConsumerListAdapter extends RecyclerView.Adapter {
                     .load(mMessageList.get(position).getImage())
                     .into(imageReciever);
             textReceiverName.setText(mMessageList.get(position).getFirstName()+" "+mMessageList.get(position).getLastName());
+        }
+
+        @OnClick(R.id.constraint_root)
+        public void rowTapped() {
+            if (ConnectionDetector.isNetworkConnected(mContext)) {
+                Intent intent = new Intent(mContext, InboxActivity.class);
+                intent.putExtra(DATA, mMessageList.get(getAdapterPosition()).getUserId());
+                mContext.startActivity(intent);
+            } else {
+                ConnectionDetector.createSnackBar(mContext, constraintLayout);
+            }
         }
     }
 
