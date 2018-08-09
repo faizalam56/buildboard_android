@@ -126,12 +126,27 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     }
 
     @OnClick(R.id.card_privacy_policy)
-    public void privacyPolicy(){
+    public void privacyPolicyTapped(){
 
     }
 
     @OnClick(R.id.card_change_password)
-    public void changePassword(){
+    public void changePasswordTapped(){
+
+    }
+
+    @OnClick(R.id.card_term_of_use)
+    public void termsOfUseTapped(){
+
+    }
+
+    @OnClick(R.id.card_faq)
+    public void faqTapped(){
+
+    }
+
+    @OnClick(R.id.card_contact)
+    public void contactUsTapped(){
 
     }
 }
