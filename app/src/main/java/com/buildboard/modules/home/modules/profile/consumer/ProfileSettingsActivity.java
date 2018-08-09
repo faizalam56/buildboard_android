@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -82,18 +83,15 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
-        ProgressHelper.showProgressBar(this,progressBar);
-        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
-        PopUpHelper.showConfirmPopup(this, stringConfirmLogout, new PopUpHelper.ConfirmPopUp() {
             @Override
-            public void onConfirm(boolean isConfirm) {
+            public void onSuccess(Object response) {
                 logoutUser();
             }
 
             @Override
-            public void onDismiss(boolean isDismiss) {
+            public void onError(Object error) {
 
             }
         });
@@ -106,11 +104,12 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         else ConnectionDetector.createSnackBar(this, constraintRoot);
     }
 
-    private void logoutUser() {
-        ProgressHelper.start(ProfileSettingsActivity.this, getString(R.string.msg_please_wait));
+    private void logoutUser(){
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().logout(ProfileSettingsActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+                ProgressHelper.hideProgressBar();
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
