@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
@@ -102,6 +104,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     @BindView(R.id.image_profile)
     ImageView imageProfile;
 
+    @BindView(R.id.button_next)
+    BuildBoardButton buttonNext;
+
     @BindString(R.string.sign_up)
     String stringSignUp;
     @BindString(R.string.terms_of_service)
@@ -146,6 +151,10 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringErrorBusinessYear;
     @BindString(R.string.business_info)
     String stringBusinessInfo;
+    @BindString(R.string.next)
+    String stringNext;
+    @BindString(R.string.save)
+    String stringSave;
 
     @BindArray(R.array.array_working_area)
     String[] arrayWorkingArea;
@@ -173,6 +182,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         getIntentData();
         textPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
         editPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
+        buttonNext.setText(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? stringSave : stringNext);
 
         if (AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR))
             getContractorBusinessInfo();
@@ -184,6 +194,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
             return;
         }
+        getBusinessInfo();
     }
 
     @OnClick(R.id.edit_business_address)
@@ -226,7 +237,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         if (validateContractorFields(businessName, businessAddress, principalFirstName, principalLastName,
                 email, password, workingArea, summary, phoneNo, businessYear)) {
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
-                    email, password, workingArea, summary, phoneNo);
+                    email, password, workingArea, summary, phoneNo, businessYear);
             saveBusinessInfo(businessInfoRequest);
         }
     }
@@ -328,7 +339,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private BusinessInfoRequest getBusinessInfoRequest(String businessName, String businessAddress, String principalFirstName,
-                                                       String principalLastName, String email, String password, String workingArea, String summary, String phoneNo) {
+                                                       String principalLastName, String email, String password, String workingArea, String summary, String phoneNo, String businessYear) {
         BusinessInfoRequest businessInfoRequest = new BusinessInfoRequest();
 
         businessInfoRequest.setBusinessName(businessName);
@@ -336,6 +347,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         businessInfoRequest.setFirstName(principalFirstName);
         businessInfoRequest.setLastName(principalLastName);
         businessInfoRequest.setEmail(email);
+        businessInfoRequest.setBusinessYear(Integer.parseInt(businessYear));
         if (!TextUtils.isEmpty(phoneNo))
             businessInfoRequest.setPhone(phoneNo);
 
@@ -470,5 +482,35 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         textPhone.setText(Utils.setStarToLabel(getString(R.string.phone_no)));
         textSummary.setText(Utils.setStarToLabel(getString(R.string.summary)));
         textBusinessYear.setText(Utils.setStarToLabel(getString(R.string.year_in_business)));
+    }
+
+    private void getBusinessInfo() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().getBusinessInfo(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                BusinessInfoData businessInfoData = (BusinessInfoData) response;
+                setContractorDetails(businessInfoData);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void setContractorDetails(BusinessInfoData businessInfoData) {
+        //todo business year add to model
+        editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
+        editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
+        editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
+        editPrincipalFirstName.setText(businessInfoData.getFirstName() != null ? businessInfoData.getFirstName() : "");
+        editPrincipalLastName.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
+        editEmail.setText(businessInfoData.getEmail() != null ? businessInfoData.getEmail() : "");
+        editPhoneno.setText(businessInfoData.getPhone() != null ? businessInfoData.getPhone() : "");
+        editSummary.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
     }
 }
