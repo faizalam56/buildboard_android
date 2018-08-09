@@ -56,12 +56,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_9sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
             android:background="@drawable/divider_drawable"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp" />
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_25sdp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -91,7 +91,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintVertical_bias="0.0" />
-
-
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

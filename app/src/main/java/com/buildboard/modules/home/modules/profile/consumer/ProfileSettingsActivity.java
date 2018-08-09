@@ -77,7 +77,6 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         mFacebookToken = AppPreference.getAppPreference(ProfileSettingsActivity.this).getString(FACEBOOK_TOKEN);
     }
 
-
     @OnClick(R.id.card_logout)
     public void CardLogout() {
         ProgressHelper.showProgressBar(this,progressBar);
@@ -143,9 +142,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     }
 
     @OnClick(R.id.card_change_password)
-    public void changePasswordTapped(){
-
-    }
+    public void changePasswordTapped(){ }
 
     @OnClick(R.id.card_term_of_use)
     public void termsOfUseTapped(){

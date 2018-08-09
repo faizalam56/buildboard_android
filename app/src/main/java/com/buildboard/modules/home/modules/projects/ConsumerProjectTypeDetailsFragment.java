@@ -9,19 +9,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
-
 import java.util.Objects;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +38,6 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
 
     @BindString(R.string.select_alert_message)
     String showAlertMessage;
-
 
     public static ConsumerProjectTypeDetailsFragment newInstance() {
         return new ConsumerProjectTypeDetailsFragment();

@@ -254,7 +254,6 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
         if(ConnectionDetector.isNetworkConnected(this)) {
-           // loginButton.performClick();
             signInFaceBook();
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
