@@ -17,6 +17,7 @@ import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -119,5 +120,10 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         if (ConnectionDetector.isNetworkConnected(this))
             startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
         else ConnectionDetector.createSnackBar(this,constraintRoot);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

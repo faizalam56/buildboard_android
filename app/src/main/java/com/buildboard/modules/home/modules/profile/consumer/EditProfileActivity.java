@@ -25,14 +25,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
-import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
@@ -46,11 +44,9 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -59,8 +55,8 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
 import static com.buildboard.utils.Utils.getImageUri;
+import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
 import static com.buildboard.utils.Utils.showProgressColor;
 
@@ -78,7 +74,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private Uri mSelectedImage;
     private ProfileData mProfileData;
     private String mResponsImageUrl;
-    private ContractorTypeDetail contractorTypeDetail;
     private int maxClicks = 3, mCurrentNumber = 0;
     private String mContactMode = PHONE;
     private Bitmap mBitmap;
@@ -442,6 +437,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                     try {
                         mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
                         imageProfile.setImageBitmap(mBitmap);
+                        uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, mSelectedImage))));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -453,6 +449,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                             mBitmap = (Bitmap) extras.get("data");
                             mSelectedImage = getImageUri(this, mBitmap);
                             imageProfile.setImageBitmap(mBitmap);
+                            uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, mSelectedImage))));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -528,7 +525,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
     private void getUserProfileData() {
