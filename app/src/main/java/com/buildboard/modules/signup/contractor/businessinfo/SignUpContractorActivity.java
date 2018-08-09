@@ -1,7 +1,12 @@
 package com.buildboard.modules.signup.contractor.businessinfo;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +31,7 @@ import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.profile.consumer.EditProfileActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
@@ -44,13 +50,39 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import static com.buildboard.utils.Utils.getImageUri;
+import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+import static com.buildboard.utils.Utils.selectImage;
 
 public class SignUpContractorActivity extends AppCompatActivity implements AppConstant {
+
+    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private final int PICK_IMAGE_CAMERA = 2001;
+    private final int PICK_IMAGE_GALLERY = 2002;
+
+    private String mProvider;
+    private String mProviderId;
+    private String mEmail;
+    private LatLng addressLatLng;
+    private String workingArea;
+    private String mFirstNane;
+    private String mLastName;
+    private boolean mIsContractor;
+    private Uri mSelectedImage;
+    private Bitmap mBitmap;
+    private String mResponsImageUrl;
 
     @BindView(R.id.title)
     TextView title;
@@ -157,18 +189,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringNext;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_businessinfo_update)
+    String stringBusinessInfoSucess;
 
     @BindArray(R.array.array_working_area)
     String[] arrayWorkingArea;
-
-    private String mProvider;
-    private String mProviderId;
-    private String mEmail;
-    private LatLng addressLatLng;
-    private String workingArea;
-    private String mFirstNane;
-    private String mLastName;
-    private boolean mIsContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,9 +270,18 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                     email, password, workingArea, summary, phoneNo, businessYear);
 
             if (mIsContractor)
-                updateBusinessInfo(businessInfoRequest);
+                updateProfileImage(mResponsImageUrl, businessInfoRequest);
             else
                 saveBusinessInfo(businessInfoRequest);
+        }
+    }
+
+    @OnClick({R.id.image_profile, R.id.text_add_profile_picture})
+    void imageProfileTapped() {
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            selectImage(this);
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -261,8 +295,38 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             switch (requestCode) {
                 case PLACE_PICKER_REQUEST:
                     getAddressLatLng(PlacePicker.getPlace(this, data));
+
+                case PICK_IMAGE_GALLERY:
+                    mSelectedImage = data.getData();
+                    try {
+                        mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
+                        imageProfile.setImageBitmap(mBitmap);
+                        uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, mSelectedImage))));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case PICK_IMAGE_CAMERA:
+                    try {
+                        Bundle extras = data.getExtras();
+                        if (extras != null) {
+                            mBitmap = (Bitmap) extras.get("data");
+                            mSelectedImage = getImageUri(this, mBitmap);
+                            imageProfile.setImageBitmap(mBitmap);
+                            uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, mSelectedImage))));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
+    }
+
+    private MultipartBody.Part prepareFilePart(String imagePath) {
+        File file = new File(imagePath);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        return MultipartBody.Part.createFormData("file[0]", file.getName(), requestFile);
     }
 
     private void getAddressLatLng(Place place) {
@@ -477,6 +541,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private void setContractorDetails(BusinessInfoData businessInfoData) {
         //todo spinner to be set
         Picasso.get().load(businessInfoData.getImage()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+        mResponsImageUrl = businessInfoData.getImage();
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
         editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
         editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
@@ -534,10 +599,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
-                if (businessInfoData.getMessage() != null) {
-                    Toast.makeText(SignUpContractorActivity.this, businessInfoData.getMessage(), Toast.LENGTH_LONG).show();
-                    finish();
-                }
+                Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSucess, Toast.LENGTH_LONG).show();
+                finish();
             }
 
             @Override
@@ -548,14 +611,34 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         });
     }
 
-    private void updateProfileImage(String image) {
+    private void updateProfileImage(String imageUrl, final BusinessInfoRequest businessInfoRequest) {
         SaveContractorImageRequest contractorImageRequest = new SaveContractorImageRequest();
-        contractorImageRequest.setImageUrl(image);
+        contractorImageRequest.setImageUrl(imageUrl);
         ProgressHelper.start(this, stringPleaseWait);
         DataManager.getInstance().updateContractorImage(this, contractorImageRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
+                updateBusinessInfo(businessInfoRequest);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    public void uploadImage(Activity activity, MultipartBody.Part image) {
+        ProgressHelper.start(this, stringPleaseWait);
+        RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
+        RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
+        DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                mResponsImageUrl = response.toString();
             }
 
             @Override

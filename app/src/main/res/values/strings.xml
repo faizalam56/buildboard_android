@@ -297,4 +297,5 @@
     <string name="type_of_work">Type Of Work</string>
     <string name="msg_primary_address">It\'s already a primary address</string>
     <string name="msg_confirm_logout">Are you sure you want logout?</string>
+    <string name="msg_success_businessinfo_update">Contractor Business Info Successfully Updated</string>
 </resources>
