@@ -31,6 +31,8 @@ public class BusinessInfoRequest {
     private String providerId;
     @SerializedName("phone_no")
     private String phone;
+    @SerializedName("years_in_business")
+    private int businessYear;
 
     public String getFirstName() {
         return firstName;
@@ -142,5 +144,13 @@ public class BusinessInfoRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getBusinessYear() {
+        return businessYear;
+    }
+
+    public void setBusinessYear(int businessYear) {
+        this.businessYear = businessYear;
     }
 }
