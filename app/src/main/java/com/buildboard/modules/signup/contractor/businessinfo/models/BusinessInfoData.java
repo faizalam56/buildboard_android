@@ -64,6 +64,10 @@ public class BusinessInfoData {
     @SerializedName("project_type")
     @Expose
     private List<Object> projectType = null;
+    @SerializedName("years_in_business")
+    private int businessYear;
+    @SerializedName("phone_no")
+    private String phone;
 
     public String getFirstName() {
         return firstName;
@@ -217,4 +221,19 @@ public class BusinessInfoData {
         this.projectType = projectType;
     }
 
+    public int getBusinessYear() {
+        return businessYear;
+    }
+
+    public void setBusinessYear(int businessYear) {
+        this.businessYear = businessYear;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

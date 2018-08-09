@@ -13,6 +13,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
@@ -88,7 +89,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     @OnClick(R.id.text_edit_profile)
     public void moveToClass() {
         if (ConnectionDetector.isNetworkConnected(this))
-            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
+            startActivity(new Intent(ProfileSettingsActivity.this, AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? EditContractorProfileActivity.class : EditProfileActivity.class));
         else ConnectionDetector.createSnackBar(this, constraintRoot);
     }
 

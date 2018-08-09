@@ -291,6 +291,10 @@
     <string name="working_radius">Working Radius</string>
     <string name="year_in_business">Years in Business</string>
     <string name="error_enter_business_year">Please enter year in business</string>
+    <string name="notifications">Notifications</string>
+
+    <string name="business_info">Business Info</string>
+    <string name="type_of_work">Type Of Work</string>
     <string name="msg_primary_address">It\'s already a primary address</string>
     <string name="msg_confirm_logout">Are you sure you want logout?</string>
 </resources>
