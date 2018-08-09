@@ -41,6 +41,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -240,7 +241,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                 email, password, workingArea, summary, phoneNo, businessYear)) {
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
                     email, password, workingArea, summary, phoneNo, businessYear);
-            saveBusinessInfo(businessInfoRequest);
+
+            if (mIsContractor)
+                updateBusinessInfo(businessInfoRequest);
+            else
+                saveBusinessInfo(businessInfoRequest);
         }
     }
 
@@ -317,27 +322,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 //TODO implement if needed
-            }
-        });
-    }
-
-    private void saveBusinessInfo(BusinessInfoRequest businessInfoRequest) {
-        ProgressHelper.start(this, stringPleaseWait);
-        DataManager.getInstance().saveBusinessInfo(this, businessInfoRequest, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                BusinessInfoData businessInfoData = (BusinessInfoData) response;
-
-                Intent intent = new Intent(SignUpContractorActivity.this, WorkTypeActivity.class);
-                intent.putExtra(INTENT_WORK_TYPE_ID, businessInfoData.getUserId());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });
     }
@@ -427,7 +411,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             return false;
         }
 
-        if (!password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
+        if (!mIsContractor && !password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
             if (TextUtils.isEmpty(password)) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
                 return false;
@@ -488,6 +472,41 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         textBusinessYear.setText(Utils.setStarToLabel(getString(R.string.year_in_business)));
     }
 
+    private void setContractorDetails(BusinessInfoData businessInfoData) {
+        //todo spinner to be set
+        Picasso.get().load(businessInfoData.getImage()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+        editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
+        editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
+        editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
+        editPrincipalFirstName.setText(businessInfoData.getFirstName() != null ? businessInfoData.getFirstName() : "");
+        editPrincipalLastName.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
+        editEmail.setText(businessInfoData.getEmail() != null ? businessInfoData.getEmail() : "");
+        editPhoneno.setText(businessInfoData.getPhone() != null ? businessInfoData.getPhone() : "");
+        editSummary.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
+        addressLatLng = new LatLng(businessInfoData.getLatitude(), businessInfoData.getLongitude());
+    }
+
+    private void saveBusinessInfo(BusinessInfoRequest businessInfoRequest) {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().saveBusinessInfo(this, businessInfoRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                BusinessInfoData businessInfoData = (BusinessInfoData) response;
+
+                Intent intent = new Intent(SignUpContractorActivity.this, WorkTypeActivity.class);
+                intent.putExtra(INTENT_WORK_TYPE_ID, businessInfoData.getUserId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
     private void getBusinessInfo() {
         ProgressHelper.start(this, stringPleaseWait);
         DataManager.getInstance().getBusinessInfo(this, new DataManager.DataManagerListener() {
@@ -506,15 +525,21 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         });
     }
 
-    private void setContractorDetails(BusinessInfoData businessInfoData) {
-        //todo spinner to be set
-        editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
-        editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
-        editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
-        editPrincipalFirstName.setText(businessInfoData.getFirstName() != null ? businessInfoData.getFirstName() : "");
-        editPrincipalLastName.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
-        editEmail.setText(businessInfoData.getEmail() != null ? businessInfoData.getEmail() : "");
-        editPhoneno.setText(businessInfoData.getPhone() != null ? businessInfoData.getPhone() : "");
-        editSummary.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
+    private void updateBusinessInfo(BusinessInfoRequest businessInfoRequest) {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().updateBusinessInfo(this, businessInfoRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                BusinessInfoData businessInfoData = (BusinessInfoData) response;
+                finish();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
+            }
+        });
     }
 }

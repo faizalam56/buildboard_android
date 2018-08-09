@@ -157,4 +157,7 @@ public interface IApiInterface {
 
     @GET("related-contractor")
     Call<ContractorRelatedResponse> getRelatedContractor(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/business")
+    Call<BusinessInfoResponse> updateBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessInfoRequest businessInfoRequest);
 }

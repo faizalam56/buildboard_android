@@ -840,4 +840,28 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
+    public void updateBusinessInfo(Activity activity, BusinessInfoRequest businessInfoRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessInfoResponse> call = getDataManager().updateBusinessInfo(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), businessInfoRequest);
+        call.enqueue(new Callback<BusinessInfoResponse>() {
+            @Override
+            public void onResponse(Call<BusinessInfoResponse> call, Response<BusinessInfoResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
+                        response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessInfoResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
 }
