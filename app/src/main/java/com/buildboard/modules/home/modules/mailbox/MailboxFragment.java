@@ -69,10 +69,10 @@ public class MailboxFragment extends Fragment implements AppConstant {
 
         boolean isNetworkConnected = ConnectionDetector.isNetworkConnected(getActivity());
 
-        if(recyclerMessages!=null)
-        recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.INVISIBLE);
-        textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
-
+        if (recyclerMessages != null) {
+            recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.INVISIBLE);
+            textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
+        }
         if (isNetworkConnected)
             getMessages();
         else textErrorMessage.setText(stringNoInternet);
@@ -108,12 +108,11 @@ public class MailboxFragment extends Fragment implements AppConstant {
                 MessagesResponse messagesResponse = (MessagesResponse) response;
 
                 if (isAdded() && messagesResponse.getData().get(0).getData().size() > 0) {
-
                     boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
-                    if (recyclerMessages != null)
+                    if (recyclerMessages != null) {
                         recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
-                    textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
-
+                        textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
+                    }
                     if (messagesResponse != null && messagesResponse.getData().get(0).getData() != null &&
                             messagesResponse.getData().get(0).getData().size() > 0) {
                         setRecycler(messagesResponse.getData().get(0).getData(),
