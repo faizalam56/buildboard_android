@@ -166,6 +166,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private String workingArea;
     private String mFirstNane;
     private String mLastName;
+    private boolean mIsContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,18 +174,19 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         setContentView(R.layout.activity_signup_contractor);
         ButterKnife.bind(this);
 
-        title.setText(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? stringBusinessInfo : stringSignUp);
-        textAddProfilePicture.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.VISIBLE : View.GONE);
-        imageProfile.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.VISIBLE : View.GONE);
+        mIsContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        title.setText(mIsContractor ? stringBusinessInfo : stringSignUp);
+        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
 
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
-        textPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
-        editPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
-        buttonNext.setText(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? stringSave : stringNext);
+        textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+        editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+        buttonNext.setText(mIsContractor ? stringSave : stringNext);
 
-        if (AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR))
+        if (mIsContractor)
             getContractorBusinessInfo();
     }
 
@@ -286,12 +288,14 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             editPrincipalLastName.setText(mLastName != null ? mLastName : "");
         }
 
-        editPassword.setVisibility((mProvider != null && mProviderId != null) ? View.GONE : View.VISIBLE);
-        textPassword.setVisibility((mProvider != null && mProviderId != null) ? View.GONE : View.VISIBLE);
-        editEmail.setFocusable(!(mProvider != null && mProviderId != null));
-        editPassword.setFocusableInTouchMode(!(mProvider != null && mProviderId != null));
-        editPassword.setClickable(!(mProvider != null && mProviderId != null));
-        editPassword.setCursorVisible(!(mProvider != null && mProviderId != null));
+        boolean providerExist = mProvider != null && mProviderId != null;
+
+        editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
+        textPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
+        editEmail.setFocusable(!providerExist);
+        editPassword.setFocusableInTouchMode(!providerExist);
+        editPassword.setClickable(!providerExist);
+        editPassword.setCursorVisible(!providerExist);
 
         if (mProvider != null && mProviderId != null)
             editEmail.setText(mEmail);
@@ -503,7 +507,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setContractorDetails(BusinessInfoData businessInfoData) {
-        //todo business year add to model
+        //todo spinner to be set
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
         editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
         editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
