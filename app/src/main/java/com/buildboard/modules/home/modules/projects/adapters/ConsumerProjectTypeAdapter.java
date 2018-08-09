@@ -35,7 +35,7 @@ public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerPro
 
     @Override
     public ConsumerProjectTypeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_projects, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_select_project_location, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,8 +53,6 @@ public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerPro
 
         @BindView(R.id.image_service)
         ImageView imageService;
-        @BindView(R.id.text_service_type)
-        TextView textServiceType;
         @BindView(R.id.text_service_type_name)
         TextView textServiceTypeName;
         @BindView(R.id.container)
@@ -63,13 +61,12 @@ public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerPro
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
-            textServiceTypeName.setVisibility(View.GONE);
         }
 
         private void setData() {
             ProjectAllType projectType = projectAllTypesList.get(getAdapterPosition());
             if (projectType == null) return;
-            textServiceType.setText(projectType.getTitle());
+            textServiceTypeName.setText(projectType.getTitle().toUpperCase());
             Utils.display(mContext, projectType.getImage(), imageService, R.mipmap.ic_launcher);
         }
 

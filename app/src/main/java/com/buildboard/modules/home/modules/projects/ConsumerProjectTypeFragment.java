@@ -14,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
@@ -32,11 +34,14 @@ import butterknife.Unbinder;
 public class ConsumerProjectTypeFragment extends Fragment
         implements IRecyclerItemClickListener, HomeActivity.OnBackPressedListener {
 
-    @BindView(R.id.recycler_all_project_type)
-    RecyclerView recyclerView;
     private Unbinder unbinder;
     private ConstraintLayout containers;
     private ArrayList<ProjectAllType> projectsData;
+
+    @BindView(R.id.recycler_all_project_type)
+    RecyclerView recyclerView;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     public static ConsumerProjectTypeFragment newInstance() {
         return new ConsumerProjectTypeFragment();
@@ -73,11 +78,11 @@ public class ConsumerProjectTypeFragment extends Fragment
     }
 
     private void getAllTypeOfProject() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        ProgressHelper.showProgressBar(getActivity(), progressBar);
         DataManager.getInstance().getAllTypeOfProjectList(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 projectsData = (ArrayList<ProjectAllType>) response;
                 setProjectsRecycler(projectsData);
             }
@@ -104,17 +109,17 @@ public class ConsumerProjectTypeFragment extends Fragment
     }
 
     private void getAllProjectDetails() {
-        ProgressHelper.start(getActivity(), getString(R.string.msg_please_wait));
+        ProgressHelper.showProgressBar(getActivity(), progressBar);
         DataManager.getInstance().getProjectDetails(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
             }
         });
     }

@@ -294,4 +294,5 @@
     <string name="year_in_business">Years in Business</string>
     <string name="error_enter_business_year">Please enter year in business</string>
     <string name="replace_windows">Replace Windows</string>
+    <string name="repair_windows">Repair Windows</string>
 </resources>

@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class ConsumerCreateProjectFragment extends Fragment implements HomeActivity.OnBackPressedListener {
 
+
     public static ConsumerCreateProjectFragment newInstance() {
         return new ConsumerCreateProjectFragment();
     }

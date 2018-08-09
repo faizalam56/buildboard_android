@@ -56,9 +56,9 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
         if(radioGroup.getCheckedRadioButtonId()!=-1){
-            Toast.makeText(getActivity(), "hello", Toast.LENGTH_SHORT).show();
+            navigateFragment(ConsumerCreateProjectFragment.newInstance());
        } else {
-            PopUpHelper.showInfoConfirmPopup(getActivity(), showAlertMessage, new PopUpHelper.InfoPopupListener() {
+            PopUpHelper.showInfoAlertPopup(getActivity(), showAlertMessage, new PopUpHelper.InfoPopupListener() {
                 @Override
                 public void onConfirm() { }
             });
