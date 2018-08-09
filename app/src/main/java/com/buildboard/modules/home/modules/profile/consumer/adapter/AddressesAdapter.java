@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -32,11 +33,13 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
     private Activity mActivity;
     private ArrayList<AddressListData> mAddressList;
     private IChangePrimaryAddressListener mPrimaryAddressListener;
+    private ProgressBar mProgressBar;
 
-    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList) {
+    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList, ProgressBar progressBar) {
         mActivity = activity;
         mAddressList = addressList;
         mPrimaryAddressListener = (IChangePrimaryAddressListener) activity;
+        mProgressBar = progressBar;
         sortPrimaryTop();
     }
 
@@ -71,10 +74,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
     }
 
     private void deleteAddress(String addressId) {
+        ProgressHelper.showProgressBar(mActivity, mProgressBar);
         DataManager.getInstance().deleteAddress(mActivity, addressId, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
@@ -82,7 +86,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
             }
         });
     }
@@ -163,11 +167,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         }
 
         private void makePrimaryAddress(String addressId) {
-            ProgressHelper.start(mActivity, stringPleaseWait);
+            ProgressHelper.showProgressBar(mActivity, mProgressBar);
             DataManager.getInstance().makePrimaryAddress(mActivity, addressId, new DataManager.DataManagerListener() {
                 @Override
                 public void onSuccess(Object response) {
-                    ProgressHelper.stop();
+                    ProgressHelper.hideProgressBar();
                     if (response == null) return;
 
                     mPrimaryAddressListener.onPrimaryAddressChanged();
@@ -176,7 +180,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
                 @Override
                 public void onError(Object error) {
-                    ProgressHelper.stop();
+                    ProgressHelper.hideProgressBar();
                 }
             });
         }

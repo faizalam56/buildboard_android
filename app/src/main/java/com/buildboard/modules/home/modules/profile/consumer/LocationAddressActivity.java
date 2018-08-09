@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -50,6 +51,8 @@ public class LocationAddressActivity extends AppCompatActivity
     RecyclerView recyclerAddresses;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindString(R.string.my_location_address)
     String stringTitle;
@@ -109,7 +112,7 @@ public class LocationAddressActivity extends AppCompatActivity
     }
 
     private void setRecycler(ArrayList<AddressListData> addressListData) {
-        mAddressesAdapter = new AddressesAdapter(this, addressListData);
+        mAddressesAdapter = new AddressesAdapter(this, addressListData, progressBar);
         recyclerAddresses.setLayoutManager(new LinearLayoutManager(this));
         recyclerAddresses.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerAddresses.setAdapter(mAddressesAdapter);
@@ -117,11 +120,11 @@ public class LocationAddressActivity extends AppCompatActivity
     }
 
     private void getAddresses() {
-        ProgressHelper.start(this, stringPleaseWait);
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().getAddresses(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 mAddressListData = (ArrayList<AddressListData>) response;
@@ -130,7 +133,7 @@ public class LocationAddressActivity extends AppCompatActivity
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(LocationAddressActivity.this, constraintLayout, error);
             }
         });
@@ -143,11 +146,11 @@ public class LocationAddressActivity extends AppCompatActivity
         addAddressRequest.setLatitude(String.valueOf(place.getLatLng().latitude));
         addAddressRequest.setLongitude(String.valueOf(place.getLatLng().longitude));
 
-        ProgressHelper.start(this, stringPleaseWait);
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().addAddress(this, addAddressRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 getAddresses();
@@ -156,7 +159,7 @@ public class LocationAddressActivity extends AppCompatActivity
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(LocationAddressActivity.this, constraintLayout, error);
             }
         });
