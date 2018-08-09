@@ -305,7 +305,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     public void signInFaceBook() {
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
+        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

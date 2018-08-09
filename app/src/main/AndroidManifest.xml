@@ -155,7 +155,7 @@
         </provider>
 
         <activity android:name=".modules.home.modules.profile.contractor.EditContractorProfileActivity" />
-        <activity android:name=".modules.home.modules.profile.consumer.ChangePasswordActivity"></activity>
+        <activity android:name=".modules.home.modules.profile.consumer.ChangePasswordActivity"/>
     </application>
 
 </manifest>
