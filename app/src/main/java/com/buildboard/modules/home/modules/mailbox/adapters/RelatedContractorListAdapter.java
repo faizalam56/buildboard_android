@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.mailbox.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +14,10 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedData;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedData;
+import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -23,6 +27,9 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.buildboard.constants.AppConstant.DATA;
 
 public class RelatedContractorListAdapter extends RecyclerView.Adapter {
 
@@ -99,6 +106,8 @@ public class RelatedContractorListAdapter extends RecyclerView.Adapter {
         ImageView imageReciever;
         @BindView(R.id.text_receiver_name)
         TextView textReceiverName;
+        @BindView(R.id.constraint_root)
+        ConstraintLayout constraintLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -110,6 +119,17 @@ public class RelatedContractorListAdapter extends RecyclerView.Adapter {
                     .load(mMessageList.get(position).getImage())
                     .into(imageReciever);
             textReceiverName.setText(mMessageList.get(position).getFirstName()+" "+mMessageList.get(position).getLastName());
+        }
+
+        @OnClick(R.id.constraint_root)
+        public void rowTapped() {
+            if (ConnectionDetector.isNetworkConnected(mActivity)) {
+                Intent intent = new Intent(mActivity, InboxActivity.class);
+                intent.putExtra(DATA, mMessageList.get(getAdapterPosition()).getUserId());
+                mActivity.startActivity(intent);
+            } else {
+                ConnectionDetector.createSnackBar(mActivity, constraintLayout);
+            }
         }
     }
 

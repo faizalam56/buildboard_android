@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/constraint_root"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity">
@@ -11,17 +12,43 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_messages"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
+        android:id="@+id/relative_root"
         app:layout_constraintBottom_toTopOf="@id/edit_write_msg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:stackFromEnd="true"
+        android:visibility="visible"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        />
+        <ProgressBar
+            android:id="@+id/progress_messages"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_error_message"
+            style="@style/textSize_smallest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/edit_write_msg"
@@ -41,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/linear_reply"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_messages" />
+        app:layout_constraintTop_toBottomOf="@+id/relative_root" />
 
     <LinearLayout
         android:id="@+id/linear_reply"
@@ -51,10 +78,11 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:background="@drawable/green_button_background"
         android:gravity="center"
+        android:layout_marginRight="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/edit_write_msg"
         app:layout_constraintRight_toLeftOf="@id/button_save_as_draft"
-        app:layout_constraintTop_toBottomOf="@id/recycler_messages">
+        app:layout_constraintTop_toBottomOf="@id/relative_root">
 
         <ImageView
             android:id="@+id/image_reply"
@@ -76,11 +104,12 @@
         android:padding="2dp"
         android:text="@string/save_as_draft"
         android:textAllCaps="false"
+        android:visibility="gone"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/linear_reply"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_messages" />
+        app:layout_constraintTop_toBottomOf="@id/relative_root" />
 
 </android.support.constraint.ConstraintLayout>
