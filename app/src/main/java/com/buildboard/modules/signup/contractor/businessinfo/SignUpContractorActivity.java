@@ -1,6 +1,7 @@
 package com.buildboard.modules.signup.contractor.businessinfo;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.StringUtils;
@@ -93,6 +96,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     BuildBoardTextView textSummary;
     @BindView(R.id.text_business_year)
     BuildBoardTextView textBusinessYear;
+    @BindView(R.id.text_add_profile_picture)
+    BuildBoardTextView textAddProfilePicture;
+
+    @BindView(R.id.image_profile)
+    ImageView imageProfile;
 
     @BindString(R.string.sign_up)
     String stringSignUp;
@@ -136,6 +144,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     String stringPleaseWait;
     @BindString(R.string.error_enter_business_year)
     String stringErrorBusinessYear;
+    @BindString(R.string.business_info)
+    String stringBusinessInfo;
 
     @BindArray(R.array.array_working_area)
     String[] arrayWorkingArea;
@@ -154,10 +164,26 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         setContentView(R.layout.activity_signup_contractor);
         ButterKnife.bind(this);
 
-        title.setText(stringSignUp);
+        title.setText(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? stringBusinessInfo : stringSignUp);
+        textAddProfilePicture.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.VISIBLE : View.GONE);
+        imageProfile.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.VISIBLE : View.GONE);
+
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
+        textPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
+        editPassword.setVisibility(AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? View.GONE : View.VISIBLE);
+
+        if (AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR))
+            getContractorBusinessInfo();
+    }
+
+    private void getContractorBusinessInfo() {
+        if (!ConnectionDetector.isNetworkConnected(this)) {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+
+            return;
+        }
     }
 
     @OnClick(R.id.edit_business_address)
