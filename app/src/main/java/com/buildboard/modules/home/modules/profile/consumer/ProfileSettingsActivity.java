@@ -83,15 +83,14 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-        ProgressHelper.showProgressBar(this, progressBar);
-        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
+        PopUpHelper.showConfirmPopup(this, stringConfirmLogout, new PopUpHelper.ConfirmPopUp() {
             @Override
-            public void onSuccess(Object response) {
+            public void onConfirm(boolean isConfirm) {
                 logoutUser();
             }
 
             @Override
-            public void onError(Object error) {
+            public void onDismiss(boolean isDismiss) {
 
             }
         });
