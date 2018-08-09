@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,8 @@ public class ProfileFragment extends Fragment
     View dividerLocation;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.swipe_root)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProfileFragment newInstance() {
         if (sFragment == null)
@@ -71,6 +74,13 @@ public class ProfileFragment extends Fragment
         showProgressColor(getActivity(), progressBar);
 
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getProfile();
+                }
+            });
+
             if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
                 relativeLayoutPrefContractor.setVisibility(View.GONE);
                 relativeLayoutLocation.setVisibility(View.GONE);
@@ -161,6 +171,7 @@ public class ProfileFragment extends Fragment
                 hideProgressBar();
                 profileData = (ProfileData) response;
                 setProfileData(profileData);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
