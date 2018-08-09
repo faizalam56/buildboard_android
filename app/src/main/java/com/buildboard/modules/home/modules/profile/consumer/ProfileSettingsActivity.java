@@ -6,12 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.http.DataManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
@@ -54,6 +56,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     CardView logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindString(R.string.settings)
     String stringSettings;
@@ -70,11 +74,11 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        ProgressHelper.showProgressBar(this,progressBar);
         DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+               ProgressHelper.hideProgressBar();
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -98,7 +102,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(ProfileSettingsActivity.this, constraintRoot, error);
             }
         });
@@ -119,5 +123,15 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         if (ConnectionDetector.isNetworkConnected(this))
             startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
         else ConnectionDetector.createSnackBar(this,constraintRoot);
+    }
+
+    @OnClick(R.id.card_privacy_policy)
+    public void privacyPolicy(){
+
+    }
+
+    @OnClick(R.id.card_change_password)
+    public void changePassword(){
+
     }
 }
