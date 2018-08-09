@@ -60,6 +60,11 @@
         <activity
             android:name=".modules.login.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_forgot_password"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.home.modules.mailbox.ContactListActivity"
+            android:label="@string/title_forgot_password"
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.home.HomeActivity"

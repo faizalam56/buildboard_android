@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
@@ -38,6 +40,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -328,6 +331,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
+
                 SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
                 socialLoginRequest.setProvider(getString(R.string.facebook));
                 socialLoginRequest.setProviderId(userId);
@@ -386,8 +390,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
-                redirectToSignUp(socialLoginRequest, email);
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                if(errorResponse.getCode().equals("200")) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
+                    redirectToSignUp(socialLoginRequest, email);
+                } else {
+                    SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
+                }
             }
         });
     }
@@ -438,13 +447,15 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
                 }
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
+                AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getUserId(), USER_ID);
                 openActivity(HomeActivity.class, true, false, null, null);
             }
 
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                Utils.showError(LoginActivity.this, constraintRoot, error);
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }
         });
     }

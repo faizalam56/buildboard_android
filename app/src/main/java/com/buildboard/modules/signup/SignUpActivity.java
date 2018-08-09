@@ -29,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -38,7 +37,6 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
-import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
@@ -52,10 +50,8 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
-
 import java.io.File;
 import java.io.IOException;
-
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -64,7 +60,6 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
@@ -84,7 +79,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     private Uri selectedImage;
     private Bitmap bitmap;
     private String contactMode = PHONE;
-    private ContractorTypeDetail contractorTypeDetail;
 
 
     @BindView(R.id.radio_group_contact_mode)
@@ -206,8 +200,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindArray(R.array.user_type_array)
-    String[] arrayUserType;
     @BindString(R.string.please_enter_a_valid_address)
     String stringEnterValidAddress;
     @BindString(R.string.msg_please_wait)
@@ -218,6 +210,8 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
     String stringCheckLocation;
     @BindString(R.string.special_charactor)
     String blockCharacterSet;
+    @BindArray(R.array.user_type_array)
+    String[] arrayUserType;
 
 
     @Override
@@ -458,19 +452,6 @@ public class SignUpActivity extends AppCompatActivity implements AppConstant {
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
-
-                case WORKING_AREA_REQUEST_CODE:
-                    break;
-
-                case CONTRACTOR_TYPE_REQUEST_CODE:
-                   contractorTypeDetail = data.getParcelableExtra(INTENT_SELECTED_ITEM);
-                    break;
-
-                case CONTACT_MODE_REQUEST_CODE:
-                    break;
-
-                case USER_TYPE_REQUEST_CODE:
-                    break;
 
                 case IMAGE_UPLOAD_REQUEST_CODE:
                     createAccount(data.getStringExtra(INTENT_IMAGE_URL));

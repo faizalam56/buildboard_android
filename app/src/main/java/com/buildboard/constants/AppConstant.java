@@ -20,6 +20,8 @@ public interface AppConstant {
     String IS_LOGIN = "is_login";
     String SESSION_ID = "sessionId";
     String IS_CONTRACTOR = "is_contractor";
+    String IS_CONSUMER = "is_consumer";
+    String USER_ID = "user_id";
     String ROBOTO_BOLD = "fonts/Roboto-Bold.ttf";
     String ROBOTO_LIGHT = "fonts/Roboto-Light.ttf";
     String ROBOTO_REGULAR = "fonts/Roboto-Regular.ttf";

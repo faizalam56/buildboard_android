@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -92,10 +94,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private boolean validateFields(String email) {
         if (TextUtils.isEmpty(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorEnterEmail);
+            Toast.makeText(this, stringErrorEnterEmail, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!StringUtils.isValidEmailId(email)) {
-            SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorInvalidEmail);
+            Toast.makeText(this, stringErrorInvalidEmail, Toast.LENGTH_SHORT).show();
             return false;
         }
 
