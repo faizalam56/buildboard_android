@@ -99,7 +99,7 @@ public class ContactListActivity extends AppCompatActivity implements AppConstan
         if (mRelatedConsumerListAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(ContactListActivity.this);
             recyclerConsumerList.setLayoutManager(mLinearLayoutManager);
-            mRelatedConsumerListAdapter = new RelatedConsumerListAdapter(mContext, mConsumerList, recyclerConsumerList);
+            mRelatedConsumerListAdapter = new RelatedConsumerListAdapter(ContactListActivity.this, mConsumerList, recyclerConsumerList);
             recyclerConsumerList.setAdapter(mRelatedConsumerListAdapter);
             mRelatedConsumerListAdapter.setOnLoadMoreListener(new MessagesAdapter.OnLoadMoreListener() {
                 @Override

@@ -55,6 +55,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_label_business_licensing" />
 
+                <LinearLayout
+                    android:id="@+id/linear_layout_business_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGreen"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing"/>
                 <!-- End Business License -->
 
                 <!-- Bonding -->
@@ -68,7 +78,7 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout_business_license"
                     app:typeface="robotoRegular" />
 
                 <android.support.v7.widget.RecyclerView
@@ -79,6 +89,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_label_bonding" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_bonding"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGreen"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_bonding"/>
 
                 <!-- End Bonding -->
 
@@ -93,7 +114,7 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_bonding"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout_bonding"
                     app:typeface="robotoRegular" />
 
                 <android.support.v7.widget.RecyclerView
@@ -103,6 +124,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_label_insurance" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_insurance"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGreen"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_insurance"/>
 
                 <!-- End Insurance -->
 
@@ -117,7 +149,7 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_insurance"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout_insurance"
                     app:typeface="robotoRegular" />
 
                 <android.support.v7.widget.RecyclerView
@@ -128,6 +160,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_label_workman_insurance" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_insurance_workman"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGreen"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance"/>
 
                 <!-- End Workman's Comp Insurance -->
 
@@ -142,7 +185,7 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout_insurance_workman"
                     app:typeface="robotoRegular" />
 
                 <android.support.v7.widget.RecyclerView
@@ -150,10 +193,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="true"
-                    android:layout_marginTop="@dimen/_15sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_label_certification" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_certification"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGreen"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_certification"/>
 
                 <!-- End Certification -->
 
@@ -165,7 +218,7 @@
                     android:text="@string/next"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_certification"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout_certification"
                     app:typeface="robotoRegular" />
 
                 <com.buildboard.customviews.BuildBoardTextView

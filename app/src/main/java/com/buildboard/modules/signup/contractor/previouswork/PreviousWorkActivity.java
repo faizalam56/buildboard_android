@@ -35,6 +35,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
@@ -223,7 +224,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                showPrevworkSuccessDialog();
+                ArrayList<String> documentsResponse = (ArrayList<String>) response;
+                showPrevworkSuccessDialog(documentsResponse.get(0));
             }
 
             @Override
@@ -465,9 +467,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
-    private void showPrevworkSuccessDialog() {
+    private void showPrevworkSuccessDialog(String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(PreviousWorkActivity.this);
-        builder.setMessage(R.string.msg_contractor_signup_success);
+        builder.setMessage(msg);
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override

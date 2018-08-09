@@ -5,36 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_name"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_name"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/name"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_work_performed"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/work_performed"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_name"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_work_performed"
         style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/work_performed"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_work_performed"
         app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_testimonial"
+        style="@style/textSize_smaller"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_work_performed"
+        app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_testimonial"
         style="@style/edit_text_size_small"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:gravity="top"
         android:hint="@string/_150_characters"
@@ -43,7 +82,7 @@
         android:padding="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_work_performed"
+        app:layout_constraintTop_toBottomOf="@+id/text_testimonial"
         app:typeface="robotoRegular" />
 
     <com.buildboard.customviews.BuildBoardTextView
@@ -51,7 +90,7 @@
         style="@style/textSize_smaller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/add_more"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"

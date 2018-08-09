@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.projects;
 
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,12 +9,35 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardButton;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.HomeActivity;
-
 import java.util.Objects;
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ConsumerProjectTypeDetailsFragment extends Fragment implements HomeActivity.OnBackPressedListener{
+
+    private Unbinder unbinder;
+
+    @BindView(R.id.radio_group_contact_mode)
+    RadioGroup radioGroup;
+    @BindView(R.id.radio_phone)
+    RadioButton radioPhone;
+    @BindView(R.id.radio_email)
+    RadioButton radioEmail;
+    @BindView(R.id.buttonNext)
+    BuildBoardButton buildBoardButton;
+
+    @BindString(R.string.select_alert_message)
+    String showAlertMessage;
 
     public static ConsumerProjectTypeDetailsFragment newInstance() {
         return new ConsumerProjectTypeDetailsFragment();
@@ -25,10 +47,28 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view =inflater.inflate(R.layout.fragment_consumer_project_type_details, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
         if (getActivity() != null) ((HomeActivity) getActivity()).setOnBackPressedListener(this);
 
        return  view;
+    }
+
+    @OnClick(R.id.buttonNext)
+    public void nextButtonTapped(){
+        if(radioGroup.getCheckedRadioButtonId()!=-1){
+            navigateFragment(ConsumerCreateProjectFragment.newInstance());
+       } else {
+            PopUpHelper.showInfoAlertPopup(getActivity(), showAlertMessage, new PopUpHelper.InfoPopupListener() {
+                @Override
+                public void onConfirm() { }
+            });
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -44,7 +84,9 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
     }
 
     private void navigateFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        if(getActivity()!=null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        }
     }
 }

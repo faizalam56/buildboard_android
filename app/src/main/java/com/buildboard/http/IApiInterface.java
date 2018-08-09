@@ -150,6 +150,9 @@ public interface IApiInterface {
     @GET("messages")
     Call<MessagesResponse> getMessages(@Header("oauth") String oauth, @Header("session") String sessionId);
 
+    @GET("contractor/profile/business")
+    Call<BusinessInfoResponse> getBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId);
+
     @GET("messages/{receiver_id}?/")
     Call<InboxMessagesResponse> getInboxMessages(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("receiver_id") String receiverId);
 
