@@ -132,15 +132,18 @@
     <string name="drafts">Drafts</string>
     <string name="bin">Trash</string>
     <string name="compose">Compose</string>
+    <string name="text">text</string>
     <string name="send">Send</string>
     <string name="facebook_app_id">507994589631622</string>
     <string name="fb_login_protocol_scheme">fb507994589631622</string>
     <string name="write_message">Write message</string>
+    <string name="message_sent">Message sent</string>
     <string name="save_as_draft">Save as Draft</string>
     <string name="contractors">Contractors</string>
     <string name="by_project_type">by project type</string>
     <string name="view_all"><u>View all</u></string>
     <string name="no_records_found">No records found</string>
+    <string name="no_chat_yet">Send your first message</string>
     <string name="error_contractor_type">Please select Contractor Type</string>
     <string name="msg_please_wait">Please wait…</string>
     <string name="msg_loading">Loading…</string>
@@ -296,7 +299,6 @@
     <string name="replace_windows">Replace Windows</string>
     <string name="repair_windows">Repair Windows</string>
     <string name="notifications">Notifications</string>
-
     <string name="business_info">Business Info</string>
     <string name="type_of_work">Type Of Work</string>
     <string name="msg_primary_address">It\'s already a primary address</string>
