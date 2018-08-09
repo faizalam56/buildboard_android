@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -13,7 +12,9 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
@@ -63,6 +64,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     String stringSettings;
     @BindString(R.string.successfullyLogout)
     String stringLogout;
+    @BindString(R.string.msg_confirm_logout)
+    String stringConfirmLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +82,35 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
 
     @OnClick(R.id.card_logout)
     public void CardLogout() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
         ProgressHelper.showProgressBar(this,progressBar);
         DataManager.getInstance().logout(this, new DataManager.DataManagerListener() {
+        PopUpHelper.showConfirmPopup(this, stringConfirmLogout, new PopUpHelper.ConfirmPopUp() {
+            @Override
+            public void onConfirm(boolean isConfirm) {
+                logoutUser();
+            }
+
+            @Override
+            public void onDismiss(boolean isDismiss) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.text_edit_profile)
+    public void moveToClass() {
+        if (ConnectionDetector.isNetworkConnected(this))
+            startActivity(new Intent(ProfileSettingsActivity.this, AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? EditContractorProfileActivity.class : EditProfileActivity.class));
+        else ConnectionDetector.createSnackBar(this, constraintRoot);
+    }
+
+    private void logoutUser() {
+        ProgressHelper.start(ProfileSettingsActivity.this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().logout(ProfileSettingsActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-               ProgressHelper.hideProgressBar();
                 if (mGoogleSignInClient != null) {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
@@ -129,11 +156,9 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         } else startActivity(intent);
     }
 
-    @OnClick(R.id.text_edit_profile)
-    public void moveToClass() {
-        if (ConnectionDetector.isNetworkConnected(this))
-            startActivity(new Intent(ProfileSettingsActivity.this, EditProfileActivity.class));
-        else ConnectionDetector.createSnackBar(this,constraintRoot);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @OnClick(R.id.card_privacy_policy)

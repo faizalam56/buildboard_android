@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
@@ -39,7 +40,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LocationAddressActivity extends AppCompatActivity implements AppConstant {
+public class LocationAddressActivity extends AppCompatActivity
+        implements AppConstant, AddressesAdapter.IChangePrimaryAddressListener {
 
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
@@ -49,6 +51,9 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
     RecyclerView recyclerAddresses;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
     @BindString(R.string.my_location_address)
     String stringTitle;
     @BindString(R.string.msg_please_wait)
@@ -88,6 +93,11 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
         }
     }
 
+    @Override
+    public void onPrimaryAddressChanged() {
+        getAddresses();
+    }
+
     @OnClick(R.id.fab)
     void addMoreAddressesTapped() {
         try {
@@ -102,7 +112,7 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
     }
 
     private void setRecycler(ArrayList<AddressListData> addressListData) {
-        mAddressesAdapter = new AddressesAdapter(this, addressListData);
+        mAddressesAdapter = new AddressesAdapter(this, addressListData, progressBar);
         recyclerAddresses.setLayoutManager(new LinearLayoutManager(this));
         recyclerAddresses.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerAddresses.setAdapter(mAddressesAdapter);
@@ -110,11 +120,11 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
     }
 
     private void getAddresses() {
-        ProgressHelper.start(this, stringPleaseWait);
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().getAddresses(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 mAddressListData = (ArrayList<AddressListData>) response;
@@ -123,7 +133,7 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(LocationAddressActivity.this, constraintLayout, error);
             }
         });
@@ -136,11 +146,11 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
         addAddressRequest.setLatitude(String.valueOf(place.getLatLng().latitude));
         addAddressRequest.setLongitude(String.valueOf(place.getLatLng().longitude));
 
-        ProgressHelper.start(this, stringPleaseWait);
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().addAddress(this, addAddressRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 getAddresses();
@@ -149,7 +159,7 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(LocationAddressActivity.this, constraintLayout, error);
             }
         });
@@ -189,17 +199,17 @@ public class LocationAddressActivity extends AppCompatActivity implements AppCon
                     float width = height / 3;
 
                     if (dX > 0) {
-                        p.setColor(Color.parseColor("#388E3C"));
+                        p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
                         c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_bin);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_trash);
                         RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
                     } else if (dX < 0) {
                         p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_bin);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_trash);
                         RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
                     }

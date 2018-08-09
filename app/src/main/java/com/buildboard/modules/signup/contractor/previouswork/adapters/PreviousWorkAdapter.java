@@ -149,25 +149,25 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
         @OnClick(R.id.image_close_attachment1)
         void attachment1CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(0);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(0);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment2)
         void attachment2CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(1);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(1);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment3)
         void attachment3CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(2);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(2);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment4)
         void attachment4CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition()+1).get(1).getValue().remove(3);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(3);
             notifyDataSetChanged();
         }
     }

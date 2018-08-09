@@ -41,6 +41,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;

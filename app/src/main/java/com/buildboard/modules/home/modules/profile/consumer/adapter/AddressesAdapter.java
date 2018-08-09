@@ -1,12 +1,14 @@
 package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -30,10 +32,14 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
     private Activity mActivity;
     private ArrayList<AddressListData> mAddressList;
+    private IChangePrimaryAddressListener mPrimaryAddressListener;
+    private ProgressBar mProgressBar;
 
-    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList) {
+    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList, ProgressBar progressBar) {
         mActivity = activity;
         mAddressList = addressList;
+        mPrimaryAddressListener = (IChangePrimaryAddressListener) activity;
+        mProgressBar = progressBar;
         sortPrimaryTop();
     }
 
@@ -68,10 +74,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
     }
 
     private void deleteAddress(String addressId) {
+        ProgressHelper.showProgressBar(mActivity, mProgressBar);
         DataManager.getInstance().deleteAddress(mActivity, addressId, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
@@ -79,7 +86,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
             }
         });
     }
@@ -114,6 +121,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         String stringPleaseWait;
         @BindString(R.string.success_primary_address_changed)
         String stringAddChanged;
+        @BindString(R.string.msg_primary_address)
+        String stringAlreadyPrimary;
 
         private AddressListData address;
 
@@ -138,6 +147,11 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
         @OnClick(R.id.constraint_root)
         void addressRowTapped() {
+            if (getLayoutPosition() == 0) {
+                Toast.makeText(mActivity, stringAlreadyPrimary, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             PopUpHelper.showConfirmPopup(mActivity, stringPrimaryAddress, new PopUpHelper.ConfirmPopUp() {
                 @Override
                 public void onConfirm(boolean isConfirm) {
@@ -160,21 +174,26 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         }
 
         private void makePrimaryAddress(String addressId) {
-            ProgressHelper.start(mActivity, stringPleaseWait);
+            ProgressHelper.showProgressBar(mActivity, mProgressBar);
             DataManager.getInstance().makePrimaryAddress(mActivity, addressId, new DataManager.DataManagerListener() {
                 @Override
                 public void onSuccess(Object response) {
-                    ProgressHelper.stop();
+                    ProgressHelper.hideProgressBar();
                     if (response == null) return;
 
+                    mPrimaryAddressListener.onPrimaryAddressChanged();
                     Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(Object error) {
-                    ProgressHelper.stop();
+                    ProgressHelper.hideProgressBar();
                 }
             });
         }
+    }
+
+    public interface IChangePrimaryAddressListener {
+        void onPrimaryAddressChanged();
     }
 }
