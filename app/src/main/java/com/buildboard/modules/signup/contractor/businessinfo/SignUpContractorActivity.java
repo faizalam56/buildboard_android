@@ -29,6 +29,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
+import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
 import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
@@ -183,6 +184,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
+        textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         buttonNext.setText(mIsContractor ? stringSave : stringNext);
@@ -532,7 +534,28 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
-                finish();
+                if (businessInfoData.getMessage() != null) {
+                    Toast.makeText(SignUpContractorActivity.this, businessInfoData.getMessage(), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void updateProfileImage(String image) {
+        SaveContractorImageRequest contractorImageRequest = new SaveContractorImageRequest();
+        contractorImageRequest.setImageUrl(image);
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().updateContractorImage(this, contractorImageRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
             }
 
             @Override

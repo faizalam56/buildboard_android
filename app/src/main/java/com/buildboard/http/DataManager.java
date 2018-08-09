@@ -864,4 +864,27 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
+    public void updateContractorImage(Activity activity, SaveContractorImageRequest saveContractorImageRequest, final DataManagerListener dataManagerListener) {
+        Call<SaveContractorImageResponse> call = getDataManager().updateContractorImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), saveContractorImageRequest);
+        call.enqueue(new Callback<SaveContractorImageResponse>() {
+            @Override
+            public void onResponse(Call<SaveContractorImageResponse> call, Response<SaveContractorImageResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas() !=null && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas());
+                else dataManagerListener.onError(response.body().getErrorObject());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SaveContractorImageResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
 }
