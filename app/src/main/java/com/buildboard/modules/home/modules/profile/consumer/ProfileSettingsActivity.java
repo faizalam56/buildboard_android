@@ -186,4 +186,5 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
         Uri uri = Uri.parse(link);
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
+
 }
