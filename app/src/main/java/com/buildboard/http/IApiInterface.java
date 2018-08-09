@@ -1,5 +1,6 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
@@ -146,6 +147,9 @@ public interface IApiInterface {
 
     @GET("messages")
     Call<MessagesResponse> getMessages(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("messages/{receiver_id}?/")
+    Call<InboxMessagesResponse> getInboxMessages(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("receiver_id") String receiverId);
 
     @GET("related-consumer")
     Call<ConsumerRelatedResponse> getRelatedConsumer(@Header("oauth") String oauth, @Header("session") String sessionId);

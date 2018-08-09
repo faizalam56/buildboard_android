@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.buildboard.BuildConfig;
 import com.buildboard.constants.AppConfiguration;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
@@ -768,6 +769,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<MessagesResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getInboxMessages(Activity activity, String receiverId, final DataManagerListener dataManagerListener) {
+        Call<InboxMessagesResponse> call = getDataManager().getInboxMessages(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), receiverId);
+        call.enqueue(new Callback<InboxMessagesResponse>() {
+            @Override
+            public void onResponse(Call<InboxMessagesResponse> call, Response<InboxMessagesResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<InboxMessagesResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
