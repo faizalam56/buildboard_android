@@ -36,18 +36,18 @@ public class RelatedConsumerListAdapter extends RecyclerView.Adapter {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     public boolean isLoading = false;
-    private Context mContext;
+    private Activity mActivity;
     private ArrayList<ConsumerRelatedData> mMessageList;
     private MessagesAdapter.OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
 
-    public RelatedConsumerListAdapter(Context context, ArrayList<ConsumerRelatedData> messageDataList, RecyclerView recyclerView) {
-        mContext = context;
+    public RelatedConsumerListAdapter(Activity activity, ArrayList<ConsumerRelatedData> messageDataList, RecyclerView recyclerView) {
+        mActivity = activity;
         mMessageList = messageDataList;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        mLayoutInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(mActivity);
     }
 
     @Override
@@ -123,12 +123,12 @@ public class RelatedConsumerListAdapter extends RecyclerView.Adapter {
 
         @OnClick(R.id.constraint_root)
         public void rowTapped() {
-            if (ConnectionDetector.isNetworkConnected(mContext)) {
-                Intent intent = new Intent(mContext, InboxActivity.class);
+            if (ConnectionDetector.isNetworkConnected(mActivity)) {
+                Intent intent = new Intent(mActivity, InboxActivity.class);
                 intent.putExtra(DATA, mMessageList.get(getAdapterPosition()).getUserId());
-                mContext.startActivity(intent);
+                mActivity.startActivity(intent);
             } else {
-                ConnectionDetector.createSnackBar(mContext, constraintLayout);
+                ConnectionDetector.createSnackBar(mActivity, constraintLayout);
             }
         }
     }

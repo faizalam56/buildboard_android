@@ -13,7 +13,7 @@ import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelate
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
@@ -302,11 +302,11 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getNearByProjects(Activity activity, String projectId, final DataManagerListener dataManagerListener) {
-        Call<NearByProjectsResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+        Call<ProjectsDetailResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 projectId, AppPreference.getAppPreference(activity).getString(SESSION_ID));
-        call.enqueue(new Callback<NearByProjectsResponse>() {
+        call.enqueue(new Callback<ProjectsDetailResponse>() {
             @Override
-            public void onResponse(@NonNull Call<NearByProjectsResponse> call, @NonNull Response<NearByProjectsResponse> response) {
+            public void onResponse(@NonNull Call<ProjectsDetailResponse> call, @NonNull Response<ProjectsDetailResponse> response) {
                 if (!response.isSuccessful()) {
                     dataManagerListener.onError(response.errorBody());
                     return;
@@ -318,7 +318,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
 
             @Override
-            public void onFailure(@NonNull Call<NearByProjectsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ProjectsDetailResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

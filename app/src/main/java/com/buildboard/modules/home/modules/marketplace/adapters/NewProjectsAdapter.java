@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
-import com.buildboard.modules.home.modules.marketplace.models.NearByProjects;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
@@ -88,7 +87,7 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
 
             if (ConnectionDetector.isNetworkConnected(mContext)) {
                 NewProject nearByProjects = mNewProjects.get(getAdapterPosition());
-                Intent intent = new Intent(mContext, NearByProjectsActivity.class);
+                Intent intent = new Intent(mContext, ProjectsDetailActivity.class);
                 intent.putExtra(DATA, nearByProjects.getId());
                 mContext.startActivity(intent);
             } else {

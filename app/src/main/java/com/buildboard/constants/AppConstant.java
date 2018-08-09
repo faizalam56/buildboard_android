@@ -48,6 +48,7 @@ public interface AppConstant {
     String TYPE_TEXT = "text";
     String TYPE_ATTACHMENT = "attachment";
     String TEXT_ATTACHMENT = "Attachments";
+    String TEXT_REQUIREMENTS = "Requirements";
     String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";

@@ -13,7 +13,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectData;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailData;
 import com.buildboard.utils.ConnectionDetector;
 
 import java.util.ArrayList;
@@ -29,14 +29,14 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
     private Context mContext;
     private ArrayList<String> mArrayList;
     private LayoutInflater mLayoutInflater;
-    private NearByProjectData mNearByProjectData;
+    private ProjectsDetailData mNearByProjectData;
     private ArrayList<String> mAttachmentsArray;
 
-    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, NearByProjectData nearByProjectData) {
+    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, ProjectsDetailData projectsDetailData) {
         mContext = context;
         mArrayList = arrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mNearByProjectData = nearByProjectData;
+        mNearByProjectData = projectsDetailData;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.mailbox.inbox.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class InboxAdapter extends RecyclerView.Adapter {
 
-    private Context mContext;
+    private Activity mActivity;
     private ArrayList<Data> mArrayList;
     private LayoutInflater mLayoutInflater;
     private InboxAdapter.OnLoadMoreListener onLoadMoreListener;
@@ -35,11 +36,11 @@ public class InboxAdapter extends RecyclerView.Adapter {
     private LinearLayoutManager mLinearLayoutManager;
 
 
-    public InboxAdapter(Context context, ArrayList<Data> arrayList, RecyclerView recyclerView) {
-        mContext = context;
+    public InboxAdapter(Activity activity, ArrayList<Data> arrayList, RecyclerView recyclerView) {
+        mActivity = activity;
         mArrayList = arrayList;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        mLayoutInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(mActivity);
     }
 
     @Override
@@ -107,7 +108,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-            String User_Id = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
+            String User_Id = AppPreference.getAppPreference(mActivity).getString(AppConstant.USER_ID);
             Data messageModel = mArrayList.get(getAdapterPosition());
             textSentMsg.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.VISIBLE : View.GONE);
             textReceiveMsg.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.GONE : View.VISIBLE);
