@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
@@ -89,6 +90,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringReadStoragePermission;
     @BindString(R.string.please_select_image)
     String stringSelectImage;
+    @BindString(R.string.save)
+    String stringSave;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -104,6 +107,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
 
+    @BindView(R.id.button_next)
+    BuildBoardButton buttonNext;
+
     private String mUserId = "";
     private PreviousWorkAdapter mPreviousWorkAdapter;
     private TestimonialAdapter mTestimonialAdapter;
@@ -118,6 +124,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String mCurrentPhotoPath;
     private int mSelectedPosition;
     private boolean isAttachment;
+    private boolean isContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +143,12 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mImageUploadHelper = ImageUploadHelper.getInstance();
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
         behavior = BottomSheetBehavior.from(bottomSheet);
+
+        isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        if (isContractor) {
+            textTermsOfService.setVisibility(View.GONE);
+            buttonNext.setText(stringSave);
+        }
     }
 
     @OnClick(R.id.button_next)

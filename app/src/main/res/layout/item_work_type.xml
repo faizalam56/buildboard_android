@@ -2,8 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraint_root"
+    android:layout_marginTop="@dimen/_5sdp"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_40sdp">
+    android:layout_height="wrap_content">
 
     <CheckBox
         android:id="@+id/checkbox_work_type"
@@ -11,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginLeft="@dimen/_5sdp" />
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_work_name"
-        style="@style/textSize_medium"
+        style="@style/textSize_small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_5sdp"

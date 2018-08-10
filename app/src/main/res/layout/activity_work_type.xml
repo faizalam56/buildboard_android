@@ -27,7 +27,7 @@
             android:paddingBottom="@dimen/_15sdp"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_15sdp"
-            android:paddingTop="@dimen/_15sdp">
+            android:paddingTop="@dimen/_5sdp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_work_type"

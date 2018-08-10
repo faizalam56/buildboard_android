@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_city"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city"
@@ -19,10 +19,10 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_city"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/city"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:imeOptions="actionNext"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,11 +32,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_bond_number"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/bond_number"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_bond_number"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_number"
         android:imeOptions="actionNext"
@@ -58,11 +58,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_bond_amount"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/bond_dollar_amount"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +71,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_bond_amount"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_dollar_amount"
         android:imeOptions="actionNext"
@@ -84,11 +84,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_bond_attachment"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/attachment"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,11 +97,11 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_bonding"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"

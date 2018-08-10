@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.BondingAdapter;
@@ -42,6 +43,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.models.Documen
 import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
 import com.buildboard.permissions.PermissionHelper;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
@@ -77,6 +79,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     String stringPleaseWait;
     @BindString(R.string.text_msg_permission_required)
     String stringReadStoragePermission;
+    @BindString(R.string.save)
+    String stringSave;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -92,11 +96,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @BindView(R.id.recycler_bonding)
     RecyclerView recyclerBonding;
 
-
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+
+    @BindView(R.id.button_next)
+    BuildBoardButton buttonNext;
 
     private String mUserId = "";
     private InsuranceAdapter mInsuranceAdapter;
@@ -117,6 +123,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private int mSelectedPosition;
     private Document mSelectedSession;
     String mCurrentPhotoPath;
+    private boolean isContractor;
 
     private enum Document {
         BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
@@ -146,6 +153,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
         mImageUploadHelper = ImageUploadHelper.getInstance();
         behavior = BottomSheetBehavior.from(bottomSheet);
+
+        isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        if (isContractor) {
+            textTermsOfService.setVisibility(View.GONE);
+            buttonNext.setText(stringSave);
+        }
     }
 
     @OnClick(R.id.button_next)

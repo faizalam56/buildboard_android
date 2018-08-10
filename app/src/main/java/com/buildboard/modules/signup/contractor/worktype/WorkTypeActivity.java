@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
@@ -51,11 +53,17 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     BuildBoardTextView textTermsOfService;
     @BindString(R.string.type_of_contractor)
     String stringContractorType;
+    @BindString(R.string.save)
+    String stringSave;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
+    @BindView(R.id.button_next)
+    BuildBoardButton buttonNext;
+
     private String mWorkTypeId = "";
     private ArrayList<String> selectedWorkType = new ArrayList<>();
+    private boolean isContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,12 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         getIntentData();
         setTermsServiceText();
         getContractorList();
+
+        isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        if (isContractor) {
+            textTermsOfService.setVisibility(View.GONE);
+            buttonNext.setText(stringSave);
+        }
     }
 
     @OnClick(R.id.button_next)

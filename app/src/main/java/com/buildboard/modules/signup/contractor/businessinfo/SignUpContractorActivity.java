@@ -89,7 +89,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private String workingArea;
     private String mFirstName;
     private String mLastName;
-    private boolean mIsContractor;
+    private boolean isContractor;
     private Uri mSelectedImage;
     private Bitmap mBitmap;
     private String mResponseImageUrl;
@@ -215,14 +215,14 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         setContentView(R.layout.activity_signup_contractor);
         ButterKnife.bind(this);
 
-        mIsContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
-        title.setText(mIsContractor ? stringBusinessInfo : stringSignUp);
+        isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        title.setText(isContractor ? stringBusinessInfo : stringSignUp);
 
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
 
-        if (mIsContractor)
+        if (isContractor)
             getContractorBusinessInfo();
     }
 
@@ -233,11 +233,12 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setViews(boolean providerExist) {
-        if (mIsContractor) {
+        if (isContractor) {
             editEmail.setEnabled(false);
             textPassword.setVisibility(View.GONE);
             editPassword.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
+            textTermsOfService.setVisibility(View.GONE);
         } else {
             editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
             textPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
@@ -246,9 +247,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             editPassword.setClickable(!providerExist);
             editPassword.setCursorVisible(!providerExist);
         }
-        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-        textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+        textAddProfilePicture.setVisibility(isContractor ? View.VISIBLE : View.GONE);
+        imageProfile.setVisibility(isContractor ? View.VISIBLE : View.GONE);
+        textTermsOfService.setVisibility(isContractor ? View.GONE : View.VISIBLE);
     }
 
     private void getContractorBusinessInfo() {
@@ -303,7 +304,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
                     email, password, workingArea, summary, phoneNo, businessYear);
 
-            if (mIsContractor) {
+            if (isContractor) {
                 if (mResponseImageUrl != null)
                     businessInfoRequest.setImage(mResponseImageUrl);
                 updateBusinessInfo(businessInfoRequest);
@@ -562,7 +563,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             return false;
         }
 
-        if (!mIsContractor && !password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
+        if (!isContractor && !password.equalsIgnoreCase("not_required")) { //TODO: hardcoded string
             if (TextUtils.isEmpty(password)) {
                 SnackBarFactory.createSnackBar(this, constraintRoot, stringErrorPasswordEmptyMsg);
                 return false;
