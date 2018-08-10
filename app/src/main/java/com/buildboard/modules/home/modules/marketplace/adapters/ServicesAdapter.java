@@ -88,8 +88,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
             textServiceName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            textServiceName.setText(trendingService.getBusinessName() != null ? dottedAfterCertainLength(trendingService.getBusinessName(),mContext,56) : stringNotAvailable);
+            textServiceName.setText(trendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(trendingService.getBusinessName(),mContext,45)) : stringNotAvailable);
             Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
+        }
+
+        private String capitalizeFirstLetter(String original) {
+            return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
         }
     }
 }

@@ -29,7 +29,7 @@
             android:src="@drawable/supplies" />
 
         <RelativeLayout
-            android:layout_width="@dimen/_140sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:focusable="false"
@@ -38,17 +38,17 @@
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_name"
-                style="@style/textSize_smallest"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:focusable="false"
-                android:inputType="textCapWords|textNoSuggestions|textMultiLine"
+                android:inputType="textMultiLine|textCapWords|textNoSuggestions"
                 android:clickable="false"
                 android:layout_gravity="start"
                 android:ellipsize="end"
+                android:textSize="@dimen/_11ssp"
                 android:maxLines="2"
                 android:text="dffdfdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
                 android:layout_toLeftOf="@+id/textRatingBar"
@@ -56,7 +56,8 @@
                 android:paddingRight="@dimen/_3sdp"
                 android:paddingStart="@dimen/_3sdp"
                 android:textColor="@android:color/black"
-                android:layout_toStartOf="@+id/textRatingBar" />
+                android:layout_toStartOf="@+id/textRatingBar"
+                />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/textRatingBar"

@@ -216,19 +216,19 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         switch (mCurrentStatus){
             case STATUS_OPEN:
                 textProjectDetail.setText(R.string.open_projects_subtitle);
-                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.open_project), count));
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.open_project), count));
                 break;
             case STATUS_COMPLETED:
                 textProjectDetail.setText(R.string.completed_projects_subtitle);
-                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.completed_project), count));
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.completed_project), count));
                 break;
             case STATUS_CURRENT:
                 textProjectDetail.setText(R.string.current_projects_subtitle);
-                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.current_project), count));
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.current_project), count));
                 break;
             case STATUS_SAVED:
                 textProjectDetail.setText(R.string.saved_projects_subtitle);
-                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s(%d)", getString(R.string.saved_project), count));
+                buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.saved_project), count));
                 break;
         }
     }

@@ -33,6 +33,13 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static com.buildboard.constants.AppConstant.INPUT_PATTERN;
+import static com.buildboard.constants.AppConstant.OUTPUT_PATTERN;
 
 public class Utils {
 
@@ -187,5 +194,21 @@ public class Utils {
         } else {
             return data;
         }
+    }
+
+    public static String parseDateFormat(String time) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat(INPUT_PATTERN, Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat(OUTPUT_PATTERN, Locale.getDefault());
+
+        Date date;
+        String formatted_date = null;
+
+        try {
+            date = inputFormat.parse(time);
+            formatted_date = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatted_date;
     }
 }

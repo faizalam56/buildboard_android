@@ -84,8 +84,12 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
             textName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            textName.setText(nearByContractor.getBusinessName() != null ? dottedAfterCertainLength(nearByContractor.getBusinessName(),mContext,56).substring(0, 1).toUpperCase() : stringNotAvailable);
+            textName.setText(nearByContractor.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(nearByContractor.getBusinessName(),mContext,45)) : stringNotAvailable);
             Picasso.get().load(nearByContractor.getImage()).placeholder(R.mipmap.no_image_available).into(imageService);//TODO change placeholder
+        }
+
+        private String capitalizeFirstLetter(String original) {
+            return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
         }
     }
 }
