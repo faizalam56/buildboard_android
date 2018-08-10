@@ -395,7 +395,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    app:srcCompat="@drawable/baseline_chevron_right_black_36" />
+                    app:srcCompat="@drawable/ic_arrow_right_36" />
             </RelativeLayout>
 
             <View
@@ -430,7 +430,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    app:srcCompat="@drawable/baseline_chevron_right_black_36" />
+                    app:srcCompat="@drawable/ic_arrow_right_36" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -440,7 +440,7 @@
         style="@style/textSize_smallest"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_5sdp"

@@ -114,10 +114,12 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
 
     private void getContractorProfile() {
         ProgressHelper.showProgressBar(this, progressBar);
+        scrollView.setVisibility(View.GONE);
         DataManager.getInstance().getContractorProfile(this, mUserId, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
+                scrollView.setVisibility(View.VISIBLE);
                 if (response == null) return;
 
                 ContractorInfo contractorInfo = (ContractorInfo) response;
@@ -197,5 +199,10 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
     private void changeToolbarColor(int background, int text) {
         toolbar.setBackgroundColor(background);
         textTitle.setTextColor(text);
+    }
+
+    private void showHideProgress(boolean status) {
+        progressBar.setVisibility(status ? View.GONE : View.VISIBLE);
+        scrollView.setVisibility(status ? View.VISIBLE : View.GONE);
     }
 }
