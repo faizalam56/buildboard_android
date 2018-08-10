@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         tools:context="com.buildboard.modules.home.modules.mailbox.MailboxFragment">
 
-
         <LinearLayout
             android:id="@+id/button_trash"
             android:layout_width="match_parent"
@@ -77,7 +76,6 @@
                 android:tint="@color/colorGreen" />
 
         </LinearLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_messages"
             android:layout_width="match_parent"

@@ -190,7 +190,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
         } else {
             mMessagesAdapter.notifyDataSetChanged();
             recyclerMessages.getAdapter().notifyItemInserted((mMessagesList.size()));
-
         }
 
         if (mMessagesAdapter != null) {
@@ -210,7 +209,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
             } else {
                 SnackBarFactory.createSnackBar(getActivity(), relativeLayout, getString(R.string.no_trash_yet));
             }
-
         } else {
             ConnectionDetector.createSnackBar(getActivity(), relativeLayout);
         }

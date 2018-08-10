@@ -160,7 +160,6 @@ public class InboxAdapter extends RecyclerView.Adapter {
                 textSentMsg.setText(messageModel.getBody());
                 textMessageSentDate.setText(ConvertTime(messageModel.getCreatedAt()
                         .replaceAll("-", "/")));
-
             } else {
                 textReceiveMsg.setText(messageModel.getBody());
                 textMessageReceiveDate.setText(ConvertTime(messageModel.getCreatedAt()

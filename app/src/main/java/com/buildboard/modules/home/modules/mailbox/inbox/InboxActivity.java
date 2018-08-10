@@ -53,7 +53,6 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     private String mSelfUserId;
     private boolean isRefreshed =false;
 
-
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.recycler_messages)
@@ -177,8 +176,9 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
 
         return true;
     }
-    private String getCurrentTime(){
-        String currentTime="";
+
+    private String getCurrentTime() {
+        String currentTime = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         currentTime = sdf.format(new Date());
         return currentTime;

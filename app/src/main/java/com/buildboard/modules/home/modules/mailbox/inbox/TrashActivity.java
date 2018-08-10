@@ -41,7 +41,6 @@ public class TrashActivity extends AppCompatActivity implements AppConstant {
     private String mSelfUserId;
     private boolean isSwiped=false;
 
-
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.recycler_messages)

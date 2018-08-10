@@ -8,5 +8,4 @@
         android:title="Refresh"
         app:showAsAction="always" />
 
-
 </menu>
