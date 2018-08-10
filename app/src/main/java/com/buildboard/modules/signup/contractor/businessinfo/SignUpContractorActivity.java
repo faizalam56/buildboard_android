@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfo
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
 import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
+import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
@@ -203,19 +205,24 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
         mIsContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
         title.setText(mIsContractor ? stringBusinessInfo : stringSignUp);
-        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
 
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
+        setViews();
+
+        if (mIsContractor)
+            getContractorBusinessInfo();
+    }
+
+    private void setViews() {
+        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+
         textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
         buttonNext.setText(mIsContractor ? stringSave : stringNext);
-
-        if (mIsContractor)
-            getContractorBusinessInfo();
     }
 
     private void getContractorBusinessInfo() {
@@ -279,10 +286,15 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     @OnClick({R.id.image_profile, R.id.text_add_profile_picture})
     void imageProfileTapped() {
         if (ConnectionDetector.isNetworkConnected(this)) {
-            selectImage(this);
-        } else {
-            ConnectionDetector.createSnackBar(this, constraintRoot);
-        }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PermissionHelper permission = new PermissionHelper(this);
+                if (!permission.checkPermission(permissions))
+                    requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+                else
+                    selectImage(this);
+            } else
+                selectImage(this);
+        } else ConnectionDetector.createSnackBar(this, constraintRoot);
     }
 
     @Override
@@ -295,6 +307,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             switch (requestCode) {
                 case PLACE_PICKER_REQUEST:
                     getAddressLatLng(PlacePicker.getPlace(this, data));
+                    break;
 
                 case PICK_IMAGE_GALLERY:
                     mSelectedImage = data.getData();
@@ -539,7 +552,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setContractorDetails(BusinessInfoData businessInfoData) {
-        //todo spinner to be set
         Picasso.get().load(businessInfoData.getImage()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
         mResponsImageUrl = businessInfoData.getImage();
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
