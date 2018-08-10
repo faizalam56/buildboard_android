@@ -3,12 +3,11 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
-import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,8 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.Utils.dottedAfterCertainLength;
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder>
         implements AppConstant {
+
 
     private Context mContext;
     private List<TrendingService> mTrendingServices;
@@ -97,8 +97,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
 
-            textServiceName.setText(mTrendingService.getBusinessName() != null ? mTrendingService.getBusinessName() : stringNotAvailable);
+            textServiceName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            textServiceName.setText(mTrendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(mTrendingService.getBusinessName(),mContext,45)) : stringNotAvailable);
             Picasso.get().load(mTrendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
+        }
+
+        private String capitalizeFirstLetter(String original) {
+            return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
         }
 
         private void setFont() {

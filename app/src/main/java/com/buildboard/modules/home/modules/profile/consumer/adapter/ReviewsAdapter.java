@@ -114,12 +114,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter implements AppConstant 
                 setReviewData(mReviewsList.get(position).getConsumer().getImage(),
                         mReviewsList.get(position).getConsumer().getFirstName() + " " + mReviewsList.get(position).getConsumer().getLastName(),
                         mReviewsList.get(position).getReview(),
-                        mReviewsList.get(position).getRating());
+                        5);
             } else {
                 setReviewData(mReviewsList.get(position).getContractor().getImage(),
                         mReviewsList.get(position).getContractor().getBusinessName(),
                         mReviewsList.get(position).getReview(),
-                        mReviewsList.get(position).getRating());
+                        5);
             }
         }
 

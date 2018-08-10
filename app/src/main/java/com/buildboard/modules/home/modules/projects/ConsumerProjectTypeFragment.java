@@ -24,6 +24,7 @@ import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectType
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+
 import java.util.ArrayList;
 import java.util.Objects;
 

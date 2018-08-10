@@ -56,7 +56,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/card_image_profile"
                     app:layout_constraintTop_toTopOf="@+id/card_image_profile"
-                    app:typeface="robotoMedium" />
+                    app:typeface="robotoMedium"
+                    android:layout_marginRight="@dimen/_15sdp" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_email"
@@ -67,7 +68,8 @@
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_name"
-                    app:layout_constraintTop_toBottomOf="@+id/text_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_name"
+                    android:layout_marginRight="@dimen/_15sdp" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_phone"
@@ -78,7 +80,8 @@
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_email"
-                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_email"
+                    android:layout_marginRight="@dimen/_15sdp" />
             </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.AppBarLayout>
 
@@ -277,4 +280,3 @@
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
-

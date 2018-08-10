@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.buildboard.utils.Utils.dottedAfterCertainLength;
 
 public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContractorAdapter.ViewHolder>
         implements AppConstant {
@@ -87,9 +90,13 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             } else {
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
-
-            textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : stringNotAvailable);
+            textName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            textName.setText(nearByContractor.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(nearByContractor.getBusinessName(),mContext,45)) : stringNotAvailable);
             Picasso.get().load(nearByContractor.getImage()).placeholder(R.mipmap.no_image_available).into(imageService);//TODO change placeholder
+        }
+
+        private String capitalizeFirstLetter(String original) {
+            return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
         }
 
         @OnClick(R.id.card_service)
