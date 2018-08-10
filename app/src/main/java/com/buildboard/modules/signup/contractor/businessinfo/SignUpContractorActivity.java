@@ -551,6 +551,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         editPhoneno.setText(businessInfoData.getPhone() != null ? businessInfoData.getPhone() : "");
         editSummary.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
         addressLatLng = new LatLng(businessInfoData.getLatitude(), businessInfoData.getLongitude());
+        for (int i = 0; i < spinnerWorkingArea.getCount(); i++) {
+            if (spinnerWorkingArea.getItemAtPosition(i).toString().contains(String.valueOf(businessInfoData.getMinAreaRadius()))) {
+                spinnerWorkingArea.setSelection(i);
+            }
+        }
     }
 
     private void saveBusinessInfo(BusinessInfoRequest businessInfoRequest) {
