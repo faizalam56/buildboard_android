@@ -522,9 +522,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public void onBackPressed() { super.onBackPressed();}
 
     private void getUserProfileData() {
         ProgressHelper.showProgressBar(this,progressBar);
