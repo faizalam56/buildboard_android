@@ -40,6 +40,7 @@
             android:id="@+id/image_setting"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_2sdp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/_20sdp"

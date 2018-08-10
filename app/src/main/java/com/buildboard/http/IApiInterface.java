@@ -164,4 +164,10 @@ public interface IApiInterface {
 
     @POST("send-message")
     Call<SendMessageResponse> sendMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SendMessageRequest sendMessageRequest);
+
+    @PUT("contractor/profile/business")
+    Call<BusinessInfoResponse> updateBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessInfoRequest businessInfoRequest);
+
+    @PUT("contractor/profile/image")
+    Call<SaveContractorImageResponse> updateContractorImage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SaveContractorImageRequest previousWorkRequest);
 }

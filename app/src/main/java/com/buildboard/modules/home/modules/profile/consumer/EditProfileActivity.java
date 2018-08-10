@@ -273,10 +273,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             editLastName.setText(mLastName);
         }
 
-        editEmail.setFocusable(mProviderId != null ? false : true);
-        editEmail.setFocusableInTouchMode(mProviderId != null ? false : true);
-        editEmail.setClickable(mProviderId != null ? false : true);
-        editEmail.setCursorVisible(mProviderId != null ? false : true);
+        editEmail.setFocusable(mProviderId == null);
+        editEmail.setFocusableInTouchMode(mProviderId == null);
+        editEmail.setClickable(mProviderId == null);
+        editEmail.setCursorVisible(mProviderId == null);
     }
 
     @OnClick(R.id.button_next)

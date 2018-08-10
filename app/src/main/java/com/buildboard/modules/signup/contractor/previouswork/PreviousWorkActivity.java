@@ -469,7 +469,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     private void showPrevworkSuccessDialog(String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(PreviousWorkActivity.this);
-        builder.setMessage(msg);
+        builder.setMessage(R.string.msg_contractor_signup_success);
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
