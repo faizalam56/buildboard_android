@@ -144,6 +144,7 @@
     <string name="view_all"><u>View all</u></string>
     <string name="no_records_found">No records found</string>
     <string name="no_chat_yet">Send your first message</string>
+    <string name="no_trash_yet">No trash found</string>
     <string name="error_contractor_type">Please select Contractor Type</string>
     <string name="msg_please_wait">Please wait…</string>
     <string name="msg_loading">Loading…</string>

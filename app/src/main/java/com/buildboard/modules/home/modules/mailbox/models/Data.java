@@ -44,6 +44,9 @@ public class Data {
     @SerializedName("total")
     @Expose
     private Integer total;
+    @SerializedName("trash_count")
+    @Expose
+    private Integer trashCount;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -140,4 +143,14 @@ public class Data {
     public void setTotal(Integer total) {
         this.total = total;
     }
+
+    public Integer getTrashCount() {
+        return trashCount;
+    }
+
+    public void setTrashCount(Integer trashCount) {
+        this.trashCount = trashCount;
+    }
+
+
 }

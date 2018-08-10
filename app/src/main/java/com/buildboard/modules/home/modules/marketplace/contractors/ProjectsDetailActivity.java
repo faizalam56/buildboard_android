@@ -143,7 +143,7 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
     private String convertTime(String strDate) {
         String converted_time = "";
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");
         Date date = null;
         try {
             date = format1.parse(strDate);

@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.mailbox.adapters;
+package com.buildboard.modules.home.modules.mailbox.inbox.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
 import com.buildboard.utils.ConnectionDetector;
@@ -30,19 +31,19 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
 
-public class MessagesAdapter extends RecyclerView.Adapter {
+public class TrashMessageAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     public boolean isLoading = false;
     private Activity mActivity;
     private ArrayList<MessageData> mMessageList;
-    private MessagesAdapter.OnLoadMoreListener onLoadMoreListener;
+    private TrashMessageAdapter.OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
 
-    public MessagesAdapter(Activity activity, ArrayList<MessageData> messageDataList, RecyclerView recyclerView) {
+    public TrashMessageAdapter(Activity activity, ArrayList<MessageData> messageDataList, RecyclerView recyclerView) {
         mActivity = activity;
         mMessageList = messageDataList;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -53,10 +54,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = mLayoutInflater.inflate(R.layout.item_message, parent, false);
-            return new MessagesAdapter.ViewHolder(view);
+            return new TrashMessageAdapter.ViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = mLayoutInflater.inflate(R.layout.item_loading, parent, false);
-            return new MessagesAdapter.LoadingViewHolder(view);
+            return new TrashMessageAdapter.LoadingViewHolder(view);
         }
 
         return null;
@@ -64,10 +65,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof MessagesAdapter.ViewHolder) {
-            ((MessagesAdapter.ViewHolder) holder).bindData(position);
-        } else if (holder instanceof MessagesAdapter.LoadingViewHolder) {
-            MessagesAdapter.LoadingViewHolder loadingViewHolder = (MessagesAdapter.LoadingViewHolder) holder;
+        if (holder instanceof TrashMessageAdapter.ViewHolder) {
+            ((TrashMessageAdapter.ViewHolder) holder).bindData(position);
+        } else if (holder instanceof TrashMessageAdapter.LoadingViewHolder) {
+            TrashMessageAdapter.LoadingViewHolder loadingViewHolder = (TrashMessageAdapter.LoadingViewHolder) holder;
             if (isLastPage)
                 loadingViewHolder.progressBar.setVisibility(View.GONE);
             else {
@@ -82,7 +83,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         return mMessageList.size();
     }
 
-    public void setOnLoadMoreListener(MessagesAdapter.OnLoadMoreListener mOnLoadMoreListener) {
+    public void setOnLoadMoreListener(TrashMessageAdapter.OnLoadMoreListener mOnLoadMoreListener) {
         this.onLoadMoreListener = mOnLoadMoreListener;
     }
 
@@ -111,6 +112,8 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         TextView textMessage;
         @BindView(R.id.text_message_date)
         BuildBoardTextView textMessageDate;
+        @BindView(R.id.image_arrow)
+        ImageView imageArrow;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -124,18 +127,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
             textReceiverName.setText(mMessageList.get(position).getReceiver().getFirstName());
             textMessage.setText(mMessageList.get(position).getLastMessage().getBody());
             textMessageDate.setText(ConvertTime(mMessageList.get(position).getLastMessage().getCreatedAt().replaceAll("-","/")));
-        }
-
-        @OnClick(R.id.constraint_root)
-        public void rowTapped() {
-
-            if (ConnectionDetector.isNetworkConnected(mActivity)) {
-                Intent intent = new Intent(mActivity, InboxActivity.class);
-                intent.putExtra(DATA, mMessageList.get(getAdapterPosition()).getReceiver().getUserId());
-                mActivity.startActivity(intent);
-            } else {
-                ConnectionDetector.createSnackBar(mActivity, constraintLayout);
-            }
+            imageArrow.setVisibility(View.GONE);
         }
     }
 

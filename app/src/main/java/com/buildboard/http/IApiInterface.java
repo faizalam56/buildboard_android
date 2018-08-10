@@ -154,7 +154,7 @@ public interface IApiInterface {
     Call<BusinessInfoResponse> getBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId);
 
     @GET("messages/{receiver_id}")
-    Call<InboxMessagesResponse> getInboxMessages(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("receiver_id") String receiverId);
+    Call<InboxMessagesResponse> getInboxMessages(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("receiver_id") String receiverId, @Query("page") int page);
 
     @GET("related-consumer")
     Call<ConsumerRelatedResponse> getRelatedConsumer(@Header("oauth") String oauth, @Header("session") String sessionId);
@@ -164,4 +164,7 @@ public interface IApiInterface {
 
     @POST("send-message")
     Call<SendMessageResponse> sendMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SendMessageRequest sendMessageRequest);
+
+    @GET("messages/trash")
+    Call<MessagesResponse> getTrash(@Header("oauth") String oauth, @Header("session") String sessionId);
 }

@@ -776,9 +776,9 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
-    public void getInboxMessages(Activity activity, String receiverId, final DataManagerListener dataManagerListener) {
+    public void getInboxMessages(Activity activity, String receiverId, int page, final DataManagerListener dataManagerListener) {
         Call<InboxMessagesResponse> call = getDataManager().getInboxMessages(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
-                AppPreference.getAppPreference(activity).getString(SESSION_ID), receiverId);
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), receiverId, page);
         call.enqueue(new Callback<InboxMessagesResponse>() {
             @Override
             public void onResponse(Call<InboxMessagesResponse> call, Response<InboxMessagesResponse> response) {
@@ -885,6 +885,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<SendMessageResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getTrash(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<MessagesResponse> call = getDataManager().getTrash(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<MessagesResponse>() {
+            @Override
+            public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessagesResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
