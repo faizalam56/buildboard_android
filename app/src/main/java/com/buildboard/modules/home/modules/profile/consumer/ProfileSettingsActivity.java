@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.widget.ProgressBar;
@@ -157,6 +159,12 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        navigateFragment(ProfileFragment.newInstance());
+    }
+
+    private void navigateFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
     }
 
     @OnClick(R.id.card_privacy_policy)

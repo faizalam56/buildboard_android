@@ -125,10 +125,11 @@ public class ConsumerProjectTypeFragment extends Fragment
     }
 
     private void navigateFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        if (getActivity() != null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        }
     }
-
     @Override
     public void doBack() {
         navigateFragment(ConsumerProjectsFragment.newInstance());
