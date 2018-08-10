@@ -216,12 +216,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
     private void setViews(boolean providerExist) {
         if (mIsContractor) {
-            textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-            imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-
-            textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
-            textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
-            editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+            textPassword.setVisibility(View.GONE);
+            editPassword.setVisibility(View.GONE);
             buttonNext.setText(mIsContractor ? stringSave : stringNext);
         } else {
             editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
@@ -231,6 +227,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             editPassword.setClickable(!providerExist);
             editPassword.setCursorVisible(!providerExist);
         }
+        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+        textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
     }
 
     private void getContractorBusinessInfo() {
