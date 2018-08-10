@@ -29,7 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
+public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder>
+        implements AppConstant {
 
     private Context mContext;
     private List<TrendingService> mTrendingServices;
@@ -59,6 +60,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TrendingService mTrendingService;
+
         @BindView(R.id.text_name)
         TextView textServiceName;
         @BindView(R.id.image_service)
@@ -78,26 +81,28 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         @OnClick(R.id.card_service)
         void cardTapped() {
             Intent intent = new Intent(mContext, ContractorProfile.class);
+            intent.putExtra(INTENT_TRENDING_USER_ID, mTrendingService.getUserId());
             mContext.startActivity(intent);
+        }
+
+        private void setData() {
+            mTrendingService = mTrendingServices.get(getAdapterPosition());
+            if (mTrendingService == null)
+                return;
+
+            if(mTrendingService.getRatingCount() != null) {
+                textRatingBar.setVisibility(View.VISIBLE);
+                textRatingBar.setText(mTrendingService.getRatingCount());
+            } else {
+                textRatingBar.setVisibility(View.INVISIBLE);
+            }
+
+            textServiceName.setText(mTrendingService.getBusinessName() != null ? mTrendingService.getBusinessName() : stringNotAvailable);
+            Picasso.get().load(mTrendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }
 
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
-        }
-
-        private void setData() {
-            TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
-            if (trendingService == null)
-                return;
-
-            if(trendingService.getRatingCount() != null) {
-                textRatingBar.setVisibility(View.VISIBLE);
-                textRatingBar.setText(trendingService.getRatingCount());
-            } else {
-                textRatingBar.setVisibility(View.INVISIBLE);
-            }
-            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
-            Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }
     }
 }

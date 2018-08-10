@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraint_root"
+    android:id="@+id/linear_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|top"
@@ -13,7 +13,7 @@
         android:layout_gravity="top" />
 
     <ProgressBar
-        android:id="@+id/progress_bar_service"
+        android:id="@+id/progress_bar_profile"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -38,21 +38,30 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary">
 
-                <ImageView
-                    android:id="@+id/image_profile"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_image_profile"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_20sdp"
-                    android:contentDescription="@string/image_content_consumer_profile_picture"
-                    android:src="@drawable/carpenter"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_4sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/image_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/image_content_consumer_profile_picture"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/carpenter" />
+                </android.support.v7.widget.CardView>
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_name"
-                    style="@style/textSize_large"
+                    style="@style/textSize_small"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_10sdp"
@@ -60,22 +69,22 @@
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="Contractor the special"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:inputType="textMultiLine"
                     android:textColor="@color/colorProfileName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/image_profile"
-                    app:layout_constraintTop_toTopOf="@+id/image_profile"
+                    app:layout_constraintStart_toEndOf="@+id/card_image_profile"
+                    app:layout_constraintTop_toTopOf="@+id/card_image_profile"
                     app:typeface="robotoMedium" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_email"
-                    style="@style/textSize_small"
+                    style="@style/textSize_smaller"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="sahil@gmail.com"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_name"
@@ -88,7 +97,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="454545464654654654"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_email"
@@ -96,25 +104,28 @@
 
                 <ImageView
                     android:id="@+id/image_verified"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:contentDescription="@string/image_content_consumer_profile_picture"
                     android:src="@drawable/ic_verified"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@+id/text_phone"
                     app:layout_constraintTop_toBottomOf="@+id/text_phone" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_verified"
-                    style="@style/textSize_small"
+                    style="@style/textSize_smaller"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/buildboard_verified"
                     android:textColor="@android:color/white"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/image_verified"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/image_verified"
@@ -128,8 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:gravity="left"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="start"
                 android:text="@string/brief_summary_of_company"
                 android:textColor="@color/colorGreen"
                 app:typeface="robotoRegular" />
@@ -137,12 +149,12 @@
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_summary_company"
                 style="@style/textSize_smaller"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="left"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="start"
                 android:text="@string/description"
                 app:typeface="robotoRegular" />
 
@@ -160,7 +172,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -170,8 +182,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:gravity="left"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="start"
                         android:text="@string/address"
                         android:textColor="@color/colorGreen"
                         app:typeface="robotoRegular" />
@@ -179,11 +192,14 @@
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_address"
                         style="@style/textSize_smaller"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="left"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:gravity="start"
                         android:text="@string/startdate"
                         app:typeface="robotoRegular" />
                 </LinearLayout>
@@ -203,7 +219,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -214,8 +230,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:gravity="left"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="start"
                         android:text="@string/working_radius"
                         android:textColor="@color/colorGreen"
                         app:typeface="robotoRegular" />
@@ -223,12 +239,14 @@
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_working_radius"
                         style="@style/textSize_smaller"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="left"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:gravity="start"
                         android:text="@string/startdate"
                         app:typeface="robotoRegular" />
                 </LinearLayout>
@@ -248,7 +266,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -258,8 +276,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:gravity="left"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="start"
                         android:text="@string/type_of_work"
                         android:textColor="@color/colorGreen"
                         app:typeface="robotoRegular" />
@@ -267,11 +286,14 @@
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_type_of_work"
                         style="@style/textSize_smaller"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_2sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="left"
+                        android:gravity="start"
+                        android:layout_marginEnd="@dimen/_15sdp"
                         android:text="@string/startdate"
                         app:typeface="robotoRegular" />
                 </LinearLayout>
@@ -286,6 +308,7 @@
                 android:background="@color/colorText" />
 
             <RelativeLayout
+                android:id="@+id/row_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:orientation="horizontal">
@@ -307,8 +330,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
                     app:srcCompat="@drawable/baseline_chevron_right_black_36" />
             </RelativeLayout>
 
@@ -341,8 +364,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
                     app:srcCompat="@drawable/baseline_chevron_right_black_36" />
             </RelativeLayout>
         </LinearLayout>
