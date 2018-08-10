@@ -15,6 +15,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -232,6 +234,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
     private void setViews(boolean providerExist) {
         if (mIsContractor) {
+            editEmail.setEnabled(false);
             textPassword.setVisibility(View.GONE);
             editPassword.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
@@ -301,9 +304,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                     email, password, workingArea, summary, phoneNo, businessYear);
 
             if (mIsContractor) {
-                if (mSelectedImage != null) {
-                    updateProfileImage(mResponseImageUrl, businessInfoRequest);
-                } else updateBusinessInfo(businessInfoRequest);
+                if (mResponseImageUrl != null)
+                    businessInfoRequest.setImage(mResponseImageUrl);
+                updateBusinessInfo(businessInfoRequest);
             } else saveBusinessInfo(businessInfoRequest);
         }
     }
@@ -687,25 +690,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
                 Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSuccess, Toast.LENGTH_LONG).show();
                 finish();
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
-            }
-        });
-    }
-
-    private void updateProfileImage(String imageUrl, final BusinessInfoRequest businessInfoRequest) {
-        SaveContractorImageRequest contractorImageRequest = new SaveContractorImageRequest();
-        contractorImageRequest.setImageUrl(imageUrl);
-        ProgressHelper.start(this, stringPleaseWait);
-        DataManager.getInstance().updateContractorImage(this, contractorImageRequest, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                updateBusinessInfo(businessInfoRequest);
             }
 
             @Override

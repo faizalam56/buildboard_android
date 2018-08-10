@@ -33,6 +33,8 @@ public class BusinessInfoRequest {
     private String phone;
     @SerializedName("years_in_business")
     private int businessYear;
+    @SerializedName("image")
+    private String image;
 
     public String getFirstName() {
         return firstName;
@@ -152,5 +154,13 @@ public class BusinessInfoRequest {
 
     public void setBusinessYear(int businessYear) {
         this.businessYear = businessYear;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
