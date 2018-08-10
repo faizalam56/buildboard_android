@@ -209,20 +209,28 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         setAsteriskToText();
         setTermsServiceText();
         getIntentData();
-        setViews();
 
         if (mIsContractor)
             getContractorBusinessInfo();
     }
 
-    private void setViews() {
-        textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
-        imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+    private void setViews(boolean providerExist) {
+        if (mIsContractor) {
+            textAddProfilePicture.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
+            imageProfile.setVisibility(mIsContractor ? View.VISIBLE : View.GONE);
 
-        textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
-        textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
-        editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
-        buttonNext.setText(mIsContractor ? stringSave : stringNext);
+            textTermsOfService.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+            textPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+            editPassword.setVisibility(mIsContractor ? View.GONE : View.VISIBLE);
+            buttonNext.setText(mIsContractor ? stringSave : stringNext);
+        } else {
+            editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
+            textPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
+            editEmail.setFocusable(!providerExist);
+            editPassword.setFocusableInTouchMode(!providerExist);
+            editPassword.setClickable(!providerExist);
+            editPassword.setCursorVisible(!providerExist);
+        }
     }
 
     private void getContractorBusinessInfo() {
@@ -374,16 +382,10 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
         boolean providerExist = mProvider != null && mProviderId != null;
 
-        editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
-        textPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
-        editEmail.setFocusable(!providerExist);
-        editPassword.setFocusableInTouchMode(!providerExist);
-        editPassword.setClickable(!providerExist);
-        editPassword.setCursorVisible(!providerExist);
-
-        if (mProvider != null && mProviderId != null)
+        if (providerExist)
             editEmail.setText(mEmail);
 
+        setViews(providerExist);
         populateWorkingArea();
     }
 
