@@ -113,6 +113,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    ProfileFragment.newInstance().profileData = null;
                     mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -122,10 +123,11 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                         }
                     });
                 } else if (mFacebookToken != null) {
-                    LoginManager.getInstance().logOut();
-                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    ProfileFragment.newInstance().profileData = null;
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     openActivity(LoginActivity.class, true);
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
@@ -165,7 +167,9 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     }
 
     @OnClick(R.id.card_change_password)
-    public void changePasswordTapped(){ }
+    public void changePasswordTapped(){
+        startActivity(new Intent(ProfileSettingsActivity.this, ChangePasswordActivity.class));
+    }
 
     @OnClick(R.id.card_term_of_use)
     public void termsOfUseTapped(){

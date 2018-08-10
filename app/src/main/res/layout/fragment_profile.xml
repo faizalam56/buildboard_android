@@ -42,7 +42,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_name"
-                        style="@style/textSize_large"
+                        style="@style/textSize_small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_10sdp"
@@ -55,7 +55,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_email"
-                        style="@style/textSize_small"
+                        style="@style/textSize_smaller"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
@@ -65,7 +65,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_phone"
-                        style="@style/textSize_small"
+                        style="@style/textSize_smaller"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
