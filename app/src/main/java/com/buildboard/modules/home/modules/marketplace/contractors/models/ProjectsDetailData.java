@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NearByProjectData {
+public class ProjectsDetailData {
     @SerializedName("id")
     private String id;
     @SerializedName("title")

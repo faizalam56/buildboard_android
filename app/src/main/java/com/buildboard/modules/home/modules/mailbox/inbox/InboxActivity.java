@@ -100,19 +100,19 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         if (ConnectionDetector.isNetworkConnected(mContext)) {
             if (!TextUtils.isEmpty(editWriteMsg.getText())) {
 
-                List<Data> messagedata = new ArrayList<>();
+                List<Data> messageData = new ArrayList<>();
                 Data data = new Data();
                 data.setBody(editWriteMsg.getText().toString());
                 data.setRecipientId(mUserId);
                 data.setType(textMessageType);
-                messagedata.add(data);
+                messageData.add(data);
                 sendMessage(editWriteMsg.getText().toString());
                 editWriteMsg.setText("");
 
                 if (inboxAdapter == null) {
-                    setInboxRecycler(messagedata, mCurrentPage);
+                    setInboxRecycler(messageData, mCurrentPage);
                 } else {
-                    mMessagesList.addAll(messagedata);
+                    mMessagesList.addAll(messageData);
                     inboxAdapter.notifyDataSetChanged();
                     recyclerMessages.scrollToPosition(mMessagesList.size() - 1);
                 }
@@ -139,6 +139,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 if (response == null) return;
+                //TODO Handle Response
             }
 
             @Override
