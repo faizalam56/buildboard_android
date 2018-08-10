@@ -50,7 +50,6 @@
                 android:ellipsize="end"
                 android:textSize="@dimen/_11ssp"
                 android:maxLines="2"
-                android:text="dffdfdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
                 android:layout_toLeftOf="@+id/textRatingBar"
                 android:paddingLeft="@dimen/_3sdp"
                 android:paddingRight="@dimen/_3sdp"

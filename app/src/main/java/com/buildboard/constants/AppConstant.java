@@ -81,5 +81,4 @@ public interface AppConstant {
     String LAST_NAME = "last_name";
     String INPUT_PATTERN = "yyyy-MM-dd";
     String OUTPUT_PATTERN = "dd MMM yyyy";
-
 }

@@ -171,7 +171,6 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
         }
 
         private void bindData(int position) {
-
             String data=null;
             switch (mProjectDetails.get(position).getStatus()){
                 case STATUS_OPEN:

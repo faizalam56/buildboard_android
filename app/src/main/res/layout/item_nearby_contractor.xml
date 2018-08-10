@@ -52,7 +52,6 @@
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
                 android:paddingStart="@dimen/_5sdp"
-                android:text="WoodWorkfdgfddddddddddddddddddddffffffffffffffffff"
                 android:textColor="@android:color/black"
                 android:layout_toStartOf="@+id/textRatingBar" />
 
