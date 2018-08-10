@@ -300,10 +300,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             BusinessInfoRequest businessInfoRequest = getBusinessInfoRequest(businessName, businessAddress, principalFirstName, principalLastName,
                     email, password, workingArea, summary, phoneNo, businessYear);
 
-            if (mIsContractor)
-                updateProfileImage(mResponseImageUrl, businessInfoRequest);
-            else
-                saveBusinessInfo(businessInfoRequest);
+            if (mIsContractor) {
+                if (mSelectedImage != null) {
+                    updateProfileImage(mResponseImageUrl, businessInfoRequest);
+                } else updateBusinessInfo(businessInfoRequest);
+            } else saveBusinessInfo(businessInfoRequest);
         }
     }
 
@@ -629,7 +630,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         editPrincipalLastName.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
         editEmail.setText(businessInfoData.getEmail() != null ? businessInfoData.getEmail() : "");
         editPhoneno.setText(businessInfoData.getPhone() != null ? businessInfoData.getPhone() : "");
-        editSummary.setText(businessInfoData.getLastName() != null ? businessInfoData.getLastName() : "");
+        editSummary.setText(businessInfoData.getSummary() != null ? businessInfoData.getSummary() : "");
         addressLatLng = new LatLng(businessInfoData.getLatitude(), businessInfoData.getLongitude());
         for (int i = 0; i < spinnerWorkingArea.getCount(); i++) {
             if (spinnerWorkingArea.getItemAtPosition(i).toString().contains(String.valueOf(businessInfoData.getMinAreaRadius()))) {
