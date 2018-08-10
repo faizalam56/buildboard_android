@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_insurance_provider"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/insurance_provider"
@@ -19,9 +19,9 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_provider_workman"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:background="@drawable/green_drawable_border"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:hint="@string/insurance_provider"
         android:imeOptions="actionNext"
         android:inputType="text"
@@ -32,11 +32,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_insurance_amount"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/insurance_dollar_amount"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_amount_workman"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/insurance_dollar_amount"
         android:imeOptions="actionNext"
@@ -58,11 +58,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_attachment"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/attachment"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,11 +71,11 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_workman_insurance"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"

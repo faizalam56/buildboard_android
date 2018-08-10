@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_label_attach_photos"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
@@ -21,7 +21,7 @@
         android:id="@+id/linear_attachments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:animateLayoutChanges="true"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,10 +133,10 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_label_description"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/brief_description_of_work"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,7 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_description"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
