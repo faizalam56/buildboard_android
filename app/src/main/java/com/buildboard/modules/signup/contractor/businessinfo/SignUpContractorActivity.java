@@ -1,14 +1,18 @@
 package com.buildboard.modules.signup.contractor.businessinfo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -17,10 +21,11 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,9 +36,10 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.profile.consumer.EditProfileActivity;
 import com.buildboard.modules.signup.SignUpActivity;
+import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoData;
 import com.buildboard.modules.signup.contractor.businessinfo.models.BusinessInfoRequest;
 import com.buildboard.modules.signup.contractor.previouswork.models.SaveContractorImageRequest;
@@ -70,7 +76,7 @@ import static com.buildboard.utils.Utils.selectImage;
 
 public class SignUpContractorActivity extends AppCompatActivity implements AppConstant {
 
-    private final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private final String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private final int PICK_IMAGE_CAMERA = 2001;
     private final int PICK_IMAGE_GALLERY = 2002;
 
@@ -79,12 +85,12 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     private String mEmail;
     private LatLng addressLatLng;
     private String workingArea;
-    private String mFirstNane;
+    private String mFirstName;
     private String mLastName;
     private boolean mIsContractor;
     private Uri mSelectedImage;
     private Bitmap mBitmap;
-    private String mResponsImageUrl;
+    private String mResponseImageUrl;
 
     @BindView(R.id.title)
     TextView title;
@@ -192,7 +198,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     @BindString(R.string.save)
     String stringSave;
     @BindString(R.string.msg_success_businessinfo_update)
-    String stringBusinessInfoSucess;
+    String stringBusinessInfoSuccess;
+    @BindString(R.string.location_check)
+    String stringCheckLocation;
+    @BindString(R.string.msg_permission_required)
+    String stringPermissionRequired;
 
     @BindArray(R.array.array_working_area)
     String[] arrayWorkingArea;
@@ -214,11 +224,17 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             getContractorBusinessInfo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        editBusinessAddress.setEnabled(true);
+    }
+
     private void setViews(boolean providerExist) {
         if (mIsContractor) {
             textPassword.setVisibility(View.GONE);
             editPassword.setVisibility(View.GONE);
-            buttonNext.setText(mIsContractor ? stringSave : stringNext);
+            buttonNext.setText(stringSave);
         } else {
             editPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
             textPassword.setVisibility(providerExist ? View.GONE : View.VISIBLE);
@@ -247,6 +263,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intent = intentBuilder.build(this);
             startActivityForResult(intent, PLACE_PICKER_REQUEST);
+            editBusinessAddress.setEnabled(false);
 
         } catch (GooglePlayServicesRepairableException
                 | GooglePlayServicesNotAvailableException e) {
@@ -284,7 +301,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                     email, password, workingArea, summary, phoneNo, businessYear);
 
             if (mIsContractor)
-                updateProfileImage(mResponsImageUrl, businessInfoRequest);
+                updateProfileImage(mResponseImageUrl, businessInfoRequest);
             else
                 saveBusinessInfo(businessInfoRequest);
         }
@@ -302,6 +319,22 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             } else
                 selectImage(this);
         } else ConnectionDetector.createSnackBar(this, constraintRoot);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    SnackBarFactory.createSnackBar(SignUpContractorActivity.this, constraintRoot, stringPermissionRequired);
+                }
+                return;
+            }
+        }
     }
 
     @Override
@@ -332,7 +365,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
                         if (extras != null) {
                             mBitmap = (Bitmap) extras.get("data");
                             mSelectedImage = getImageUri(this, mBitmap);
-                            imageProfile.setImageBitmap(mBitmap);
+                            Picasso.get().load(mSelectedImage).transform(new RoundedCornersTransform()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
                             uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, mSelectedImage))));
                         }
                     } catch (Exception e) {
@@ -350,8 +383,42 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void getAddressLatLng(Place place) {
+        showAddressDialog(place);
         editBusinessAddress.setText(place.getAddress());
         addressLatLng = place.getLatLng();
+    }
+
+    private void showAddressDialog(Place place) {
+        if (place != null) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.dialog_custom_places, null);
+            dialogBuilder.setView(dialogView);
+            final BuildBoardEditText buildBoardEditText = dialogView.findViewById(R.id.editPlaceName);
+            final BuildBoardTextView textView = dialogView.findViewById(R.id.textSelectedLocation);
+            buildBoardEditText.setText(place.getName());
+            textView.setText(place.getAddress());
+            dialogBuilder.setTitle(getString(R.string.confirm_location));
+            dialogBuilder.setPositiveButton(getString(R.string.done), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String newLocation = buildBoardEditText.getText().toString();
+                    String selectedLocation = textView.getText().toString();
+                    if (TextUtils.isEmpty(newLocation)) {
+                        SnackBarFactory.createSnackBar(SignUpContractorActivity.this, constraintRoot, stringCheckLocation);
+                    } else {
+                        editBusinessAddress.setText(String.format("%s%s%s", newLocation, getString(R.string.comma), selectedLocation));
+                    }
+                }
+            });
+            dialogBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alertChangeAddressDialog = dialogBuilder.create();
+            alertChangeAddressDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            alertChangeAddressDialog.show();
+        }
     }
 
     private void setTermsServiceText() {
@@ -372,10 +439,10 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
         }
 
         if (getIntent().hasExtra(INTENT_FIRST_NAME) && getIntent().hasExtra(INTENT_LAST_NAME)) {
-            mFirstNane = getIntent().getStringExtra(INTENT_FIRST_NAME);
+            mFirstName = getIntent().getStringExtra(INTENT_FIRST_NAME);
             mLastName = getIntent().getStringExtra(INTENT_LAST_NAME);
 
-            editPrincipalFirstName.setText(mFirstNane != null ? mFirstNane : "");
+            editPrincipalFirstName.setText(mFirstName != null ? mFirstName : "");
             editPrincipalLastName.setText(mLastName != null ? mLastName : "");
         }
 
@@ -553,8 +620,8 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setContractorDetails(BusinessInfoData businessInfoData) {
-        Picasso.get().load(businessInfoData.getImage()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
-        mResponsImageUrl = businessInfoData.getImage();
+        Picasso.get().load(businessInfoData.getImage()).transform(new RoundedCornersTransform()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+        mResponseImageUrl = businessInfoData.getImage();
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
         editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
         editBusinessYear.setText(String.valueOf(businessInfoData.getBusinessYear()));
@@ -617,7 +684,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
-                Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSucess, Toast.LENGTH_LONG).show();
+                Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -656,7 +723,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                mResponsImageUrl = response.toString();
+                mResponseImageUrl = response.toString();
             }
 
             @Override
