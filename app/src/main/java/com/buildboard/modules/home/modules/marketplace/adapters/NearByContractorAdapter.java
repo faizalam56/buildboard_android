@@ -3,6 +3,7 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.buildboard.utils.Utils.dottedAfterCertainLength;
 
 public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContractorAdapter.ViewHolder> {
 
@@ -80,8 +83,8 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             } else {
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
-
-            textName.setText(nearByContractor.getBusinessName() != null ? nearByContractor.getBusinessName() : stringNotAvailable);
+            textName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            textName.setText(nearByContractor.getBusinessName() != null ? dottedAfterCertainLength(nearByContractor.getBusinessName(),mContext,56).substring(0, 1).toUpperCase() : stringNotAvailable);
             Picasso.get().load(nearByContractor.getImage()).placeholder(R.mipmap.no_image_available).into(imageService);//TODO change placeholder
         }
     }

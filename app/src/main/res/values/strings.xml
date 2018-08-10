@@ -93,7 +93,7 @@
     <string name="title_projects_desc">Projects Detail</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-    <string name="trending_services">Trending/Top Rated Contractor</string>
+    <string name="trending_services">Trending/Top Rated Contractors</string>
     <string name="near_by_contractors">Near by Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Projects</string>
@@ -303,4 +303,5 @@
     <string name="type_of_work">Type Of Work</string>
     <string name="msg_primary_address">It\'s already a primary address</string>
     <string name="msg_confirm_logout">Are you sure you want logout?</string>
+    <string name="dot">…</string>
 </resources>

@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
@@ -179,6 +178,14 @@ public class Utils {
         } catch (Exception e) {
             Toast.makeText(activity, activity.getString(R.string.image_from_gallery), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        }
+    }
+
+    public static String dottedAfterCertainLength(String data, Context context, int length) {
+        if (data.length() > length) {
+            return data.substring(0, length) + context.getResources().getString(R.string.dot);
+        } else {
+            return data;
         }
     }
 }

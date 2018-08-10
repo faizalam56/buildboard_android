@@ -2,12 +2,11 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
-import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,6 +23,8 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.buildboard.utils.Utils.dottedAfterCertainLength;
 
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
 
@@ -87,7 +87,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             } else {
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
-            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
+            textServiceName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            textServiceName.setText(trendingService.getBusinessName() != null ? dottedAfterCertainLength(trendingService.getBusinessName(),mContext,56) : stringNotAvailable);
             Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }
     }
