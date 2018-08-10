@@ -130,7 +130,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/baseline_chevron_right_black_18" />
+                        android:src="@drawable/ic_arrow_right_18" />
                 </RelativeLayout>
 
                 <View
@@ -192,7 +192,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/baseline_chevron_right_black_18" />
+                        android:src="@drawable/ic_arrow_right_18" />
                 </RelativeLayout>
 
                 <View
@@ -254,7 +254,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/baseline_chevron_right_black_18" />
+                        android:src="@drawable/ic_arrow_right_18" />
                 </RelativeLayout>
 
                 <ProgressBar

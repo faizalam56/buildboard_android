@@ -29,14 +29,14 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
     private Context mContext;
     private ArrayList<String> mArrayList;
     private LayoutInflater mLayoutInflater;
-    private ProjectsDetailData mNearByProjectData;
+    private ProjectsDetailData mNearByProjectDetailsData;
     private ArrayList<String> mAttachmentsArray;
 
     public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, ProjectsDetailData projectsDetailData) {
         mContext = context;
         mArrayList = arrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mNearByProjectData = projectsDetailData;
+        mNearByProjectDetailsData = projectsDetailData;
     }
 
     @Override
@@ -79,12 +79,12 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
         private ArrayList<String> getAttachmentArry(int position) {
             mAttachmentsArray = new ArrayList<>();
 
-            for (int index = 0; index < mNearByProjectData.getAdditionalAttachment().size(); index++) {
-                mAttachmentsArray.add(mNearByProjectData.getAdditionalAttachment().get(index));
+            for (int index = 0; index < mNearByProjectDetailsData.getAdditionalAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectDetailsData.getAdditionalAttachment().get(index));
             }
 
-            for (int index = 0; index < mNearByProjectData.getPrefferedMaterialAttachment().size(); index++) {
-                mAttachmentsArray.add(mNearByProjectData.getPrefferedMaterialAttachment().get(index));
+            for (int index = 0; index < mNearByProjectDetailsData.getPrefferedMaterialAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectDetailsData.getPrefferedMaterialAttachment().get(index));
             }
             return mAttachmentsArray;
         }

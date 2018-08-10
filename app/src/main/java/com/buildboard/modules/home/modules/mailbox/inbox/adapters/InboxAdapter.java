@@ -35,7 +35,6 @@ public class InboxAdapter extends RecyclerView.Adapter {
     private boolean isLastPage = false;
     private LinearLayoutManager mLinearLayoutManager;
 
-
     public InboxAdapter(Activity activity, ArrayList<Data> arrayList, RecyclerView recyclerView) {
         mActivity = activity;
         mArrayList = arrayList;
@@ -104,6 +103,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
             setFont();
         }
 
