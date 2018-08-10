@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_certifying_body"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/certifying_body"
@@ -19,8 +19,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certifying_body"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certifying_body"
         android:imeOptions="actionNext"
@@ -32,11 +32,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_certification_number"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/certification_number"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certification_number"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certification_number"
         android:imeOptions="actionNext"
@@ -58,11 +58,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_certification_desc"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/certification_brief_description"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,9 +71,9 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certification_desc"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/certification_brief_description"
         android:imeOptions="actionNext"
@@ -85,20 +85,33 @@
         app:layout_constraintTop_toBottomOf="@+id/text_certification_desc"
         app:typeface="robotoRegular" />
 
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_certification_attachment"
+        style="@style/textSize_smallest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/attachment"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_certification_desc"
+        app:typeface="robotoMedium" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_certification"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_certification_desc"
+        app:layout_constraintTop_toBottomOf="@+id/text_certification_attachment"
         app:typeface="robotoRegular" />
 
     <ImageView

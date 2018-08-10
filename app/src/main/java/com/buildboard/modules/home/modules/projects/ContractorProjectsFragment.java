@@ -71,6 +71,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contractor_project, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         setFonts();
         hideProgressBar();
         showProgressColor(getActivity(), progressBar);

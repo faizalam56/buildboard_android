@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_name"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/name"
@@ -19,8 +19,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_name"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/name"
         android:imeOptions="actionNext"
@@ -32,11 +32,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_work_performed"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/work_performed"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_work_performed"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/work_performed"
         android:imeOptions="actionNext"
@@ -58,11 +58,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_testimonial"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/description"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,9 +71,9 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_testimonial"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:gravity="top"
         android:hint="@string/_150_characters"

@@ -13,11 +13,12 @@ import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelate
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
+import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -304,11 +305,11 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getNearByProjects(Activity activity, String projectId, final DataManagerListener dataManagerListener) {
-        Call<NearByProjectsResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+        Call<ProjectsDetailResponse> call = getDataManager().getNearByProjectsDetails(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 projectId, AppPreference.getAppPreference(activity).getString(SESSION_ID));
-        call.enqueue(new Callback<NearByProjectsResponse>() {
+        call.enqueue(new Callback<ProjectsDetailResponse>() {
             @Override
-            public void onResponse(@NonNull Call<NearByProjectsResponse> call, @NonNull Response<NearByProjectsResponse> response) {
+            public void onResponse(@NonNull Call<ProjectsDetailResponse> call, @NonNull Response<ProjectsDetailResponse> response) {
                 if (!response.isSuccessful()) {
                     dataManagerListener.onError(response.errorBody());
                     return;
@@ -320,7 +321,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
 
             @Override
-            public void onFailure(@NonNull Call<NearByProjectsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ProjectsDetailResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
@@ -846,6 +847,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
     public void getBusinessInfo(Activity activity, final DataManagerListener dataManagerListener) {
         Call<BusinessInfoResponse> call = getDataManager().getBusinessInfo(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN), AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<BusinessInfoResponse>() {
@@ -912,6 +914,76 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+    public void getContractorProfile(Activity activity, String id, final DataManagerListener dataManagerListener) {
+        Call<ContractorProfileResponse> call = getDataManager().getContractorProfile(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), id);
+        call.enqueue(new Callback<ContractorProfileResponse>() {
+            @Override
+            public void onResponse(Call<ContractorProfileResponse> call, Response<ContractorProfileResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS)
+                        && response.body().getData().get(0).getContractorInfo() != null)
+                    dataManagerListener.onSuccess(response.body().getData().get(0).getContractorInfo());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContractorProfileResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void updateBusinessInfo(Activity activity, BusinessInfoRequest businessInfoRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessInfoResponse> call = getDataManager().updateBusinessInfo(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), businessInfoRequest);
+        call.enqueue(new Callback<BusinessInfoResponse>() {
+            @Override
+            public void onResponse(Call<BusinessInfoResponse> call, Response<BusinessInfoResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) &&
+                        response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessInfoResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void updateContractorImage(Activity activity, SaveContractorImageRequest saveContractorImageRequest, final DataManagerListener dataManagerListener) {
+        Call<SaveContractorImageResponse> call = getDataManager().updateContractorImage(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), saveContractorImageRequest);
+        call.enqueue(new Callback<SaveContractorImageResponse>() {
+            @Override
+            public void onResponse(Call<SaveContractorImageResponse> call, Response<SaveContractorImageResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas() !=null && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getDatas());
+                else dataManagerListener.onError(response.body().getErrorObject());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SaveContractorImageResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

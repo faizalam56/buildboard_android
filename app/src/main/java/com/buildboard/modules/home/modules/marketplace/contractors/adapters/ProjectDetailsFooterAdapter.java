@@ -13,7 +13,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectData;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailData;
 import com.buildboard.utils.ConnectionDetector;
 
 import java.util.ArrayList;
@@ -29,14 +29,14 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
     private Context mContext;
     private ArrayList<String> mArrayList;
     private LayoutInflater mLayoutInflater;
-    private NearByProjectData mNearByProjectData;
+    private ProjectsDetailData mNearByProjectDetailsData;
     private ArrayList<String> mAttachmentsArray;
 
-    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, NearByProjectData nearByProjectData) {
+    public ProjectDetailsFooterAdapter(Context context, ArrayList<String> arrayList, ProjectsDetailData projectsDetailData) {
         mContext = context;
         mArrayList = arrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mNearByProjectData = nearByProjectData;
+        mNearByProjectDetailsData = projectsDetailData;
     }
 
     @Override
@@ -79,12 +79,12 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
         private ArrayList<String> getAttachmentArry(int position) {
             mAttachmentsArray = new ArrayList<>();
 
-            for (int index = 0; index < mNearByProjectData.getAdditionalAttachment().size(); index++) {
-                mAttachmentsArray.add(mNearByProjectData.getAdditionalAttachment().get(index));
+            for (int index = 0; index < mNearByProjectDetailsData.getAdditionalAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectDetailsData.getAdditionalAttachment().get(index));
             }
 
-            for (int index = 0; index < mNearByProjectData.getPrefferedMaterialAttachment().size(); index++) {
-                mAttachmentsArray.add(mNearByProjectData.getPrefferedMaterialAttachment().get(index));
+            for (int index = 0; index < mNearByProjectDetailsData.getPrefferedMaterialAttachment().size(); index++) {
+                mAttachmentsArray.add(mNearByProjectDetailsData.getPrefferedMaterialAttachment().get(index));
             }
             return mAttachmentsArray;
         }
@@ -96,7 +96,6 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
                 String Text = mArrayList.get(getAdapterPosition());
 
                 switch (Text) {
-
                     case TEXT_ATTACHMENT:
                         Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
                         intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));

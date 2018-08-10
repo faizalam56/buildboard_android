@@ -1,6 +1,5 @@
 package com.buildboard.modules.login;
 
-
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -10,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,6 +35,7 @@ import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorAct
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
@@ -116,12 +115,13 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorSelectUserType;
     @BindString(R.string.error_enter_valid_email)
     String stringErrorInvalidEmail;
+    @BindString(R.string.msg_please_wait)
+    String stringPleaseWait;
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
     @BindArray(R.array.array_user_type)
     String[] arrayUsertype;
-    @BindString(R.string.msg_please_wait)
-    String stringPleaseWait;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             verifyUser(apiKey);
 
         textSignUp.setPaintFlags(textSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         getAccessToken();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -160,33 +161,24 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         return apiKey;
     }
 
-    public void showProgressBar(){
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar(){
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
     private void verifyUser(String apiKey) {
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
 
         DataManager.getInstance().activateUser(this, apiKey, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-               hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 ActivateUserResponse activateUserResponse = (ActivateUserResponse) response;
                 PopUpHelper.showInfoAlertPopup(LoginActivity.this, activateUserResponse.getDatas().get(0), new PopUpHelper.InfoPopupListener() {
                     @Override
-                    public void onConfirm() {}
+                    public void onConfirm() {
+                    }
                 });
             }
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
                 errorManager.handleErrorResponse();
             }
@@ -323,6 +315,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void requestFBUserProfile(final LoginResult loginResult) {
+
         final String userId = loginResult.getAccessToken().getUserId();
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -369,11 +362,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         if (socialLoginRequest == null)
             return;
 
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().getSocialLogin(this, socialLoginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
                 SocialLoginResponse socialLoginResponse = (SocialLoginResponse) response;
                 LoginData loginData = socialLoginResponse.getDatas().get(0);
@@ -384,7 +377,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 ErrorResponse errorResponse = (ErrorResponse) error;
                 if(errorResponse.getCode().equals("200")) {
                     Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
@@ -402,11 +395,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     private void getAccessToken() {
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().getAccessToken(new GetAccessTokenRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 TokenData tokenData = (TokenData) response;
@@ -416,7 +409,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
             }
         });
     }
@@ -426,11 +419,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         loginRequest.setEmail(username);
         loginRequest.setPassword(password);
 
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+               ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 LoginData loginData = (LoginData) response;
@@ -448,7 +441,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 ErrorResponse errorResponse = (ErrorResponse) error;
                 SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }

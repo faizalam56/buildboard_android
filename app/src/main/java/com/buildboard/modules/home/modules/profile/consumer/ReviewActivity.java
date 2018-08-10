@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -40,8 +39,6 @@ public class ReviewActivity extends AppCompatActivity {
     BuildBoardTextView textNoDataFound;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintLayout;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
 
     @BindString(R.string.reviews)
     String stringTitle;
@@ -67,11 +64,11 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void getReviews() {
-        ProgressHelper.showProgressBar(this, progressBar);
+        ProgressHelper.start(this, stringPleaseWait);
         DataManager.getInstance().getReviews(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.hideProgressBar();
+                ProgressHelper.stop();
                 if (response == null) return;
 
                 ReviewsResponse reviewsResponse = (ReviewsResponse) response;
@@ -87,7 +84,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.hideProgressBar();
+                ProgressHelper.stop();
                 Utils.showError(ReviewActivity.this, constraintLayout, error);
             }
         });

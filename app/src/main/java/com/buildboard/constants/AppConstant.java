@@ -48,6 +48,7 @@ public interface AppConstant {
     String TYPE_TEXT = "text";
     String TYPE_ATTACHMENT = "attachment";
     String TEXT_ATTACHMENT = "Attachments";
+    String TEXT_REQUIREMENTS = "Requirements";
     String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
@@ -81,4 +82,5 @@ public interface AppConstant {
     String LAST_NAME = "last_name";
     String INPUT_PATTERN = "yyyy-MM-dd";
     String OUTPUT_PATTERN = "dd MMM yyyy";
+    String INTENT_TRENDING_USER_ID = "intent_trending_user_id";
 }

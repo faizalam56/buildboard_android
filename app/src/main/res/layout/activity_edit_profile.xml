@@ -36,12 +36,12 @@
                 android:layout_height="@dimen/_80sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:adjustViewBounds="true"
+                android:background="@drawable/ic_camera_green"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/ic_camera_green" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_add_profile_picture"
@@ -61,8 +61,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
             <com.buildboard.customviews.BuildBoardTextView
-                style="@style/textSize_smallest"
                 android:id="@+id/text_first_name"
+                style="@style/textSize_smallest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
@@ -77,10 +77,10 @@
                 style="@style/edit_text_size_smaller"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/green_drawable_border"
+                android:digits="@string/special_charactor"
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:digits="@string/special_charactor"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,8 +88,8 @@
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
-                style="@style/textSize_smallest"
                 android:id="@+id/text_last_name"
+                style="@style/textSize_smallest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -104,8 +104,8 @@
                 style="@style/edit_text_size_smaller"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/green_drawable_border"
-                android:hint="@string/last_name"
                 android:digits="@string/special_charactor"
+                android:hint="@string/last_name"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:textColor="@android:color/black"
@@ -115,8 +115,8 @@
                 app:typeface="robotoRegular" />
 
             <com.buildboard.customviews.BuildBoardTextView
-                style="@style/textSize_smallest"
                 android:id="@+id/text_email"
+                style="@style/textSize_smallest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -152,8 +152,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email">
 
                 <com.buildboard.customviews.BuildBoardTextView
-                    style="@style/textSize_smallest"
                     android:id="@+id/text_address"
+                    style="@style/textSize_smallest"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -169,14 +169,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/green_drawable_border"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
                     android:inputType="textMultiLine"
-                    android:padding="@dimen/_5sdp"
                     android:maxLines="5"
                     android:minLines="1"
+                    android:padding="@dimen/_5sdp"
                     android:textColor="@android:color/black"
-                    android:focusableInTouchMode="false"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_address"
                     app:typeface="robotoRegular" />
@@ -206,8 +206,8 @@
                     app:typeface="robotoMedium" />
 
                 <com.buildboard.customviews.BuildBoardTextView
-                    style="@style/textSize_smallest"
                     android:id="@+id/text_phone"
+                    style="@style/textSize_smallest"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -233,8 +233,8 @@
                     app:typeface="robotoRegular" />
 
                 <com.buildboard.customviews.BuildBoardTextView
-                    style="@style/textSize_smallest"
                     android:id="@+id/text_contact_mode"
+                    style="@style/textSize_smallest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -250,9 +250,9 @@
                     android:id="@+id/radio_group_contact_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -289,13 +289,13 @@
             <com.buildboard.customviews.BuildBoardButton
                 android:id="@+id/button_next"
                 style="@style/button_style"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/green_button_background"
                 android:imeOptions="actionDone"
                 android:text="@string/save"
-                android:textStyle="bold"
                 android:textAllCaps="false"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraint_consumer_address_container"
@@ -303,7 +303,7 @@
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
+                style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

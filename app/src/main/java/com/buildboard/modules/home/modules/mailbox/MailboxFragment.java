@@ -38,6 +38,12 @@ import butterknife.Unbinder;
 
 public class MailboxFragment extends Fragment implements AppConstant {
 
+
+    private Unbinder mUnbinder;
+    private int mCurrentPage = 1;
+    private ArrayList<MessageData> mMessagesList = new ArrayList<>();
+    private MessagesAdapter mMessagesAdapter;
+
     @BindView(R.id.recycler_messages)
     RecyclerView recyclerMessages;
     @BindView(R.id.progress_messages)
@@ -51,11 +57,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
     String stringNoInternet;
     @BindString(R.string.error_no_messages)
     String stringNoMessages;
-
-    private Unbinder mUnbinder;
-    private int mCurrentPage = 1;
-    private ArrayList<MessageData> mMessagesList = new ArrayList<>();
-    private MessagesAdapter mMessagesAdapter;
 
     public static MailboxFragment newInstance() {
         MailboxFragment fragment = new MailboxFragment();
@@ -88,7 +89,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
 
     @OnClick(R.id.fab)
     public void addChat() {
-
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
             Intent intent = new Intent(getActivity(), ContactListActivity.class);
             startActivity(intent);
@@ -107,8 +107,9 @@ public class MailboxFragment extends Fragment implements AppConstant {
 
                 MessagesResponse messagesResponse = (MessagesResponse) response;
 
-                if (isAdded() && messagesResponse.getData().get(0).getData().size() > 0) {
+                if (isAdded()) {
                     boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
+
                     if (recyclerMessages != null) {
                         recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
                         textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);

@@ -131,7 +131,6 @@ public class ConsumerProjectTypeFragment extends Fragment
             fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
         }
     }
-
     @Override
     public void doBack() {
         navigateFragment(ConsumerProjectsFragment.newInstance());

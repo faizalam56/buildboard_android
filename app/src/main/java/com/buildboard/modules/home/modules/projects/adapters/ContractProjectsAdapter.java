@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
+import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
@@ -171,6 +170,7 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
             setFont();
         }
 
@@ -179,7 +179,7 @@ public class ContractProjectsAdapter extends RecyclerView.Adapter {
 
             if (ConnectionDetector.isNetworkConnected(mContext)) {
                 ProjectDetail nearByProjects = mProjectDetails.get(getAdapterPosition());
-                Intent intent = new Intent(mContext, NearByProjectsActivity.class);
+                Intent intent = new Intent(mContext, ProjectsDetailActivity.class);
                 intent.putExtra(DATA, nearByProjects.getId());
                 mContext.startActivity(intent);
             } else {
