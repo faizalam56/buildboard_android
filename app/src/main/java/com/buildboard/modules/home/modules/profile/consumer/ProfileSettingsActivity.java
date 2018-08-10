@@ -127,6 +127,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     openActivity(LoginActivity.class, true);
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
