@@ -79,4 +79,7 @@ public interface AppConstant {
     int REQUEST_IMAGE_CAPTURE = 1;
     String FIRST_NAME = "first_name";
     String LAST_NAME = "last_name";
+    String INPUT_PATTERN = "yyyy-MM-dd";
+    String OUTPUT_PATTERN = "dd MMM yyyy";
+
 }

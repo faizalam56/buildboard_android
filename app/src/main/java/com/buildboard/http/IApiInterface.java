@@ -10,6 +10,8 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
+import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -164,4 +166,7 @@ public interface IApiInterface {
 
     @POST("send-message")
     Call<SendMessageResponse> sendMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SendMessageRequest sendMessageRequest);
+
+    @POST("change-password")
+    Call<ChangePasswordResponse> changePassword(@Header("oauth") String oauth, @Header("session") String sessionId, @Body ChangePasswordRequest changePasswordRequest);
 }

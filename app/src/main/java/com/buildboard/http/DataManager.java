@@ -16,6 +16,8 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
+import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -885,6 +887,31 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<SendMessageResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void changePasswordCall(Activity activity, ChangePasswordRequest changePasswordRequest, final DataManagerListener dataManagerListener) {
+        Call<ChangePasswordResponse> call = getDataManager().changePassword(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID),
+                changePasswordRequest);
+
+        call.enqueue(new Callback<ChangePasswordResponse>() {
+            @Override
+            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData()!=null && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError().getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
