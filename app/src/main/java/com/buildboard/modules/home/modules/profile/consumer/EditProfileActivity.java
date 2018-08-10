@@ -25,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -36,6 +37,7 @@ import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -44,9 +46,11 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -55,6 +59,7 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
@@ -74,7 +79,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     private Uri mSelectedImage;
     private ProfileData mProfileData;
     private String mResponsImageUrl;
-    private int maxClicks = 3, mCurrentNumber = 0;
+    private int mMaxClicks = 3, mCurrentNumber = 0;
     private String mContactMode = PHONE;
     private Bitmap mBitmap;
     public UpdateProfileListener mUpdateProfileListener;
@@ -231,16 +236,6 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
         textContactMode.setText(Utils.setStarToLabel(getString(R.string.preferred_contact_mode)));
     }
 
-    public void showProgressBar(){
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar(){
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
     @OnClick(R.id.edit_address)
     void consumerAddressTapped() {
         if (ConnectionDetector.isNetworkConnected(this)) {
@@ -315,24 +310,24 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             return;
         }
 
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().updateConsumer(EditProfileActivity.this, consumerRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 CreateConsumerData createConsumerData = (CreateConsumerData) response;
                 if (createConsumerData.getMessage() != null) {
                     Toast.makeText(EditProfileActivity.this, createConsumerData.getMessage(), Toast.LENGTH_LONG).show();
                     mUpdateProfileListener.updateProfile();
-                    startActivity(new Intent(EditProfileActivity.this, ProfileSettingsActivity.class));
+                    finish();
                 }
             }
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
@@ -437,7 +432,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                     try {
                         mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
                         imageProfile.setImageBitmap(mBitmap);
-                        uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, mSelectedImage))));
+                        if (ConnectionDetector.isNetworkConnected(this))
+                            uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, mSelectedImage))));
+                        else ConnectionDetector.createSnackBar(this, constraintRoot);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -449,7 +446,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
                             mBitmap = (Bitmap) extras.get("data");
                             mSelectedImage = getImageUri(this, mBitmap);
                             imageProfile.setImageBitmap(mBitmap);
-                            uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this,Utils.getImagePath(this, mSelectedImage))));
+                            if (ConnectionDetector.isNetworkConnected(this))
+                                uploadImage(this, prepareFilePart(resizeAndCompressImageBeforeSend(this, Utils.getImagePath(this, mSelectedImage))));
+                            else ConnectionDetector.createSnackBar(this, constraintRoot);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -498,19 +497,19 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
-        showProgressBar();
+        ProgressHelper.showProgressBar(this, progressBar);
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
         RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
         DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 mResponsImageUrl = response.toString();
             }
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
@@ -523,24 +522,20 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public void onBackPressed() { super.onBackPressed();}
 
     private void getUserProfileData() {
-        showProgressBar();
+        ProgressHelper.showProgressBar(this,progressBar);
         DataManager.getInstance().getProfile(EditProfileActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 mProfileData = (ProfileData) response;
                 setProfileData(mProfileData);
             }
 
             @Override
-            public void onError(Object error) {
-                hideProgressBar();
-            }
+            public void onError(Object error){ ProgressHelper.hideProgressBar();}
         });
     }
 
@@ -565,7 +560,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
     @OnClick(R.id.textAddAnotherAddress)
     public void addNewAddressBox() {
         final LinearLayout linearLayoutForm = this.findViewById(R.id.linearLayoutForm);
-        if (mCurrentNumber == maxClicks) {
+        if (mCurrentNumber == mMaxClicks) {
             textAddAnotherAddress.setVisibility(View.GONE);
         } else {
             textAddAnotherAddress.setVisibility(View.VISIBLE);
