@@ -82,6 +82,8 @@ public class ContractorInfo {
     @SerializedName("project_type")
     @Expose
     private List<ProjectType> projectType = null;
+    @SerializedName("rating_count")
+    private String ratingCount;
 
     public String getId() {
         return id;
@@ -283,4 +285,11 @@ public class ContractorInfo {
         this.projectType = projectType;
     }
 
+    public String getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(String ratingCount) {
+        this.ratingCount = ratingCount;
+    }
 }

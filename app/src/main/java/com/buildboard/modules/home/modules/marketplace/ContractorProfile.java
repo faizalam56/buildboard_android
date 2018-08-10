@@ -9,16 +9,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorInfo;
 import com.buildboard.modules.home.modules.profile.consumer.ReviewActivity;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindColor;
@@ -31,8 +36,8 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
 
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
-    @BindView(R.id.linear_root)
-    LinearLayout linearLayout;
+    @BindView(R.id.relative_root)
+    RelativeLayout relativeLayout;
     @BindView(R.id.progress_bar_profile)
     ProgressBar progressBar;
     @BindView(R.id.text_summary_company)
@@ -55,12 +60,19 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
     ImageView imageProfile;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.image_verified)
     ImageView imageVerified;
+    @BindView(R.id.text_error_message)
+    BuildBoardTextView textErrorMessage;
+    @BindView(R.id.scrollBar)
+    ScrollView scrollView;
+    @BindView(R.id.rating)
+    RatingBar ratingBar;
 
-    @BindString(R.string.trending_services)
+    @BindString(R.string.contractor_details)
     String stringTitle;
+    @BindString(R.string.miles)
+    String stringMiles;
 
     @BindColor(R.color.colorPrimary)
     int colorPrimary;
@@ -68,6 +80,8 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
     int colorWhite;
 
     private String mUserId;
+    private LatLng mLatLng;
+    private ContractorInfo mContractorInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +92,13 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
         textTitle.setText(stringTitle);
         changeToolbarColor(colorPrimary, colorWhite);
 
-        if (!ConnectionDetector.isNetworkConnected(this)) {
-            ConnectionDetector.createSnackBar(this, linearLayout);
+        boolean isNetworkConnected = ConnectionDetector.isNetworkConnected(this);
+
+        textErrorMessage.setVisibility(isNetworkConnected ? View.GONE : View.VISIBLE);
+        scrollView.setVisibility(isNetworkConnected ? View.VISIBLE : View.GONE);
+
+        if (!isNetworkConnected) {
+            ConnectionDetector.createSnackBar(this, relativeLayout);
             return;
         }
 
@@ -102,26 +121,26 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
                 if (response == null) return;
 
                 ContractorInfo contractorInfo = (ContractorInfo) response;
+                mContractorInfo = contractorInfo;
                 setProfileData(contractorInfo);
             }
 
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                Utils.showError(ContractorProfile.this, linearLayout, error);
+                Utils.showError(ContractorProfile.this, relativeLayout, error);
             }
         });
     }
 
     private void setProfileData(ContractorInfo userProfile) {
+        Picasso.get().load(userProfile.getImage()).into(imageProfile);
         textName.setText(userProfile.getBusinessName());
         textEmail.setText(userProfile.getEmail());
         textPhone.setText(userProfile.getPhoneNo());
-
         imageVerified.setVisibility(userProfile.getVerified() == 1 ? View.VISIBLE : View.GONE);
         textVerified.setVisibility(userProfile.getVerified() == 1 ? View.VISIBLE : View.GONE);
 
-        Picasso.get().load(userProfile.getImage()).into(imageProfile);
         textCompanySummary.setText(!TextUtils.isEmpty(userProfile.getSummary()) ? userProfile.getSummary() : "-");
         textAddress.setText(!TextUtils.isEmpty(userProfile.getBusinessAddress()) ? userProfile.getBusinessAddress() : "-");
 
@@ -133,22 +152,48 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
                 typeOfProject.append(", ");
 
         }
+
         textTypeOfWork.setText(typeOfProject != null ? typeOfProject : "-");
 
-        String radius = userProfile.getMinAreaRadius() + " - " + userProfile.getMaxAreaRadius();
+        String radius = userProfile.getMinAreaRadius() + " - " + userProfile.getMaxAreaRadius()
+                + " " + stringMiles;
         textWorkingRadius.setText(!TextUtils.isEmpty(radius) ? radius : "-");
+
+        if (userProfile.getRatingCount() != null)
+            ratingBar.setRating(Float.valueOf(userProfile.getRatingCount()));
+
+        if (userProfile.getLatitude() != null && userProfile.getLongitude() != null)
+            mLatLng = new LatLng(userProfile.getLatitude(), userProfile.getLongitude());
     }
 
     @OnClick(R.id.row_reviews)
     void rowReviewTapped() {
         if (!ConnectionDetector.isNetworkConnected(this)) {
-            ConnectionDetector.createSnackBar(this, linearLayout);
+            ConnectionDetector.createSnackBar(this, relativeLayout);
             return;
         }
 
         Intent intent = new Intent(this, ReviewActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.image_location)
+    void locationIconTapped() {
+        Utils.openAddressInMap(ContractorProfile.this, mLatLng, "");
+    }
+
+    @OnClick(R.id.fab_chat)
+    void fabChatTapped() {
+        if (!ConnectionDetector.isNetworkConnected(this)) {
+            ConnectionDetector.createSnackBar(this, relativeLayout);
+            return;
+        }
+
+        Intent intent = new Intent(this, InboxActivity.class);
+        intent.putExtra(DATA, mContractorInfo.getUserId());
+        startActivity(intent);
+    }
+
     private void changeToolbarColor(int background, int text) {
         toolbar.setBackgroundColor(background);
         textTitle.setTextColor(text);
