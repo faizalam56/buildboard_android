@@ -34,6 +34,7 @@ public interface AppConstant {
     String INTENT_FIRST_NAME = "intent_first_name";
     String INTENT_LAST_NAME = "intent_last_name";
     String INTENT_WORK_TYPE_ID = "intent_work_type_id";
+    String INTENT_FACEBOOK_TOKEN = "intent_facebook_token";
     String STATUS_OPEN = "open";
     String STATUS_COMPLETED = "completed";
     String STATUS_SAVED = "saved";
@@ -41,6 +42,7 @@ public interface AppConstant {
     String STATUS_LOST = "lost";
     String PHONE = "phone";
     String EMAIL = "email";
+    String FACEBOOK_TOKEN = "facebook_token";
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
@@ -69,8 +71,10 @@ public interface AppConstant {
     String KEY_ATTACHMENT = "attachment";
 
     String INTENT_USER_ID = "intent_userid";
-    String TERMS_OF_SERVICES_LINK = "http://www.google.com";
-    String PRIVACY_POLICY_LINK = "http://www.google.com";
+    String TERMS_OF_SERVICES_LINK = "http://dashboard.buildboardinc.biz/terms-and-condition";
+    String PRIVACY_POLICY_LINK = "http://dashboard.buildboardinc.biz/privacy-policy";
+    String FAQ_LINK = "http://dashboard.buildboardinc.biz/faqs";
+    String CONTACT_US = "http://dashboard.buildboardinc.biz/#contact-us";
 
     int REQUEST_IMAGE_CAPTURE = 1;
     String FIRST_NAME = "first_name";

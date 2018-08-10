@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardButton;
@@ -37,16 +37,13 @@ import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorAct
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -308,8 +305,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     }
 
     public void signInFaceBook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email","public_profile"));
-        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 requestFBUserProfile(loginResult);
@@ -331,7 +328,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-
+                AppPreference.getAppPreference(LoginActivity.this).setString(String.valueOf(loginResult.getAccessToken()), FACEBOOK_TOKEN);
                 SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
                 socialLoginRequest.setProvider(getString(R.string.facebook));
                 socialLoginRequest.setProviderId(userId);
@@ -378,13 +375,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             public void onSuccess(Object response) {
                 hideProgressBar();
                 if (response == null) return;
-
                 SocialLoginResponse socialLoginResponse = (SocialLoginResponse) response;
-                if (socialLoginResponse.getDatas().get(0) != null) {
-                    LoginData loginData = socialLoginResponse.getDatas().get(0);
-                    AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
-                    openActivity(HomeActivity.class, false, true, socialLoginRequest, email);
-                }
+                LoginData loginData = socialLoginResponse.getDatas().get(0);
+                AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
+                AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
+                openActivity(HomeActivity.class, false, true, socialLoginRequest, email);
             }
 
             @Override
