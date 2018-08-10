@@ -80,4 +80,5 @@ public interface AppConstant {
     int REQUEST_IMAGE_CAPTURE = 1;
     String FIRST_NAME = "first_name";
     String LAST_NAME = "last_name";
+    String INTENT_TRENDING_USER_ID = "intent_trending_user_id";
 }

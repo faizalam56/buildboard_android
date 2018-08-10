@@ -10,6 +10,7 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -164,6 +165,9 @@ public interface IApiInterface {
 
     @POST("send-message")
     Call<SendMessageResponse> sendMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SendMessageRequest sendMessageRequest);
+
+    @GET("users/{id}")
+    Call<ContractorProfileResponse> getContractorProfile(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("id") String id);
 
     @PUT("contractor/profile/business")
     Call<BusinessInfoResponse> updateBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessInfoRequest businessInfoRequest);
