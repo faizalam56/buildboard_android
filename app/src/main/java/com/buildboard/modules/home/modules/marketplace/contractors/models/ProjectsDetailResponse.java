@@ -1,17 +1,16 @@
 package com.buildboard.modules.home.modules.marketplace.contractors.models;
 
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeData;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class NearByProjectsResponse implements Serializable {
+public class ProjectsDetailResponse implements Serializable {
 
     @SerializedName("status")
     private String status;
     @SerializedName("data")
-    private ArrayList<NearByProjectData> datas = new ArrayList<>();
+    private ArrayList<ProjectsDetailData> datas = new ArrayList<>();
     @SerializedName("error")
     private Error error;
 
@@ -31,11 +30,11 @@ public class NearByProjectsResponse implements Serializable {
         this.error = error;
     }
 
-    public ArrayList<NearByProjectData> getDatas() {
+    public ArrayList<ProjectsDetailData> getDatas() {
         return datas;
     }
 
-    public void setDatas(ArrayList<NearByProjectData> datas) {
+    public void setDatas(ArrayList<ProjectsDetailData> datas) {
         this.datas = datas;
     }
 }

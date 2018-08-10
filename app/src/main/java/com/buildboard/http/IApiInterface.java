@@ -7,7 +7,7 @@ import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelate
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.NearByProjectsResponse;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
@@ -131,7 +131,7 @@ public interface IApiInterface {
     Call<ProjectAllTypeResponse> getConsumerProjectDetails(@Header("oauth") String oauth, @Header("session") String sessionId);
 
     @GET("projects/{project_id}?/")
-    Call<NearByProjectsResponse> getNearByProjectsDetails(@Header("oauth") String oauth, @Path("project_id") String projectId,@Header("session") String sessionId);
+    Call<ProjectsDetailResponse> getNearByProjectsDetails(@Header("oauth") String oauth, @Path("project_id") String projectId, @Header("session") String sessionId);
 
     @GET("consumer/address")
     Call<GetAddressesResponse> getAddresses(@Header("oauth") String oauth, @Header("session") String sessionId);
@@ -154,7 +154,7 @@ public interface IApiInterface {
     @GET("contractor/profile/business")
     Call<BusinessInfoResponse> getBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId);
 
-    @GET("messages/{receiver_id}?/")
+    @GET("messages/{receiver_id}")
     Call<InboxMessagesResponse> getInboxMessages(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("receiver_id") String receiverId);
 
     @GET("related-consumer")
@@ -168,4 +168,10 @@ public interface IApiInterface {
 
     @GET("users/{id}")
     Call<ContractorProfileResponse> getContractorProfile(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("id") String id);
+
+    @PUT("contractor/profile/business")
+    Call<BusinessInfoResponse> updateBusinessInfo(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessInfoRequest businessInfoRequest);
+
+    @PUT("contractor/profile/image")
+    Call<SaveContractorImageResponse> updateContractorImage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SaveContractorImageRequest previousWorkRequest);
 }

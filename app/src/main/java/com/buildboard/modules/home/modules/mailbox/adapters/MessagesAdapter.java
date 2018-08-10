@@ -16,9 +16,6 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
-import com.buildboard.modules.home.modules.marketplace.contractors.NearByProjectsActivity;
-import com.buildboard.modules.home.modules.marketplace.models.NearByProjects;
-import com.buildboard.modules.home.modules.profile.consumer.adapter.ReviewsAdapter;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +23,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,7 +101,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-
         @BindView(R.id.constraint_root)
         ConstraintLayout constraintLayout;
         @BindView(R.id.image_receiver)
@@ -116,6 +111,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         TextView textMessage;
         @BindView(R.id.text_message_date)
         BuildBoardTextView textMessageDate;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

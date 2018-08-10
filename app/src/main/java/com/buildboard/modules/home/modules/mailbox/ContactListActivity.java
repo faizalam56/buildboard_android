@@ -167,7 +167,6 @@ public class ContactListActivity extends AppCompatActivity implements AppConstan
                 Utils.showError(ContactListActivity.this, relativeLayout, error);
             }
         });
-
     }
 
     private void setRelatedContractorListRecycler(List<ContractorRelatedData> contractorRelatedData, int lastPage) {
