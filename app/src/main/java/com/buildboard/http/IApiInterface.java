@@ -181,4 +181,7 @@ public interface IApiInterface {
 
     @GET("contractor/profile/work-type")
     Call<ContractorListResponse> getContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/work-type")
+    Call<ContractorListResponse> updateContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId, @Body WorkTypeRequest workTypeRequest);
 }

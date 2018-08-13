@@ -69,6 +69,8 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
 
             textWorkName.setText(contractorTypeDetail.getTitle());
             checkBox.setChecked(contractorTypeDetail.isSelected());
+            if (contractorTypeDetail.isSelected())
+                mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
         }
 
         @OnClick(R.id.constraint_root)
@@ -80,8 +82,6 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
             } else {
                 mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
             }
-
-            notifyDataSetChanged();
         }
 
         @OnClick(R.id.checkbox_work_type)

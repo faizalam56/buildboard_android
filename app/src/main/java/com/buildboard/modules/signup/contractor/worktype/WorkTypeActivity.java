@@ -22,6 +22,7 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
@@ -58,6 +59,8 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     String stringContractorType;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_worktype_update)
+    String stringWorkTypeSuccess;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -92,7 +95,10 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     void nextTapped() {
         if (selectedWorkType != null && !selectedWorkType.isEmpty()) {
             WorkTypeRequest workTypeRequest = getWorkTypeRequest(selectedWorkType);
-            saveWorkType(workTypeRequest);
+            if (isContractor)
+                updateContractorWorkType(workTypeRequest);
+            else
+                saveWorkType(workTypeRequest);
         } else {
             SnackBarFactory.createSnackBar(this, constraintRoot, getString(R.string.error_work_type_not_selected));
         }
@@ -228,10 +234,28 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         });
     }
 
+    private void updateContractorWorkType(WorkTypeRequest workTypeRequest) {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().updateContractorWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                Toast.makeText(WorkTypeActivity.this, stringWorkTypeSuccess, Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(WorkTypeActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
     private void setWorkTypeData(ArrayList<ContractorTypeDetail> contractorTypeDetails) {
-        for (ContractorTypeDetail contractorTypeDetail : workTypeList){
-            for (ContractorTypeDetail selectedContractorType : contractorTypeDetails){
-                if(contractorTypeDetail.getId().equalsIgnoreCase(selectedContractorType.getId()))
+        for (ContractorTypeDetail contractorTypeDetail : workTypeList) {
+            for (ContractorTypeDetail selectedContractorType : contractorTypeDetails) {
+                if (contractorTypeDetail.getId().equalsIgnoreCase(selectedContractorType.getId()))
                     contractorTypeDetail.setSelected(true);
             }
         }

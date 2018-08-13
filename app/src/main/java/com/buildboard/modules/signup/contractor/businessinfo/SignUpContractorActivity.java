@@ -688,7 +688,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.stop();
-                BusinessInfoData businessInfoData = (BusinessInfoData) response;
                 Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
