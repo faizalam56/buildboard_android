@@ -83,4 +83,5 @@ public interface AppConstant {
     String INPUT_PATTERN = "yyyy-MM-dd";
     String OUTPUT_PATTERN = "dd MMM yyyy";
     String INTENT_TRENDING_USER_ID = "intent_trending_user_id";
+    String INTENT_PROJECT_TYPE_DATA = "intent_project_type";
 }

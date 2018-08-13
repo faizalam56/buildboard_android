@@ -1,9 +1,12 @@
 package com.buildboard.modules.home.modules.projects.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProjectAllType {
+public class ProjectAllType implements Parcelable{
     @SerializedName("id")
     @Expose
     private String id;
@@ -25,6 +28,44 @@ public class ProjectAllType {
     @SerializedName("type")
     @Expose
     private String type;
+
+    protected ProjectAllType(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        image = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        type = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(image);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        dest.writeString(type);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ProjectAllType> CREATOR = new Creator<ProjectAllType>() {
+        @Override
+        public ProjectAllType createFromParcel(Parcel in) {
+            return new ProjectAllType(in);
+        }
+
+        @Override
+        public ProjectAllType[] newArray(int size) {
+            return new ProjectAllType[size];
+        }
+    };
 
     public String getId() {
         return id;

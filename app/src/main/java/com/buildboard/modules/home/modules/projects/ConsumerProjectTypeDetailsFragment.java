@@ -16,6 +16,8 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
+
 import java.util.Objects;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -23,9 +25,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
+
 public class ConsumerProjectTypeDetailsFragment extends Fragment implements HomeActivity.OnBackPressedListener{
 
     private Unbinder unbinder;
+    private  ProjectAllType mProjectAllTypesData;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroup;
@@ -49,8 +54,13 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
        View view =inflater.inflate(R.layout.fragment_consumer_project_type_details, container, false);
         unbinder = ButterKnife.bind(this, view);
         if (getActivity() != null) ((HomeActivity) getActivity()).setOnBackPressedListener(this);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mProjectAllTypesData = bundle.getParcelable(INTENT_PROJECT_TYPE_DATA);
+        }
 
-       return  view;
+
+        return  view;
     }
 
     @OnClick(R.id.buttonNext)

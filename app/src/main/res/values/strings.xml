@@ -319,7 +319,7 @@
     <string name="started_on">Started On: </string>
     <string name="created_on">Created On: </string>
     <string name="old_password">Old password</string>
-    <string name="password_alert_message">password did not match</string>
+    <string name="password_alert_message">Password did not match</string>
     <string name="brief_summary_of_company">Brief Summary Of Company</string>
     <string name="buildboard_verified">BUILDBOARD Verified</string>
     <string name="miles">miles</string>
@@ -328,4 +328,6 @@
     <string name="msg_success_businessinfo_update">Contractor Business Info Successfully Updated</string>
     <string name="image_content_contractor_profile_picture">Contractor Profile Picture</string>
     <string name="msg_permission_required">Permissions required to access this feature</string>
+    <string name="schedule_location">Schedule\nLocation</string>
+    <string name="attachements">Attachments</string>
 </resources>
