@@ -2,32 +2,32 @@ package com.buildboard.modules.home.modules.mailbox;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
+import com.buildboard.modules.home.modules.mailbox.inbox.TrashActivity;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
-import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
+import com.buildboard.view.SnackBarFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindString;
@@ -36,13 +36,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MailboxFragment extends Fragment implements AppConstant {
+public class MailboxFragment extends Fragment implements AppConstant, MessagesAdapter.UpdateMessageListListener {
 
 
     private Unbinder mUnbinder;
     private int mCurrentPage = 1;
     private ArrayList<MessageData> mMessagesList = new ArrayList<>();
     private MessagesAdapter mMessagesAdapter;
+    private boolean mIsSwiped = false;
+    private int mTextCount;
 
     @BindView(R.id.recycler_messages)
     RecyclerView recyclerMessages;
@@ -52,6 +54,12 @@ public class MailboxFragment extends Fragment implements AppConstant {
     BuildBoardTextView textErrorMessage;
     @BindView(R.id.relative_root)
     RelativeLayout relativeLayout;
+    @BindView(R.id.swipe_root)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.button_trash)
+    LinearLayout layoutTrash;
+    @BindView(R.id.text_trashcount)
+    TextView textTrashCount;
 
     @BindString(R.string.internet_connection_check)
     String stringNoInternet;
@@ -74,9 +82,14 @@ public class MailboxFragment extends Fragment implements AppConstant {
             recyclerMessages.setVisibility(isNetworkConnected ? View.VISIBLE : View.INVISIBLE);
             textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
         }
-        if (isNetworkConnected)
-            getMessages();
+        if (isNetworkConnected) getMessages();
         else textErrorMessage.setText(stringNoInternet);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateChat();
+            }
+        });
 
         return view;
     }
@@ -84,7 +97,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     @OnClick(R.id.fab)
@@ -97,17 +109,25 @@ public class MailboxFragment extends Fragment implements AppConstant {
         }
     }
 
-    private void getMessages() {
-        ProgressHelper.showProgressBar(getActivity(), progressMessages);
+    public void getMessages() {
+
+       if(!mIsSwiped)
+           ProgressHelper.showProgressBar(getActivity(), progressMessages);
+
         DataManager.getInstance().getMessages(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
+
+                if (mIsSwiped) mMessagesAdapter = null;
+
+                mIsSwiped = false;
                 ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 MessagesResponse messagesResponse = (MessagesResponse) response;
 
                 if (isAdded()) {
+                    swipeRefreshLayout.setRefreshing(false);
                     boolean isMessageAvailable = messagesResponse.getData().get(0).getData().size() > 0;
 
                     if (recyclerMessages != null) {
@@ -118,6 +138,8 @@ public class MailboxFragment extends Fragment implements AppConstant {
                             messagesResponse.getData().get(0).getData().size() > 0) {
                         setRecycler(messagesResponse.getData().get(0).getData(),
                                 messagesResponse.getData().get(0).getLastPage());
+                        mTextCount = messagesResponse.getData().get(0).getTrashCount();
+                        textTrashCount.setText(String.valueOf(mTextCount));
                     } else {
                         textErrorMessage.setText(stringNoMessages);
                     }
@@ -127,11 +149,13 @@ public class MailboxFragment extends Fragment implements AppConstant {
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
                 Utils.showError(getActivity(), relativeLayout, error);
+                mIsSwiped = false;
             }
         });
     }
 
     private void setRecycler(ArrayList<MessageData> messageData, int lastPage) {
+        mMessagesList=new ArrayList<>();
         mMessagesList.addAll(messageData);
 
         if (mMessagesAdapter == null) {
@@ -149,6 +173,7 @@ public class MailboxFragment extends Fragment implements AppConstant {
                 }
             });
         } else {
+            mMessagesAdapter.notifyDataSetChanged();
             recyclerMessages.getAdapter().notifyItemInserted((mMessagesList.size()));
         }
 
@@ -157,5 +182,34 @@ public class MailboxFragment extends Fragment implements AppConstant {
             if (mCurrentPage == lastPage)
                 mMessagesAdapter.setLastPage(true);
         }
+    }
+
+    @OnClick(R.id.button_trash)
+    public void trashTapped() {
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (mTextCount != 0) {
+                Intent intent = new Intent(getActivity(), TrashActivity.class);
+                getActivity().startActivity(intent);
+            } else {
+                SnackBarFactory.createSnackBar(getActivity(), relativeLayout, getString(R.string.no_trash_yet));
+            }
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), relativeLayout);
+        }
+    }
+
+    public void updateChat() {
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            mIsSwiped = true;
+            getMessages();
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            ConnectionDetector.createSnackBar(getActivity(), swipeRefreshLayout);
+        }
+    }
+
+    @Override
+    public void updateMessageView() {
+        getMessages();
     }
 }

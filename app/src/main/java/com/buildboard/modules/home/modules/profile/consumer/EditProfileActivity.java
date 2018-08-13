@@ -32,6 +32,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
+import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
@@ -49,6 +50,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindArray;
@@ -328,8 +330,9 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                Utils.showError(EditProfileActivity.this, constraintRoot, error);
-            }
+                ArrayList<String> errorResponse = (ArrayList<String>) error;
+                SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, errorResponse.get(0)).show();
+                }
         });
     }
 
@@ -535,7 +538,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             }
 
             @Override
-            public void onError(Object error){ ProgressHelper.hideProgressBar();}
+            public void onError(Object error) {
+                ProgressHelper.hideProgressBar();
+                Utils.showError(EditProfileActivity.this, constraintRoot, error);
+            }
         });
     }
 

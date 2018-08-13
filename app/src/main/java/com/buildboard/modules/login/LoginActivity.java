@@ -23,6 +23,7 @@ import com.buildboard.http.DataManager;
 import com.buildboard.http.ErrorManager;
 import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
+import com.buildboard.modules.home.modules.profile.consumer.ProfileSettingsActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
@@ -36,6 +37,7 @@ import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.utils.Validator;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.CallbackManager;
@@ -58,6 +60,7 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
@@ -179,8 +182,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }
@@ -410,6 +412,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object response) {
                 ProgressHelper.hideProgressBar();
+                ErrorResponse errorResponse = (ErrorResponse) response;
+                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }
         });
     }
@@ -442,8 +446,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ErrorResponse errorResponse = (ErrorResponse) error;
-                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
+                Utils.showError(LoginActivity.this, constraintRoot, error);
             }
         });
     }
