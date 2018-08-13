@@ -71,5 +71,4 @@ public class Data {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
 }
