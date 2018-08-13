@@ -8,6 +8,8 @@ public class ProjectType {
     private String id;
     @SerializedName("title")
     private String title;
+    @SerializedName("image")
+    private String image;
 
     public String getId() {
         return id;
@@ -23,5 +25,13 @@ public class ProjectType {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

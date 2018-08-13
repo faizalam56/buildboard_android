@@ -38,7 +38,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     private int mCurrentPage = 1;
     private ContractProjectsAdapter mProjectsAdapter;
     private ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
-    private String mCurrentStatus = STATUS_OPEN;
+    private String mCurrentStatus = STATUS_CURRENT;
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
     @BindView(R.id.button_current_projects)
@@ -213,12 +213,13 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                             setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
                             setProjectsSubTitle(mProjectsAdapter.getItemCount());
                         } else {
-                            textProjectsDetails.setText(getText(R.string.no_projects));
 
                             if (mCurrentStatus.equals(AppConstant.STATUS_LOST) || mCurrentStatus.equals(AppConstant.STATUS_OPEN) || mCurrentStatus.equals(AppConstant.STATUS_SAVED)) {
-                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + getString(R.string.quotes));
+                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.quotes));
+                                textProjectsDetails.setText("No "+mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.quotes));
                             } else {
-                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + getString(R.string.title_projects));
+                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() +" "+ getString(R.string.title_projects));
+                                textProjectsDetails.setText("No "+mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.title_projects));
                             }
                         }
                     }
@@ -240,14 +241,12 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
             }
         }
     }
-
     private void setNoInternetText() {
         noInternetText.setVisibility(View.VISIBLE);
         recyclerProjects.setVisibility(View.GONE);
         textProjectsDetails.setText("");
         textProjects.setText("");
     }
-
     private void setProjectsSubTitle(int count) {
 
         switch (mCurrentStatus) {
