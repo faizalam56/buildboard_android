@@ -1,7 +1,9 @@
 package com.buildboard.modules.home.modules.marketplace.contractors.models;
 
+import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewProject {
@@ -48,6 +50,8 @@ public class NewProject {
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
+    @SerializedName("project_type")
+    private ProjectType  ProjectType;
 
     public String getId() {
         return id;
@@ -216,4 +220,14 @@ public class NewProject {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public ProjectType getProjectType() {
+        return ProjectType;
+    }
+
+    public void setProjectType(ProjectType projectType) {
+        ProjectType = projectType;
+    }
+
+
 }

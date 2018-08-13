@@ -11,12 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +43,7 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
 
     @Override
     public NewProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_projects_for_contractor, parent, false);
         return new ViewHolder(view);
     }
 
@@ -63,6 +67,8 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
         TextView textRatingbar;
         @BindView(R.id.card_service)
         CardView mCoordinatorLayout;
+        @BindView(R.id.text_message_date)
+        BuildBoardTextView textMessageDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -71,15 +77,16 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
         }
 
         private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textName, textMessageDate);
         }
 
         private void setData() {
             NewProject nearByProjects = mNewProjects.get(getAdapterPosition());
             if (nearByProjects == null) return;
-            Picasso.get().load(nearByProjects.getImage()).placeholder(R.mipmap.no_image_available).into(imageService);
+            Picasso.get().load(nearByProjects.getProjectType().getImage()).placeholder(R.mipmap.no_image_available).into(imageService);
             textName.setText(nearByProjects.getTitle().substring(0,1).toUpperCase() + nearByProjects.getTitle().substring(1));
             textRatingbar.setVisibility(View.INVISIBLE);
+            textMessageDate.setText(ConvertTime(nearByProjects.getStartDate().replaceAll("-", "/")));
         }
 
         @OnClick(R.id.card_service)
@@ -94,5 +101,17 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
                 ConnectionDetector.createSnackBar(mContext, mCoordinatorLayout);
             }
         }
+    }
+
+    private String ConvertTime(String strDate) {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy"); // TODO: 8/13/2018
+        Date date = null;
+        try {
+            date = format1.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return (format2.format(date));
     }
 }
