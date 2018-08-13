@@ -17,6 +17,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
@@ -124,6 +126,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +158,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
+            getContractorDocuments();
         }
     }
 
@@ -225,26 +231,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
-
-    private void storeContractorDocuments() {
-        ProgressHelper.start(this, stringPleaseWait);
-        BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
-        DataManager.getInstance().storeContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
-                intent.putExtra(INTENT_USER_ID, mUserId);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
-            }
-        });
-    }
 
     private BusinessDocumentsRequest getBusinessRequest() {
         BusinessDocuments businessDocuments = new BusinessDocuments();
@@ -594,5 +580,43 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    private void storeContractorDocuments() {
+        ProgressHelper.start(this, stringPleaseWait);
+        BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
+        DataManager.getInstance().storeContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
+                intent.putExtra(INTENT_USER_ID, mUserId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void getContractorDocuments() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().getContractorDocuments(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                BusinessDocumentsResponse businessDocumentsResponse = (BusinessDocumentsResponse) response;
+                businessDocumentsResponse.getData();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
+            }
+        });
     }
 }
