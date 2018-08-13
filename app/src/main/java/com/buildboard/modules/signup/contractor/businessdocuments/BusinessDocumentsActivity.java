@@ -141,14 +141,10 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         getIntentData();
         setTermsServiceText();
 
-        addBusinessLicensing();
-        addBonding();
         addCertification();
         addInsurance();
         addWorkmanInsurance();
 
-        setBondingAdapter();
-        setBusinessLicensingAdapter();
         setCertificationAdapter();
         setInsuranceAdapter();
         setWorkmanInsuranceAdapter();
@@ -161,6 +157,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
             getContractorDocuments();
+        } else {
+            addBusinessLicensing(null);
+            addBonding(null);
+
+            setBondingAdapter();
+            setBusinessLicensingAdapter();
         }
     }
 
@@ -333,56 +335,62 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mCertifications.put(mCertifications.size() + 1, certificationDetails);
     }
 
-    private void addBonding() {
+    private void addBonding(ArrayList<DocumentData> bondingsResponse) {
 
         ArrayList<DocumentData> bondingDetails = new ArrayList<>();
+
+        DocumentData bondState = new DocumentData();
+        bondState.setKey(KEY_STATE);
+        bondState.setType(TYPE_DROPDOWN);
+        bondState.setValue((bondingsResponse != null && bondingsResponse.get(0).getValue() != null) ? bondingsResponse.get(0).getValue() : "");
+        bondingDetails.add(bondState);
 
         DocumentData bondCity = new DocumentData();
         bondCity.setKey(KEY_CITY);
         bondCity.setType(TYPE_DROPDOWN);
-        bondCity.setValue("");
+        bondCity.setValue((bondingsResponse != null && bondingsResponse.get(1).getValue() != null) ? bondingsResponse.get(1).getValue() : "");
         bondingDetails.add(bondCity);
 
         DocumentData bondNumber = new DocumentData();
         bondNumber.setKey(KEY_BOND_NUMBER);
         bondNumber.setType(TYPE_TEXT);
-        bondNumber.setValue("");
+        bondNumber.setValue((bondingsResponse != null && bondingsResponse.get(2).getValue() != null) ? bondingsResponse.get(2).getValue() : "");
         bondingDetails.add(bondNumber);
 
         DocumentData bondingDollarAmount = new DocumentData();
         bondingDollarAmount.setKey(KEY_BOND_DOLLAR_AMOUNT);
         bondingDollarAmount.setType(TYPE_TEXT);
-        bondingDollarAmount.setValue("");
+        bondingDollarAmount.setValue((bondingsResponse != null && bondingsResponse.get(3).getValue() != null) ? bondingsResponse.get(3).getValue() : "");
         bondingDetails.add(bondingDollarAmount);
 
         DocumentData bondAttachment = new DocumentData();
         bondAttachment.setKey(KEY_ATTACHMENT_BOND);
         bondAttachment.setType(TYPE_ATTACHMENT);
-        bondAttachment.setValue("");
+        bondAttachment.setValue((bondingsResponse != null && bondingsResponse.get(4).getValue() != null) ? bondingsResponse.get(4).getValue() : "");
         bondingDetails.add(bondAttachment);
 
         mBondings.put(mBondings.size() + 1, bondingDetails);
     }
 
-    private void addBusinessLicensing() {
+    private void addBusinessLicensing(ArrayList<DocumentData> businessLicenceResponse) {
 
         ArrayList<DocumentData> businessLicensingDetails = new ArrayList<>();
         DocumentData businessState = new DocumentData();
         businessState.setKey(KEY_STATE);
         businessState.setType(TYPE_DROPDOWN);
-        businessState.setValue("");
+        businessState.setValue((businessLicenceResponse != null && businessLicenceResponse.get(0).getValue() != null) ? businessLicenceResponse.get(0).getValue() : "");
         businessLicensingDetails.add(businessState);
 
         DocumentData businessLicenceNo = new DocumentData();
         businessLicenceNo.setKey(KEY_LICENSE_NUMBER);
         businessLicenceNo.setType(TYPE_TEXT);
-        businessLicenceNo.setValue("");
+        businessLicenceNo.setValue((businessLicenceResponse != null && businessLicenceResponse.get(1).getValue() != null) ? businessLicenceResponse.get(1).getValue() : "");
         businessLicensingDetails.add(businessLicenceNo);
 
         DocumentData businessAttachment = new DocumentData();
         businessAttachment.setKey(KEY_ATTACHMENT_BUSINESS);
         businessAttachment.setType(TYPE_ATTACHMENT);
-        businessAttachment.setValue("");
+        businessAttachment.setValue((businessLicenceResponse != null && businessLicenceResponse.get(2).getValue() != null) ? businessLicenceResponse.get(2).getValue() : "");
         businessLicensingDetails.add(businessAttachment);
 
         mBusinessLicensings.put(mBusinessLicensings.size() + 1, businessLicensingDetails);
@@ -432,7 +440,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addBusinessLicensing();
+                addBusinessLicensing(null);
                 mBusinessLicensingAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -453,7 +461,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBondingAdapter = new BondingAdapter(this, mBondings, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addBonding();
+                addBonding(null);
                 mBondingAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -610,8 +618,15 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
-                BusinessDocumentsResponse businessDocumentsResponse = (BusinessDocumentsResponse) response;
-                businessDocumentsResponse.getData();
+                BusinessDocuments businessDocuments = (BusinessDocuments) response;
+                for (int i = 1; i <= businessDocuments.getBonding().size(); i++) {
+                    addBonding(businessDocuments.getBonding().get(i));
+                }
+                for (int i = 1; i <= businessDocuments.getBusinessLicensing().size(); i++) {
+                    addBusinessLicensing(businessDocuments.getBusinessLicensing().get(i));
+                }
+                setBondingAdapter();
+                setBusinessLicensingAdapter();
             }
 
             @Override

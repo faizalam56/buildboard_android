@@ -26,6 +26,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.add
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
+import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -1030,6 +1031,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<ContractorListResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getContractorDocuments(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<GetBusinessDocumentsResponse> call = getDataManager().getContractorDocuments(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<GetBusinessDocumentsResponse>() {
+            @Override
+            public void onResponse(Call<GetBusinessDocumentsResponse> call, Response<GetBusinessDocumentsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getBusinessDocuments().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getBusinessDocuments().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetBusinessDocumentsResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

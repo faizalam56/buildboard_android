@@ -20,6 +20,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.add
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
+import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
@@ -184,4 +185,7 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/work-type")
     Call<ContractorListResponse> updateContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId, @Body WorkTypeRequest workTypeRequest);
+
+    @GET("contractor/profile/document")
+    Call<GetBusinessDocumentsResponse> getContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId);
 }

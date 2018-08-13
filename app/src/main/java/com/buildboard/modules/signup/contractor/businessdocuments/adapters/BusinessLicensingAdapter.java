@@ -49,6 +49,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     @Override
     public void onBindViewHolder(BusinessLicensingAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mBusinessLicensings.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.bindData();
     }
 
     @Override
@@ -85,6 +86,12 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
                     mBusinessLicensings.get(getAdapterPosition() + 1).get(1).setValue(value);
                 }
             }));
+        }
+
+        private void bindData(){
+            ArrayList<DocumentData> bondingDetail = mBusinessLicensings.get(getAdapterPosition()+1);
+            editState.setText(bondingDetail.get(0).getValue());
+            editLicenceNumber.setText(bondingDetail.get(1).getValue());
         }
 
         @OnClick(R.id.text_add_more)
