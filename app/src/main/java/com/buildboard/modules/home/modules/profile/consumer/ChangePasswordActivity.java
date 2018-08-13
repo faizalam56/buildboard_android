@@ -146,9 +146,8 @@ public class ChangePasswordActivity extends Activity {
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ArrayList<String> errorResponse = (ArrayList<String>) error;
-                Toast.makeText(ChangePasswordActivity.this, errorResponse.get(0), Toast.LENGTH_SHORT).show();
-            }
+                Utils.showError(ChangePasswordActivity.this,constraintLayout,error);
+             }
         });
     }
 }

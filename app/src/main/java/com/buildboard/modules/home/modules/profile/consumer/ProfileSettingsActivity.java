@@ -23,6 +23,7 @@ import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -149,8 +150,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ArrayList<String> errorResponse = (ArrayList<String>) error;
-                Toast.makeText(ProfileSettingsActivity.this, errorResponse.get(0), Toast.LENGTH_SHORT).show();
+                Utils.showError(ProfileSettingsActivity.this, constraintRoot, error);
             }
         });
     }

@@ -25,12 +25,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
+import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
@@ -45,10 +47,12 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -57,6 +61,7 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
@@ -508,8 +513,7 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ArrayList<String> errorResponse = (ArrayList<String>) error;
-                SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, errorResponse.get(0)).show();
+                Utils.showError(EditProfileActivity.this, constraintRoot, error);
             }
         });
     }
@@ -534,11 +538,10 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
             }
 
             @Override
-            public void onError(Object error){
+            public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ArrayList<String> errorResponse = (ArrayList<String>) error;
-                SnackBarFactory.createSnackBar(EditProfileActivity.this, constraintRoot, errorResponse.get(0)).show();
-                }
+                Utils.showError(EditProfileActivity.this, constraintRoot, error);
+            }
         });
     }
 

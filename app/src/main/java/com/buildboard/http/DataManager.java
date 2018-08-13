@@ -9,16 +9,16 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageResponse;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
+import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeResponse;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
-import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -907,9 +907,9 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData()!=null && response.body().getData().size() > 0)
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData() != null && response.body().getData().size() > 0)
                     dataManagerListener.onSuccess(response.body().getData().get(0));
-                else dataManagerListener.onError(response.body().getError().getMessage());
+                else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
