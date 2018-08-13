@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_70sdp"
+    android:layout_height="wrap_content"
     android:background="?android:selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:padding="@dimen/_5sdp">
 
     <LinearLayout
+        android:id="@+id/linearTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -32,7 +33,7 @@
 
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_receiver_name"
-            style="@style/textSize_small"
+            style="@style/textSize_smaller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,12 +52,19 @@
 
         <ImageView
             android:id="@+id/image_arrow"
-            android:layout_width="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_arrow_right_24"
-            android:tint="@color/colorPrimary" />
+            android:src="@drawable/ic_arrow_right_24" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/divider_drawable"
+        app:layout_constraintTop_toBottomOf="@+id/linearTop" />
 </android.support.constraint.ConstraintLayout>

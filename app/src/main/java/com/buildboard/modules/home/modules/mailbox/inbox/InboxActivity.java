@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.mailbox.inbox;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -113,9 +115,9 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                     textErrorMessage.setVisibility(View.GONE);
                     setInboxRecycler(messageData, mCurrentPage);
                 } else {
-                    mMessagesList.addAll(messageData);
+                    mMessagesList.addAll(0,messageData);
                     inboxAdapter.notifyDataSetChanged();
-                    recyclerMessages.scrollToPosition(mMessagesList.size() - 1);
+                    recyclerMessages.smoothScrollToPosition(mMessagesList.size() - 1);
                 }
             }
         } else {
@@ -154,6 +156,11 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.inboxmenu , menu);
+        Drawable drawable = menu.getItem(0).getIcon();
+        if(drawable != null) {
+            drawable.mutate();
+            drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        }
         return true;
     }
 
@@ -219,7 +226,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void setInboxRecycler(List<Data> inboxData, int lastPage) {
-        mMessagesList.addAll(inboxData);
+        mMessagesList.addAll(0,inboxData);
 
         if (inboxAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(InboxActivity.this);
@@ -227,7 +234,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             recyclerMessages.setLayoutManager(mLinearLayoutManager);
             inboxAdapter = new InboxAdapter(InboxActivity.this, mMessagesList, recyclerMessages);
             recyclerMessages.setAdapter(inboxAdapter);
-            recyclerMessages.scrollToPosition(inboxData.size() - 1);
+            recyclerMessages.smoothScrollToPosition(inboxData.size() - 1);
             inboxAdapter.setOnLoadMoreListener(new InboxAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
