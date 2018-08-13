@@ -55,6 +55,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
 enum Document {
@@ -583,12 +585,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void storeContractorDocuments() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
         DataManager.getInstance().storeContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
                 intent.putExtra(INTENT_USER_ID, mUserId);
                 startActivity(intent);
@@ -596,25 +598,25 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void getContractorDocuments() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getContractorDocuments(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 BusinessDocumentsResponse businessDocumentsResponse = (BusinessDocumentsResponse) response;
                 businessDocumentsResponse.getData();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
             }
         });
