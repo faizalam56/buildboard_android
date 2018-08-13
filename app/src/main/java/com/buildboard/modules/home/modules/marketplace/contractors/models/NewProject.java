@@ -228,6 +228,4 @@ public class NewProject {
     public void setProjectType(ProjectType projectType) {
         ProjectType = projectType;
     }
-
-
 }
