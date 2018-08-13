@@ -29,7 +29,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/repair_windows"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -45,7 +45,7 @@
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_9sdp"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/ic_right_arrow_green"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,12 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_9sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_25sdp"
             android:background="@drawable/divider_drawable"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginRight="@dimen/_25sdp" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/textView3"

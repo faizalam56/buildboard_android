@@ -1,27 +1,22 @@
 package com.buildboard.modules.home.modules.profile.consumer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-
 import java.util.ArrayList;
 
 import butterknife.BindString;

@@ -17,16 +17,19 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -146,7 +149,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                Utils.showError(ProfileSettingsActivity.this, constraintRoot, error);
+                ArrayList<String> errorResponse = (ArrayList<String>) error;
+                Toast.makeText(ProfileSettingsActivity.this, errorResponse.get(0), Toast.LENGTH_SHORT).show();
             }
         });
     }

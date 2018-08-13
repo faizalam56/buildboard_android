@@ -58,6 +58,7 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
@@ -179,8 +180,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
-                ErrorManager errorManager = new ErrorManager(LoginActivity.this, constraintRoot, error);
-                errorManager.handleErrorResponse();
+                ErrorResponse errorResponse = (ErrorResponse) error;
+                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }
         });
     }
@@ -410,6 +411,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object response) {
                 ProgressHelper.hideProgressBar();
+                ErrorResponse errorResponse = (ErrorResponse) response;
+                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
             }
         });
     }
