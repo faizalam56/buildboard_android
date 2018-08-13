@@ -21,6 +21,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.get
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
@@ -170,6 +171,7 @@ public interface IApiInterface {
 
     @POST("change-password")
     Call<ChangePasswordResponse> changePassword(@Header("oauth") String oauth, @Header("session") String sessionId, @Body ChangePasswordRequest changePasswordRequest);
+
     @GET("users/{id}")
     Call<ContractorProfileResponse> getContractorProfile(@Header("oauth") String oauth, @Header("session") String sessionId, @Path("id") String id);
 
@@ -178,4 +180,8 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/image")
     Call<SaveContractorImageResponse> updateContractorImage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SaveContractorImageRequest previousWorkRequest);
+
+    @GET("project-type/{id}")
+    Call<ProjectFormResponse> getConsumerSelectedProjectById(@Header("oauth") String oauth, @Path("id") String id);
+
 }

@@ -156,11 +156,15 @@
         </provider>
 
         <activity android:name=".modules.home.modules.profile.contractor.EditContractorProfileActivity" />
-        <activity android:name=".modules.home.modules.profile.consumer.ChangePasswordActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".modules.home.modules.profile.consumer.ChangePasswordActivity"
             android:label="@string/change_password"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".modules.home.modules.marketplace.ContractorProfile" />
+        <activity android:name=".modules.home.modules.projects.ConsumerWindowActivity"
+            android:label="@string/create_new_project"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

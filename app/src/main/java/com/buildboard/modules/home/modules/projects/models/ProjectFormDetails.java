@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProjectAllType implements Parcelable{
+import java.util.List;
+
+public class ProjectFormDetails implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -19,6 +21,9 @@ public class ProjectAllType implements Parcelable{
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("form")
+    @Expose
+    private List<ProjectTypeForm> form = null;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -29,7 +34,7 @@ public class ProjectAllType implements Parcelable{
     @Expose
     private String type;
 
-    protected ProjectAllType(Parcel in) {
+    protected ProjectFormDetails(Parcel in) {
         id = in.readString();
         title = in.readString();
         description = in.readString();
@@ -55,15 +60,15 @@ public class ProjectAllType implements Parcelable{
         return 0;
     }
 
-    public static final Creator<ProjectAllType> CREATOR = new Creator<ProjectAllType>() {
+    public static final Creator<ProjectFormDetails> CREATOR = new Creator<ProjectFormDetails>() {
         @Override
-        public ProjectAllType createFromParcel(Parcel in) {
-            return new ProjectAllType(in);
+        public ProjectFormDetails createFromParcel(Parcel in) {
+            return new ProjectFormDetails(in);
         }
 
         @Override
-        public ProjectAllType[] newArray(int size) {
-            return new ProjectAllType[size];
+        public ProjectFormDetails[] newArray(int size) {
+            return new ProjectFormDetails[size];
         }
     };
 
@@ -97,6 +102,14 @@ public class ProjectAllType implements Parcelable{
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<ProjectTypeForm> getForm() {
+        return form;
+    }
+
+    public void setForm(List<ProjectTypeForm> form) {
+        this.form = form;
     }
 
     public String getCreatedAt() {
