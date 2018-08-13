@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -28,6 +29,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
 
@@ -128,6 +130,12 @@ public class TrashMessageAdapter extends RecyclerView.Adapter {
             textMessage.setText(mMessageList.get(position).getLastMessage().getBody());
             textMessageDate.setText(ConvertTime(mMessageList.get(position).getLastMessage().getCreatedAt().replaceAll("-","/")));
             imageArrow.setVisibility(View.GONE);
+        }
+
+        @OnLongClick(R.id.constraint_root)
+        public boolean rowLongTapped(View v) {
+             Toast.makeText(mActivity,"Long Pressed",Toast.LENGTH_SHORT).show();
+             return true;
         }
     }
 

@@ -1,8 +1,10 @@
 package com.buildboard.http;
 
+import com.buildboard.modules.home.modules.mailbox.inbox.models.DeleteMessageRequest;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageResponse;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.TrashMessageResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
@@ -167,4 +169,10 @@ public interface IApiInterface {
 
     @GET("messages/trash")
     Call<MessagesResponse> getTrash(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @POST("trash-message")
+    Call<TrashMessageResponse> setTrashMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body DeleteMessageRequest deleteMessageRequest);
+
+    @POST("delete-message")
+    Call<TrashMessageResponse> setDeleteMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body DeleteMessageRequest deleteMessageRequest);
 }

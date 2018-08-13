@@ -22,6 +22,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.inbox.TrashActivity;
@@ -47,14 +48,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MailboxFragment extends Fragment implements AppConstant {
+public class MailboxFragment extends Fragment implements AppConstant, MessagesAdapter.UpdateMessageListListener {
 
 
     private Unbinder mUnbinder;
     private int mCurrentPage = 1;
     private ArrayList<MessageData> mMessagesList = new ArrayList<>();
     private MessagesAdapter mMessagesAdapter;
-    public EditProfileActivity.UpdateProfileListener mUpdateProfileListener;
     private boolean isSwiped=false;
     private int mTextCount;
 
@@ -111,7 +111,6 @@ public class MailboxFragment extends Fragment implements AppConstant {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
     }
 
     @OnClick(R.id.fab)
@@ -124,7 +123,7 @@ public class MailboxFragment extends Fragment implements AppConstant {
         }
     }
 
-    private void getMessages() {
+    public void getMessages() {
 
        if(!isSwiped)
            ProgressHelper.showProgressBar(getActivity(), progressMessages);
@@ -223,4 +222,9 @@ public class MailboxFragment extends Fragment implements AppConstant {
             ConnectionDetector.createSnackBar(getActivity(), swipeRefreshLayout);
         }
     }
-  }
+
+    @Override
+    public void updateMessageView() {
+        getMessages();
+    }
+}
