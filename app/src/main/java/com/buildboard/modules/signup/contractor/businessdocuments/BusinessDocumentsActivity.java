@@ -1,15 +1,10 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +45,6 @@ import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -61,10 +55,35 @@ import butterknife.OnClick;
 
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
+enum Document {
+    BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
+}
+
 public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
 
     private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
+
+    private String mUserId = "";
+    private InsuranceAdapter mInsuranceAdapter;
+    private CertificationAdapter mCertificationAdapter;
+    private WorkmanInsuranceAdapter mWorkmanInsuranceAdapter;
+    private BusinessLicensingAdapter mBusinessLicensingAdapter;
+    private BondingAdapter mBondingAdapter;
+
+    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
+
+    BottomSheetBehavior behavior;
+    private ImageUploadHelper mImageUploadHelper;
+    private String responseImageUrl;
+    private int mSelectedPosition;
+    private Document mSelectedSession;
+    String mCurrentPhotoPath;
+    private boolean isContractor;
 
     @BindView(R.id.title)
     TextView title;
@@ -98,36 +117,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
+
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
-
-    private String mUserId = "";
-    private InsuranceAdapter mInsuranceAdapter;
-    private CertificationAdapter mCertificationAdapter;
-    private WorkmanInsuranceAdapter mWorkmanInsuranceAdapter;
-    private BusinessLicensingAdapter mBusinessLicensingAdapter;
-    private BondingAdapter mBondingAdapter;
-
-    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
-
-    BottomSheetBehavior behavior;
-    private ImageUploadHelper mImageUploadHelper;
-    private String responsImageUrl;
-    private int mSelectedPosition;
-    private Document mSelectedSession;
-    String mCurrentPhotoPath;
-    private boolean isContractor;
-
-    private enum Document {
-        BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -561,7 +556,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @Override
     public void imageUrl(String url) {
-        responsImageUrl = url;
+        responseImageUrl = url;
         setImageUrl();
     }
 
@@ -569,23 +564,23 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         switch (mSelectedSession) {
 
             case BUSINESS_LICENSING:
-                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responseImageUrl);
                 break;
 
             case BONDING:
-                mBondings.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mBondings.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
 
             case INSURANCE:
-                mInsurances.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mInsurances.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
 
             case WORKMAN:
-                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responseImageUrl);
                 break;
 
             case CERTIFICATION:
-                mCertifications.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mCertifications.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
         }
     }

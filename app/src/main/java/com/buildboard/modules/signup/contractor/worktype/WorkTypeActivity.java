@@ -38,32 +38,34 @@ import butterknife.OnClick;
 
 public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
-    @BindView(R.id.title)
-    TextView title;
+    private String mWorkTypeId = "";
+    private ArrayList<String> selectedWorkType = new ArrayList<>();
+    private boolean isContractor;
 
     @BindView(R.id.recycler_work_type)
     RecyclerView recyclerWorkType;
+
     @BindString(R.string.work_type)
     String stringWorkType;
     @BindString(R.string.terms_of_service)
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindView(R.id.text_terms_of_service)
-    BuildBoardTextView textTermsOfService;
     @BindString(R.string.type_of_contractor)
     String stringContractorType;
     @BindString(R.string.save)
     String stringSave;
+
+    @BindView(R.id.text_terms_of_service)
+    BuildBoardTextView textTermsOfService;
+    @BindView(R.id.title)
+    BuildBoardTextView title;
+
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
-
-    private String mWorkTypeId = "";
-    private ArrayList<String> selectedWorkType = new ArrayList<>();
-    private boolean isContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
