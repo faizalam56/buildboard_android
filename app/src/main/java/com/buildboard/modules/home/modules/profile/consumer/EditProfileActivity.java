@@ -30,9 +30,9 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.customviews.RoundedTransformation;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
-import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;
 import com.buildboard.permissions.PermissionHelper;
@@ -547,13 +547,20 @@ public class EditProfileActivity extends AppCompatActivity implements AppConstan
 
     private void setProfileData(ProfileData profileData) {
         if (profileData != null) {
-            Picasso.get().load(profileData.getImage()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+            Picasso.get()
+                    .load(profileData.getImage())
+                    .resize(80, 80)
+                    .transform(new RoundedTransformation(3, 0))
+                    .error(R.drawable.upload_profile_image)
+                    .into(imageProfile);
+
             mAddressLatLng = new LatLng(profileData.getLatitude(), profileData.getLongitude());
             editFirstName.setText(profileData.getFirstName());
             editLastName.setText(profileData.getLastName());
             editEmail.setText(profileData.getEmail());
             editAddress.setText(profileData.getAddress());
             editPhoneNo.setText(profileData.getPhoneNo());
+
             if (profileData.getContactMode().equals("phone")) {
                 radioPhone.setChecked(true);
             } else {
