@@ -24,6 +24,7 @@ import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectType
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -125,10 +126,11 @@ public class ConsumerProjectTypeFragment extends Fragment
     }
 
     private void navigateFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        if (getActivity() != null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        }
     }
-
     @Override
     public void doBack() {
         navigateFragment(ConsumerProjectsFragment.newInstance());

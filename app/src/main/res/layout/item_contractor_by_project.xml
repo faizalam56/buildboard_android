@@ -38,7 +38,7 @@
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_name"
-                style="@style/textSize_medium"
+                style="@style/textSize_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -49,6 +49,7 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/primary_text_dark"
                 android:textStyle="bold"
+                android:text="Landscaping"
                 app:typeface="robotoMedium" />
 
         </RelativeLayout>

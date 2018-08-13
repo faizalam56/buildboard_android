@@ -64,14 +64,14 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
     BuildBoardTextView textEndDateTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.title)
-    BuildBoardTextView toolbarTitle;
     @BindView(R.id.recycler_footer)
     RecyclerView recyclerFooter;
     @BindView(R.id.progress_bar_service)
     ProgressBar progressBar;
     @BindView(R.id.scrollBar)
     ScrollView scrollView;
+    @BindView(R.id.title)
+    BuildBoardTextView toolbarTitle;
 
     @BindString(R.string.title_projects_desc)
     String titleProjectDesc;

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.widget.ProgressBar;
@@ -15,16 +17,20 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -113,6 +119,8 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    ProfileFragment.newInstance().profileData = null;
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -122,15 +130,18 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
                         }
                     });
                 } else if (mFacebookToken != null) {
-                    LoginManager.getInstance().logOut();
-                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    ProfileFragment.newInstance().profileData = null;
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     openActivity(LoginActivity.class, true);
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, stringLogout, Toast.LENGTH_SHORT).show();
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setString("", SESSION_ID);
                     AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_LOGIN);
+                    AppPreference.getAppPreference(ProfileSettingsActivity.this).setBoolean(false, IS_CONTRACTOR);
                     ProfileFragment.newInstance().profileData = null;
                     openActivity(LoginActivity.class, true);
                 }
@@ -157,6 +168,12 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        navigateFragment(ProfileFragment.newInstance());
+    }
+
+    private void navigateFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
     }
 
     @OnClick(R.id.card_privacy_policy)
@@ -165,7 +182,9 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     }
 
     @OnClick(R.id.card_change_password)
-    public void changePasswordTapped(){ }
+    public void changePasswordTapped(){
+        startActivity(new Intent(ProfileSettingsActivity.this, ChangePasswordActivity.class));
+    }
 
     @OnClick(R.id.card_term_of_use)
     public void termsOfUseTapped(){

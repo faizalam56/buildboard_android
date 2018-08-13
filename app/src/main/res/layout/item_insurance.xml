@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_liability_insurance"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/liability_insurance"
@@ -19,7 +19,7 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_liability_insurance"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/liability_insurance"
         android:layout_marginTop="@dimen/_10sdp"
@@ -32,7 +32,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_insurance_provider"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/insurance_provider"
@@ -45,7 +45,7 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_provider"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/insurance_provider"
@@ -58,7 +58,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_insurance_amount"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/insurance_dollar_amount"
@@ -71,7 +71,7 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_insurance_amount"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/insurance_dollar_amount"
@@ -84,7 +84,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_attachment"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/attachment"
@@ -97,7 +97,7 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment_insurance"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"

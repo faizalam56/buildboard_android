@@ -7,7 +7,7 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_state"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/state"
@@ -19,12 +19,12 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_state"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/state"
         android:imeOptions="actionNext"
         android:inputType="text"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_state"
@@ -32,11 +32,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_license_number"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/license_number"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_license_number"
-        style="@style/edit_text_size_small"
-        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:hint="@string/license_number"
         android:imeOptions="actionNext"
@@ -58,11 +58,11 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_attachment"
-        style="@style/textSize_smaller"
+        style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/attachment"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,11 +71,11 @@
 
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_attachment"
-        style="@style/edit_text_size_small"
+        style="@style/edit_text_size_smaller"
         android:layout_width="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"

@@ -2,12 +2,12 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +16,8 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
-import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,8 +25,12 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> implements AppConstant {
+import static com.buildboard.utils.Utils.dottedAfterCertainLength;
+public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder>
+        implements AppConstant {
+
 
     private Context mContext;
     private List<TrendingService> mTrendingServices;
@@ -56,6 +60,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TrendingService mTrendingService;
+
         @BindView(R.id.text_name)
         TextView textServiceName;
         @BindView(R.id.image_service)
@@ -72,23 +78,36 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             setFont();
         }
 
-        private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
+        @OnClick(R.id.card_service)
+        void cardTapped() {
+            Intent intent = new Intent(mContext, ContractorProfile.class);
+            intent.putExtra(INTENT_TRENDING_USER_ID, mTrendingService.getUserId());
+            mContext.startActivity(intent);
         }
 
         private void setData() {
-            TrendingService trendingService = mTrendingServices.get(getAdapterPosition());
-            if (trendingService == null)
+            mTrendingService = mTrendingServices.get(getAdapterPosition());
+            if (mTrendingService == null)
                 return;
 
-            if(trendingService.getRatingCount() != null) {
+            if(mTrendingService.getRatingCount() != null) {
                 textRatingBar.setVisibility(View.VISIBLE);
-                textRatingBar.setText(trendingService.getRatingCount());
+                textRatingBar.setText(mTrendingService.getRatingCount());
             } else {
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
-            textServiceName.setText(trendingService.getBusinessName() != null ? trendingService.getBusinessName() : stringNotAvailable);
-            Picasso.get().load(trendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
+
+            textServiceName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            textServiceName.setText(mTrendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(mTrendingService.getBusinessName(),mContext,45)) : stringNotAvailable);
+            Picasso.get().load(mTrendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
+        }
+
+        private String capitalizeFirstLetter(String original) {
+            return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
+        }
+
+        private void setFont() {
+            FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceName);
         }
     }
 }
