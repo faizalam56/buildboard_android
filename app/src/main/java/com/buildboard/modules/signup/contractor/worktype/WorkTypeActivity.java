@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.buildboard.modules.signup.models.contractortype.ContractorListRespons
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -37,8 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.buildboard.utils.Utils.showProgressBar;
-import static com.buildboard.utils.Utils.showProgressColor;
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
 
 public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
@@ -84,7 +86,6 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_work_type);
         ButterKnife.bind(this);
 
-        showProgressColor(this, progressBar);
         title.setText(stringWorkType);
         getIntentData();
         setTermsServiceText();
@@ -143,11 +144,11 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void getContractorList() {
-        showProgressBar(true, progressBar);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 buttonNext.setVisibility(View.VISIBLE);
                 if (response == null) return;
 
@@ -159,7 +160,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -167,11 +168,11 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
     private void saveWorkType(WorkTypeRequest workTypeRequest) {
 
-        showProgressBar(true, progressBar);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().saveWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 if (response == null) return;
 
                 Intent intent = new Intent(WorkTypeActivity.this, BusinessDocumentsActivity.class);
@@ -181,7 +182,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -222,11 +223,12 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     };
 
     private void getContractorWorkType() {
-        showProgressBar(true, progressBar);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getContractorWorkType(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
+                Log.e("session", ": "+ AppPreference.getAppPreference(WorkTypeActivity.this).getString(SESSION_ID));
                 if (response == null) return;
                 ContractorListResponse contractorListResponse = (ContractorListResponse) response;
                 setWorkTypeData(contractorListResponse.getDatas());
@@ -234,25 +236,25 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void updateContractorWorkType(WorkTypeRequest workTypeRequest) {
-        showProgressBar(true, progressBar);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().updateContractorWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 Toast.makeText(WorkTypeActivity.this, stringWorkTypeSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
 
             @Override
             public void onError(Object error) {
-                showProgressBar(false, progressBar);
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
