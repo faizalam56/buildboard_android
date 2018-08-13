@@ -34,13 +34,12 @@
         <ImageView
             android:id="@+id/text_msg_sent"
             style="@style/textSize_small"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_gravity="right"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="right|center"
             android:clickable="false"
             android:focusable="false"
             android:src="@drawable/ic_arrow_right_18"
-            android:textSize="@dimen/_12ssp"
-            android:tint="@color/colorGreen" />
+            android:textSize="@dimen/_12ssp" />
     </LinearLayout>
 </LinearLayout>

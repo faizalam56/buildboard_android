@@ -121,7 +121,7 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
         if (response == null) return;
 
         mProjectsDetailData = (ProjectsDetailData) response;
-        Utils.display(ProjectsDetailActivity.this, mProjectsDetailData.getImage(), projectImage, R.mipmap.no_image_available);
+        Utils.display(ProjectsDetailActivity.this, mProjectsDetailData.getProjectType().getImage(), projectImage, R.mipmap.no_image_available);
         textTitle.setText(mProjectsDetailData.getTitle());
         textEndDate.setText(convertTime(mProjectsDetailData.getEndDate().split("\\s+")[0].replaceAll("-", "/")));
         textStartDate.setText(convertTime(mProjectsDetailData.getStartDate().split("\\s+")[0].replaceAll("-", "/")));

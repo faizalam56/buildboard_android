@@ -129,7 +129,7 @@ public class ProfileFragment extends Fragment
     }
 
     private void setProfileData(ProfileData profileData) {
-        textName.setText(profileData.getFirstName());
+        textName.setText(profileData.getFirstName() + " " + profileData.getLastName());
         textEmail.setText(profileData.getEmail());
         textPhone.setText(profileData.getPhoneNo());
         Picasso.get().load(profileData.getImage()).transform(new RoundedCornersTransform()).into(imageProfile);

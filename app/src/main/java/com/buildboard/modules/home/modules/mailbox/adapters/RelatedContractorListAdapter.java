@@ -13,10 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedData;
 import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedData;
+import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
 import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
@@ -31,7 +33,7 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.DATA;
 
-public class RelatedContractorListAdapter extends RecyclerView.Adapter {
+public class RelatedContractorListAdapter extends RecyclerView.Adapter implements AppConstant {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -124,8 +126,8 @@ public class RelatedContractorListAdapter extends RecyclerView.Adapter {
         @OnClick(R.id.constraint_root)
         public void rowTapped() {
             if (ConnectionDetector.isNetworkConnected(mActivity)) {
-                Intent intent = new Intent(mActivity, InboxActivity.class);
-                intent.putExtra(DATA, mMessageList.get(getAdapterPosition()).getUserId());
+                Intent intent = new Intent(mActivity, ContractorProfile.class);
+                intent.putExtra(INTENT_TRENDING_USER_ID,  mMessageList.get(getAdapterPosition()).getUserId());
                 mActivity.startActivity(intent);
             } else {
                 ConnectionDetector.createSnackBar(mActivity, constraintLayout);

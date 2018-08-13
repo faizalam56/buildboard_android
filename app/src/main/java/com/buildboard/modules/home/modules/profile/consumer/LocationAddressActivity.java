@@ -27,7 +27,6 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.get
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
-import com.buildboard.view.SimpleDividerItemDecoration;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -114,7 +113,6 @@ public class LocationAddressActivity extends AppCompatActivity
     private void setRecycler(ArrayList<AddressListData> addressListData) {
         mAddressesAdapter = new AddressesAdapter(this, addressListData, progressBar);
         recyclerAddresses.setLayoutManager(new LinearLayoutManager(this));
-        recyclerAddresses.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerAddresses.setAdapter(mAddressesAdapter);
         enableSwipe();
     }

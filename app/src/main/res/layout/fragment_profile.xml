@@ -48,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:includeFontPadding="false"
                     android:inputType="textMultiLine"
@@ -56,8 +57,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/card_image_profile"
                     app:layout_constraintTop_toTopOf="@+id/card_image_profile"
-                    app:typeface="robotoMedium"
-                    android:layout_marginRight="@dimen/_15sdp" />
+                    app:typeface="robotoMedium" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_email"
@@ -65,11 +65,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_name"
-                    app:layout_constraintTop_toBottomOf="@+id/text_name"
-                    android:layout_marginRight="@dimen/_15sdp" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_phone"
@@ -77,11 +77,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_email"
-                    app:layout_constraintTop_toBottomOf="@+id/text_email"
-                    android:layout_marginRight="@dimen/_15sdp" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
             </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.AppBarLayout>
 
@@ -123,6 +123,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_preferred_contractor"
+                        style="@style/textSize_smaller"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -131,7 +132,8 @@
                         android:layout_toRightOf="@+id/image_preferred_contractor"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/my_preferred_contractor" />
+                        android:text="@string/my_preferred_contractor"
+                        android:textColor="@android:color/black" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -184,6 +186,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_location"
+                        style="@style/textSize_smaller"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -193,7 +196,8 @@
                         android:layout_toRightOf="@+id/image_location"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/my_location_address" />
+                        android:text="@string/my_location_address"
+                        android:textColor="@android:color/black" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -246,6 +250,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/text_reviews"
+                        style="@style/textSize_smaller"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -255,7 +260,8 @@
                         android:layout_toRightOf="@+id/image_reviews"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/reviews" />
+                        android:text="@string/reviews"
+                        android:textColor="@android:color/black" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
