@@ -42,7 +42,7 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:clickable="false"
                 android:focusable="false"
-                android:text="Trash"
+                android:text="@string/trash"
                 android:textColor="@color/colorGreen"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />

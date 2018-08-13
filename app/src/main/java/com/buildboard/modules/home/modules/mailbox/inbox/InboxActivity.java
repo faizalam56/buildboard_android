@@ -161,7 +161,6 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-
                 if (ConnectionDetector.isNetworkConnected(InboxActivity.this)) {
                     isRefreshed = true;
                     mMessagesList=new ArrayList<>();
@@ -184,10 +183,10 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         return currentTime;
     }
 
-    private void getMessages(String userId, int page) {
+    private void getMessages(String userId, int pageNumber) {
 
         ProgressHelper.showProgressBar(InboxActivity.this, progressBar);
-        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, page, new DataManager.DataManagerListener() {
+        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, pageNumber, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();

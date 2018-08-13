@@ -778,9 +778,9 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
-    public void getInboxMessages(Activity activity, String receiverId, int page, final DataManagerListener dataManagerListener) {
+    public void getInboxMessages(Activity activity, String receiverId, int pageNumber, final DataManagerListener dataManagerListener) {
         Call<InboxMessagesResponse> call = getDataManager().getInboxMessages(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
-                AppPreference.getAppPreference(activity).getString(SESSION_ID), receiverId, page);
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), receiverId, pageNumber);
         call.enqueue(new Callback<InboxMessagesResponse>() {
             @Override
             public void onResponse(Call<InboxMessagesResponse> call, Response<InboxMessagesResponse> response) {

@@ -25,7 +25,6 @@
             style="@style/textSize_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorenown printer  Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer"
             android:textSize="@dimen/_12ssp"
             android:visibility="visible" />
 
@@ -62,7 +61,6 @@
             style="@style/textSize_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="this is demo text"
             android:textSize="@dimen/_12ssp"
             android:visibility="visible" />
 
@@ -72,7 +70,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="Aug 1, 12:02 PM"
             android:textSize="@dimen/_8ssp"
             android:visibility="visible" />
     </LinearLayout>

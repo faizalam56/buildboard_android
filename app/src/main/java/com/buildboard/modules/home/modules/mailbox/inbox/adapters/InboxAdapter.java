@@ -62,7 +62,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
             int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
 
             if (!isLoading && !isLastPage) {
-                if (firstVisibleItemPosition== 0) {
+                if (firstVisibleItemPosition == 0) {
                     setLoading(true);
                     if (onLoadMoreListener != null) {
                         onLoadMoreListener.onLoadMore();
@@ -174,7 +174,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
 
     private String ConvertTime(String strDate) {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, h:mm a");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, h:mm a"); // TODO: 8/13/2018  
         Date date = null;
         try {
             date = format1.parse(strDate);

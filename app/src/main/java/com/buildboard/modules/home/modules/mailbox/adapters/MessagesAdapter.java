@@ -59,7 +59,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
      public MessagesAdapter(Activity activity, ArrayList<MessageData> messageDataList, RecyclerView recyclerView) {
         mActivity = activity;
         mMessageList = messageDataList;
-        mRecyclerView=recyclerView;
+         mRecyclerView = recyclerView;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         mLayoutInflater = LayoutInflater.from(mActivity);
     }
@@ -184,12 +184,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
-                })
-                .show();
+                }).show();
     }
 
     private void trashMessage(final int position){
-
         DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest();
         deleteMessageRequest.setRecipientid(mMessageList.get(position).getReceiver().getUserId());
         DataManager.getInstance().setTrashMessage(mActivity, deleteMessageRequest, new DataManager.DataManagerListener() {
@@ -202,9 +200,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                     mMessageList.remove(position);
                     notifyDataSetChanged();
                     SnackBarFactory.createSnackBar(mActivity, mRecyclerView, messagesResponse.getData().get(0).getMessage());
-                   }
+                }
             }
-             @Override
+
+            @Override
             public void onError(Object error) {
                 // TODO: 8/13/2018
             }
@@ -221,7 +220,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     private String ConvertTime(String strDate) {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");// TODO: 8/13/2018
         Date date = null;
         try {
             date = format1.parse(strDate);

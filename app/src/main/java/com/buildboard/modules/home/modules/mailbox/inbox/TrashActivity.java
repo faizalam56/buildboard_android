@@ -33,13 +33,12 @@ import butterknife.ButterKnife;
 public class TrashActivity extends AppCompatActivity implements AppConstant {
 
     private TrashMessageAdapter mTrashMessageAdapter;
-    private Context mContext;
-    private ArrayList<MessageData> mMessagesList = new ArrayList<>();
+     private ArrayList<MessageData> mMessagesList = new ArrayList<>();
     private int mCurrentPage = 1;
     private String mUserId = null;
     private MessagesResponse mMessagesResponse;
     private String mSelfUserId;
-    private boolean isSwiped=false;
+    private boolean isSwiped = false;
 
     @BindView(R.id.title)
     TextView title;
@@ -72,13 +71,11 @@ public class TrashActivity extends AppCompatActivity implements AppConstant {
         ButterKnife.bind(this);
 
         boolean isNetworkConnected = ConnectionDetector.isNetworkConnected(this);
-        mContext = this;
-        mSelfUserId = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
+        mSelfUserId = AppPreference.getAppPreference(this).getString(AppConstant.USER_ID);
         title.setText(stringTrash);
 
         if (isNetworkConnected) getTrashMessages();
-        else
-            textErrorMessage.setText(stringNoInternet);
+        else textErrorMessage.setText(stringNoInternet);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -94,13 +91,14 @@ public class TrashActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void getTrashMessages() {
-        if(!isSwiped)
-        ProgressHelper.showProgressBar(TrashActivity.this, progressBar);
+        if (!isSwiped)
+            ProgressHelper.showProgressBar(TrashActivity.this, progressBar);
+
         DataManager.getInstance().getTrash(TrashActivity.this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
 
-                if(isSwiped) mTrashMessageAdapter=null;
+                if (isSwiped) mTrashMessageAdapter=null;
 
                 isSwiped=false;
                 ProgressHelper.hideProgressBar();

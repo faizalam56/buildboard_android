@@ -59,6 +59,8 @@
     <string name="no_attachmets">No Attachments</string>
     <string name="title_forgot_password">Forgot Password</string>
     <string name="trash_message_title">Trash Message</string>
+    <string name="trash">Trash</string>
+    <string name="text_refresh">Refresh</string>
     <string name="trash_message_message">Do you want move this chat to Trash?</string>
     <string name="trash_message_positive_text">Trash</string>
     <string name="msg_enter_email_address">Enter Your Email Address</string>

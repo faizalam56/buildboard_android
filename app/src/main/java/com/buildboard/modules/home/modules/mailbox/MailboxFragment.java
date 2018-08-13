@@ -2,17 +2,13 @@ package com.buildboard.modules.home.modules.mailbox;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,24 +18,16 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
-import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
 import com.buildboard.modules.home.modules.mailbox.inbox.TrashActivity;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedResponse;
 import com.buildboard.modules.home.modules.mailbox.models.MessageData;
 import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ContractorRelatedResponse;
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
-import com.buildboard.modules.home.modules.profile.consumer.EditProfileActivity;
-import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SimpleDividerItemDecoration;
 import com.buildboard.view.SnackBarFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindString;
@@ -55,7 +43,7 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
     private int mCurrentPage = 1;
     private ArrayList<MessageData> mMessagesList = new ArrayList<>();
     private MessagesAdapter mMessagesAdapter;
-    private boolean isSwiped=false;
+    private boolean mIsSwiped = false;
     private int mTextCount;
 
     @BindView(R.id.recycler_messages)
@@ -95,9 +83,7 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
             textErrorMessage.setVisibility(isNetworkConnected ? View.INVISIBLE : View.VISIBLE);
         }
         if (isNetworkConnected) getMessages();
-        else
-            textErrorMessage.setText(stringNoInternet);
-
+        else textErrorMessage.setText(stringNoInternet);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -125,16 +111,16 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
 
     public void getMessages() {
 
-       if(!isSwiped)
+       if(!mIsSwiped)
            ProgressHelper.showProgressBar(getActivity(), progressMessages);
 
         DataManager.getInstance().getMessages(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
 
-                if(isSwiped) mMessagesAdapter=null;
+                if (mIsSwiped) mMessagesAdapter = null;
 
-                isSwiped=false;
+                mIsSwiped = false;
                 ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
@@ -163,7 +149,7 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
                 Utils.showError(getActivity(), relativeLayout, error);
-                isSwiped=false;
+                mIsSwiped = false;
             }
         });
     }
@@ -201,7 +187,6 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
     @OnClick(R.id.button_trash)
     public void trashTapped() {
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
-
             if (mTextCount != 0) {
                 Intent intent = new Intent(getActivity(), TrashActivity.class);
                 getActivity().startActivity(intent);
@@ -215,7 +200,7 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
 
     public void updateChat() {
         if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            isSwiped = true;
+            mIsSwiped = true;
             getMessages();
         } else {
             swipeRefreshLayout.setRefreshing(false);

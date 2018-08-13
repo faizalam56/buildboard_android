@@ -151,6 +151,4 @@ public class Data {
     public void setTrashCount(Integer trashCount) {
         this.trashCount = trashCount;
     }
-
-
 }
