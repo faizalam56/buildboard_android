@@ -12,6 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +23,10 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
-import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.preferences.AppPreference;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -37,6 +36,9 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.buildboard.utils.Utils.showProgressBar;
+import static com.buildboard.utils.Utils.showProgressColor;
 
 public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
@@ -73,12 +75,16 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_type);
         ButterKnife.bind(this);
 
+        showProgressColor(this, progressBar);
         title.setText(stringWorkType);
         getIntentData();
         setTermsServiceText();
@@ -137,12 +143,12 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void getContractorList() {
-
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(true, progressBar);
         DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
+                buttonNext.setVisibility(View.VISIBLE);
                 if (response == null) return;
 
                 workTypeList = (ArrayList<ContractorTypeDetail>) response;
@@ -153,7 +159,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -161,11 +167,11 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
     private void saveWorkType(WorkTypeRequest workTypeRequest) {
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(true, progressBar);
         DataManager.getInstance().saveWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 if (response == null) return;
 
                 Intent intent = new Intent(WorkTypeActivity.this, BusinessDocumentsActivity.class);
@@ -175,7 +181,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -216,11 +222,11 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     };
 
     private void getContractorWorkType() {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(true, progressBar);
         DataManager.getInstance().getContractorWorkType(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 if (response == null) return;
                 ContractorListResponse contractorListResponse = (ContractorListResponse) response;
                 setWorkTypeData(contractorListResponse.getDatas());
@@ -228,25 +234,25 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void updateContractorWorkType(WorkTypeRequest workTypeRequest) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(true, progressBar);
         DataManager.getInstance().updateContractorWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 Toast.makeText(WorkTypeActivity.this, stringWorkTypeSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                showProgressBar(false, progressBar);
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });

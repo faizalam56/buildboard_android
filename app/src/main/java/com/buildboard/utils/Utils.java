@@ -211,4 +211,8 @@ public class Utils {
         }
         return formatted_date;
     }
+
+    public static void showProgressBar(boolean visibility, ProgressBar progressBar) {
+        progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
 }

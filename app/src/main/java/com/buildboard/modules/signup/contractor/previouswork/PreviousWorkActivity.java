@@ -85,8 +85,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private String responsImageUrl;
     private ImageUploadHelper mImageUploadHelper;
 
-    BottomSheetBehavior behavior;
-    String mCurrentPhotoPath;
+    private BottomSheetBehavior behavior;
+    private String mCurrentPhotoPath;
     private int mSelectedPosition;
     private boolean isAttachment;
     private boolean isContractor;

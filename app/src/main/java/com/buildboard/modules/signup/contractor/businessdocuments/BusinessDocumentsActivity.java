@@ -77,12 +77,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
 
-    BottomSheetBehavior behavior;
+    private BottomSheetBehavior behavior;
     private ImageUploadHelper mImageUploadHelper;
     private String responseImageUrl;
     private int mSelectedPosition;
     private Document mSelectedSession;
-    String mCurrentPhotoPath;
+    private String mCurrentPhotoPath;
     private boolean isContractor;
 
     @BindView(R.id.title)
