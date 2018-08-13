@@ -991,6 +991,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
     public void getTrash(Activity activity, final DataManagerListener dataManagerListener) {
         Call<MessagesResponse> call = getDataManager().getTrash(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 AppPreference.getAppPreference(activity).getString(SESSION_ID));
