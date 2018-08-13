@@ -2,14 +2,13 @@ package com.buildboard.modules.home.modules.marketplace.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -66,7 +65,6 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
         ImageView imageService;
         @BindView(R.id.textRatingBar)
         BuildBoardTextView textRatingBar;
-
         @BindString(R.string.not_available)
         String stringNotAvailable;
 
@@ -84,14 +82,14 @@ public class NearByContractorAdapter extends RecyclerView.Adapter<NearByContract
             nearByContractor = mNearByContractors.get(getAdapterPosition());
             if (nearByContractor == null) return;
 
-            if(nearByContractor.getRatingCount() != null) {
+            if (nearByContractor.getRatingCount() != null) {
                 textRatingBar.setVisibility(View.VISIBLE);
                 textRatingBar.setText(nearByContractor.getRatingCount());
             } else {
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
-            textName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            textName.setText(nearByContractor.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(nearByContractor.getBusinessName(),mContext,45)) : stringNotAvailable);
+
+            textName.setText(nearByContractor.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(nearByContractor.getBusinessName(), mContext, 45)) : stringNotAvailable);
             Picasso.get().load(nearByContractor.getImage()).placeholder(R.mipmap.no_image_available).into(imageService);//TODO change placeholder
         }
 
