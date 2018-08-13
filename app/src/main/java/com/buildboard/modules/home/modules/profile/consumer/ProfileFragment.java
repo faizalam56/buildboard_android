@@ -11,17 +11,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
+import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.view.SnackBarFactory;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -177,6 +182,8 @@ public class ProfileFragment extends Fragment
             @Override
             public void onError(Object error) {
                 hideProgressBar();
+                ArrayList<String> errorResponse = (ArrayList<String>) error;
+                Toast.makeText(getActivity(), errorResponse.get(0), Toast.LENGTH_SHORT).show();
             }
         });
     }
