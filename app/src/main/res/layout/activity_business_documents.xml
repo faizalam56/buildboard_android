@@ -59,12 +59,12 @@
                     android:id="@+id/linear_layout_business_license"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorGreen"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorGreen"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing"/>
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_business_licensing" />
                 <!-- End Business License -->
 
                 <!-- Bonding -->
@@ -94,12 +94,12 @@
                     android:id="@+id/linear_layout_bonding"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorGreen"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorGreen"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_bonding"/>
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_bonding" />
 
                 <!-- End Bonding -->
 
@@ -129,12 +129,12 @@
                     android:id="@+id/linear_layout_insurance"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorGreen"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorGreen"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_insurance"/>
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_insurance" />
 
                 <!-- End Insurance -->
 
@@ -165,12 +165,12 @@
                     android:id="@+id/linear_layout_insurance_workman"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorGreen"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorGreen"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance"/>
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_workman_insurance" />
 
                 <!-- End Workman's Comp Insurance -->
 
@@ -201,12 +201,12 @@
                     android:id="@+id/linear_layout_certification"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorGreen"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorGreen"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_certification"/>
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_certification" />
 
                 <!-- End Certification -->
 
@@ -236,6 +236,18 @@
                     app:typeface="robotoRegular" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v4.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
