@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,25 +23,18 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.adapters.InboxAdapter;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.Data;
-import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessageData;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
-import com.buildboard.modules.home.modules.mailbox.models.MessageData;
-import com.buildboard.modules.home.modules.mailbox.models.MessagesResponse;
-import com.buildboard.modules.home.modules.mailbox.modules.models.ConsumerRelatedData;
-import com.buildboard.modules.home.modules.profile.consumer.LocationAddressActivity;
-import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
-import com.buildboard.view.SimpleDividerItemDecoration;
-import com.buildboard.view.SnackBarFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindString;
@@ -55,6 +51,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     private String mUserId = null;
     private InboxMessagesResponse mMessagesResponse;
     private String mSelfUserId;
+    private boolean isRefreshed =false;
 
     @BindView(R.id.title)
     TextView title;
@@ -88,6 +85,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         setContentView(R.layout.activity_inbox);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         mContext = this;
         mSelfUserId = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
         title.setText(stringInbox);
@@ -105,11 +103,14 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                 data.setBody(editWriteMsg.getText().toString());
                 data.setRecipientId(mUserId);
                 data.setType(textMessageType);
+                data.setCreatedAt(getCurrentTime());
                 messageData.add(data);
                 sendMessage(editWriteMsg.getText().toString());
                 editWriteMsg.setText("");
 
                 if (inboxAdapter == null) {
+                    recyclerMessages.setVisibility(View.VISIBLE);
+                    textErrorMessage.setVisibility(View.GONE);
                     setInboxRecycler(messageData, mCurrentPage);
                 } else {
                     mMessagesList.addAll(messageData);
@@ -125,7 +126,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     private void getIntentData() {
         if (getIntent().hasExtra(DATA)) {
             mUserId = getIntent().getStringExtra(DATA);
-            getMessages(mUserId);
+            getMessages(mUserId,mCurrentPage);
         }
     }
 
@@ -149,16 +150,53 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         });
     }
 
-    private void getMessages(String userId) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.inboxmenu , menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (ConnectionDetector.isNetworkConnected(InboxActivity.this)) {
+                    isRefreshed = true;
+                    mMessagesList=new ArrayList<>();
+                    getMessages(mUserId, mCurrentPage);
+                } else {
+                    ConnectionDetector.createSnackBar(mContext, constraintLayout);
+                }
+                break;
+             default:
+                break;
+        }
+
+        return true;
+    }
+
+    private String getCurrentTime() {
+        String currentTime = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentTime = sdf.format(new Date());
+        return currentTime;
+    }
+
+    private void getMessages(String userId, int pageNumber) {
+
         ProgressHelper.showProgressBar(InboxActivity.this, progressBar);
-        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, new DataManager.DataManagerListener() {
+        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, pageNumber, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
+                if (isRefreshed) inboxAdapter = null;
+
+                isRefreshed = false;
+
                 if (response == null) return;
 
                 mMessagesResponse = (InboxMessagesResponse) response;
-
                 boolean isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
                 recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
                 textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
@@ -195,7 +233,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                 public void onLoadMore() {
                     mCurrentPage++;
                     if (inboxAdapter != null && inboxAdapter.isLoading)
-                        getMessages(mUserId);
+                        getMessages(mUserId, mCurrentPage);
                 }
             });
         } else {
