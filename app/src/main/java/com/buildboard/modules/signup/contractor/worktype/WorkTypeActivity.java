@@ -228,7 +228,6 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
-                Log.e("session", ": "+ AppPreference.getAppPreference(WorkTypeActivity.this).getString(SESSION_ID));
                 if (response == null) return;
                 ContractorListResponse contractorListResponse = (ContractorListResponse) response;
                 setWorkTypeData(contractorListResponse.getDatas());
