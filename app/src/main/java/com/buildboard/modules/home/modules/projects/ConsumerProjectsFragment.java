@@ -122,6 +122,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void setFonts() {
@@ -130,8 +131,10 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void navigateFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        if (getActivity() != null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
+        }
     }
 
     @OnClick(R.id.button_create_new_projects)

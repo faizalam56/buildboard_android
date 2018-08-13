@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.projects;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +24,21 @@ import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
+import com.buildboard.modules.login.LoginActivity;
+import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
 
 public class ConsumerProjectTypeFragment extends Fragment
         implements IRecyclerItemClickListener, HomeActivity.OnBackPressedListener {
@@ -106,16 +114,18 @@ public class ConsumerProjectTypeFragment extends Fragment
     @Override
     public void onItemClick(View view, int position, Object data) {
         ProjectAllType projectType = (ProjectAllType) data;
-        getAllProjectDetails();
+        getAllProjectDetails(projectType.getId());
     }
 
-    private void getAllProjectDetails() {
+   private void getAllProjectDetails(final String selectedProjectId) {
         ProgressHelper.showProgressBar(getActivity(), progressBar);
         DataManager.getInstance().getProjectDetails(getActivity(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
-                navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
+                if(isAdded() && response!=null){
+                    getProjectById(selectedProjectId);
+                }
             }
 
             @Override
@@ -124,6 +134,37 @@ public class ConsumerProjectTypeFragment extends Fragment
             }
         });
     }
+
+    private void getProjectById(String id){
+        ProgressHelper.showProgressBar(getActivity(), progressBar);
+        DataManager.getInstance().getSelectedProjectById(getActivity(),id, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.hideProgressBar();
+                if(isAdded() && response!=null){
+                    ProjectFormDetails projectFormDetails =(ProjectFormDetails) response;
+                    if(projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
+                        ConsumerProjectTypeDetailsFragment.newInstance().setArguments(bundle);
+                        navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
+                    } else{
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
+                        ConsumerCreateProjectFragment.newInstance().setArguments(bundle);
+                        navigateFragment(ConsumerCreateProjectFragment.newInstance());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.hideProgressBar();
+            }
+        });
+
+    }
+
 
     private void navigateFragment(Fragment fragment) {
         if (getActivity() != null) {

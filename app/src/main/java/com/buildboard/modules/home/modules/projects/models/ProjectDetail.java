@@ -40,8 +40,6 @@ public class ProjectDetail {
     @SerializedName("consumer")
     private ConsumerInfo consumerInfo;
 
-
-
     public String getId() {
         return id;
     }
