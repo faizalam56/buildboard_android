@@ -22,6 +22,7 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.preferences.AppPreference;
@@ -41,6 +42,8 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     private String mWorkTypeId = "";
     private ArrayList<String> selectedWorkType = new ArrayList<>();
     private boolean isContractor;
+    private ArrayList<ContractorTypeDetail> workTypeList;
+    private WorkTypeAdapter mWorkTypeAdapter;
 
     @BindView(R.id.recycler_work_type)
     RecyclerView recyclerWorkType;
@@ -96,7 +99,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     }
 
     public void setRecycler(ArrayList<ContractorTypeDetail> workTypeList) {
-        WorkTypeAdapter workTypeAdapter = new WorkTypeAdapter(this, workTypeList, new WorkTypeAdapter.OnItemCheckListener() {
+        mWorkTypeAdapter = new WorkTypeAdapter(this, workTypeList, new WorkTypeAdapter.OnItemCheckListener() {
             @Override
             public void onItemChecked(String selectWorkId) {
                 selectedWorkType.add(selectWorkId);
@@ -109,7 +112,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         });
 
         recyclerWorkType.setLayoutManager(new LinearLayoutManager(this));
-        recyclerWorkType.setAdapter(workTypeAdapter);
+        recyclerWorkType.setAdapter(mWorkTypeAdapter);
     }
 
     private void getIntentData() {
@@ -136,8 +139,10 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
                 ProgressHelper.stop();
                 if (response == null) return;
 
-                ArrayList<ContractorTypeDetail> workTypeList = (ArrayList<ContractorTypeDetail>) response;
+                workTypeList = (ArrayList<ContractorTypeDetail>) response;
                 setRecycler(workTypeList);
+                if (isContractor)
+                    getContractorWorkType();
             }
 
             @Override
@@ -203,4 +208,33 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
+    private void getContractorWorkType() {
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().getContractorWorkType(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                if (response == null) return;
+                ContractorListResponse contractorListResponse = (ContractorListResponse) response;
+                setWorkTypeData(contractorListResponse.getDatas());
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(WorkTypeActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void setWorkTypeData(ArrayList<ContractorTypeDetail> contractorTypeDetails) {
+        for (ContractorTypeDetail contractorTypeDetail : workTypeList){
+            for (ContractorTypeDetail selectedContractorType : contractorTypeDetails){
+                if(contractorTypeDetail.getId().equalsIgnoreCase(selectedContractorType.getId()))
+                    contractorTypeDetail.setSelected(true);
+            }
+        }
+        mWorkTypeAdapter.notifyDataSetChanged();
+    }
 }

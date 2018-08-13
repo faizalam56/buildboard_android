@@ -19,6 +19,7 @@ public class ContractorTypeDetail implements Parcelable {
     private String lastChange;
     @SerializedName("type")
     private String type;
+    private boolean isSelected;
 
     protected ContractorTypeDetail(Parcel in) {
         id = in.readString();
@@ -100,5 +101,13 @@ public class ContractorTypeDetail implements Parcelable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

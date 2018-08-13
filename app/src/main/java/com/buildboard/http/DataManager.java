@@ -988,4 +988,27 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
+    public void getContractorWorkType(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<ContractorListResponse> call = getDataManager().getContractorWorkType(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<ContractorListResponse>() {
+            @Override
+            public void onResponse(Call<ContractorListResponse> call, Response<ContractorListResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getDatas().size() > 0)
+                    dataManagerListener.onSuccess(response.body());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContractorListResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
 }

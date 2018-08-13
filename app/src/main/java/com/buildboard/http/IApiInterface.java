@@ -178,4 +178,7 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/image")
     Call<SaveContractorImageResponse> updateContractorImage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SaveContractorImageRequest previousWorkRequest);
+
+    @GET("contractor/profile/work-type")
+    Call<ContractorListResponse> getContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId);
 }
