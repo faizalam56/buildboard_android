@@ -91,7 +91,6 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
             mSearchContractorList.clear();
             if (s.length() == 0) {
                 mSearchContractorList.addAll(mContractorList);
-                mContractorsAdapter.notifyDataSetChanged();
                 return;
             }
 
@@ -99,7 +98,6 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
                 if (contractors.getFirstName().contains(s))
                     mSearchContractorList.add(contractors);
             }
-            mContractorsAdapter.notifyDataSetChanged();
         }
     };
 
