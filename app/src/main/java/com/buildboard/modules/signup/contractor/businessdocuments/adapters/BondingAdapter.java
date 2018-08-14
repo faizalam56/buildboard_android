@@ -61,6 +61,8 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
+        @BindView(R.id.edit_state)
+        BuildBoardEditText editState;
         @BindView(R.id.edit_city)
         BuildBoardEditText editCity;
         @BindView(R.id.edit_bond_number)
@@ -74,32 +76,40 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback() {
+            editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
                     mBondinds.get(getAdapterPosition() + 1).get(0).setValue(value);
                 }
             }));
-            editBondNumber.addTextChangedListener(new GenericTextWatcher(editBondNumber, new ITextWatcherCallback() {
+            editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback() {
+
                 @Override
                 public void getValue(String value) {
                     mBondinds.get(getAdapterPosition() + 1).get(1).setValue(value);
                 }
             }));
-            editAmount.addTextChangedListener(new GenericTextWatcher(editAmount, new ITextWatcherCallback() {
+            editBondNumber.addTextChangedListener(new GenericTextWatcher(editBondNumber, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
                     mBondinds.get(getAdapterPosition() + 1).get(2).setValue(value);
+                }
+            }));
+            editAmount.addTextChangedListener(new GenericTextWatcher(editAmount, new ITextWatcherCallback() {
+                @Override
+                public void getValue(String value) {
+                    mBondinds.get(getAdapterPosition() + 1).get(3).setValue(value);
                 }
             }));
         }
 
         private void bindData(){
             ArrayList<DocumentData> bondingDetail = mBondinds.get(getAdapterPosition()+1);
-            editCity.setText(bondingDetail.get(0).getValue());
-            editBondNumber.setText(bondingDetail.get(1).getValue());
-            editAmount.setText(bondingDetail.get(2).getValue());
+            editState.setText(bondingDetail.get(0).getValue());
+            editCity.setText(bondingDetail.get(1).getValue());
+            editBondNumber.setText(bondingDetail.get(2).getValue());
+            editAmount.setText(bondingDetail.get(3).getValue());
         }
 
         @OnClick(R.id.text_add_more)
