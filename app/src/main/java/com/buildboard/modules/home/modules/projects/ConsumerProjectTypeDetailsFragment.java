@@ -61,7 +61,9 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
                              Bundle savedInstanceState) {
        View view =inflater.inflate(R.layout.fragment_consumer_project_type_details, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         if (getActivity() != null) ((HomeActivity) getActivity()).setOnBackPressedListener(this);
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mProjectAllTypesData = bundle.getParcelable(INTENT_PROJECT_TYPE_DATA);

@@ -3,31 +3,24 @@ package com.buildboard.modules.home.modules.projects;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import com.buildboard.R;
 import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
-
 import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.buildboard.constants.AppConstant.INTENT_CREATE_PROJECT_TASK;
 import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
-import static com.buildboard.constants.AppConstant.INTENT_SELECTED_CATEGORY;
 
 public class ConsumerCreateProjectFragment extends Fragment implements HomeActivity.OnBackPressedListener {
 
@@ -45,7 +38,7 @@ public class ConsumerCreateProjectFragment extends Fragment implements HomeActiv
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_consumer_create_project, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -55,7 +48,6 @@ public class ConsumerCreateProjectFragment extends Fragment implements HomeActiv
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mProjectAllTypesData = bundle.getParcelable(INTENT_PROJECT_TYPE_DATA);
-            mSelectedCategory = bundle.getString(INTENT_SELECTED_CATEGORY);
         }
 
         return view;
@@ -63,7 +55,7 @@ public class ConsumerCreateProjectFragment extends Fragment implements HomeActiv
 
     @OnClick(R.id.row_repair_window)
     public void repairWidowTapped(){
-
+        openActivity();
     }
 
     @OnClick(R.id.row_replace_window)
@@ -71,9 +63,10 @@ public class ConsumerCreateProjectFragment extends Fragment implements HomeActiv
         openActivity();
     }
 
-    private void openActivity(){
-
-        startActivity(new Intent(getActivity(), ConsumerWindowActivity.class));
+    private void openActivity() {
+        Intent intent = new Intent(getActivity(), ConsumerWindowActivity.class);
+        intent.putExtra(INTENT_PROJECT_TYPE_DATA, mProjectAllTypesData);
+        startActivity(intent);
     }
 
     @Override

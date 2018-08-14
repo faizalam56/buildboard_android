@@ -22,6 +22,7 @@ import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectsAda
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
 import com.buildboard.modules.home.modules.projects.models.ProjectsData;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -81,7 +82,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
             recyclerProjects.setVisibility(View.VISIBLE);
             getProjectsList();
         } else {
-            hideProgressBar();
+            ProgressHelper.hideProgressBar();
             ConnectionDetector.createSnackBar(getActivity(), container);
         }
 
@@ -89,11 +90,11 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setProjectsRecycler(ArrayList<ProjectDetail> projectDetails, int lastPage) {
-        showProgressBar();
+        ProgressHelper.showProgressBar(getActivity(), progressBar);
         mProjectDetails.addAll(projectDetails);
 
         if (mProjectsAdapter == null) {
-            hideProgressBar();
+           ProgressHelper.hideProgressBar();
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerProjects.setLayoutManager(mLinearLayoutManager);
             mProjectsAdapter = new ConsumerProjectsAdapter(getActivity(), mProjectDetails, recyclerProjects);
@@ -107,15 +108,15 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
                 }
             });
         } else {
-            hideProgressBar();
+            ProgressHelper.hideProgressBar();
             recyclerProjects.getAdapter().notifyItemInserted((mProjectDetails.size()));
         }
 
         if (mProjectsAdapter != null) {
             mProjectsAdapter.setLoading(false);
             if (mCurrentPage == lastPage)
-                hideProgressBar();
-                mProjectsAdapter.setLastPage(true);
+             ProgressHelper.hideProgressBar();
+             mProjectsAdapter.setLastPage(true);
         }
     }
 
@@ -174,23 +175,13 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         getProjectsList();
     }
 
-    public void showProgressBar(){
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar(){
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
     private void getProjectsList() {
-        showProgressBar();
+        ProgressHelper.showProgressBar(getActivity(), progressBar);
         recyclerProjects.setEnabled(false);
         DataManager.getInstance().getProjectsList(getActivity(), mCurrentStatus, mCurrentPage, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 ArrayList<ProjectsData> projectsData = (ArrayList<ProjectsData>) response;
                 ArrayList<ProjectDetail> projectDetails = projectsData.get(0).getDatas();
 
@@ -210,7 +201,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                hideProgressBar();
+                ProgressHelper.hideProgressBar();
             }
         });
     }
