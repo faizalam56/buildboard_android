@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -12,13 +13,16 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
+import com.buildboard.utils.ConnectionDetector;
 
 import java.util.Objects;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,11 +30,13 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
+import static com.buildboard.constants.AppConstant.INTENT_SELECTED_CATEGORY;
 
 public class ConsumerProjectTypeDetailsFragment extends Fragment implements HomeActivity.OnBackPressedListener{
 
     private Unbinder unbinder;
-    private  ProjectAllType mProjectAllTypesData;
+    private ProjectFormDetails mProjectAllTypesData;
+    String mSelectedMode;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroup;
@@ -40,6 +46,8 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
     RadioButton radioEmail;
     @BindView(R.id.buttonNext)
     BuildBoardButton buildBoardButton;
+    @BindView(R.id.container_root)
+    ConstraintLayout constraintLayout;
 
     @BindString(R.string.select_alert_message)
     String showAlertMessage;
@@ -59,19 +67,40 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
             mProjectAllTypesData = bundle.getParcelable(INTENT_PROJECT_TYPE_DATA);
         }
 
+        radioGroup.setOnCheckedChangeListener(checkedChangeListener);
 
         return  view;
     }
 
+    RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            radioGroup.getCheckedRadioButtonId();
+            RadioButton radioButton = radioGroup.findViewById(checkedId);
+            mSelectedMode = (String) radioButton.getText();
+        }
+    };
+
+
+
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
-        if(radioGroup.getCheckedRadioButtonId()!=-1){
-            navigateFragment(ConsumerCreateProjectFragment.newInstance());
-       } else {
-            PopUpHelper.showInfoAlertPopup(getActivity(), showAlertMessage, new PopUpHelper.InfoPopupListener() {
-                @Override
-                public void onConfirm() { }
-            });
+        if(ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (radioGroup.getCheckedRadioButtonId() != -1) {
+                ConsumerCreateProjectFragment consumerCreateProjectFragment = new ConsumerCreateProjectFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(INTENT_SELECTED_CATEGORY, mSelectedMode);
+                consumerCreateProjectFragment.setArguments(bundle);
+                navigateFragment(consumerCreateProjectFragment);
+            } else {
+                PopUpHelper.showInfoAlertPopup(getActivity(), showAlertMessage, new PopUpHelper.InfoPopupListener() {
+                    @Override
+                    public void onConfirm() {
+                    }
+                });
+            }
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(),constraintLayout);
         }
     }
 
@@ -85,7 +114,7 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) Objects.requireNonNull(getActivity())).setTitle(getString(R.string.select_location));
+        ((HomeActivity) Objects.requireNonNull(getActivity())).setTitle(getString(R.string.create_new_project));
     }
 
     @Override

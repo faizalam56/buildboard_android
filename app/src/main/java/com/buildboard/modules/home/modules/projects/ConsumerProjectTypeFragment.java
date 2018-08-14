@@ -113,8 +113,12 @@ public class ConsumerProjectTypeFragment extends Fragment
 
     @Override
     public void onItemClick(View view, int position, Object data) {
-        ProjectAllType projectType = (ProjectAllType) data;
-        getAllProjectDetails(projectType.getId());
+        if(ConnectionDetector.isNetworkConnected(getActivity())) {
+            ProjectAllType projectType = (ProjectAllType) data;
+            getAllProjectDetails(projectType.getId());
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), containers);
+        }
     }
 
    private void getAllProjectDetails(final String selectedProjectId) {
@@ -143,17 +147,26 @@ public class ConsumerProjectTypeFragment extends Fragment
                 ProgressHelper.hideProgressBar();
                 if(isAdded() && response!=null){
                     ProjectFormDetails projectFormDetails =(ProjectFormDetails) response;
-                    if(projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+
+                    ConsumerProjectTypeDetailsFragment consumerProjectTypeDetailsFragment = new ConsumerProjectTypeDetailsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
+                    consumerProjectTypeDetailsFragment.setArguments(bundle);
+                    navigateFragment(consumerProjectTypeDetailsFragment);
+
+                    /*if(projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+                        ConsumerProjectTypeDetailsFragment consumerProjectTypeDetailsFragment = new ConsumerProjectTypeDetailsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
-                        ConsumerProjectTypeDetailsFragment.newInstance().setArguments(bundle);
-                        navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
-                    } else{
+                        consumerProjectTypeDetailsFragment.setArguments(bundle);
+                        navigateFragment(consumerProjectTypeDetailsFragment);
+                    }*/ /*else{
+                        ConsumerCreateProjectFragment consumerCreateProjectFragment = new ConsumerCreateProjectFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
-                        ConsumerCreateProjectFragment.newInstance().setArguments(bundle);
-                        navigateFragment(ConsumerCreateProjectFragment.newInstance());
-                    }
+                        consumerCreateProjectFragment.setArguments(bundle);
+                        navigateFragment(consumerCreateProjectFragment);
+                    }*/
                 }
             }
 
