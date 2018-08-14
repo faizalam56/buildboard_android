@@ -2,7 +2,6 @@ package com.buildboard.modules.signup.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import butterknife.OnClick;
 
 public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTypeViewHolder> {
 
-    private final SparseBooleanArray itemPositionArray = new SparseBooleanArray();
     private Activity mActivity;
     private ArrayList<ContractorTypeDetail> mWorkTypeList;
     private LayoutInflater mLayoutInflater;
@@ -70,32 +68,27 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.WorkTy
             this.contractorTypeDetail = contractorTypeDetail;
 
             textWorkName.setText(contractorTypeDetail.getTitle());
-            checkBox.setChecked(itemPositionArray.get(getAdapterPosition()));
+            checkBox.setChecked(contractorTypeDetail.isSelected());
+            if (contractorTypeDetail.isSelected())
+                mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
         }
 
         @OnClick(R.id.constraint_root)
         void onRowTapped() {
             checkBox.setChecked(!checkBox.isChecked());
-            itemPositionArray.put(getAdapterPosition(), true);
 
             if (checkBox.isChecked()) {
-                itemPositionArray.put(getAdapterPosition(), true);
                 mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
             } else {
-                itemPositionArray.put(getAdapterPosition(), false);
                 mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
             }
-
-            notifyDataSetChanged();
         }
 
         @OnClick(R.id.checkbox_work_type)
         void checkBoxTapped() {
             if (checkBox.isChecked()) {
-                itemPositionArray.put(getAdapterPosition(), true);
                 mOnItemCheckListener.onItemChecked(contractorTypeDetail.getId());
             } else {
-                itemPositionArray.put(getAdapterPosition(), false);
                 mOnItemCheckListener.onItemUnChecked(contractorTypeDetail.getId());
             }
         }

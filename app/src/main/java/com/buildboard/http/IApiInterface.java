@@ -22,6 +22,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.add
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.GetAddressesResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
+import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
@@ -194,4 +195,12 @@ public interface IApiInterface {
     @GET("project-type/{id}")
     Call<ProjectFormResponse> getConsumerSelectedProjectById(@Header("oauth") String oauth, @Path("id") String id);
 
+    @GET("contractor/profile/work-type")
+    Call<ContractorListResponse> getContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/work-type")
+    Call<ContractorListResponse> updateContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId, @Body WorkTypeRequest workTypeRequest);
+
+    @GET("contractor/profile/document")
+    Call<GetBusinessDocumentsResponse> getContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId);
 }

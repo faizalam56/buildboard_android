@@ -1,15 +1,10 @@
 package com.buildboard.modules.signup.contractor.businessdocuments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +17,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +31,7 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
+import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
@@ -50,7 +47,6 @@ import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -59,12 +55,39 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
+
+enum Document {
+    BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
+}
 
 public class BusinessDocumentsActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
 
     private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
+
+    private String mUserId = "";
+    private InsuranceAdapter mInsuranceAdapter;
+    private CertificationAdapter mCertificationAdapter;
+    private WorkmanInsuranceAdapter mWorkmanInsuranceAdapter;
+    private BusinessLicensingAdapter mBusinessLicensingAdapter;
+    private BondingAdapter mBondingAdapter;
+
+    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
+    private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
+
+    private BottomSheetBehavior behavior;
+    private ImageUploadHelper mImageUploadHelper;
+    private String responseImageUrl;
+    private int mSelectedPosition;
+    private Document mSelectedSession;
+    private String mCurrentPhotoPath;
+    private boolean isContractor;
 
     @BindView(R.id.title)
     TextView title;
@@ -98,36 +121,15 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
+
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
 
-    private String mUserId = "";
-    private InsuranceAdapter mInsuranceAdapter;
-    private CertificationAdapter mCertificationAdapter;
-    private WorkmanInsuranceAdapter mWorkmanInsuranceAdapter;
-    private BusinessLicensingAdapter mBusinessLicensingAdapter;
-    private BondingAdapter mBondingAdapter;
-
-    private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mBondings = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
-    private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
-
-    BottomSheetBehavior behavior;
-    private ImageUploadHelper mImageUploadHelper;
-    private String responsImageUrl;
-    private int mSelectedPosition;
-    private Document mSelectedSession;
-    String mCurrentPhotoPath;
-    private boolean isContractor;
-
-    private enum Document {
-        BUSINESS_LICENSING, BONDING, INSURANCE, WORKMAN, CERTIFICATION
-    }
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,14 +141,10 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         getIntentData();
         setTermsServiceText();
 
-        addBusinessLicensing();
-        addBonding();
         addCertification();
         addInsurance();
         addWorkmanInsurance();
 
-        setBondingAdapter();
-        setBusinessLicensingAdapter();
         setCertificationAdapter();
         setInsuranceAdapter();
         setWorkmanInsuranceAdapter();
@@ -158,6 +156,13 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
+            getContractorDocuments();
+        } else {
+            addBusinessLicensing(null);
+            addBonding(null);
+
+            setBondingAdapter();
+            setBusinessLicensingAdapter();
         }
     }
 
@@ -230,26 +235,6 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
-
-    private void storeContractorDocuments() {
-        ProgressHelper.start(this, stringPleaseWait);
-        BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
-        DataManager.getInstance().storeContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
-                intent.putExtra(INTENT_USER_ID, mUserId);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
-            }
-        });
-    }
 
     private BusinessDocumentsRequest getBusinessRequest() {
         BusinessDocuments businessDocuments = new BusinessDocuments();
@@ -350,56 +335,62 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mCertifications.put(mCertifications.size() + 1, certificationDetails);
     }
 
-    private void addBonding() {
+    private void addBonding(ArrayList<DocumentData> bondingsResponse) {
 
         ArrayList<DocumentData> bondingDetails = new ArrayList<>();
+
+        DocumentData bondState = new DocumentData();
+        bondState.setKey(KEY_STATE);
+        bondState.setType(TYPE_DROPDOWN);
+        bondState.setValue((bondingsResponse != null && bondingsResponse.get(0).getValue() != null) ? bondingsResponse.get(0).getValue() : "");
+        bondingDetails.add(bondState);
 
         DocumentData bondCity = new DocumentData();
         bondCity.setKey(KEY_CITY);
         bondCity.setType(TYPE_DROPDOWN);
-        bondCity.setValue("");
+        bondCity.setValue((bondingsResponse != null && bondingsResponse.get(1).getValue() != null) ? bondingsResponse.get(1).getValue() : "");
         bondingDetails.add(bondCity);
 
         DocumentData bondNumber = new DocumentData();
         bondNumber.setKey(KEY_BOND_NUMBER);
         bondNumber.setType(TYPE_TEXT);
-        bondNumber.setValue("");
+        bondNumber.setValue((bondingsResponse != null && bondingsResponse.get(2).getValue() != null) ? bondingsResponse.get(2).getValue() : "");
         bondingDetails.add(bondNumber);
 
         DocumentData bondingDollarAmount = new DocumentData();
         bondingDollarAmount.setKey(KEY_BOND_DOLLAR_AMOUNT);
         bondingDollarAmount.setType(TYPE_TEXT);
-        bondingDollarAmount.setValue("");
+        bondingDollarAmount.setValue((bondingsResponse != null && bondingsResponse.get(3).getValue() != null) ? bondingsResponse.get(3).getValue() : "");
         bondingDetails.add(bondingDollarAmount);
 
         DocumentData bondAttachment = new DocumentData();
         bondAttachment.setKey(KEY_ATTACHMENT_BOND);
         bondAttachment.setType(TYPE_ATTACHMENT);
-        bondAttachment.setValue("");
+        bondAttachment.setValue((bondingsResponse != null && bondingsResponse.get(4).getValue() != null) ? bondingsResponse.get(4).getValue() : "");
         bondingDetails.add(bondAttachment);
 
         mBondings.put(mBondings.size() + 1, bondingDetails);
     }
 
-    private void addBusinessLicensing() {
+    private void addBusinessLicensing(ArrayList<DocumentData> businessLicenceResponse) {
 
         ArrayList<DocumentData> businessLicensingDetails = new ArrayList<>();
         DocumentData businessState = new DocumentData();
         businessState.setKey(KEY_STATE);
         businessState.setType(TYPE_DROPDOWN);
-        businessState.setValue("");
+        businessState.setValue((businessLicenceResponse != null && businessLicenceResponse.get(0).getValue() != null) ? businessLicenceResponse.get(0).getValue() : "");
         businessLicensingDetails.add(businessState);
 
         DocumentData businessLicenceNo = new DocumentData();
         businessLicenceNo.setKey(KEY_LICENSE_NUMBER);
         businessLicenceNo.setType(TYPE_TEXT);
-        businessLicenceNo.setValue("");
+        businessLicenceNo.setValue((businessLicenceResponse != null && businessLicenceResponse.get(1).getValue() != null) ? businessLicenceResponse.get(1).getValue() : "");
         businessLicensingDetails.add(businessLicenceNo);
 
         DocumentData businessAttachment = new DocumentData();
         businessAttachment.setKey(KEY_ATTACHMENT_BUSINESS);
         businessAttachment.setType(TYPE_ATTACHMENT);
-        businessAttachment.setValue("");
+        businessAttachment.setValue((businessLicenceResponse != null && businessLicenceResponse.get(2).getValue() != null) ? businessLicenceResponse.get(2).getValue() : "");
         businessLicensingDetails.add(businessAttachment);
 
         mBusinessLicensings.put(mBusinessLicensings.size() + 1, businessLicensingDetails);
@@ -449,7 +440,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addBusinessLicensing();
+                addBusinessLicensing(null);
                 mBusinessLicensingAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -470,7 +461,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBondingAdapter = new BondingAdapter(this, mBondings, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addBonding();
+                addBonding(null);
                 mBondingAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -561,7 +552,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @Override
     public void imageUrl(String url) {
-        responsImageUrl = url;
+        responseImageUrl = url;
         setImageUrl();
     }
 
@@ -569,23 +560,23 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         switch (mSelectedSession) {
 
             case BUSINESS_LICENSING:
-                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responseImageUrl);
                 break;
 
             case BONDING:
-                mBondings.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mBondings.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
 
             case INSURANCE:
-                mInsurances.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mInsurances.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
 
             case WORKMAN:
-                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responsImageUrl);
+                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responseImageUrl);
                 break;
 
             case CERTIFICATION:
-                mCertifications.get(mSelectedPosition).get(3).setValue(responsImageUrl);
+                mCertifications.get(mSelectedPosition).get(3).setValue(responseImageUrl);
                 break;
         }
     }
@@ -599,5 +590,50 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    private void storeContractorDocuments() {
+        showProgressBar(this, progressBar);
+        BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
+        DataManager.getInstance().storeContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                hideProgressBar();
+                Intent intent = new Intent(BusinessDocumentsActivity.this, PreviousWorkActivity.class);
+                intent.putExtra(INTENT_USER_ID, mUserId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void getContractorDocuments() {
+        showProgressBar(this, progressBar);
+        DataManager.getInstance().getContractorDocuments(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                hideProgressBar();
+                BusinessDocuments businessDocuments = (BusinessDocuments) response;
+                for (int i = 1; i <= businessDocuments.getBonding().size(); i++) {
+                    addBonding(businessDocuments.getBonding().get(i));
+                }
+                for (int i = 1; i <= businessDocuments.getBusinessLicensing().size(); i++) {
+                    addBusinessLicensing(businessDocuments.getBusinessLicensing().get(i));
+                }
+                setBondingAdapter();
+                setBusinessLicensingAdapter();
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
+            }
+        });
     }
 }

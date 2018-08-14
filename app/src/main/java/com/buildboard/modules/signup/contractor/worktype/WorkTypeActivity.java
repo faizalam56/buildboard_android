@@ -11,7 +11,9 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.signup.adapter.WorkTypeAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
+import com.buildboard.modules.signup.models.contractortype.ContractorListResponse;
 import com.buildboard.modules.signup.models.contractortype.ContractorTypeDetail;
 import com.buildboard.modules.signup.models.contractortype.WorkTypeRequest;
 import com.buildboard.preferences.AppPreference;
@@ -36,34 +39,46 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
+
 public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
-    @BindView(R.id.title)
-    TextView title;
+    private String mWorkTypeId = "";
+    private ArrayList<String> selectedWorkType = new ArrayList<>();
+    private boolean isContractor;
+    private ArrayList<ContractorTypeDetail> workTypeList;
+    private WorkTypeAdapter mWorkTypeAdapter;
 
     @BindView(R.id.recycler_work_type)
     RecyclerView recyclerWorkType;
+
     @BindString(R.string.work_type)
     String stringWorkType;
     @BindString(R.string.terms_of_service)
     String stringTermsOfService;
     @BindString(R.string.privacy_policy_text)
     String stringPrivacyPolicy;
-    @BindView(R.id.text_terms_of_service)
-    BuildBoardTextView textTermsOfService;
     @BindString(R.string.type_of_contractor)
     String stringContractorType;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_worktype_update)
+    String stringWorkTypeSuccess;
+
+    @BindView(R.id.text_terms_of_service)
+    BuildBoardTextView textTermsOfService;
+    @BindView(R.id.title)
+    BuildBoardTextView title;
+
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
 
-    private String mWorkTypeId = "";
-    private ArrayList<String> selectedWorkType = new ArrayList<>();
-    private boolean isContractor;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +102,17 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     void nextTapped() {
         if (selectedWorkType != null && !selectedWorkType.isEmpty()) {
             WorkTypeRequest workTypeRequest = getWorkTypeRequest(selectedWorkType);
-            saveWorkType(workTypeRequest);
+            if (isContractor)
+                updateContractorWorkType(workTypeRequest);
+            else
+                saveWorkType(workTypeRequest);
         } else {
             SnackBarFactory.createSnackBar(this, constraintRoot, getString(R.string.error_work_type_not_selected));
         }
     }
 
     public void setRecycler(ArrayList<ContractorTypeDetail> workTypeList) {
-        WorkTypeAdapter workTypeAdapter = new WorkTypeAdapter(this, workTypeList, new WorkTypeAdapter.OnItemCheckListener() {
+        mWorkTypeAdapter = new WorkTypeAdapter(this, workTypeList, new WorkTypeAdapter.OnItemCheckListener() {
             @Override
             public void onItemChecked(String selectWorkId) {
                 selectedWorkType.add(selectWorkId);
@@ -107,7 +125,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
         });
 
         recyclerWorkType.setLayoutManager(new LinearLayoutManager(this));
-        recyclerWorkType.setAdapter(workTypeAdapter);
+        recyclerWorkType.setAdapter(mWorkTypeAdapter);
     }
 
     private void getIntentData() {
@@ -126,21 +144,23 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
     }
 
     private void getContractorList() {
-
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getContractorList(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
+                buttonNext.setVisibility(View.VISIBLE);
                 if (response == null) return;
 
-                ArrayList<ContractorTypeDetail> workTypeList = (ArrayList<ContractorTypeDetail>) response;
+                workTypeList = (ArrayList<ContractorTypeDetail>) response;
                 setRecycler(workTypeList);
+                if (isContractor)
+                    getContractorWorkType();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -148,11 +168,11 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
     private void saveWorkType(WorkTypeRequest workTypeRequest) {
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(this, progressBar);
         DataManager.getInstance().saveWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 if (response == null) return;
 
                 Intent intent = new Intent(WorkTypeActivity.this, BusinessDocumentsActivity.class);
@@ -162,7 +182,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(WorkTypeActivity.this, constraintRoot, error);
             }
         });
@@ -201,4 +221,51 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
             ds.setColor(getResources().getColor(R.color.colorGreen));
         }
     };
+
+    private void getContractorWorkType() {
+        showProgressBar(this, progressBar);
+        DataManager.getInstance().getContractorWorkType(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                hideProgressBar();
+                if (response == null) return;
+                ContractorListResponse contractorListResponse = (ContractorListResponse) response;
+                setWorkTypeData(contractorListResponse.getDatas());
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                Utils.showError(WorkTypeActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void updateContractorWorkType(WorkTypeRequest workTypeRequest) {
+        showProgressBar(this, progressBar);
+        DataManager.getInstance().updateContractorWorkType(this, workTypeRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                hideProgressBar();
+                Toast.makeText(WorkTypeActivity.this, stringWorkTypeSuccess, Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                Utils.showError(WorkTypeActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void setWorkTypeData(ArrayList<ContractorTypeDetail> contractorTypeDetails) {
+        for (ContractorTypeDetail contractorTypeDetail : workTypeList) {
+            for (ContractorTypeDetail selectedContractorType : contractorTypeDetails) {
+                if (contractorTypeDetail.getId().equalsIgnoreCase(selectedContractorType.getId()))
+                    contractorTypeDetail.setSelected(true);
+            }
+        }
+        mWorkTypeAdapter.notifyDataSetChanged();
+    }
 }

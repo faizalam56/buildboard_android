@@ -330,4 +330,5 @@
     <string name="msg_permission_required">Permissions required to access this feature</string>
     <string name="schedule_location">Schedule\nLocation</string>
     <string name="attachements">Attachments</string>
+    <string name="msg_success_worktype_update">Contractor Work Type Successfully Updated</string>
 </resources>

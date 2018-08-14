@@ -75,8 +75,21 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     private final String[] permissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final int REQUEST_CODE = 2001;
 
-    @BindView(R.id.title)
-    TextView title;
+    private String mUserId = "";
+    private PreviousWorkAdapter mPreviousWorkAdapter;
+    private TestimonialAdapter mTestimonialAdapter;
+    private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
+    private HashMap<Integer, ArrayList<PreviousWorkData>> mTestimonials = new HashMap<>();
+    private Uri selectedImage;
+    private AddProfilePhotoDialog mAddProfilePhotoDialog;
+    private String responsImageUrl;
+    private ImageUploadHelper mImageUploadHelper;
+
+    private BottomSheetBehavior behavior;
+    private String mCurrentPhotoPath;
+    private int mSelectedPosition;
+    private boolean isAttachment;
+    private boolean isContractor;
 
     @BindString(R.string.previous_work)
     String stringPreviousWork;
@@ -95,6 +108,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
+    @BindView(R.id.title)
+    BuildBoardTextView title;
 
     @BindView(R.id.recycler_previous_work)
     RecyclerView recyclerPreviousWork;
@@ -109,22 +124,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
-
-    private String mUserId = "";
-    private PreviousWorkAdapter mPreviousWorkAdapter;
-    private TestimonialAdapter mTestimonialAdapter;
-    private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
-    private HashMap<Integer, ArrayList<PreviousWorkData>> mTestimonials = new HashMap<>();
-    private Uri selectedImage;
-    private AddProfilePhotoDialog mAddProfilePhotoDialog;
-    private String responsImageUrl;
-    private ImageUploadHelper mImageUploadHelper;
-
-    BottomSheetBehavior behavior;
-    String mCurrentPhotoPath;
-    private int mSelectedPosition;
-    private boolean isAttachment;
-    private boolean isContractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

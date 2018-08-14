@@ -48,6 +48,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mBondinds.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.bindData();
     }
 
     @Override
@@ -92,6 +93,13 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
                     mBondinds.get(getAdapterPosition() + 1).get(2).setValue(value);
                 }
             }));
+        }
+
+        private void bindData(){
+            ArrayList<DocumentData> bondingDetail = mBondinds.get(getAdapterPosition()+1);
+            editCity.setText(bondingDetail.get(0).getValue());
+            editBondNumber.setText(bondingDetail.get(1).getValue());
+            editAmount.setText(bondingDetail.get(2).getValue());
         }
 
         @OnClick(R.id.text_add_more)
