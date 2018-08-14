@@ -70,11 +70,12 @@
         android:clickable="false"
         android:focusable="false"
         android:src="@drawable/ic_arrow_right_18"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/text_company_address"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_contractor_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatRatingBar
         android:id="@+id/rating_contractor"
