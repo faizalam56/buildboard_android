@@ -92,6 +92,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
             ArrayList<DocumentData> bondingDetail = mBusinessLicensings.get(getAdapterPosition()+1);
             editState.setText(bondingDetail.get(0).getValue());
             editLicenceNumber.setText(bondingDetail.get(1).getValue());
+            editAttachment.setText(bondingDetail.get(2).getValue());
         }
 
         @OnClick(R.id.text_add_more)

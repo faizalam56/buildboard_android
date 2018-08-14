@@ -47,6 +47,7 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
     @Override
     public void onBindViewHolder(CertificationAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mCertifications.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.bindData();
     }
 
     @Override
@@ -91,6 +92,14 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
                     mCertifications.get(getAdapterPosition() + 1).get(2).setValue(value);
                 }
             }));
+        }
+
+        private void bindData(){
+            ArrayList<DocumentData> bondingDetail = mCertifications.get(getAdapterPosition()+1);
+            editCertBody.setText(bondingDetail.get(0).getValue());
+            editCertNumber.setText(bondingDetail.get(1).getValue());
+            editCertDesc.setText(bondingDetail.get(2).getValue());
+            editAttachment.setText(bondingDetail.get(3).getValue());
         }
 
         @OnClick(R.id.text_add_more)

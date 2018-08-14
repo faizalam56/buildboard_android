@@ -25,7 +25,7 @@ import butterknife.OnClick;
 public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHolder> {
 
     private Context mContext;
-    private HashMap<Integer, ArrayList<DocumentData>> mBondinds;
+    private HashMap<Integer, ArrayList<DocumentData>> mBondings;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
     private ISelectAttachment iSelectAttachment;
@@ -33,7 +33,7 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IAddMoreCallback iAddMoreCallback,
                           ISelectAttachment iSelectAttachment) {
         mContext = context;
-        this.mBondinds = bondinds;
+        this.mBondings = bondinds;
         this.iAddMoreCallback = iAddMoreCallback;
         this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -47,13 +47,13 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(BondingAdapter.ViewHolder holder, int position) {
-        holder.textAddMore.setVisibility(position < mBondinds.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.textAddMore.setVisibility(position < mBondings.size() - 1 ? View.GONE : View.VISIBLE);
         holder.bindData();
     }
 
     @Override
     public int getItemCount() {
-        return mBondinds.size();
+        return mBondings.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -80,36 +80,37 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
                 @Override
                 public void getValue(String value) {
-                    mBondinds.get(getAdapterPosition() + 1).get(0).setValue(value);
+                    mBondings.get(getAdapterPosition() + 1).get(0).setValue(value);
                 }
             }));
             editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
-                    mBondinds.get(getAdapterPosition() + 1).get(1).setValue(value);
+                    mBondings.get(getAdapterPosition() + 1).get(1).setValue(value);
                 }
             }));
             editBondNumber.addTextChangedListener(new GenericTextWatcher(editBondNumber, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
-                    mBondinds.get(getAdapterPosition() + 1).get(2).setValue(value);
+                    mBondings.get(getAdapterPosition() + 1).get(2).setValue(value);
                 }
             }));
             editAmount.addTextChangedListener(new GenericTextWatcher(editAmount, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
-                    mBondinds.get(getAdapterPosition() + 1).get(3).setValue(value);
+                    mBondings.get(getAdapterPosition() + 1).get(3).setValue(value);
                 }
             }));
         }
 
         private void bindData(){
-            ArrayList<DocumentData> bondingDetail = mBondinds.get(getAdapterPosition()+1);
+            ArrayList<DocumentData> bondingDetail = mBondings.get(getAdapterPosition()+1);
             editState.setText(bondingDetail.get(0).getValue());
             editCity.setText(bondingDetail.get(1).getValue());
             editBondNumber.setText(bondingDetail.get(2).getValue());
             editAmount.setText(bondingDetail.get(3).getValue());
+            editAttachment.setText(bondingDetail.get(4).getValue());
         }
 
         @OnClick(R.id.text_add_more)
