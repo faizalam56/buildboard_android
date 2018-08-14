@@ -1142,13 +1142,36 @@ public class DataManager implements AppConstant, AppConfiguration {
                     return;
                 }
 
-                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getBusinessDocuments().size() > 0)
-                    dataManagerListener.onSuccess(response.body().getBusinessDocuments().get(0));
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getBusinessDocuments() != null)
+                    dataManagerListener.onSuccess(response.body().getBusinessDocuments());
                 else dataManagerListener.onError(response.body().getError());
             }
 
             @Override
             public void onFailure(@NonNull Call<GetBusinessDocumentsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void updateContractorDocuments(Activity activity, BusinessDocumentsRequest businessDocumentsRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessDocumentsResponse> call = getDataManager().updateContractorDocuments(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), businessDocumentsRequest);
+        call.enqueue(new Callback<BusinessDocumentsResponse>() {
+            @Override
+            public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });

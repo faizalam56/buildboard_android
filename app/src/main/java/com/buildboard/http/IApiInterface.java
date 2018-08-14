@@ -203,4 +203,7 @@ public interface IApiInterface {
 
     @GET("contractor/profile/document")
     Call<GetBusinessDocumentsResponse> getContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/document")
+    Call<BusinessDocumentsResponse> updateContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessDocumentsRequest businessDocumentsRequest);
 }

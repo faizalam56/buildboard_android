@@ -31,7 +31,6 @@ import com.buildboard.modules.signup.contractor.businessdocuments.adapters.Busin
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.CertificationAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.InsuranceAdapter;
 import com.buildboard.modules.signup.contractor.businessdocuments.adapters.WorkmanInsuranceAdapter;
-import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocuments;
@@ -42,7 +41,6 @@ import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivit
 import com.buildboard.permissions.PermissionHelper;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
 
@@ -81,7 +79,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
 
-    private BottomSheetBehavior behavior;
+    private BottomSheetBehavior mBehavior;
     private ImageUploadHelper mImageUploadHelper;
     private String responseImageUrl;
     private int mSelectedPosition;
@@ -104,6 +102,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     String stringReadStoragePermission;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_business_doc_update)
+    String stringBusinessDocuSuccess;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -142,7 +142,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         setTermsServiceText();
 
         mImageUploadHelper = ImageUploadHelper.getInstance();
-        behavior = BottomSheetBehavior.from(bottomSheet);
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
         if (isContractor) {
@@ -166,31 +166,34 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        storeContractorDocuments();
+        if (isContractor)
+            updateContractorDocuments();
+        else
+            storeContractorDocuments();
     }
 
     @OnClick(R.id.text_camera)
     void cameraTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
     }
 
     @OnClick(R.id.text_gallery)
     void galleryTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
     @OnClick(R.id.text_document)
     void documentTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mImageUploadHelper.showFileChooser(this);
     }
 
     @OnClick(R.id.text_cancel)
     void cancelTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void getIntentData() {
@@ -320,7 +323,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
         DocumentData certificationDescript = new DocumentData();
         certificationDescript.setKey(KEY_CERTFICATION_DESCRIPTION);
-        certificationDescript.setType(TYPE_TEXT);
+        certificationDescript.setType(TYPE_TEXT_VIEW);
         certificationDescript.setValue((certificationResponse != null && certificationResponse.get(2).getValue() != null) ? certificationResponse.get(2).getValue() : "");
         certificationDetails.add(certificationDescript);
 
@@ -539,7 +542,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             case REQUEST_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 } else {
                     SnackBarFactory.createSnackBar(BusinessDocumentsActivity.this, constraintRoot, stringReadStoragePermission);
                 }
@@ -559,22 +562,27 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
             case BUSINESS_LICENSING:
                 mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responseImageUrl);
+                mBusinessLicensingAdapter.notifyDataSetChanged();
                 break;
 
             case BONDING:
                 mBondings.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mBondingAdapter.notifyDataSetChanged();
                 break;
 
             case INSURANCE:
                 mInsurances.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mInsuranceAdapter.notifyDataSetChanged();
                 break;
 
             case WORKMAN:
                 mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responseImageUrl);
+                mWorkmanInsuranceAdapter.notifyDataSetChanged();
                 break;
 
             case CERTIFICATION:
                 mCertifications.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mCertificationAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -585,9 +593,9 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
             else
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private void storeContractorDocuments() {
@@ -616,22 +624,32 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
-                BusinessDocuments businessDocuments = (BusinessDocuments) response;
-                for (int i = 1; i <= businessDocuments.getBonding().size(); i++) {
-                    addBonding(businessDocuments.getBonding().get(i));
+                ArrayList<BusinessDocuments> businessDocumentsArrayList = (ArrayList<BusinessDocuments>) response;
+                if(businessDocumentsArrayList.size() > 0){
+                    BusinessDocuments businessDocuments = businessDocumentsArrayList.get(0);
+                    for (int i = 1; i <= businessDocuments.getBonding().size(); i++) {
+                        addBonding(businessDocuments.getBonding().get(i));
+                    }
+                    for (int i = 1; i <= businessDocuments.getBusinessLicensing().size(); i++) {
+                        addBusinessLicensing(businessDocuments.getBusinessLicensing().get(i));
+                    }
+                    for (int i = 1; i <= businessDocuments.getInsurance().size(); i++) {
+                        addInsurance(businessDocuments.getInsurance().get(i));
+                    }
+                    for (int i = 1; i <= businessDocuments.getCertification().size(); i++) {
+                        addCertification(businessDocuments.getCertification().get(i));
+                    }
+                    for (int i = 1; i <= businessDocuments.getWorkmanCampInsurance().size(); i++) {
+                        addWorkmanInsurance(businessDocuments.getWorkmanCampInsurance().get(i));
+                    }
+                } else {
+                    addBonding(null);
+                    addBusinessLicensing(null);
+                    addInsurance(null);
+                    addCertification(null);
+                    addWorkmanInsurance(null);
                 }
-                for (int i = 1; i <= businessDocuments.getBusinessLicensing().size(); i++) {
-                    addBusinessLicensing(businessDocuments.getBusinessLicensing().get(i));
-                }
-                for (int i = 1; i <= businessDocuments.getInsurance().size(); i++) {
-                    addInsurance(businessDocuments.getInsurance().get(i));
-                }
-                for (int i = 1; i <= businessDocuments.getCertification().size(); i++) {
-                    addCertification(businessDocuments.getCertification().get(i));
-                }
-                for (int i = 1; i <= businessDocuments.getWorkmanCampInsurance().size(); i++) {
-                    addWorkmanInsurance(businessDocuments.getWorkmanCampInsurance().get(i));
-                }
+
                 setBondingAdapter();
                 setBusinessLicensingAdapter();
                 setInsuranceAdapter();
@@ -646,4 +664,28 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             }
         });
     }
+
+    private void updateContractorDocuments() {
+        showProgressBar(this, progressBar);
+        BusinessDocumentsRequest businessDocumentsRequest = getBusinessRequest();
+        DataManager.getInstance().updateContractorDocuments(this, businessDocumentsRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                hideProgressBar();
+                Toast.makeText(BusinessDocumentsActivity.this, stringBusinessDocuSuccess, Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onError(Object error) {
+                hideProgressBar();
+                Utils.showError(BusinessDocumentsActivity.this, constraintRoot, error);
+            }
+        });
+    }
 }
+//{"documents":{"Bonding":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"City","type":"dropDown","value":"Auburn"},{"key":"Bond Number","type":"text","value":"12345"},{"key":"Bond Dollar Amount","type":"text","value":"10000"},{"key":"Attachment(Pdf/Photo Of Bond Certificate)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/49QD1uxdm5UBK6Y0TU0I0kE4nIWkqddtGJ9b4lPl.jpeg"}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"License Number","type":"text","value":"12345678"},{"key":"Attachment(Pdf/Document/Photo Of Business License)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/QBoBkiFN3HQqFhlgJXQPsfqNo3BUo5ihswhxs5Eu.jpeg"}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":"ABCd"},{"key":"Certifying Number","type":"text","value":"1234587"},{"key":"Certifying Brief Description","type":"text","value":"Adjhsfgahjsdgfjhasdgfjhgsafjhgashjfgjdhasgfjhsdfa"},{"key":"Attachment(Pdf/Document/Photo Of Certification Document)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/bknqsktVIoOBo1bimXvGa3cGrSxodu1CTF7qLaic.jpeg"}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]}},"id":""}
+
+//{"status":"success","data":[{"Bonding":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"City","type":"dropDown","value":"Auburn"},{"key":"Bond Number","type":"text","value":"12345"},{"key":"Bond Dollar Amount","type":"text","value":"10000"},{"key":"Attachment(Pdf\/Photo Of Bond Certificate)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/49QD1uxdm5UBK6Y0TU0I0kE4nIWkqddtGJ9b4lPl.jpeg"}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"License Number","type":"text","value":"12345678"},{"key":"Attachment(Pdf\/Document\/Photo Of Business License)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/QBoBkiFN3HQqFhlgJXQPsfqNo3BUo5ihswhxs5Eu.jpeg"}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":"ABCd"},{"key":"Attachment(Pdf\/Document\/Photo Of Certification Document)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/bknqsktVIoOBo1bimXvGa3cGrSxodu1CTF7qLaic.jpeg"}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf\/Document\/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf\/Document\/Photo Of Insurence Document)","type":"attachment","value":""}]}}],"error":{"code":null,"message":[]}}
+
+//{"documents":{"Bonding":{"1":[{"key":"State","type":"dropDown","value":""},{"key":"City","type":"dropDown","value":""},{"key":"Bond Number","type":"text","value":""},{"key":"Bond Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Photo Of Bond Certificate)","type":"attachment","value":""}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"state"},{"key":"License Number","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Business License)","type":"attachment","value":""}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":""},{"key":"Certifying Number","type":"text","value":""},{"key":"Certifying Brief Description","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Certification Document)","type":"attachment","value":""}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]}},"id":""}

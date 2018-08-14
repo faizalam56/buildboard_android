@@ -331,4 +331,5 @@
     <string name="schedule_location">Schedule\nLocation</string>
     <string name="attachements">Attachments</string>
     <string name="msg_success_worktype_update">Contractor Work Type Successfully Updated</string>
+    <string name="msg_success_business_doc_update">Business Documents Successfully Updated</string>
 </resources>
