@@ -183,6 +183,7 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/image")
     Call<SaveContractorImageResponse> updateContractorImage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body SaveContractorImageRequest previousWorkRequest);
+
     @GET("messages/trash")
     Call<MessagesResponse> getTrash(@Header("oauth") String oauth, @Header("session") String sessionId);
 
@@ -203,6 +204,9 @@ public interface IApiInterface {
 
     @GET("contractor/profile/document")
     Call<GetBusinessDocumentsResponse> getContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("marketplace/by-project-type")
+    Call<ContractorByProjectTypeResponse> getContractorsByProjectType(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("role") String role, @Query("project_type") String projectType);
 
     @PUT("contractor/profile/document")
     Call<BusinessDocumentsResponse> updateContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessDocumentsRequest businessDocumentsRequest);

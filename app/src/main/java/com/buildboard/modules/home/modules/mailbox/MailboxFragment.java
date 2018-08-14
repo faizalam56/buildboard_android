@@ -161,7 +161,6 @@ public class MailboxFragment extends Fragment implements AppConstant, MessagesAd
         if (mMessagesAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerMessages.setLayoutManager(mLinearLayoutManager);
-            recyclerMessages.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
             mMessagesAdapter = new MessagesAdapter(getActivity(), mMessagesList, recyclerMessages);
             recyclerMessages.setAdapter(mMessagesAdapter);
             mMessagesAdapter.setOnLoadMoreListener(new MessagesAdapter.OnLoadMoreListener() {

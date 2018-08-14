@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 
@@ -13,30 +14,47 @@ public class ContractorByProjectTypeData {
     @SerializedName("first_page_url")
     private String firstPageUrl;
     @SerializedName("from")
-    private int from;
+    @Expose
+    private Integer from;
     @SerializedName("last_page")
-    private int lastPage;
+    @Expose
+    private Integer lastPage;
     @SerializedName("last_page_url")
+    @Expose
     private String lastPageUrl;
     @SerializedName("next_page_url")
-    private String nextPageUrl;
+    @Expose
+    private Object nextPageUrl;
     @SerializedName("path")
+    @Expose
     private String path;
     @SerializedName("per_page")
-    private String perPage;
+    @Expose
+    private Integer perPage;
     @SerializedName("prev_page_url")
-    private String prevPageUrl;
+    @Expose
+    private Object prevPageUrl;
     @SerializedName("to")
-    private int to;
+    @Expose
+    private Integer to;
     @SerializedName("total")
-    private int total;
+    @Expose
+    private Integer total;
 
-    public int getCurrentPage() {
+    public Integer getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
+    }
+
+    public ArrayList<ContractorByProjectTypeListData> getData() {
+        return datas;
+    }
+
+    public void setData(ArrayList<ContractorByProjectTypeListData> data) {
+        this.datas = data;
     }
 
     public String getFirstPageUrl() {
@@ -47,19 +65,19 @@ public class ContractorByProjectTypeData {
         this.firstPageUrl = firstPageUrl;
     }
 
-    public int getFrom() {
+    public Integer getFrom() {
         return from;
     }
 
-    public void setFrom(int from) {
+    public void setFrom(Integer from) {
         this.from = from;
     }
 
-    public int getLastPage() {
+    public Integer getLastPage() {
         return lastPage;
     }
 
-    public void setLastPage(int lastPage) {
+    public void setLastPage(Integer lastPage) {
         this.lastPage = lastPage;
     }
 
@@ -71,11 +89,11 @@ public class ContractorByProjectTypeData {
         this.lastPageUrl = lastPageUrl;
     }
 
-    public String getNextPageUrl() {
+    public Object getNextPageUrl() {
         return nextPageUrl;
     }
 
-    public void setNextPageUrl(String nextPageUrl) {
+    public void setNextPageUrl(Object nextPageUrl) {
         this.nextPageUrl = nextPageUrl;
     }
 
@@ -87,43 +105,35 @@ public class ContractorByProjectTypeData {
         this.path = path;
     }
 
-    public String getPerPage() {
+    public Integer getPerPage() {
         return perPage;
     }
 
-    public void setPerPage(String perPage) {
+    public void setPerPage(Integer perPage) {
         this.perPage = perPage;
     }
 
-    public String getPrevPageUrl() {
+    public Object getPrevPageUrl() {
         return prevPageUrl;
     }
 
-    public void setPrevPageUrl(String prevPageUrl) {
+    public void setPrevPageUrl(Object prevPageUrl) {
         this.prevPageUrl = prevPageUrl;
     }
 
-    public int getTo() {
+    public Integer getTo() {
         return to;
     }
 
-    public void setTo(int to) {
+    public void setTo(Integer to) {
         this.to = to;
     }
 
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
-    }
-
-    public ArrayList<ContractorByProjectTypeListData> getDatas() {
-        return datas;
-    }
-
-    public void setDatas(ArrayList<ContractorByProjectTypeListData> datas) {
-        this.datas = datas;
     }
 }

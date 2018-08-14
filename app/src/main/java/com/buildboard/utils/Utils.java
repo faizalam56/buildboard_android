@@ -1,6 +1,8 @@
 package com.buildboard.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,13 +24,20 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardEditText;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.ErrorManager;
+import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
+import com.buildboard.view.SnackBarFactory;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 

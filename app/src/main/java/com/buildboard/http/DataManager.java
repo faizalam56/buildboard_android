@@ -242,7 +242,8 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceConsumer(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        Call<MarketplaceConsumerResponse> call = getDataManager().getMarketplaceConsumer(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketplaceConsumerResponse>() {
             @Override
             public void onResponse(@NonNull Call<MarketplaceConsumerResponse> call, @NonNull Response<MarketplaceConsumerResponse> response) {
@@ -286,9 +287,9 @@ public class DataManager implements AppConstant, AppConfiguration {
         });
     }
 
-    public void getContractorByProjectType(Activity activity, String contractorTypeId, int  page, float radius, int perpage, final DataManagerListener dataManagerListener) {
-        Call<ContractorByProjectTypeResponse> call = getDataManager().getContractorByProjectType(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
-                contractorTypeId, page, radius, perpage);
+    public void getContractorByProjectType(Activity activity, String contractorTypeId, String role, final DataManagerListener dataManagerListener) {
+        Call<ContractorByProjectTypeResponse> call = getDataManager().getContractorsByProjectType(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), role, contractorTypeId);
         call.enqueue(new Callback<ContractorByProjectTypeResponse>() {
             @Override
             public void onResponse(@NonNull Call<ContractorByProjectTypeResponse> call, @NonNull Response<ContractorByProjectTypeResponse> response) {
