@@ -46,6 +46,7 @@ public interface AppConstant {
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
+    String TYPE_TEXT_VIEW = "textView";
     String TYPE_ATTACHMENT = "attachment";
     String TEXT_ATTACHMENT = "Attachments";
     String TEXT_REQUIREMENTS = "Requirements";
@@ -55,8 +56,8 @@ public interface AppConstant {
     String KEY_ATTACHMENT_INSURANCE = "Attachment(Pdf/Document/Photo Of Insurence Document)";
     String KEY_LIABILITY = "Liability Insurance";
     String KEY_CERTIFYING = "Certifying Body";
-    String KEY_CERTFICATION_NUMBER = "Certifying Number";
-    String KEY_CERTFICATION_DESCRIPTION = "Certifying Brief Description";
+    String KEY_CERTFICATION_NUMBER = "Certification Number";
+    String KEY_CERTFICATION_DESCRIPTION = "Certification Brief Description";
     String KEY_ATTACHMENT_CERTIFICATION = "Attachment(Pdf/Document/Photo Of Certification Document)";
     String KEY_CITY = "City";
     String KEY_BOND_NUMBER = "Bond Number";
