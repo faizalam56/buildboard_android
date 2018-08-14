@@ -86,7 +86,7 @@ public class NearByContractor implements Parcelable{
     @Expose
     private String ratingCount;
 
-    public NearByContractor(Parcel in) {
+    protected NearByContractor(Parcel in) {
         if (in.readByte() == 0) {
             distance = null;
         } else {

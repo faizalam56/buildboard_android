@@ -98,7 +98,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_marketplace">Marketplace</string>
     <string name="title_projects">Projects</string>
-    <string name="title_projects_desc">Projects Detail</string>
+    <string name="title_projects_desc">Project Details</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
     <string name="trending_services">Trending/Top Rated Contractors</string>

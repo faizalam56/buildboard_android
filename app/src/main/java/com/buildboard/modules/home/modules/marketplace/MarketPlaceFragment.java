@@ -167,13 +167,13 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 Intent intent = new Intent(getActivity(), ViewAllContractorsActivity.class);
                 intent.putExtra(INTENT_TITLE, stringNearByContractor);
                 intent.putParcelableArrayListExtra(DATA, mMarketplaceConsumerData.getNearByContractor());
-                if(mMarketplaceConsumerData!=null)
-                getActivity().startActivity(intent);
+                if (mMarketplaceConsumerData != null)
+                    getActivity().startActivity(intent);
             } else {
                 // TODO: 8/14/2018
             }
         } else {
-            ConnectionDetector.createSnackBar(getActivity(),linearLayout);
+            ConnectionDetector.createSnackBar(getActivity(), linearLayout);
         }
     }
 
@@ -189,8 +189,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 Intent intent = new Intent(getActivity(), ViewAllContractorsActivity.class);
                 intent.putExtra(INTENT_TITLE, stringTrendingServices);
                 intent.putParcelableArrayListExtra(DATA, mMarketplaceConsumerData.getTrendingServices());
-                if(mMarketplaceConsumerData!=null)
-                 getActivity().startActivity(intent);
+                if (mMarketplaceConsumerData != null)
+                    getActivity().startActivity(intent);
             } else {
                 // TODO: 8/14/2018
             }
