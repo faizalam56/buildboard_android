@@ -1,9 +1,14 @@
 package com.buildboard.modules.home.modules.marketplace.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NearByContractor {
+import java.io.Serializable;
+
+public class NearByContractor implements Parcelable{
 
     @SerializedName("distance")
     @Expose
@@ -80,6 +85,122 @@ public class NearByContractor {
     @SerializedName("rating_count")
     @Expose
     private String ratingCount;
+
+    public NearByContractor(Parcel in) {
+        if (in.readByte() == 0) {
+            distance = null;
+        } else {
+            distance = in.readDouble();
+        }
+        id = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        businessName = in.readString();
+        businessAddress = in.readString();
+        if (in.readByte() == 0) {
+            minAreaRadius = null;
+        } else {
+            minAreaRadius = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            maxAreaRadius = null;
+        } else {
+            maxAreaRadius = in.readInt();
+        }
+        summary = in.readString();
+        image = in.readString();
+        if (in.readByte() == 0) {
+            verified = null;
+        } else {
+            verified = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            latitude = null;
+        } else {
+            latitude = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            longitude = null;
+        } else {
+            longitude = in.readDouble();
+        }
+        userId = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        role = in.readString();
+        ratingCount = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (distance == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(distance);
+        }
+        dest.writeString(id);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(email);
+        dest.writeString(businessName);
+        dest.writeString(businessAddress);
+        if (minAreaRadius == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(minAreaRadius);
+        }
+        if (maxAreaRadius == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(maxAreaRadius);
+        }
+        dest.writeString(summary);
+        dest.writeString(image);
+        if (verified == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(verified);
+        }
+        if (latitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(latitude);
+        }
+        if (longitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(longitude);
+        }
+        dest.writeString(userId);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        dest.writeString(role);
+        dest.writeString(ratingCount);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<NearByContractor> CREATOR = new Creator<NearByContractor>() {
+        @Override
+        public NearByContractor createFromParcel(Parcel in) {
+            return new NearByContractor(in);
+        }
+
+        @Override
+        public NearByContractor[] newArray(int size) {
+            return new NearByContractor[size];
+        }
+    };
 
     public Double getDistance() {
         return distance;

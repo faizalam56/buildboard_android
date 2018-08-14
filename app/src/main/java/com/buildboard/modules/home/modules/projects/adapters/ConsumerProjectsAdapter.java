@@ -2,6 +2,8 @@ package com.buildboard.modules.home.modules.projects.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +16,9 @@ import android.widget.RelativeLayout;
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
+import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.projects.models.ProjectDetail;
+import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -26,7 +30,9 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INPUT_PATTERN;
 import static com.buildboard.constants.AppConstant.OUTPUT_PATTERN;
 import static com.buildboard.constants.AppConstant.STATUS_COMPLETED;
@@ -154,6 +160,8 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
         ImageView textView;
         @BindView(R.id.relative_bid_related)
         RelativeLayout bidRelatedRelativeLayout;
+        @BindView(R.id.container)
+        CardView cardViewRoot;
 
 
         public ViewHolder(View itemView) {
@@ -207,6 +215,18 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
             textStartedDate.setText(data);
             Picasso.get().load(mProjectDetails.get(position).getImage())
                     .placeholder(R.drawable.supplies).into(imageService);
+        }
+
+        @OnClick(R.id.container)
+        public void rowTapped() {
+            if (ConnectionDetector.isNetworkConnected(mContext)) {
+                ProjectDetail nearByProjects = mProjectDetails.get(getAdapterPosition());
+                Intent intent = new Intent(mContext, ProjectsDetailActivity.class);
+                intent.putExtra(DATA, nearByProjects.getId());
+                mContext.startActivity(intent);
+            } else {
+                ConnectionDetector.createSnackBar(mContext, cardViewRoot);
+            }
         }
     }
 
