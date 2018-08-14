@@ -59,12 +59,13 @@
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_review_date"
-        style="@style/textSize_smaller"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_2sdp"
         android:gravity="top"
+        android:textSize="@dimen/_11ssp"
         android:text="08/27/2018"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/text_business_name"
