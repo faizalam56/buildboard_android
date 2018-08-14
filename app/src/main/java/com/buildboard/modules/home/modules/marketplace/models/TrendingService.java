@@ -84,7 +84,7 @@ public class TrendingService implements Parcelable {
     @Expose
     private String ratingCount;
 
-    protected TrendingService(Parcel in) {
+    public TrendingService(Parcel in) {
         id = in.readString();
         firstName = in.readString();
         lastName = in.readString();

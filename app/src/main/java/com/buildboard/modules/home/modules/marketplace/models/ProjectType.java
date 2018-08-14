@@ -21,7 +21,8 @@ public class ProjectType implements Parcelable {
     private String updatedAt;
     @SerializedName("type")
     private String type;
-    protected ProjectType(Parcel in) {
+
+    public ProjectType(Parcel in) {
         id = in.readString();
         title = in.readString();
         description = in.readString();

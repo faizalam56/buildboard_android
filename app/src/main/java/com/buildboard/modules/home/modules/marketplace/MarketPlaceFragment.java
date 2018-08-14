@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import com.buildboard.R;
@@ -22,6 +23,8 @@ import com.buildboard.modules.home.modules.marketplace.adapters.NearByProjectsAd
 import com.buildboard.modules.home.modules.marketplace.adapters.NewProjectsAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ViewAllContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerData;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceContractorData;
@@ -44,6 +47,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
     private String mTitle;
     private Unbinder mUnbinder;
+    private  MarketplaceConsumerData mMarketplaceConsumerData;
 
     @BindView(R.id.recycler_services)
     RecyclerView recyclerServices;
@@ -91,6 +95,8 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     ProgressBar progressNewProject;
     @BindView(R.id.text_new_service)
     BuildBoardTextView textNewProjectsTitle;
+    @BindView(R.id.linear_root)
+    LinearLayout linearLayout;
 
     @BindString(R.string.trending_services)
     String stringTrendingServices;
@@ -136,6 +142,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 textTrendingService.setText(stringTrendingServices);
                 textNearbyContractors.setText(stringNearByContractor);
                 textContractorsByProjectType.setText(stringContractorByProjectType);
+                textViewAllByproject.setVisibility(View.INVISIBLE);
                 updateUi(true);
                 hideNewProjectsView(false);
                 getMarketplaceConsumer();
@@ -155,12 +162,41 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
     @OnClick(R.id.text_view_all_nearby)
     void viewAllNearbyTapped() {
-        startActivity(new Intent(getActivity(), ContractorByProjectTypeActivity.class));
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (!AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                Intent intent = new Intent(getActivity(), ViewAllContractorsActivity.class);
+                intent.putExtra(INTENT_TITLE, stringNearByContractor);
+                intent.putParcelableArrayListExtra(DATA, mMarketplaceConsumerData.getNearByContractor());
+                if (mMarketplaceConsumerData != null)
+                    getActivity().startActivity(intent);
+            } else {
+                // TODO: 8/14/2018
+            }
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), linearLayout);
+        }
     }
 
     @OnClick(R.id.text_view_all_byproject)
     void viewByProjectTapped() {
         startActivity(new Intent(getActivity(), ContractorByProjectTypeActivity.class));
+    }
+
+    @OnClick(R.id.text_view_all_trending)
+    void viewByTrendingTapped() {
+        if (ConnectionDetector.isNetworkConnected(getActivity())) {
+            if (!AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+                Intent intent = new Intent(getActivity(), ViewAllContractorsActivity.class);
+                intent.putExtra(INTENT_TITLE, stringTrendingServices);
+                intent.putParcelableArrayListExtra(DATA, mMarketplaceConsumerData.getTrendingServices());
+                if (mMarketplaceConsumerData != null)
+                    getActivity().startActivity(intent);
+            } else {
+                // TODO: 8/14/2018
+            }
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(),linearLayout);
+        }
     }
 
     private void setServicesRecycler(ArrayList<TrendingService> trendingServices) {
@@ -216,11 +252,11 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
                 setProgressBar(false, AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR));
                 if (response == null) return;
                 if (isAdded()) {
-                    MarketplaceConsumerData marketplaceConsumerData = (MarketplaceConsumerData) response;
+                    mMarketplaceConsumerData = (MarketplaceConsumerData) response;
                     updateUi(true);
-                    setServicesRecycler(marketplaceConsumerData.getTrendingServices());
-                    setNearbyContractorsRecycler(marketplaceConsumerData.getNearByContractor());
-                    setContractorByProjectRecycler(marketplaceConsumerData.getProjectTypes());
+                    setServicesRecycler(mMarketplaceConsumerData.getTrendingServices());
+                    setNearbyContractorsRecycler(mMarketplaceConsumerData.getNearByContractor());
+                    setContractorByProjectRecycler(mMarketplaceConsumerData.getProjectTypes());
                 }
             }
             @Override
@@ -272,7 +308,9 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
 
     private void updateUi(boolean visibility) {
         textViewAllNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
-        textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+            textViewAllByproject.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        }
         textViewAllTrendingrojects.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textTrendingService.setVisibility(visibility ? View.VISIBLE : View.GONE);
         textContractorsByProjectType.setVisibility(visibility ? View.VISIBLE : View.GONE);

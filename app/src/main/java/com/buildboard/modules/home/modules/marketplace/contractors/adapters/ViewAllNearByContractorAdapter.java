@@ -16,7 +16,7 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
+import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 
@@ -26,26 +26,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ContractorsAdapter extends RecyclerView.Adapter<ContractorsAdapter.ViewHolder> implements AppConstant{
+public class ViewAllNearByContractorAdapter extends RecyclerView.Adapter<ViewAllNearByContractorAdapter.ViewHolder> implements AppConstant{
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private ArrayList<ContractorByProjectTypeListData> mContractorList;
+    private ArrayList<NearByContractor> mContractorList;
 
-    public ContractorsAdapter(Context context, ArrayList<ContractorByProjectTypeListData> contractorList) {
+    public ViewAllNearByContractorAdapter(Context context, ArrayList<NearByContractor> contractorList) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mContractorList = contractorList;
     }
 
     @Override
-    public ContractorsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewAllNearByContractorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.item_contractors, parent, false);
-        return new ContractorsAdapter.ViewHolder(view);
+        return new ViewAllNearByContractorAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ContractorsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewAllNearByContractorAdapter.ViewHolder holder, int position) {
         holder.setData();
     }
 
@@ -77,7 +77,7 @@ public class ContractorsAdapter extends RecyclerView.Adapter<ContractorsAdapter.
         }
 
         private void setData() {
-            ContractorByProjectTypeListData contractorData = mContractorList.get(getAdapterPosition());
+            NearByContractor contractorData = mContractorList.get(getAdapterPosition());
             textContractorName.setText(contractorData.getBusinessName().substring(0, 1).toUpperCase()
                     + contractorData.getBusinessName().substring(1));
             textCompanyAddress.setText(contractorData.getBusinessAddress());
