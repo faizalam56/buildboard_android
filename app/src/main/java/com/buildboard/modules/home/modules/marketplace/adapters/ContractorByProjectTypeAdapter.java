@@ -15,6 +15,8 @@ import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
+import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.constants.AppConstant.INTENT_TITLE;
+import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
 
 public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> {
 
@@ -75,10 +78,18 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
 
         @OnClick(R.id.container)
         public void rowTapped() {
-            Intent intent = new Intent(mContext, ContractorsActivity.class);
-            intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
-            intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
-            mContext.startActivity(intent);
+            if (ConnectionDetector.isNetworkConnected(mContext)) {
+                if (!AppPreference.getAppPreference(mContext).getBoolean(IS_CONTRACTOR)) {
+                    Intent intent = new Intent(mContext, ContractorsActivity.class);
+                    intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
+                    intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
+                }else{
+                    // TODO: 8/14/2018
+                }
+            } else {
+                ConnectionDetector.createSnackBar(mContext,container);
+            }
         }
 
         private void setFont() {

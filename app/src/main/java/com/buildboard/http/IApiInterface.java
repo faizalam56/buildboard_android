@@ -203,4 +203,7 @@ public interface IApiInterface {
 
     @GET("contractor/profile/document")
     Call<GetBusinessDocumentsResponse> getContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @GET("marketplace/by-project-type")
+    Call<ContractorByProjectTypeResponse> getContractorsByProjectType(@Header("oauth") String oauth, @Query("role") String role, @Query("project_type") String projectType, @Header("session") String sessionId);
 }

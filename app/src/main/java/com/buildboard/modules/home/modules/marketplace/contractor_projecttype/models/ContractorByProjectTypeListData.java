@@ -1,53 +1,82 @@
 package com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ContractorByProjectTypeListData {
 
     @SerializedName("id")
+    @Expose
     private String id;
     @SerializedName("first_name")
+    @Expose
     private String firstName;
     @SerializedName("last_name")
+    @Expose
     private String lastName;
     @SerializedName("email")
+    @Expose
     private String email;
     @SerializedName("phone_no")
-    private String phoneNo;
-    @SerializedName("type_of_contractor_id")
-    private String typeOfContractorId;
+    @Expose
+    private Object phoneNo;
     @SerializedName("business_name")
+    @Expose
     private String businessName;
     @SerializedName("business_address")
+    @Expose
     private String businessAddress;
-    @SerializedName("working_area_radius")
-    private int workingAreaRadius;
+    @SerializedName("business_address1")
+    @Expose
+    private Object businessAddress1;
+    @SerializedName("business_address2")
+    @Expose
+    private Object businessAddress2;
+    @SerializedName("business_address3")
+    @Expose
+    private Object businessAddress3;
+    @SerializedName("years_in_business")
+    @Expose
+    private Object yearsInBusiness;
+    @SerializedName("min_area_radius")
+    @Expose
+    private Integer minAreaRadius;
+    @SerializedName("max_area_radius")
+    @Expose
+    private Integer maxAreaRadius;
     @SerializedName("summary")
+    @Expose
     private String summary;
     @SerializedName("company")
-    private String company;
+    @Expose
+    private Object company;
     @SerializedName("image")
+    @Expose
     private String image;
-    @SerializedName("document1")
-    private String document1;
-    @SerializedName("document2")
-    private String document2;
-    @SerializedName("document3")
-    private String document3;
-    @SerializedName("document4")
-    private String document4;
-    @SerializedName("document5")
-    private String document5;
+    @SerializedName("verified")
+    @Expose
+    private Integer verified;
     @SerializedName("latitude")
-    private double latitude;
+    @Expose
+    private Double latitude;
     @SerializedName("longitude")
-    private double longitude;
+    @Expose
+    private Double longitude;
     @SerializedName("user_id")
+    @Expose
     private String userId;
     @SerializedName("created_at")
+    @Expose
     private String createdAt;
     @SerializedName("updated_at")
+    @Expose
     private String updatedAt;
+    @SerializedName("deleted_at")
+    @Expose
+    private Object deletedAt;
+    @SerializedName("role")
+    @Expose
+    private String role;
 
     public String getId() {
         return id;
@@ -81,20 +110,12 @@ public class ContractorByProjectTypeListData {
         this.email = email;
     }
 
-    public String getPhoneNo() {
+    public Object getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(String phoneNo) {
+    public void setPhoneNo(Object phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getTypeOfContractorId() {
-        return typeOfContractorId;
-    }
-
-    public void setTypeOfContractorId(String typeOfContractorId) {
-        this.typeOfContractorId = typeOfContractorId;
     }
 
     public String getBusinessName() {
@@ -113,12 +134,52 @@ public class ContractorByProjectTypeListData {
         this.businessAddress = businessAddress;
     }
 
-    public int getWorkingAreaRadius() {
-        return workingAreaRadius;
+    public Object getBusinessAddress1() {
+        return businessAddress1;
     }
 
-    public void setWorkingAreaRadius(int workingAreaRadius) {
-        this.workingAreaRadius = workingAreaRadius;
+    public void setBusinessAddress1(Object businessAddress1) {
+        this.businessAddress1 = businessAddress1;
+    }
+
+    public Object getBusinessAddress2() {
+        return businessAddress2;
+    }
+
+    public void setBusinessAddress2(Object businessAddress2) {
+        this.businessAddress2 = businessAddress2;
+    }
+
+    public Object getBusinessAddress3() {
+        return businessAddress3;
+    }
+
+    public void setBusinessAddress3(Object businessAddress3) {
+        this.businessAddress3 = businessAddress3;
+    }
+
+    public Object getYearsInBusiness() {
+        return yearsInBusiness;
+    }
+
+    public void setYearsInBusiness(Object yearsInBusiness) {
+        this.yearsInBusiness = yearsInBusiness;
+    }
+
+    public Integer getMinAreaRadius() {
+        return minAreaRadius;
+    }
+
+    public void setMinAreaRadius(Integer minAreaRadius) {
+        this.minAreaRadius = minAreaRadius;
+    }
+
+    public Integer getMaxAreaRadius() {
+        return maxAreaRadius;
+    }
+
+    public void setMaxAreaRadius(Integer maxAreaRadius) {
+        this.maxAreaRadius = maxAreaRadius;
     }
 
     public String getSummary() {
@@ -129,11 +190,11 @@ public class ContractorByProjectTypeListData {
         this.summary = summary;
     }
 
-    public String getCompany() {
+    public Object getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Object company) {
         this.company = company;
     }
 
@@ -145,59 +206,27 @@ public class ContractorByProjectTypeListData {
         this.image = image;
     }
 
-    public String getDocument1() {
-        return document1;
+    public Integer getVerified() {
+        return verified;
     }
 
-    public void setDocument1(String document1) {
-        this.document1 = document1;
+    public void setVerified(Integer verified) {
+        this.verified = verified;
     }
 
-    public String getDocument2() {
-        return document2;
-    }
-
-    public void setDocument2(String document2) {
-        this.document2 = document2;
-    }
-
-    public String getDocument3() {
-        return document3;
-    }
-
-    public void setDocument3(String document3) {
-        this.document3 = document3;
-    }
-
-    public String getDocument4() {
-        return document4;
-    }
-
-    public void setDocument4(String document4) {
-        this.document4 = document4;
-    }
-
-    public String getDocument5() {
-        return document5;
-    }
-
-    public void setDocument5(String document5) {
-        this.document5 = document5;
-    }
-
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -224,4 +253,21 @@ public class ContractorByProjectTypeListData {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Object getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Object deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }
