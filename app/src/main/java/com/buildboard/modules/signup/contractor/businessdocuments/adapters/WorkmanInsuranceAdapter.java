@@ -47,6 +47,7 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
     @Override
     public void onBindViewHolder(WorkmanInsuranceAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mWorkmanInsurances.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.bindData();
     }
 
     @Override
@@ -83,6 +84,13 @@ public class WorkmanInsuranceAdapter extends RecyclerView.Adapter<WorkmanInsuran
                     mWorkmanInsurances.get(getAdapterPosition() + 1).get(1).setValue(value);
                 }
             }));
+        }
+
+        private void bindData(){
+            ArrayList<DocumentData> bondingDetail = mWorkmanInsurances.get(getAdapterPosition()+1);
+            editProvider.setText(bondingDetail.get(0).getValue());
+            editAmount.setText(bondingDetail.get(1).getValue());
+            editAttachment.setText(bondingDetail.get(2).getValue());
         }
 
         @OnClick(R.id.text_add_more)

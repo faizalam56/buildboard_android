@@ -333,7 +333,6 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
             case REQUEST_PERMISSION_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 } else {
                     SnackBarFactory.createSnackBar(SignUpContractorActivity.this, constraintRoot, stringPermissionRequired);
                 }

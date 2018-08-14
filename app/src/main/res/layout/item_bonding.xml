@@ -6,15 +6,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_state"
+        style="@style/textSize_smallest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/state"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoMedium" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_state"
+        style="@style/edit_text_size_smaller"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/state"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_state"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_city"
         style="@style/textSize_smallest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/city"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_state"
         app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
@@ -50,7 +76,7 @@
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_number"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_bond_number"
@@ -76,7 +102,7 @@
         android:background="@drawable/green_drawable_border"
         android:hint="@string/bond_dollar_amount"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_bond_amount"
@@ -105,6 +131,8 @@
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"
+        android:autoLink="all"
+        android:textColorLink="@color/colorGreen"
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"

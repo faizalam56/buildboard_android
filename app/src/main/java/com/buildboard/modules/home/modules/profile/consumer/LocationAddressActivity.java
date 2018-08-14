@@ -14,12 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
+import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.profile.consumer.adapter.AddressesAdapter;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
@@ -27,10 +29,12 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.get
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
+import com.buildboard.view.SnackBarFactory;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -86,7 +90,7 @@ public class LocationAddressActivity extends AppCompatActivity
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PLACE_PICKER_REQUEST:
-                    getAddressLatLng(PlacePicker.getPlace(this, data));
+                    editAddressDialog(PlacePicker.getPlace(this, data));
                     break;
             }
         }
@@ -137,12 +141,12 @@ public class LocationAddressActivity extends AppCompatActivity
         });
     }
 
-    private void getAddressLatLng(final Place place) {
+    private void getAddressLatLng(final String address, LatLng latLng) {
 
         AddAddressRequest addAddressRequest = new AddAddressRequest();
-        addAddressRequest.setAddress(place.getAddress().toString());
-        addAddressRequest.setLatitude(String.valueOf(place.getLatLng().latitude));
-        addAddressRequest.setLongitude(String.valueOf(place.getLatLng().longitude));
+        addAddressRequest.setAddress(address);
+        addAddressRequest.setLatitude(String.valueOf(latLng.latitude));
+        addAddressRequest.setLongitude(String.valueOf(latLng.longitude));
 
         ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().addAddress(this, addAddressRequest, new DataManager.DataManagerListener() {
@@ -228,5 +232,18 @@ public class LocationAddressActivity extends AppCompatActivity
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerAddresses);
+    }
+
+    private void editAddressDialog(final Place place) {
+        PopUpHelper.showAddressDialog(this, place, new PopUpHelper.EditAddressListener() {
+            @Override
+            public void onConfirm(String updatedAddress) {
+                LatLng latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+
+                if (!TextUtils.isEmpty(updatedAddress) && latLng != null)
+                    getAddressLatLng(updatedAddress, latLng);
+                else SnackBarFactory.createSnackBar(LocationAddressActivity.this, constraintLayout, "Errr");
+            }
+        });
     }
 }

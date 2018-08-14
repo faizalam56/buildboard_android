@@ -126,7 +126,7 @@ public class PreferredContractorAdapter extends RecyclerView.Adapter {
         ImageView imageContractor;
         @BindView(R.id.text_contractor_name)
         TextView textContractorName;
-        @BindView(R.id.text_company_name)
+        @BindView(R.id.text_company_address)
         TextView textServiceTypeName;
         @BindView(R.id.rating_contractor)
         RatingBar ratingBar;

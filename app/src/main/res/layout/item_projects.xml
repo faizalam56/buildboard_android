@@ -8,6 +8,8 @@
     android:layout_marginRight="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_5sdp"
     android:background="?android:selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="@dimen/_5sdp"
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="@dimen/_4sdp">
@@ -15,13 +17,17 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false">
 
         <ImageView
             android:id="@+id/image_service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="false"
             android:contentDescription="@null"
+            android:focusable="false"
             android:scaleType="centerCrop"
             android:src="@drawable/no_image_available" />
 
@@ -30,6 +36,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/rounded_corner_image_layout"
             android:clickable="false"
+            android:focusable="false"
             android:gravity="center">
 
             <com.buildboard.customviews.BuildBoardTextView
@@ -38,13 +45,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:clickable="false"
                 android:ellipsize="end"
                 android:focusable="false"
-                android:maxLines="1"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
                 android:gravity="center"
-                android:inputType="textCapWords|textNoSuggestions"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
                 android:text="dfdfdfdfdfdf"
                 android:textColor="@android:color/primary_text_dark" />
 
@@ -55,13 +62,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_service_type_name"
                 android:layout_marginTop="@dimen/_2sdp"
+                android:clickable="false"
+                android:ellipsize="end"
                 android:focusable="false"
                 android:gravity="center"
-                android:ellipsize="end"
                 android:maxLines="1"
-                android:paddingStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_5sdp"
-                android:inputType="textNoSuggestions"
+                android:paddingStart="@dimen/_5sdp"
                 android:text="dfdfdfdfdfdfdf"
                 android:textAllCaps="true"
                 android:textColor="@android:color/primary_text_dark"
@@ -74,12 +81,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_service_type"
                 android:layout_marginTop="@dimen/_2sdp"
+                android:clickable="false"
                 android:focusable="false"
-                android:maxLines="1"
                 android:gravity="center"
-                android:paddingStart="@dimen/_5sdp"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/_5sdp"
-                android:inputType="textNoSuggestions"
+                android:paddingStart="@dimen/_5sdp"
                 android:text="dfdfdfdfdfdfdf"
                 android:textColor="@android:color/primary_text_dark" />
 
@@ -90,6 +97,8 @@
                 android:layout_below="@+id/text_started_date"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/_minus15sdp"
+                android:clickable="false"
+                android:focusable="false"
                 android:gravity="end|bottom"
                 android:visibility="visible">
 
@@ -98,11 +107,13 @@
                     style="@style/textSize_smaller"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"
                     android:layout_toLeftOf="@+id/text_bid_count"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:src="@drawable/ic_bid"
-                    android:layout_centerVertical="true"
                     android:textColor="@android:color/primary_text_dark"
                     android:tint="@color/colorWhite" />
 
@@ -115,6 +126,8 @@
                     android:layout_marginRight="@dimen/_15sdp"
                     android:layout_toLeftOf="@+id/text_view"
                     android:layout_toStartOf="@+id/text_view"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:gravity="center"
                     android:minHeight="@dimen/_10sdp"
                     android:padding="@dimen/_1sdp"
@@ -125,13 +138,15 @@
                     android:id="@+id/text_view"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_toLeftOf="@+id/text_view_count"
-                    android:layout_toStartOf="@+id/text_view_count"
-                    android:src="@drawable/ic_views"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_2sdp"
-                    android:tint="@color/colorWhite"
-                    android:layout_marginRight="@dimen/_2sdp" />
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:layout_toLeftOf="@+id/text_view_count"
+                    android:layout_toStartOf="@+id/text_view_count"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:src="@drawable/ic_views"
+                    android:tint="@color/colorWhite" />
 
                 <com.buildboard.customviews.BuildBoardTextView
                     android:id="@+id/text_view_count"
@@ -140,6 +155,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:gravity="center"
                     android:padding="@dimen/_1sdp"
                     android:text="16"

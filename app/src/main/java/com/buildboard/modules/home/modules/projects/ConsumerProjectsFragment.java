@@ -189,8 +189,9 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
                     if (!projectDetails.isEmpty()) {
                         setProjectsRecycler(projectDetails, projectsData.get(0).getLastPage());
                         setProjectsSubTitle(projectDetails.size());
+
                     } else {
-                        textProjectDetail.setText(getText(R.string.no_projects));
+                        textProjectDetail.setText("");
                         buildBoardTextProjectType.setText(String.format("%s%s Projects", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase()));
                         if (mProjectsAdapter != null) {
                             mProjectsAdapter.notifyDataSetChanged();
@@ -207,7 +208,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     }
 
     private void setProjectsSubTitle(int count){
-        switch (mCurrentStatus){
+        switch (mCurrentStatus) {
             case STATUS_OPEN:
                 textProjectDetail.setText(R.string.open_projects_subtitle);
                 buildBoardTextProjectType.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.open_project), count));
