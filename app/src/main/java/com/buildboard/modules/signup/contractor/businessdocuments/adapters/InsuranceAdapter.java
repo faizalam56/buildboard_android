@@ -47,6 +47,7 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
     @Override
     public void onBindViewHolder(InsuranceAdapter.ViewHolder holder, int position) {
         holder.textAddMore.setVisibility(position < mInsurances.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.bindData();
     }
 
     @Override
@@ -91,6 +92,14 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
                     mInsurances.get(getAdapterPosition() + 1).get(2).setValue(value);
                 }
             }));
+        }
+
+        private void bindData(){
+            ArrayList<DocumentData> bondingDetail = mInsurances.get(getAdapterPosition()+1);
+            editLiability.setText(bondingDetail.get(0).getValue());
+            editProvider.setText(bondingDetail.get(1).getValue());
+            editAmount.setText(bondingDetail.get(2).getValue());
+            editAttachment.setText(bondingDetail.get(3).getValue());
         }
 
         @OnClick(R.id.text_add_more)
