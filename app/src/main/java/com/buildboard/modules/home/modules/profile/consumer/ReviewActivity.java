@@ -96,7 +96,6 @@ public class ReviewActivity extends AppCompatActivity {
         if (mReviewAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
             recyclerReviews.setLayoutManager(mLinearLayoutManager);
-            recyclerReviews.addItemDecoration(new SimpleDividerItemDecoration(this));
             mReviewAdapter = new ReviewsAdapter(this, mReviewsList, recyclerReviews);
             recyclerReviews.setAdapter(mReviewAdapter);
             mReviewAdapter.setOnLoadMoreListener(new ReviewsAdapter.OnLoadMoreListener() {
