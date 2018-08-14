@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectFormDetails implements Parcelable {
@@ -23,7 +24,7 @@ public class ProjectFormDetails implements Parcelable {
     private String image;
     @SerializedName("form")
     @Expose
-    private List<ProjectTypeForm> form = null;
+    private List<ProjectTypeForm> form = new ArrayList<>();
     @SerializedName("created_at")
     @Expose
     private String createdAt;

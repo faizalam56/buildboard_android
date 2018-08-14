@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.projects;
 
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +23,10 @@ import com.buildboard.modules.home.HomeActivity;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerProjectTypeAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
-import com.buildboard.modules.login.LoginActivity;
-import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -113,8 +108,12 @@ public class ConsumerProjectTypeFragment extends Fragment
 
     @Override
     public void onItemClick(View view, int position, Object data) {
-        ProjectAllType projectType = (ProjectAllType) data;
-        getAllProjectDetails(projectType.getId());
+        if(ConnectionDetector.isNetworkConnected(getActivity())) {
+            ProjectAllType projectType = (ProjectAllType) data;
+            getAllProjectDetails(projectType.getId());
+        } else {
+            ConnectionDetector.createSnackBar(getActivity(), containers);
+        }
     }
 
    private void getAllProjectDetails(final String selectedProjectId) {
@@ -135,24 +134,27 @@ public class ConsumerProjectTypeFragment extends Fragment
         });
     }
 
-    private void getProjectById(String id){
+    private void getProjectById(String id) {
         ProgressHelper.showProgressBar(getActivity(), progressBar);
-        DataManager.getInstance().getSelectedProjectById(getActivity(),id, new DataManager.DataManagerListener() {
+        DataManager.getInstance().getSelectedProjectById(getActivity(), id, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
-                if(isAdded() && response!=null){
-                    ProjectFormDetails projectFormDetails =(ProjectFormDetails) response;
-                    if(projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+                if (isAdded() && response != null) {
+                    ProjectFormDetails projectFormDetails = (ProjectFormDetails) response;
+
+                    if (projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+                        ConsumerProjectTypeDetailsFragment consumerProjectTypeDetailsFragment = new ConsumerProjectTypeDetailsFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
-                        ConsumerProjectTypeDetailsFragment.newInstance().setArguments(bundle);
-                        navigateFragment(ConsumerProjectTypeDetailsFragment.newInstance());
-                    } else{
+                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA, projectFormDetails);
+                        consumerProjectTypeDetailsFragment.setArguments(bundle);
+                        navigateFragment(consumerProjectTypeDetailsFragment);
+                    } else {
+                        ConsumerCreateProjectFragment consumerCreateProjectFragment = new ConsumerCreateProjectFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
-                        ConsumerCreateProjectFragment.newInstance().setArguments(bundle);
-                        navigateFragment(ConsumerCreateProjectFragment.newInstance());
+                        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA, projectFormDetails);
+                        consumerCreateProjectFragment.setArguments(bundle);
+                        navigateFragment(consumerCreateProjectFragment);
                     }
                 }
             }
@@ -162,9 +164,7 @@ public class ConsumerProjectTypeFragment extends Fragment
                 ProgressHelper.hideProgressBar();
             }
         });
-
     }
-
 
     private void navigateFragment(Fragment fragment) {
         if (getActivity() != null) {

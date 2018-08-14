@@ -86,4 +86,7 @@ public interface AppConstant {
     String OUTPUT_PATTERN = "dd MMM yyyy";
     String INTENT_TRENDING_USER_ID = "intent_trending_user_id";
     String INTENT_PROJECT_TYPE_DATA = "intent_project_type";
+    String INTENT_SELECTED_CATEGORY = "intent_selected_category";
+    String INTENT_CREATE_PROJECT_TASK = "intent_selected_task";
+    String INTENT_SELECTED_PROJECT_SUB_CATEGORY = "intent_selected_project_sub_category";
 }

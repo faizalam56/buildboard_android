@@ -213,7 +213,7 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
             textServiceType.setText(mProjectDetails.get(position).getProjectType().getTitle());
             textServiceTypeName.setText(capitalizeFirstLetter(mProjectDetails.get(position).getTitle()));
             textStartedDate.setText(data);
-            Picasso.get().load(mProjectDetails.get(position).getImage())
+            Picasso.get().load(mProjectDetails.get(position).getProjectType().getImage())
                     .placeholder(R.drawable.supplies).into(imageService);
         }
 

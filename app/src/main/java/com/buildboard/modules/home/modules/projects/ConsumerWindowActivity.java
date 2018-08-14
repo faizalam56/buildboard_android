@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.projects;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.buildboard.R;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConsumerWindowActivity extends AppCompatActivity {
+import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
+
+public class ConsumerWindowActivity extends  AppCompatActivity {
+
+    private ProjectFormDetails mProjectAllTypesData;
+    private String mSelectedCategory;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -28,22 +35,35 @@ public class ConsumerWindowActivity extends AppCompatActivity {
     ViewPager viewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumer_repair_window);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void getIntentData() {
+       mProjectAllTypesData = getIntent().getExtras().getParcelable(INTENT_PROJECT_TYPE_DATA);
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CreateProjectDescriptionFragment(), getString(R.string.description));
+
+        CreateProjectDescriptionFragment createProjectDescriptionFragment = new CreateProjectDescriptionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA, mProjectAllTypesData);
+        createProjectDescriptionFragment.setArguments(bundle);
+
+        adapter.addFragment(createProjectDescriptionFragment, getString(R.string.description));
         adapter.addFragment(new CreateProjectScheduleLocationFragment(), getString(R.string.schedule_location));
         adapter.addFragment(new CreateProjectAttachmentFragment(), getString(R.string.attachements));
         viewPager.setAdapter(adapter);
