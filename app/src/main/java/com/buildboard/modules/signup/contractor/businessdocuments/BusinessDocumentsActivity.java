@@ -81,7 +81,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     private BottomSheetBehavior mBehavior;
     private ImageUploadHelper mImageUploadHelper;
-    private String responseImageUrl;
+    private String mResponseImageUrl;
     private int mSelectedPosition;
     private Document mSelectedSession;
     private String mCurrentPhotoPath;
@@ -156,11 +156,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             addCertification(null);
             addWorkmanInsurance(null);
 
-            setBusinessLicensingAdapter();
-            setBondingAdapter();
-            setInsuranceAdapter();
-            setCertificationAdapter();
-            setWorkmanInsuranceAdapter();
+            setAdapters();
         }
     }
 
@@ -553,7 +549,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @Override
     public void imageUrl(String url) {
-        responseImageUrl = url;
+        mResponseImageUrl = url;
         setImageUrl();
     }
 
@@ -561,27 +557,27 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         switch (mSelectedSession) {
 
             case BUSINESS_LICENSING:
-                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(responseImageUrl);
+                mBusinessLicensings.get(mSelectedPosition).get(2).setValue(mResponseImageUrl);
                 mBusinessLicensingAdapter.notifyDataSetChanged();
                 break;
 
             case BONDING:
-                mBondings.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mBondings.get(mSelectedPosition).get(3).setValue(mResponseImageUrl);
                 mBondingAdapter.notifyDataSetChanged();
                 break;
 
             case INSURANCE:
-                mInsurances.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mInsurances.get(mSelectedPosition).get(3).setValue(mResponseImageUrl);
                 mInsuranceAdapter.notifyDataSetChanged();
                 break;
 
             case WORKMAN:
-                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(responseImageUrl);
+                mWorkmanInsurances.get(mSelectedPosition).get(2).setValue(mResponseImageUrl);
                 mWorkmanInsuranceAdapter.notifyDataSetChanged();
                 break;
 
             case CERTIFICATION:
-                mCertifications.get(mSelectedPosition).get(3).setValue(responseImageUrl);
+                mCertifications.get(mSelectedPosition).get(3).setValue(mResponseImageUrl);
                 mCertificationAdapter.notifyDataSetChanged();
                 break;
         }
@@ -625,7 +621,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             public void onSuccess(Object response) {
                 hideProgressBar();
                 ArrayList<BusinessDocuments> businessDocumentsArrayList = (ArrayList<BusinessDocuments>) response;
-                if(businessDocumentsArrayList.size() > 0){
+                if (businessDocumentsArrayList.size() > 0) {
                     BusinessDocuments businessDocuments = businessDocumentsArrayList.get(0);
                     for (int i = 1; i <= businessDocuments.getBonding().size(); i++) {
                         addBonding(businessDocuments.getBonding().get(i));
@@ -649,12 +645,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
                     addCertification(null);
                     addWorkmanInsurance(null);
                 }
-
-                setBondingAdapter();
-                setBusinessLicensingAdapter();
-                setInsuranceAdapter();
-                setCertificationAdapter();
-                setWorkmanInsuranceAdapter();
+                setAdapters();
             }
 
             @Override
@@ -683,9 +674,12 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             }
         });
     }
+
+    private void setAdapters() {
+        setBondingAdapter();
+        setBusinessLicensingAdapter();
+        setInsuranceAdapter();
+        setCertificationAdapter();
+        setWorkmanInsuranceAdapter();
+    }
 }
-//{"documents":{"Bonding":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"City","type":"dropDown","value":"Auburn"},{"key":"Bond Number","type":"text","value":"12345"},{"key":"Bond Dollar Amount","type":"text","value":"10000"},{"key":"Attachment(Pdf/Photo Of Bond Certificate)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/49QD1uxdm5UBK6Y0TU0I0kE4nIWkqddtGJ9b4lPl.jpeg"}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"License Number","type":"text","value":"12345678"},{"key":"Attachment(Pdf/Document/Photo Of Business License)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/QBoBkiFN3HQqFhlgJXQPsfqNo3BUo5ihswhxs5Eu.jpeg"}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":"ABCd"},{"key":"Certifying Number","type":"text","value":"1234587"},{"key":"Certifying Brief Description","type":"text","value":"Adjhsfgahjsdgfjhasdgfjhgsafjhgashjfgjdhasgfjhsdfa"},{"key":"Attachment(Pdf/Document/Photo Of Certification Document)","type":"attachment","value":"http://dev.buildboardinc.biz/uploads/contractors/images/bknqsktVIoOBo1bimXvGa3cGrSxodu1CTF7qLaic.jpeg"}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]}},"id":""}
-
-//{"status":"success","data":[{"Bonding":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"City","type":"dropDown","value":"Auburn"},{"key":"Bond Number","type":"text","value":"12345"},{"key":"Bond Dollar Amount","type":"text","value":"10000"},{"key":"Attachment(Pdf\/Photo Of Bond Certificate)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/49QD1uxdm5UBK6Y0TU0I0kE4nIWkqddtGJ9b4lPl.jpeg"}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"Alabama"},{"key":"License Number","type":"text","value":"12345678"},{"key":"Attachment(Pdf\/Document\/Photo Of Business License)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/QBoBkiFN3HQqFhlgJXQPsfqNo3BUo5ihswhxs5Eu.jpeg"}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":"ABCd"},{"key":"Attachment(Pdf\/Document\/Photo Of Certification Document)","type":"attachment","value":"http:\/\/dev.buildboardinc.biz\/uploads\/contractors\/images\/bknqsktVIoOBo1bimXvGa3cGrSxodu1CTF7qLaic.jpeg"}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf\/Document\/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf\/Document\/Photo Of Insurence Document)","type":"attachment","value":""}]}}],"error":{"code":null,"message":[]}}
-
-//{"documents":{"Bonding":{"1":[{"key":"State","type":"dropDown","value":""},{"key":"City","type":"dropDown","value":""},{"key":"Bond Number","type":"text","value":""},{"key":"Bond Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Photo Of Bond Certificate)","type":"attachment","value":""}]},"Business Licensing":{"1":[{"key":"State","type":"dropDown","value":"state"},{"key":"License Number","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Business License)","type":"attachment","value":""}]},"Certification":{"1":[{"key":"Certifying Body","type":"text","value":""},{"key":"Certifying Number","type":"text","value":""},{"key":"Certifying Brief Description","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Certification Document)","type":"attachment","value":""}]},"Insurance":{"1":[{"key":"Liability Insurance","type":"text","value":""},{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]},"Workman's Comp Insurance":{"1":[{"key":"Insurance Provider","type":"text","value":""},{"key":"Insurance Dollar Amount","type":"text","value":""},{"key":"Attachment(Pdf/Document/Photo Of Insurence Document)","type":"attachment","value":""}]}},"id":""}
