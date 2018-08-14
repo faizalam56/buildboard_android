@@ -87,22 +87,18 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjectType);
     }
 
-    private void setProgressBar(Boolean visiblity) {
-        progressBar.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-    }
-
     private void getContractorByProjectType(String contractorTypeId, String role) {
-        setProgressBar(true);
+        ProgressHelper.showProgressBar(this, progressBar);
         DataManager.getInstance().getContractorByProjectType(this, contractorTypeId, role,  new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                setProgressBar(false);
+                ProgressHelper.hideProgressBar();
                 handleSuccessResponse(response);
             }
 
             @Override
             public void onError(Object error) {
-                setProgressBar(false);
+                ProgressHelper.hideProgressBar();
                 Utils.showError(ContractorsActivity.this, constraintRoot, error);
             }
         });

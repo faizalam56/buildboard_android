@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.buildboard.R;
+import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
@@ -26,11 +27,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import static com.buildboard.constants.AppConstant.DATA;
-import static com.buildboard.constants.AppConstant.INTENT_TITLE;
-import static com.buildboard.constants.AppConstant.IS_CONTRACTOR;
 
-public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> {
+public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<ContractorByProjectTypeAdapter.ViewHolder> implements AppConstant{
 
     private Context mContext;
     private List<ProjectType> mProjectTypes;
@@ -84,7 +82,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
                     intent.putExtra(INTENT_TITLE, mProjectTypes.get(getAdapterPosition()).getTitle());
                     intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
-                }else{
+                } else {
                     // TODO: 8/14/2018
                 }
             } else {
@@ -101,7 +99,7 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
             ProjectType projectType = mProjectTypes.get(getAdapterPosition());
             if (projectType == null) return;
             textName.setText(projectType.getTitle() != null ? projectType.getTitle() : stringNotAvailable);
-            Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);//TODO change placeholder
+            Picasso.get().load(projectType.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }
     }
 }
