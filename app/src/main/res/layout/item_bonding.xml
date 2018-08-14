@@ -131,6 +131,8 @@
         android:background="@drawable/green_drawable_border"
         android:editable="false"
         android:hint="@string/attachment"
+        android:autoLink="all"
+        android:textColorLink="@color/colorGreen"
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/image_attachment"
         app:layout_constraintStart_toStartOf="parent"
