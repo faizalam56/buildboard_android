@@ -36,7 +36,7 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
 
     private Unbinder unbinder;
     private ProjectFormDetails mProjectAllTypesData;
-    String mSelectedMode;
+    private String mSelectedMode;
 
     @BindView(R.id.radio_group_contact_mode)
     RadioGroup radioGroup;
@@ -82,8 +82,6 @@ public class ConsumerProjectTypeDetailsFragment extends Fragment implements Home
             mSelectedMode = (String) radioButton.getText();
         }
     };
-
-
 
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
