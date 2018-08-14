@@ -30,10 +30,10 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     private IAddMoreCallback iAddMoreCallback;
     private ISelectAttachment iSelectAttachment;
 
-    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondinds, IAddMoreCallback iAddMoreCallback,
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondings, IAddMoreCallback iAddMoreCallback,
                           ISelectAttachment iSelectAttachment) {
         mContext = context;
-        this.mBondings = bondinds;
+        this.mBondings = bondings;
         this.iAddMoreCallback = iAddMoreCallback;
         this.iSelectAttachment = iSelectAttachment;
         mLayoutInflater = LayoutInflater.from(mContext);
