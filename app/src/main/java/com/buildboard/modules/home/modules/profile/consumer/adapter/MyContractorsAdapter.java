@@ -43,7 +43,7 @@ public class MyContractorsAdapter extends RecyclerView.Adapter<MyContractorsAdap
 
         @BindView(R.id.text_contractor_name)
         TextView textContractorName;
-        @BindView(R.id.text_company_name)
+        @BindView(R.id.text_company_address)
         TextView textCompanyName;
 
         @BindView(R.id.image_contractor)

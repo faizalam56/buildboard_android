@@ -10,10 +10,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeData;
@@ -28,30 +30,29 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.buildboard.utils.Utils.showProgressColor;
+
 public class ContractorsActivity extends AppCompatActivity implements AppConstant {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.recycler_contractors)
     RecyclerView recyclerContractors;
-
     @BindView(R.id.text_project_type)
-    TextView textProjectType;
+    BuildBoardTextView textProjectType;
     @BindView(R.id.text_nodata)
     TextView textNodata;
-
-    @BindView(R.id.edit_search_by_name)
-    EditText editSearchByName;
-
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.title)
+    BuildBoardTextView textTitle;
 
     @BindString(R.string.contractors)
     String stringContractors;
+    @BindView(R.id.progress_bar_service)
+    ProgressBar progressBar;
 
     private ArrayList<ContractorByProjectTypeListData> mContractorList = new ArrayList<>();
-    private ArrayList<ContractorByProjectTypeListData> mSearchContractorList = new ArrayList<>();
     private ContractorsAdapter mContractorsAdapter;
 
     @Override
@@ -59,15 +60,16 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contractors);
         ButterKnife.bind(this);
-        toolbar.setTitle(stringContractors);
+
+        showProgressColor(this, progressBar);
+        textTitle.setText(stringContractors);
         setFont();
         getIntentData();
-        editSearchByName.addTextChangedListener(searchTextWatcher);
     }
 
     private void getIntentData() {
         if (getIntent().hasExtra(DATA)) {
-            getContractorByProjectType(getIntent().getStringExtra(DATA));
+            getContractorByProjectType(getIntent().getStringExtra(DATA), ROLE_CONTRACTOR);
         }
 
         if (getIntent().hasExtra(INTENT_TITLE)) {
@@ -75,55 +77,28 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
         }
     }
 
-    TextWatcher searchTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            mSearchContractorList.clear();
-            if (s.length() == 0) {
-                mSearchContractorList.addAll(mContractorList);
-                return;
-            }
-
-            for (ContractorByProjectTypeListData contractors : mContractorList) {
-                if (contractors.getFirstName().contains(s))
-                    mSearchContractorList.add(contractors);
-            }
-        }
-    };
-
     private void setContractorsAdapter() {
-        mContractorsAdapter = new ContractorsAdapter(this, mSearchContractorList);
+        mContractorsAdapter = new ContractorsAdapter(this, mContractorList);
         recyclerContractors.setLayoutManager(new LinearLayoutManager(this));
         recyclerContractors.setAdapter(mContractorsAdapter);
     }
 
     private void setFont() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjectType);
-        FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editSearchByName);
     }
 
-    private void getContractorByProjectType(String contractorTypeId) {
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        DataManager.getInstance().getContractorByProjectType(this, contractorTypeId, 1, 2, 30, new DataManager.DataManagerListener() {
+    private void getContractorByProjectType(String contractorTypeId, String role) {
+        ProgressHelper.showProgressBar(this, progressBar);
+        DataManager.getInstance().getContractorByProjectType(this, contractorTypeId, role,  new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 handleSuccessResponse(response);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                ProgressHelper.hideProgressBar();
                 Utils.showError(ContractorsActivity.this, constraintRoot, error);
             }
         });
@@ -131,15 +106,12 @@ public class ContractorsActivity extends AppCompatActivity implements AppConstan
 
     private void handleSuccessResponse(Object response) {
         if (response == null) return;
-
         ContractorByProjectTypeData contractorByProjectTypeData = (ContractorByProjectTypeData) response;
-        if (contractorByProjectTypeData.getDatas().size() > 0) {
-            mContractorList.addAll(contractorByProjectTypeData.getDatas());
-            mSearchContractorList.addAll(contractorByProjectTypeData.getDatas());
+        if (contractorByProjectTypeData.getData().size() > 0) {
+            mContractorList.addAll(contractorByProjectTypeData.getData());
             setContractorsAdapter();
         } else {
             textNodata.setVisibility(View.VISIBLE);
-            editSearchByName.setVisibility(View.GONE);
         }
     }
 }
