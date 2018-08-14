@@ -30,35 +30,38 @@
             android:paddingRight="@dimen/_15sdp"
             android:paddingTop="@dimen/_15sdp">
 
-            <ImageView
-                android:id="@+id/image_profile"
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_image_profile"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/ic_camera_green"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_4sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_profile"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_image_available"/>
+
+            </android.support.v7.widget.CardView>
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_add_profile_picture"
                 style="@style/textSize_smaller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/edit_profile_picture"
                 android:textColor="@color/colorGreen"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_profile" />
+                app:layout_constraintTop_toBottomOf="@+id/card_image_profile" />
 
             <com.buildboard.customviews.BuildBoardTextView
                 android:id="@+id/text_first_name"
@@ -80,7 +83,7 @@
                 android:digits="@string/special_charactor"
                 android:hint="@string/first_name"
                 android:imeOptions="actionNext"
-                android:inputType="textCapWords"
+                android:inputType="textCapWords|textNoSuggestions"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +110,7 @@
                 android:digits="@string/special_charactor"
                 android:hint="@string/last_name"
                 android:imeOptions="actionNext"
-                android:inputType="textCapWords"
+                android:inputType="textCapWords|textNoSuggestions"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +175,7 @@
                     android:focusableInTouchMode="false"
                     android:hint="@string/address"
                     android:imeOptions="actionNext"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     android:maxLines="5"
                     android:minLines="1"
                     android:padding="@dimen/_5sdp"

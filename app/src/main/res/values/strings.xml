@@ -119,10 +119,10 @@
     <string name="open_projects_subtitle">Following\u0020projects\u0020are\u0020in\u0020progress</string>
     <string name="open_quotes_subtitle">Following projects are open for quotes</string>
     <string name="lost_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020lost</string>
-    <string name="lost_quotes_subtitle">Following projects quote has been lost</string>
+    <string name="lost_quotes_subtitle">Following quote have been lost</string>
     <string name="current_projects_subtitle">Following\u0020projects\u0020are\u0020in\u0020progress</string>
     <string name="saved_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020saved</string>
-    <string name="saved_quotes_subtitle">Following projects have been saved for further additions</string>
+    <string name="saved_quotes_subtitle">Following quotes have been saved</string>
     <string name="completed_projects_subtitle">Following\u0020projects\u0020have\u0020been\u0020completed</string>
     <string name="no_internet_text">Internet Connection is not available</string>
     <string name="open_project">Open Projects</string>
@@ -319,7 +319,7 @@
     <string name="started_on">Started On: </string>
     <string name="created_on">Created On: </string>
     <string name="old_password">Old password</string>
-    <string name="password_alert_message">password did not match</string>
+    <string name="password_alert_message">Password did not match</string>
     <string name="brief_summary_of_company">Brief Summary Of Company</string>
     <string name="buildboard_verified">BUILDBOARD Verified</string>
     <string name="miles">miles</string>
@@ -328,5 +328,7 @@
     <string name="msg_success_businessinfo_update">Contractor Business Info Successfully Updated</string>
     <string name="image_content_contractor_profile_picture">Contractor Profile Picture</string>
     <string name="msg_permission_required">Permissions required to access this feature</string>
+    <string name="schedule_location">Schedule\nLocation</string>
+    <string name="attachements">Attachments</string>
     <string name="msg_success_worktype_update">Contractor Work Type Successfully Updated</string>
 </resources>

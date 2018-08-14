@@ -39,7 +39,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
 
     @Override
     public NearByProjectsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_nearby_contractor, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_projects_for_contractor, parent, false);
         return new ViewHolder(view);
     }
 

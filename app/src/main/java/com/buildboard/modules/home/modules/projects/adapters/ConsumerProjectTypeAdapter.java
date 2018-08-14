@@ -67,7 +67,7 @@ public class ConsumerProjectTypeAdapter extends RecyclerView.Adapter<ConsumerPro
             ProjectAllType projectType = projectAllTypesList.get(getAdapterPosition());
             if (projectType == null) return;
             textServiceTypeName.setText(projectType.getTitle().toUpperCase());
-            Utils.display(mContext, projectType.getImage(), imageService, R.mipmap.ic_launcher);
+            Utils.display(mContext, projectType.getImage(), imageService, R.drawable.no_image_available);
         }
 
         @OnClick(R.id.container)

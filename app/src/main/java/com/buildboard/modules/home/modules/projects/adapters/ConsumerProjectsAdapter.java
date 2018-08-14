@@ -148,12 +148,10 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
         BuildBoardTextView textStartedDate;
         @BindView(R.id.text_bid_count)
         BuildBoardTextView textBidCount;
-        @BindView(R.id.text_number_of_bid)
-        BuildBoardTextView textNumberOfBid;
         @BindView(R.id.text_view_count)
         BuildBoardTextView textViewCount;
         @BindView(R.id.text_view)
-        BuildBoardTextView textView;
+        ImageView textView;
         @BindView(R.id.relative_bid_related)
         RelativeLayout bidRelatedRelativeLayout;
 
@@ -167,7 +165,7 @@ public class ConsumerProjectsAdapter extends RecyclerView.Adapter {
         private void setFont() {
             FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD,textServiceType);
             FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, textServiceTypeName);
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textStartedDate, textViewCount, textView, textBidCount, textNumberOfBid);
+            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textStartedDate, textViewCount, textView, textBidCount);
         }
 
         private void bindData(int position) {

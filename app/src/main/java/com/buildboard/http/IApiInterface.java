@@ -24,6 +24,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.pri
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
@@ -190,6 +191,9 @@ public interface IApiInterface {
 
     @POST("delete-message")
     Call<TrashMessageResponse> setDeleteMessage(@Header("oauth") String oauth, @Header("session") String sessionId, @Body DeleteMessageRequest deleteMessageRequest);
+
+    @GET("project-type/{id}")
+    Call<ProjectFormResponse> getConsumerSelectedProjectById(@Header("oauth") String oauth, @Path("id") String id);
 
     @GET("contractor/profile/work-type")
     Call<ContractorListResponse> getContractorWorkType(@Header("oauth") String oauth, @Header("session") String sessionId);

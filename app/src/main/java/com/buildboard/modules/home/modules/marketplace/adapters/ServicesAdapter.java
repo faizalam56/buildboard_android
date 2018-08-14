@@ -97,7 +97,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
                 textRatingBar.setVisibility(View.INVISIBLE);
             }
 
-            textServiceName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             textServiceName.setText(mTrendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(mTrendingService.getBusinessName(),mContext,45)) : stringNotAvailable);
             Picasso.get().load(mTrendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
         }

@@ -30,6 +30,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.pri
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
+import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordRequest;
 import com.buildboard.modules.login.forgotpassword.models.ForgotPasswordResponse;
@@ -263,7 +264,8 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceContractor(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<MarketPlaceContractorResponse> call = getDataManager().getMarketplaceContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        Call<MarketPlaceContractorResponse> call = getDataManager().getMarketplaceContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN)
+                , AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketPlaceContractorResponse>() {
             @Override
             public void onResponse(@NonNull Call<MarketPlaceContractorResponse> call, @NonNull Response<MarketPlaceContractorResponse> response) {
@@ -633,7 +635,7 @@ public class DataManager implements AppConstant, AppConfiguration {
                 }
 
                 if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
-                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                    dataManagerListener.onSuccess(response.body().getData());
                 else dataManagerListener.onError(response.body().getError());
             }
 
@@ -991,6 +993,7 @@ public class DataManager implements AppConstant, AppConfiguration {
             }
         });
     }
+
     public void getTrash(Activity activity, final DataManagerListener dataManagerListener) {
         Call<MessagesResponse> call = getDataManager().getTrash(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 AppPreference.getAppPreference(activity).getString(SESSION_ID));
@@ -1055,6 +1058,28 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<TrashMessageResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getSelectedProjectById(Activity activity,String selectedProjectId, final DataManagerListener dataManagerListener) {
+        Call<ProjectFormResponse> call = getDataManager().getConsumerSelectedProjectById(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),selectedProjectId);
+        call.enqueue(new Callback<ProjectFormResponse>() {
+            @Override
+            public void onResponse(Call<ProjectFormResponse> call, Response<ProjectFormResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProjectFormResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
