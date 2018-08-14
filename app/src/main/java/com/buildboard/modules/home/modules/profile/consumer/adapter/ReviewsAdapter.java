@@ -33,6 +33,31 @@ public class ReviewsAdapter extends RecyclerView.Adapter implements AppConstant 
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isLastPage = false;
     private LayoutInflater mLayoutInflater;
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int visibleItemCount = mLinearLayoutManager.getChildCount();
+            int totalItemCount = mLinearLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    setLoading(true);
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                }
+            }
+        }
+    };
 
     public ReviewsAdapter(Activity activity, ArrayList<ReviewData> reviewsList, RecyclerView recyclerView) {
         mActivity = activity;
@@ -144,29 +169,4 @@ public class ReviewsAdapter extends RecyclerView.Adapter implements AppConstant 
         }
 
     }
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            int visibleItemCount = mLinearLayoutManager.getChildCount();
-            int totalItemCount = mLinearLayoutManager.getItemCount();
-            int firstVisibleItemPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
-
-            if (!isLoading && !isLastPage) {
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                        && firstVisibleItemPosition >= 0) {
-                    setLoading(true);
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
-                    }
-                }
-            }
-        }
-    };
 }
