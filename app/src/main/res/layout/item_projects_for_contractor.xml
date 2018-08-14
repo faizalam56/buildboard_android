@@ -22,7 +22,7 @@
             android:clickable="false"
             android:focusable="false">
 
-            <com.buildboard.customviews.RoundRectCornerImageView
+            <ImageView
                 android:id="@+id/image_service"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_90sdp"
