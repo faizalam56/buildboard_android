@@ -10,21 +10,25 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.buildboard.R;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.Task;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
+import static com.buildboard.constants.AppConstant.TASK;
 
 public class ConsumerWindowActivity extends  AppCompatActivity {
 
-    private ProjectFormDetails mProjectAllTypesData;
+    private Task task;
     private String mSelectedCategory;
 
     @BindView(R.id.toolbar)
@@ -33,6 +37,13 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+
+
+    @BindView(R.id.title)
+    TextView title;
+
+    @BindString(R.string.create_new_project)
+    String stringCreateNewProjectText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,16 +54,20 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
+        title.setText(stringCreateNewProjectText);
+
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        getIntentData();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void getIntentData() {
-       mProjectAllTypesData = getIntent().getExtras().getParcelable(INTENT_PROJECT_TYPE_DATA);
+       task = getIntent().getExtras().getParcelable(TASK);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -60,7 +75,7 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
 
         CreateProjectDescriptionFragment createProjectDescriptionFragment = new CreateProjectDescriptionFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(INTENT_PROJECT_TYPE_DATA, mProjectAllTypesData);
+        bundle.putParcelable(TASK, task);
         createProjectDescriptionFragment.setArguments(bundle);
 
         adapter.addFragment(createProjectDescriptionFragment, getString(R.string.description));
