@@ -96,6 +96,8 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
                 public void getValue(String value) {
                     if (mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().size() > 0)
                         mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().set(0, value);
+                    else
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().set(0, value);
                 }
             }));
 
@@ -112,8 +114,10 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         }
 
         private void setData() {
-            editTitle.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().get(0));
-            editDescription.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0));
+            if (mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().size() > 0)
+                editTitle.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().get(0));
+            if (mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size() > 0)
+                editDescription.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0));
 
             int size = mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().size();
             switch (size) {

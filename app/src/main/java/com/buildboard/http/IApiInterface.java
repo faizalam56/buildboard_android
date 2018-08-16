@@ -214,4 +214,7 @@ public interface IApiInterface {
 
     @GET("contractor/profile/prev-doc")
     Call<GetPreviousWorkResponse> getPrevWork(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/prev-doc")
+    Call<BusinessDocumentsResponse> updatePrevWork(@Header("oauth") String oauth, @Header("session") String sessionId, @Body PreviousWorkRequest previousWorkRequest);
 }

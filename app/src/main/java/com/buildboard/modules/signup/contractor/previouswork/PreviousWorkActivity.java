@@ -103,6 +103,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringSelectImage;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_previous_work_update)
+    String stringPreviousWorkSuccess;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -149,14 +151,18 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @OnClick(R.id.button_next)
     void nextTapped() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PermissionHelper permission = new PermissionHelper(this);
-            if (!permission.checkPermission(permissions))
-                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-            else
+        if (isContractor)
+            updatePrevWork();
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PermissionHelper permission = new PermissionHelper(this);
+                if (!permission.checkPermission(permissions))
+                    requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+                else
+                    showImageUploadDialog();
+            } else
                 showImageUploadDialog();
-        } else
-            showImageUploadDialog();
+        }
     }
 
     @OnClick(R.id.text_camera)
@@ -477,6 +483,24 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                     addPreviousWorkData(null);
 
                 setPreviousWorkAdapter();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void updatePrevWork() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().updatePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                Toast.makeText(PreviousWorkActivity.this, stringPreviousWorkSuccess, Toast.LENGTH_LONG).show();
+                finish();
             }
 
             @Override
