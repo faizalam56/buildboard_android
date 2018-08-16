@@ -104,7 +104,7 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
                 @Override
                 public void getValue(String value) {
                     if (mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size() > 0)
-                        mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().set(1, value);
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().set(0, value);
                     else
                         mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().add(value);
                 }
@@ -112,10 +112,13 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         }
 
         private void setData() {
-            int size = mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size();
+            editTitle.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().get(0));
+            editDescription.setText(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0));
+
+            int size = mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().size();
             switch (size) {
                 case 1:
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(0)).into(imageAttachment1);
                     break;
                 case 2:
                     Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(0)).into(imageAttachment1);

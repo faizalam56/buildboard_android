@@ -131,8 +131,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         setTermsServiceText();
         getIntentData();
 
-        addPreviousWorkData();
-        setPreviousWorkAdapter();
         mImageUploadHelper = ImageUploadHelper.getInstance();
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
         behavior = BottomSheetBehavior.from(bottomSheet);
@@ -141,6 +139,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
+            getPrevWork();
+        } else {
+            addPreviousWorkData(null);
+            setPreviousWorkAdapter();
         }
     }
 
@@ -236,25 +238,25 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         return previousWorkRequest;
     }
 
-    private void addPreviousWorkData() {
+    private void addPreviousWorkData(ArrayList<PreviousWorkData> previousWorkResponse) {
 
         ArrayList<PreviousWorkData> previousWorkDetails = new ArrayList<>();
         PreviousWorkData projectTitleInfo = new PreviousWorkData();
         projectTitleInfo.setKey(KEY_PROJECT_TITLE);
         projectTitleInfo.setType(TYPE_TEXT);
-        projectTitleInfo.setValue(new ArrayList<String>());
+        projectTitleInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(0).getValue() != null) ? previousWorkResponse.get(0).getValue() : new ArrayList<String>());
         previousWorkDetails.add(projectTitleInfo);
 
         PreviousWorkData projectDescriptionInfo = new PreviousWorkData();
         projectDescriptionInfo.setKey(KEY_PROJECT_DESCRIPTION);
         projectDescriptionInfo.setType(TYPE_TEXT_VIEW);
-        projectDescriptionInfo.setValue(new ArrayList<String>());
+        projectDescriptionInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(1).getValue() != null) ? previousWorkResponse.get(1).getValue() : new ArrayList<String>());
         previousWorkDetails.add(projectDescriptionInfo);
 
         PreviousWorkData attachmentInfo = new PreviousWorkData();
         attachmentInfo.setKey(KEY_PROJECT_ATTACHMENTS);
         attachmentInfo.setType(TYPE_MULTIPLE_ATTACHMENT);
-        attachmentInfo.setValue(new ArrayList<String>());
+        attachmentInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(2).getValue() != null) ? previousWorkResponse.get(2).getValue() : new ArrayList<String>());
         previousWorkDetails.add(attachmentInfo);
 
         mPreviousWorks.put(mPreviousWorks.size() + 1, previousWorkDetails);
@@ -264,7 +266,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mPreviousWorkAdapter = new PreviousWorkAdapter(this, mPreviousWorks, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addPreviousWorkData();
+                addPreviousWorkData(null);
                 mPreviousWorkAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -449,6 +451,32 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                 ProgressHelper.stop();
                 ArrayList<String> documentsResponse = (ArrayList<String>) response;
                 showPrevworkSuccessDialog(documentsResponse.get(0));
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void getPrevWork() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().getPrevWork(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ArrayList<PreviousWorks> previousWorksArrayList = (ArrayList<PreviousWorks>) response;
+                if (previousWorksArrayList.size() > 0) {
+                    PreviousWorks previousWorks = previousWorksArrayList.get(0);
+                    for (int i = 1; i <= previousWorks.getPreviousWork().size(); i++) {
+                        addPreviousWorkData(previousWorks.getPreviousWork().get(i));
+                    }
+                } else
+                    addPreviousWorkData(null);
+
+                setPreviousWorkAdapter();
             }
 
             @Override
