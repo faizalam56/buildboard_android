@@ -19,11 +19,13 @@ public class ProjectTypeForm implements Parcelable {
 
     public ProjectTypeForm(Parcel in) {
         category = in.readString();
+        in.readTypedList(tasks, Task.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(category);
+        dest.writeTypedList(tasks);
     }
 
     @Override

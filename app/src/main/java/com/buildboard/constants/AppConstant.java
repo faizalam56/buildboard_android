@@ -47,6 +47,7 @@ public interface AppConstant {
     String INTERIOR = "interior";
     String EXTERIOR = "exterior";
     String TASK = "task";
+    String QUESTION = "question";
 
 
     String TYPE_DROPDOWN = "dropDown";

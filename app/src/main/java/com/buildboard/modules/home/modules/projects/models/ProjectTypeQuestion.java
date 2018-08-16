@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTypeQuestion implements Parcelable{
+public class ProjectTypeQuestion implements Parcelable {
 
     @SerializedName("question")
     @Expose
@@ -19,10 +19,11 @@ public class ProjectTypeQuestion implements Parcelable{
     private String questionType;
     @SerializedName("question_choices")
     @Expose
-    private List<String> questionChoices = new ArrayList<>();
+    private List<String> questionChoices;
     @SerializedName("question_id")
     @Expose
     private String questionId;
+
 
     protected ProjectTypeQuestion(Parcel in) {
         question = in.readString();

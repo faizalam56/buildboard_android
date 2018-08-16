@@ -144,7 +144,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
 
     public void openActivity(ProjectFormDetails projectFormDetails, Class classToReplace){
         Intent intent = new Intent(ConsumerProjectTypeActivity.this, classToReplace);
-        intent.putExtra(INTENT_PROJECT_TYPE_DATA,projectFormDetails);
+        intent.putExtra(INTENT_PROJECT_TYPE_DATA, projectFormDetails);
         startActivity(intent);
     }
 }

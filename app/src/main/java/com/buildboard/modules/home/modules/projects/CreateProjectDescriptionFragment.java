@@ -38,18 +38,15 @@ public class CreateProjectDescriptionFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_create_project_description, container, false);
         unbinder = ButterKnife.bind(this, view);
-        getDataFromBundle();
-        return view;
-    }
 
-    private void getDataFromBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             task = bundle.getParcelable(TASK);
-            Toast.makeText(getActivity(), ""+task.getQuestions(), Toast.LENGTH_SHORT).show();
+            Log.e("",""+task.getQuestions().get(0));
         }
-    }
 
+        return view;
+    }
 
     @Override
     public void onDestroyView() {

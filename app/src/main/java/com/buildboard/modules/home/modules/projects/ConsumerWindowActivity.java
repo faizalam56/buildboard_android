@@ -38,13 +38,6 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
-
-    @BindView(R.id.title)
-    TextView title;
-
-    @BindString(R.string.create_new_project)
-    String stringCreateNewProjectText;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,20 +47,14 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
-        title.setText(stringCreateNewProjectText);
-
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        getIntentData();
+       // task = getIntent().getParcelableExtra(TASK);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void getIntentData() {
-       task = getIntent().getExtras().getParcelable(TASK);
     }
 
     private void setupViewPager(ViewPager viewPager) {

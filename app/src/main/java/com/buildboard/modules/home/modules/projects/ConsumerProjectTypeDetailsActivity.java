@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.projects;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
+import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 import com.buildboard.utils.ConnectionDetector;
+
+import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -22,6 +26,7 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
 import static com.buildboard.constants.AppConstant.INTENT_SELECTED_CATEGORY;
+import static com.buildboard.constants.AppConstant.QUESTION;
 
 public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 
@@ -56,7 +61,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 
         title.setText(stringCreateNewProjectText);
 
-        mProjectAllTypesData= getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
+        mProjectAllTypesData= (ProjectFormDetails) getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
         radioGroup.setOnCheckedChangeListener(checkedChangeListener);
     }
 
@@ -69,6 +74,8 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
         }
     };
 
+    //TODO WORKING ON CREATE PROJECT
+/*
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
         if(ConnectionDetector.isNetworkConnected(this)) {
@@ -77,9 +84,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
                     if (mProjectAllTypesData.getForm().get(i).getCategory().equalsIgnoreCase(mSelectedMode)) {
                         if (mProjectAllTypesData.getForm().get(i).getTasks().get(i).getTask() == null ||
                                 mProjectAllTypesData.getForm().get(i).getTasks().get(i).getQuestions() != null ) {
-                            Intent intent = new Intent(this, ConsumerWindowActivity.class);
-                            //add question in intent
-                            startActivity(intent);
+
                         } else {
                             openActivity(ConsumerCreateProjectActivity.class,mProjectAllTypesData);
                         }
@@ -95,7 +100,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
         } else {
             ConnectionDetector.createSnackBar(this,constraintLayout);
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
