@@ -90,7 +90,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
     public void onItemClick(View view, int position, Object data) {
         if(ConnectionDetector.isNetworkConnected(this)) {
             ProjectAllType projectType = (ProjectAllType) data;
-            getAllProjectDetails(projectType.getId());
+            //getAllProjectDetails(projectType.getId());
         } else {
             ConnectionDetector.createSnackBar(this, containers);
         }

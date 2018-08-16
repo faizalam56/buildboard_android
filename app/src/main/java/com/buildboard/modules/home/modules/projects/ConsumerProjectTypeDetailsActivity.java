@@ -75,7 +75,6 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
     };
 
     //TODO WORKING ON CREATE PROJECT
-/*
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
         if(ConnectionDetector.isNetworkConnected(this)) {
@@ -100,7 +99,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
         } else {
             ConnectionDetector.createSnackBar(this,constraintLayout);
         }
-    }*/
+    }
 
     @Override
     public void onBackPressed() {
