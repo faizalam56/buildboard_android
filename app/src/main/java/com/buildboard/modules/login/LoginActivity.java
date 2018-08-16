@@ -20,10 +20,8 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.dialogs.UserTypeDialog;
 import com.buildboard.http.DataManager;
-import com.buildboard.http.ErrorManager;
 import com.buildboard.models.ErrorResponse;
 import com.buildboard.modules.home.HomeActivity;
-import com.buildboard.modules.home.modules.profile.consumer.ProfileSettingsActivity;
 import com.buildboard.modules.login.forgotpassword.ForgotPasswordActivity;
 import com.buildboard.modules.login.models.getAccessToken.GetAccessTokenRequest;
 import com.buildboard.modules.login.models.getAccessToken.TokenData;
@@ -60,7 +58,6 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindArray;
