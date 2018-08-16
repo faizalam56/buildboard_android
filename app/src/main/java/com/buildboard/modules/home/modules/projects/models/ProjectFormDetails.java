@@ -43,6 +43,7 @@ public class ProjectFormDetails implements Parcelable {
         createdAt = in.readString();
         updatedAt = in.readString();
         type = in.readString();
+        in.readTypedList(form, ProjectTypeForm.CREATOR);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class ProjectFormDetails implements Parcelable {
         dest.writeString(createdAt);
         dest.writeString(updatedAt);
         dest.writeString(type);
+        dest.writeTypedList(form);
     }
 
     @Override

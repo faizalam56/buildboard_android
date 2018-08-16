@@ -15,19 +15,21 @@ public class Task implements Parcelable{
     private String task;
     @SerializedName("questions")
     @Expose
-    private List<ProjectTypeQuestion> questions = new ArrayList<>();
+    private List<ProjectTypeQuestion> questions;
     @SerializedName("task_id")
     @Expose
     private String taskId;
 
     protected Task(Parcel in) {
         task = in.readString();
+        questions = in.createTypedArrayList(ProjectTypeQuestion.CREATOR);
         taskId = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(task);
+        dest.writeTypedList(questions);
         dest.writeString(taskId);
     }
 

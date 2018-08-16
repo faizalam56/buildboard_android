@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -131,16 +132,10 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buildBoardTextProjectType);
     }
 
-    private void navigateFragment(Fragment fragment) {
-        if (getActivity() != null) {
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_home_container, fragment).commit();
-        }
-    }
 
     @OnClick(R.id.button_create_new_projects)
     void navigateToFragment() {
-        navigateFragment(ConsumerProjectTypeFragment.newInstance());
+       startActivity(new Intent(getActivity(), ConsumerProjectTypeActivity.class));
     }
 
     @OnClick(R.id.button_completed_projects)

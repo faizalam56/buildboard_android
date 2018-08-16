@@ -44,6 +44,11 @@ public interface AppConstant {
     String PHONE = "phone";
     String EMAIL = "email";
     String FACEBOOK_TOKEN = "facebook_token";
+    String INTERIOR = "interior";
+    String EXTERIOR = "exterior";
+    String TASK = "task";
+    String QUESTION = "question";
+
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
