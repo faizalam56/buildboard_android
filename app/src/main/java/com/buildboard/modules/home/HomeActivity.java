@@ -165,7 +165,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showAlert() {
         android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(this);
-        alertDialog.setTitle(R.string.alert);
         alertDialog.setMessage(R.string.exit_msg);
         alertDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
