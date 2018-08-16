@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.consumer;
+package com.buildboard.modules.home.modules.profile;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,20 +18,18 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
-import com.buildboard.models.ErrorResponse;
+import com.buildboard.modules.home.modules.profile.consumer.ChangePasswordActivity;
+import com.buildboard.modules.home.modules.profile.consumer.EditProfileActivity;
 import com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity;
 import com.buildboard.modules.login.LoginActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
-import com.buildboard.view.SnackBarFactory;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-import java.util.ArrayList;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -61,7 +60,7 @@ public class ProfileSettingsActivity extends AppCompatActivity implements AppCon
     @BindView(R.id.text_logout)
     TextView textLogout;
     @BindView(R.id.card_logout)
-    CardView logout;
+    RelativeLayout logout;
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
     @BindView(R.id.progress_bar)

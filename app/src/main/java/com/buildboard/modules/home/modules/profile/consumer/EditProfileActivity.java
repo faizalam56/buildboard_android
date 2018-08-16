@@ -32,6 +32,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedTransformation;
 import com.buildboard.http.DataManager;
+import com.buildboard.modules.home.modules.profile.ProfileFragment;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerData;
 import com.buildboard.modules.signup.models.createconsumer.CreateConsumerRequest;

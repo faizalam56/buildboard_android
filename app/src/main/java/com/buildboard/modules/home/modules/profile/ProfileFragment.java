@@ -1,4 +1,4 @@
-package com.buildboard.modules.home.modules.profile.consumer;
+package com.buildboard.modules.home.modules.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +18,13 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.http.DataManager;
-import com.buildboard.models.ErrorResponse;
+import com.buildboard.modules.home.modules.profile.consumer.EditProfileActivity;
+import com.buildboard.modules.home.modules.profile.consumer.LocationAddressActivity;
+import com.buildboard.modules.home.modules.profile.consumer.PreferredContractorActivity;
+import com.buildboard.modules.home.modules.profile.consumer.ReviewActivity;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
-import com.buildboard.utils.ProgressHelper;
-import com.buildboard.view.SnackBarFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
