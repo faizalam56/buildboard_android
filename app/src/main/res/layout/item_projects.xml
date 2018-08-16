@@ -128,6 +128,7 @@
                     android:gravity="center"
                     android:minHeight="@dimen/_10sdp"
                     android:padding="@dimen/_1sdp"
+                    android:text="0"
                     android:textColor="@android:color/primary_text_dark" />
 
                 <ImageView
@@ -154,6 +155,7 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:gravity="center"
+                    android:text="0"
                     android:padding="@dimen/_1sdp"
                     android:textColor="@android:color/primary_text_dark" />
             </RelativeLayout>

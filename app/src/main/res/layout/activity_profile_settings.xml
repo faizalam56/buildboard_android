@@ -357,8 +357,7 @@
                     android:layout_toRightOf="@+id/image_contact"
                     android:drawablePadding="@dimen/_15sdp"
                     android:text="@string/contact_us"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_toEndOf="@+id/image_contact" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <ImageView
                     android:layout_width="@dimen/_15sdp"
@@ -407,8 +406,7 @@
                     android:layout_toRightOf="@+id/image_change_password"
                     android:drawablePadding="@dimen/_15sdp"
                     android:text="@string/change_password"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_toEndOf="@+id/image_change_password" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <ImageView
                     android:layout_width="@dimen/_15sdp"
@@ -459,8 +457,7 @@
                     android:layout_toRightOf="@+id/image_logout"
                     android:drawablePadding="@dimen/_15sdp"
                     android:text="@string/logout"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_toEndOf="@+id/image_logout" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <ImageView
                     android:layout_width="@dimen/_15sdp"
