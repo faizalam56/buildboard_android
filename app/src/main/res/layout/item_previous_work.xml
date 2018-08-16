@@ -6,19 +6,77 @@
     android:layout_marginTop="@dimen/_15sdp">
 
     <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_label_title"
+        style="@style/textSize_smallest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="@string/project_title"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_title"
+        style="@style/edit_text_size_smaller"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/green_drawable_border"
+        android:hint="@string/project_title"
+        android:layout_width="0dp"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_title"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_label_description"
+        style="@style/textSize_smallest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="@string/brief_description_of_work"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_title"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardEditText
+        android:id="@+id/edit_description"
+        style="@style/edit_text_size_smaller"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/green_drawable_border"
+        android:gravity="top"
+        android:hint="250 Characters"
+        android:maxLines="5"
+        android:singleLine="false"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_label_description"
+        app:typeface="robotoRegular" />
+
+    <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_label_attach_photos"
         style="@style/textSize_smallest"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/attach_photos_maximum_04"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_description"
         app:typeface="robotoRegular" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/linear_attachments"
+        android:id="@+id/constraint_attachments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
@@ -32,7 +90,8 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:background="@drawable/green_drawable_border"
-            android:scaleType="centerCrop"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,13 +112,15 @@
             android:id="@+id/image_attachment2"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment1"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_inbox" />
+            app:srcCompat="@drawable/ic_inbox"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment2"
@@ -76,13 +137,15 @@
             android:id="@+id/image_attachment3"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment2"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_filter" />
+            app:srcCompat="@drawable/ic_filter"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment3"
@@ -99,13 +162,15 @@
             android:id="@+id/image_attachment4"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment3"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_compose" />
+            app:srcCompat="@drawable/ic_compose"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment4"
@@ -122,43 +187,15 @@
             android:id="@+id/image_attachment"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_10sdp"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment4"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_attachment" />
+            app:srcCompat="@drawable/ic_attachment"
+            android:layout_marginStart="@dimen/_5sdp" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <com.buildboard.customviews.BuildBoardTextView
-        android:id="@+id/text_label_description"
-        style="@style/textSize_smallest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:text="@string/brief_description_of_work"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_attachments"
-        app:typeface="robotoRegular" />
-
-    <com.buildboard.customviews.BuildBoardEditText
-        android:id="@+id/edit_description"
-        style="@style/edit_text_size_smaller"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:background="@drawable/green_drawable_border"
-        android:gravity="top"
-        android:hint="250 Characters"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:padding="@dimen/_5sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_label_description"
-        app:typeface="robotoRegular" />
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_add_more"
@@ -169,7 +206,7 @@
         android:text="@string/add_more"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_description"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_attachments"
         app:typeface="robotoMedium" />
 
 </android.support.constraint.ConstraintLayout>

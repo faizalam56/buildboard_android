@@ -23,6 +23,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.get
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
+import com.buildboard.modules.home.modules.profile.contractor.models.GetPreviousWorkResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
@@ -210,4 +211,10 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/document")
     Call<BusinessDocumentsResponse> updateContractorDocuments(@Header("oauth") String oauth, @Header("session") String sessionId, @Body BusinessDocumentsRequest businessDocumentsRequest);
+
+    @GET("contractor/profile/prev-doc")
+    Call<GetPreviousWorkResponse> getPrevWork(@Header("oauth") String oauth, @Header("session") String sessionId);
+
+    @PUT("contractor/profile/prev-doc")
+    Call<BusinessDocumentsResponse> updatePrevWork(@Header("oauth") String oauth, @Header("session") String sessionId, @Body PreviousWorkRequest previousWorkRequest);
 }

@@ -29,6 +29,7 @@ import com.buildboard.modules.home.modules.profile.consumer.models.addresses.get
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.primaryaddress.PrimaryAddressResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.reviews.ReviewsResponse;
 import com.buildboard.modules.home.modules.profile.contractor.models.GetBusinessDocumentsResponse;
+import com.buildboard.modules.home.modules.profile.contractor.models.GetPreviousWorkResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectAllTypeResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectsResponse;
@@ -1158,6 +1159,52 @@ public class DataManager implements AppConstant, AppConfiguration {
     public void updateContractorDocuments(Activity activity, BusinessDocumentsRequest businessDocumentsRequest, final DataManagerListener dataManagerListener) {
         Call<BusinessDocumentsResponse> call = getDataManager().updateContractorDocuments(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
                 AppPreference.getAppPreference(activity).getString(SESSION_ID), businessDocumentsRequest);
+        call.enqueue(new Callback<BusinessDocumentsResponse>() {
+            @Override
+            public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getPrevWork(Activity activity, final DataManagerListener dataManagerListener) {
+        Call<GetPreviousWorkResponse> call = getDataManager().getPrevWork(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        call.enqueue(new Callback<GetPreviousWorkResponse>() {
+            @Override
+            public void onResponse(Call<GetPreviousWorkResponse> call, Response<GetPreviousWorkResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getPreviousWorks().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getPreviousWorks());
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetPreviousWorkResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void updatePrevWork(Activity activity, PreviousWorkRequest previousWorkRequest, final DataManagerListener dataManagerListener) {
+        Call<BusinessDocumentsResponse> call = getDataManager().updatePrevWork(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), previousWorkRequest);
         call.enqueue(new Callback<BusinessDocumentsResponse>() {
             @Override
             public void onResponse(Call<BusinessDocumentsResponse> call, Response<BusinessDocumentsResponse> response) {

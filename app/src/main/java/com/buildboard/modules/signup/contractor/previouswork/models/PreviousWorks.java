@@ -7,19 +7,8 @@ import java.util.HashMap;
 
 public class PreviousWorks {
 
-    @SerializedName("Testimonial")
-    private HashMap<Integer, ArrayList<PreviousWorkData>> testimonial;
-
     @SerializedName("Previous Work")
     private HashMap<Integer, ArrayList<PreviousWorkData>> previousWork;
-
-    public HashMap<Integer, ArrayList<PreviousWorkData>> getTestimonial() {
-        return testimonial;
-    }
-
-    public void setTestimonial(HashMap<Integer, ArrayList<PreviousWorkData>> testimonial) {
-        this.testimonial = testimonial;
-    }
 
     public HashMap<Integer, ArrayList<PreviousWorkData>> getPreviousWork() {
         return previousWork;

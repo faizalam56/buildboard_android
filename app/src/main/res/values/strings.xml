@@ -101,8 +101,8 @@
     <string name="title_projects_desc">Project Details</string>
     <string name="title_mailbox">Mailbox</string>
     <string name="title_profile">Profile</string>
-    <string name="trending_services">Trending/Top Rated Contractors</string>
-    <string name="near_by_contractors">Near by Contractors</string>
+    <string name="trending_services">Top Rated/Trending Contractors</string>
+    <string name="near_by_contractors">Nearby Contractors</string>
     <string name="contractors_by_project_type">Contractors by Project Type</string>
     <string name="create_new_projects">Create New Project</string>
     <string name="new_projects">New Projects</string>
@@ -158,7 +158,7 @@
     <string name="msg_loading">Loading…</string>
     <string name="msg_no_data_found">No Data Found</string>
     <string name="trending_projects">Trending Projects</string>
-    <string name="near_by_projects">Near by Projects</string>
+    <string name="near_by_projects">Nearby Projects</string>
     <string name="projects_on_marketplace">Projects on marketplace</string>
     <string name="browse_projects_by_projectstype">Browse Projects By Projects Type</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -333,4 +333,6 @@
     <string name="msg_success_worktype_update">Contractor Work Type Successfully Updated</string>
     <string name="msg_success_business_doc_update">Business Documents Successfully Updated</string>
     <string name="no_task">No task available</string>
+    <string name="msg_success_previous_work_update">Previous Work Successfully Updated</string>
+    <string name="project_title">Project Title</string>
 </resources>

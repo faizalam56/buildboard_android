@@ -1,7 +1,6 @@
 package com.buildboard.modules.signup.contractor.previouswork;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,10 +20,8 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -34,15 +31,10 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.AddProfilePhotoDialog;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.login.LoginActivity;
-import com.buildboard.modules.signup.SignUpActivity;
-import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocumentsActivity;
-import com.buildboard.modules.signup.contractor.businessdocuments.models.BusinessDocumentsResponse;
-import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.contractor.helper.ImageUploadHelper;
 import com.buildboard.modules.signup.contractor.interfaces.IAddMoreCallback;
 import com.buildboard.modules.signup.contractor.interfaces.ISelectAttachment;
 import com.buildboard.modules.signup.contractor.previouswork.adapters.PreviousWorkAdapter;
-import com.buildboard.modules.signup.contractor.previouswork.adapters.TestimonialAdapter;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkData;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorkRequest;
 import com.buildboard.modules.signup.contractor.previouswork.models.PreviousWorks;
@@ -53,7 +45,6 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,9 +55,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
@@ -77,15 +65,13 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     private String mUserId = "";
     private PreviousWorkAdapter mPreviousWorkAdapter;
-    private TestimonialAdapter mTestimonialAdapter;
     private HashMap<Integer, ArrayList<PreviousWorkData>> mPreviousWorks = new HashMap<>();
-    private HashMap<Integer, ArrayList<PreviousWorkData>> mTestimonials = new HashMap<>();
-    private Uri selectedImage;
+    private Uri mSelectedImage;
     private AddProfilePhotoDialog mAddProfilePhotoDialog;
-    private String responsImageUrl;
+    private String mResponseImageUrl;
     private ImageUploadHelper mImageUploadHelper;
 
-    private BottomSheetBehavior behavior;
+    private BottomSheetBehavior mBehavior;
     private String mCurrentPhotoPath;
     private int mSelectedPosition;
     private boolean isAttachment;
@@ -105,6 +91,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     String stringSelectImage;
     @BindString(R.string.save)
     String stringSave;
+    @BindString(R.string.msg_success_previous_work_update)
+    String stringPreviousWorkSuccess;
 
     @BindView(R.id.text_terms_of_service)
     BuildBoardTextView textTermsOfService;
@@ -113,8 +101,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.recycler_previous_work)
     RecyclerView recyclerPreviousWork;
-    @BindView(R.id.recycler_testimonial)
-    RecyclerView recyclerTestimonial;
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
@@ -135,58 +121,62 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         setTermsServiceText();
         getIntentData();
 
-        addTestimonialData();
-        addPreviousWorkData();
-        setTestimonialAdapter();
-        setPreviousWorkAdapter();
         mImageUploadHelper = ImageUploadHelper.getInstance();
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
-        behavior = BottomSheetBehavior.from(bottomSheet);
+        mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
+            getPrevWork();
+        } else {
+            addPreviousWorkData(null);
+            setPreviousWorkAdapter();
         }
     }
 
     @OnClick(R.id.button_next)
     void nextTapped() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PermissionHelper permission = new PermissionHelper(this);
-            if (!permission.checkPermission(permissions))
-                requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-            else
+        if (isContractor)
+            updatePrevWork();
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PermissionHelper permission = new PermissionHelper(this);
+                if (!permission.checkPermission(permissions))
+                    requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+                else
+                    showImageUploadDialog();
+            } else
                 showImageUploadDialog();
-        } else
-            showImageUploadDialog();
+        }
     }
 
     @OnClick(R.id.text_camera)
     void cameraTapped() {
         isAttachment = true;
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mCurrentPhotoPath = mImageUploadHelper.dispatchTakePictureIntent(this);
     }
 
     @OnClick(R.id.text_gallery)
     void galleryTapped() {
         isAttachment = true;
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
     @OnClick(R.id.text_document)
     void documentTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mImageUploadHelper.showFileChooser(this);
     }
 
     @OnClick(R.id.text_cancel)
     void cancelTapped() {
-        behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     private void getIntentData() {
@@ -230,29 +220,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         }
     };
 
-    private void storePrevWork() {
-        ProgressHelper.start(this, stringPleaseWait);
-        DataManager.getInstance().storePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                ArrayList<String> documentsResponse = (ArrayList<String>) response;
-                showPrevworkSuccessDialog(documentsResponse.get(0));
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
-            }
-        });
-    }
-
     private PreviousWorkRequest getPreviousWorkRequest() {
 
         PreviousWorks previousWorks = new PreviousWorks();
         previousWorks.setPreviousWork(mPreviousWorks);
-        previousWorks.setTestimonial(mTestimonials);
 
         PreviousWorkRequest previousWorkRequest = new PreviousWorkRequest();
         previousWorkRequest.setPreviousWorks(previousWorks);
@@ -261,43 +232,25 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         return previousWorkRequest;
     }
 
-    private void addTestimonialData() {
-
-        ArrayList<PreviousWorkData> testimonialDetails = new ArrayList<>();
-        PreviousWorkData nameInfo = new PreviousWorkData();
-        nameInfo.setKey(KEY_NAME);
-        nameInfo.setType(TYPE_TEXT);
-        nameInfo.setValue(new ArrayList<String>());
-        testimonialDetails.add(nameInfo);
-
-        PreviousWorkData descriptionInfo = new PreviousWorkData();
-        descriptionInfo.setKey(KEY_DESCRIPTION);
-        descriptionInfo.setType(TYPE_TEXT);
-        descriptionInfo.setValue(new ArrayList<String>());
-        testimonialDetails.add(descriptionInfo);
-
-        PreviousWorkData workPerformed = new PreviousWorkData();
-        workPerformed.setKey(KEY_WORK_PERFORMED);
-        workPerformed.setType(TYPE_TEXT);
-        workPerformed.setValue(new ArrayList<String>());
-        testimonialDetails.add(workPerformed);
-
-        mTestimonials.put(mTestimonials.size() + 1, testimonialDetails);
-    }
-
-    private void addPreviousWorkData() {
+    private void addPreviousWorkData(ArrayList<PreviousWorkData> previousWorkResponse) {
 
         ArrayList<PreviousWorkData> previousWorkDetails = new ArrayList<>();
-        PreviousWorkData descriptionInfo = new PreviousWorkData();
-        descriptionInfo.setKey(KEY_DESCRIPTION);
-        descriptionInfo.setType(TYPE_TEXT);
-        descriptionInfo.setValue(new ArrayList<String>());
-        previousWorkDetails.add(descriptionInfo);
+        PreviousWorkData projectTitleInfo = new PreviousWorkData();
+        projectTitleInfo.setKey(KEY_PROJECT_TITLE);
+        projectTitleInfo.setType(TYPE_TEXT);
+        projectTitleInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(0).getValue() != null) ? previousWorkResponse.get(0).getValue() : new ArrayList<String>());
+        previousWorkDetails.add(projectTitleInfo);
+
+        PreviousWorkData projectDescriptionInfo = new PreviousWorkData();
+        projectDescriptionInfo.setKey(KEY_PROJECT_DESCRIPTION);
+        projectDescriptionInfo.setType(TYPE_TEXT_VIEW);
+        projectDescriptionInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(1).getValue() != null) ? previousWorkResponse.get(1).getValue() : new ArrayList<String>());
+        previousWorkDetails.add(projectDescriptionInfo);
 
         PreviousWorkData attachmentInfo = new PreviousWorkData();
-        attachmentInfo.setKey(KEY_ATTACHMENT);
+        attachmentInfo.setKey(KEY_PROJECT_ATTACHMENTS);
         attachmentInfo.setType(TYPE_MULTIPLE_ATTACHMENT);
-        attachmentInfo.setValue(new ArrayList<String>());
+        attachmentInfo.setValue((previousWorkResponse != null && previousWorkResponse.get(2).getValue() != null) ? previousWorkResponse.get(2).getValue() : new ArrayList<String>());
         previousWorkDetails.add(attachmentInfo);
 
         mPreviousWorks.put(mPreviousWorks.size() + 1, previousWorkDetails);
@@ -307,7 +260,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mPreviousWorkAdapter = new PreviousWorkAdapter(this, mPreviousWorks, new IAddMoreCallback() {
             @Override
             public void addMore() {
-                addPreviousWorkData();
+                addPreviousWorkData(null);
                 mPreviousWorkAdapter.notifyDataSetChanged();
             }
         }, new ISelectAttachment() {
@@ -320,19 +273,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerPreviousWork.setLayoutManager(linearLayoutManager);
         recyclerPreviousWork.setAdapter(mPreviousWorkAdapter);
-    }
-
-    private void setTestimonialAdapter() {
-        mTestimonialAdapter = new TestimonialAdapter(this, mTestimonials, new IAddMoreCallback() {
-            @Override
-            public void addMore() {
-                addTestimonialData();
-                mTestimonialAdapter.notifyDataSetChanged();
-            }
-        });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerTestimonial.setLayoutManager(linearLayoutManager);
-        recyclerTestimonial.setAdapter(mTestimonialAdapter);
     }
 
     @Override
@@ -352,8 +292,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
                             else
                                 ConnectionDetector.createSnackBar(this, constraintRoot);
                         } else {
-                            selectedImage = data.getData();
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                            mSelectedImage = data.getData();
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
                             mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
                         }
 
@@ -380,27 +320,6 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         }
     }
 
-    public void saveContractorImage() {
-        SaveContractorImageRequest saveImageRequest = new SaveContractorImageRequest();
-        saveImageRequest.setId(mUserId);
-        saveImageRequest.setImageUrl(responsImageUrl);
-
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
-        DataManager.getInstance().saveContractorImage(this, saveImageRequest, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.stop();
-                storePrevWork();
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.stop();
-                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
-            }
-        });
-    }
-
     private void showImageUploadDialog() {
         mAddProfilePhotoDialog = new AddProfilePhotoDialog();
 
@@ -418,24 +337,24 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
             @Override
             public void onSaveImage() {
-                if (selectedImage == null) {
+                if (mSelectedImage == null) {
                     SnackBarFactory.createSnackBar(PreviousWorkActivity.this, constraintRoot, stringSelectImage);
                     return;
                 }
 
                 if (ConnectionDetector.isNetworkConnected(PreviousWorkActivity.this)) {
                     isAttachment = false;
-                    mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, selectedImage))),
+                    mImageUploadHelper.uploadImage(PreviousWorkActivity.this, mImageUploadHelper.prepareFilePart(resizeAndCompressImageBeforeSend(PreviousWorkActivity.this, Utils.getImagePath(PreviousWorkActivity.this, mSelectedImage))),
                             constraintRoot, PreviousWorkActivity.this);
                 } else {
                     ConnectionDetector.createSnackBar(PreviousWorkActivity.this, constraintRoot);
                 }
             }
         });
-        if (selectedImage != null) {
+        if (mSelectedImage != null) {
             Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImage);
                 mAddProfilePhotoDialog.imageProfile.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -460,10 +379,10 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @Override
     public void imageUrl(String url) {
-        responsImageUrl = url;
+        mResponseImageUrl = url;
 
         if (isAttachment) {
-            mPreviousWorks.get(mSelectedPosition).get(1).getValue().add(responsImageUrl);
+            mPreviousWorks.get(mSelectedPosition).get(2).getValue().add(mResponseImageUrl);
             mPreviousWorkAdapter.notifyDataSetChanged();
         } else saveContractorImage();
     }
@@ -474,9 +393,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             if (!permission.checkPermission(permissions))
                 requestPermissions(permissions, REQUEST_PERMISSION_CODE);
             else
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private void showPrevworkSuccessDialog(String msg) {
@@ -495,5 +414,88 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void saveContractorImage() {
+        SaveContractorImageRequest saveImageRequest = new SaveContractorImageRequest();
+        saveImageRequest.setId(mUserId);
+        saveImageRequest.setImageUrl(mResponseImageUrl);
+
+        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        DataManager.getInstance().saveContractorImage(this, saveImageRequest, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                storePrevWork();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void storePrevWork() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().storePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ArrayList<String> documentsResponse = (ArrayList<String>) response;
+                showPrevworkSuccessDialog(documentsResponse.get(0));
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void getPrevWork() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().getPrevWork(this, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                ArrayList<PreviousWorks> previousWorksArrayList = (ArrayList<PreviousWorks>) response;
+                if (previousWorksArrayList.size() > 0) {
+                    PreviousWorks previousWorks = previousWorksArrayList.get(0);
+                    for (int i = 1; i <= previousWorks.getPreviousWork().size(); i++) {
+                        addPreviousWorkData(previousWorks.getPreviousWork().get(i));
+                    }
+                } else
+                    addPreviousWorkData(null);
+
+                setPreviousWorkAdapter();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
+    }
+
+    private void updatePrevWork() {
+        ProgressHelper.start(this, stringPleaseWait);
+        DataManager.getInstance().updatePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.stop();
+                Toast.makeText(PreviousWorkActivity.this, stringPreviousWorkSuccess, Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.stop();
+                Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
+            }
+        });
     }
 }
