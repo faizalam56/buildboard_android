@@ -72,6 +72,9 @@ public interface AppConstant {
     String KEY_DESCRIPTION = "description";
     String KEY_WORK_PERFORMED = "workPerformed";
     String KEY_ATTACHMENT = "attachment";
+    String KEY_PROJECT_TITLE = "Project Title";
+    String KEY_PROJECT_DESCRIPTION = "Project Description";
+    String KEY_PROJECT_ATTACHMENTS = "Project Attachments";
 
     String INTENT_USER_ID = "intent_userid";
     String TERMS_OF_SERVICES_LINK = "http://dashboard.buildboardinc.biz/terms-and-condition";
