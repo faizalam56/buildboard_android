@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_camera_green"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/image_content_contractor_profile_picture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

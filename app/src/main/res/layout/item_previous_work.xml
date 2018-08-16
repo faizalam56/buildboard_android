@@ -91,7 +91,7 @@
             android:layout_height="@dimen/_40sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -115,11 +115,12 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment1"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_inbox" />
+            app:srcCompat="@drawable/ic_inbox"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment2"
@@ -139,11 +140,12 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment2"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_filter" />
+            app:srcCompat="@drawable/ic_filter"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment3"
@@ -163,11 +165,12 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:background="@drawable/green_drawable_border"
             android:padding="@dimen/_2sdp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment3"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_compose" />
+            app:srcCompat="@drawable/ic_compose"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <ImageView
             android:id="@+id/image_close_attachment4"
@@ -189,7 +192,8 @@
             android:padding="@dimen/_10sdp"
             app:layout_constraintLeft_toRightOf="@+id/image_attachment4"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_attachment" />
+            app:srcCompat="@drawable/ic_attachment"
+            android:layout_marginStart="@dimen/_5sdp" />
 
     </android.support.constraint.ConstraintLayout>
 
