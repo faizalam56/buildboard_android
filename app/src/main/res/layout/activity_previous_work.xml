@@ -31,19 +31,7 @@
                 android:paddingBottom="@dimen/_15sdp"
                 android:paddingLeft="@dimen/_15sdp"
                 android:paddingRight="@dimen/_15sdp"
-                android:paddingTop="@dimen/_15sdp">
-
-                <com.buildboard.customviews.BuildBoardTextView
-                    android:id="@+id/text_label_previous_work"
-                    style="@style/textSize_small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/previous_work"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:typeface="robotoRegular" />
+                android:paddingTop="@dimen/_5sdp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_previous_work"
@@ -51,7 +39,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_label_previous_work" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <LinearLayout
                     android:id="@+id/linear_previous_work"
