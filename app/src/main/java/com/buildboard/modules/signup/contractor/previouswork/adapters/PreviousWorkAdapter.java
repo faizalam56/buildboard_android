@@ -81,6 +81,8 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         @BindView(R.id.image_close_attachment4)
         ImageView imageCloseAttachment4;
 
+        @BindView(R.id.edit_title)
+        BuildBoardEditText editTitle;
         @BindView(R.id.edit_description)
         BuildBoardEditText editDescription;
 
@@ -88,14 +90,23 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            editDescription.addTextChangedListener(new GenericTextWatcher(editDescription, new ITextWatcherCallback() {
+            editTitle.addTextChangedListener(new GenericTextWatcher(editTitle, new ITextWatcherCallback() {
 
                 @Override
                 public void getValue(String value) {
                     if (mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().size() > 0)
                         mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().set(0, value);
+                }
+            }));
+
+            editDescription.addTextChangedListener(new GenericTextWatcher(editDescription, new ITextWatcherCallback() {
+
+                @Override
+                public void getValue(String value) {
+                    if (mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().size() > 0)
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().set(1, value);
                     else
-                        mPreviousWorks.get(getAdapterPosition() + 1).get(0).getValue().add(value);
+                        mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().add(value);
                 }
             }));
         }
@@ -107,19 +118,19 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
                     Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
                     break;
                 case 2:
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(1)).into(imageAttachment2);
                     break;
                 case 3:
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(2)).into(imageAttachment3);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(1)).into(imageAttachment2);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(2)).into(imageAttachment3);
                     break;
                 case 4:
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(0)).into(imageAttachment1);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(1)).into(imageAttachment2);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(2)).into(imageAttachment3);
-                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().get(3)).into(imageAttachment4);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(0)).into(imageAttachment1);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(1)).into(imageAttachment2);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(2)).into(imageAttachment3);
+                    Picasso.get().load(mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().get(3)).into(imageAttachment4);
                     break;
             }
             setVisibility(size);
@@ -149,25 +160,25 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
 
         @OnClick(R.id.image_close_attachment1)
         void attachment1CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(0);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().remove(0);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment2)
         void attachment2CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(1);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().remove(1);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment3)
         void attachment3CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(2);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().remove(2);
             notifyDataSetChanged();
         }
 
         @OnClick(R.id.image_close_attachment4)
         void attachment4CloseTapped() {
-            mPreviousWorks.get(getAdapterPosition() + 1).get(1).getValue().remove(3);
+            mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().remove(3);
             notifyDataSetChanged();
         }
     }
