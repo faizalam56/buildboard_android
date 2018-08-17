@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,10 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
+import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
+import com.buildboard.preferences.AppPreference;
+import com.buildboard.utils.ConnectionDetector;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.buildboard.utils.Utils.dottedAfterCertainLength;
+
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder>
         implements AppConstant {
 
@@ -44,7 +48,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     @Override
     public ServicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_services, parent, false);
+        View view;
+
+        if (AppPreference.getAppPreference(mContext).getBoolean(IS_CONTRACTOR))
+            view = mLayoutInflater.inflate(R.layout.item_projects_for_contractor, parent, false);
+        else view = mLayoutInflater.inflate(R.layout.item_services, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -68,7 +77,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         ImageView imageService;
         @BindView(R.id.textRatingBar)
         BuildBoardTextView textRatingBar;
-
         @BindString(R.string.not_available)
         String stringNotAvailable;
 
@@ -80,9 +88,19 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         @OnClick(R.id.card_service)
         void cardTapped() {
-            Intent intent = new Intent(mContext, ContractorProfile.class);
-            intent.putExtra(INTENT_TRENDING_USER_ID, mTrendingService.getUserId());
-            mContext.startActivity(intent);
+            if (!ConnectionDetector.isNetworkConnected(mContext)) {
+                return;
+            }
+
+            if (AppPreference.getAppPreference(mContext).getBoolean(IS_CONTRACTOR)) {
+                Intent intent = new Intent(mContext, ProjectsDetailActivity.class);
+                intent.putExtra(DATA, mTrendingService.getId());
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, ContractorProfile.class);
+                intent.putExtra(INTENT_TRENDING_USER_ID, mTrendingService.getUserId());
+                mContext.startActivity(intent);
+            }
         }
 
         private void setData() {
@@ -90,15 +108,29 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             if (mTrendingService == null)
                 return;
 
-            if(mTrendingService.getRatingCount() != null) {
-                textRatingBar.setVisibility(View.VISIBLE);
-                textRatingBar.setText(mTrendingService.getRatingCount());
-            } else {
-                textRatingBar.setVisibility(View.INVISIBLE);
-            }
+            if (!AppPreference.getAppPreference(mContext).getBoolean(IS_CONTRACTOR)) {
+                if (mTrendingService.getRatingCount() != null) {
+                    textRatingBar.setVisibility(View.VISIBLE);
+                    textRatingBar.setText(mTrendingService.getRatingCount());
+                } else {
+                    textRatingBar.setVisibility(View.INVISIBLE);
+                }
 
-            textServiceName.setText(mTrendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(mTrendingService.getBusinessName(),mContext,45)) : stringNotAvailable);
-            Picasso.get().load(mTrendingService.getImage()).transform(new RoundedCornersTransform()).placeholder(R.mipmap.no_image_available).into(imageService);
+                textServiceName.setText(mTrendingService.getBusinessName() != null ? capitalizeFirstLetter(dottedAfterCertainLength(mTrendingService.getBusinessName(), mContext, 45)) : stringNotAvailable);
+                Picasso.get()
+                        .load(mTrendingService.getImage())
+                        .transform(new RoundedCornersTransform())
+                        .placeholder(R.mipmap.no_image_available)
+                        .into(imageService);
+
+            } else {
+                textServiceName.setText(!TextUtils.isEmpty(mTrendingService.getTitle()) ? mTrendingService.getTitle() : stringNotAvailable);
+                Picasso.get()
+                        .load(mTrendingService.getProjectType().getImage())
+                        .transform(new RoundedCornersTransform())
+                        .placeholder(R.mipmap.no_image_available)
+                        .into(imageService);
+            }
         }
 
         private String capitalizeFirstLetter(String original) {

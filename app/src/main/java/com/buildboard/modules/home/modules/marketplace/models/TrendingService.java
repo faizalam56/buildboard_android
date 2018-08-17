@@ -83,6 +83,10 @@ public class TrendingService implements Parcelable {
     @SerializedName("rating_count")
     @Expose
     private String ratingCount;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("project_type")
+    private ProjectType projectType;
 
     public TrendingService(Parcel in) {
         id = in.readString();
@@ -409,5 +413,21 @@ public class TrendingService implements Parcelable {
 
     public void setRatingCount(String ratingCount) {
         this.ratingCount = ratingCount;
+    }
+
+    public ProjectType getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(ProjectType projectType) {
+        this.projectType = projectType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

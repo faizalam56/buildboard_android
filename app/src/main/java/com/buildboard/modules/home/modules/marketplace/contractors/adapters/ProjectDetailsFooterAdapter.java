@@ -76,7 +76,7 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
             FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textTitle);
         }
 
-        private ArrayList<String> getAttachmentArry(int position) {
+        private ArrayList<String> getAttachmentArray(int position) {
             mAttachmentsArray = new ArrayList<>();
 
             for (int index = 0; index < mNearByProjectDetailsData.getAdditionalAttachment().size(); index++) {
@@ -86,6 +86,7 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
             for (int index = 0; index < mNearByProjectDetailsData.getPrefferedMaterialAttachment().size(); index++) {
                 mAttachmentsArray.add(mNearByProjectDetailsData.getPrefferedMaterialAttachment().get(index));
             }
+
             return mAttachmentsArray;
         }
 
@@ -98,7 +99,7 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
                 switch (Text) {
                     case TEXT_ATTACHMENT:
                         Intent intent = new Intent(mContext, ContractorProjectsAttachmentActivity.class);
-                        intent.putExtra(AppConstant.DATA, getAttachmentArry(getAdapterPosition()));
+                        intent.putExtra(AppConstant.DATA, getAttachmentArray(getAdapterPosition()));
                         mContext.startActivity(intent);
                         break;
                 }
