@@ -266,8 +266,8 @@ public class DataManager implements AppConstant, AppConfiguration {
     }
 
     public void getMarketplaceContractor(Activity activity, final DataManagerListener dataManagerListener) {
-        Call<MarketPlaceContractorResponse> call = getDataManager().getMarketplaceContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN)
-                , AppPreference.getAppPreference(activity).getString(SESSION_ID));
+        Call<MarketPlaceContractorResponse> call = getDataManager().getMarketplaceContractor(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID));
         call.enqueue(new Callback<MarketPlaceContractorResponse>() {
             @Override
             public void onResponse(@NonNull Call<MarketPlaceContractorResponse> call, @NonNull Response<MarketPlaceContractorResponse> response) {
