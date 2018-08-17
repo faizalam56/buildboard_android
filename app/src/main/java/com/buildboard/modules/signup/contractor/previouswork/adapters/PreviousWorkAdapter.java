@@ -80,6 +80,8 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         ImageView imageCloseAttachment3;
         @BindView(R.id.image_close_attachment4)
         ImageView imageCloseAttachment4;
+        @BindView(R.id.image_delete_row)
+        ImageView imageDeleteRow;
 
         @BindView(R.id.edit_title)
         BuildBoardEditText editTitle;
@@ -153,6 +155,7 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
             imageAttachment4.setVisibility(size > 3 ? View.VISIBLE : View.GONE);
             imageCloseAttachment4.setVisibility(size > 3 ? View.VISIBLE : View.GONE);
             imageAttachment.setVisibility(size == 4 ? View.GONE : View.VISIBLE);
+            imageDeleteRow.setVisibility(mPreviousWorks.size() > 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.text_add_more)
@@ -186,6 +189,17 @@ public class PreviousWorkAdapter extends RecyclerView.Adapter<PreviousWorkAdapte
         @OnClick(R.id.image_close_attachment4)
         void attachment4CloseTapped() {
             mPreviousWorks.get(getAdapterPosition() + 1).get(2).getValue().remove(3);
+            notifyDataSetChanged();
+        }
+
+        @OnClick(R.id.image_delete_row)
+        void deleteRowTapped() {
+            for (int i = getAdapterPosition() + 1; i <= mPreviousWorks.size(); i++) {
+                if (i == mPreviousWorks.size())
+                    mPreviousWorks.remove(mPreviousWorks.size());
+                else
+                    mPreviousWorks.put(i, mPreviousWorks.get(i + 1));
+            }
             notifyDataSetChanged();
         }
     }
