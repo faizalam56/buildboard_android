@@ -83,7 +83,6 @@ public class ConsumerCreateProjectActivity extends AppCompatActivity implements 
                 if (mProjectAllTypesData.getForm().get(i).getCategory().equalsIgnoreCase(INTERIOR)) {
                    if(mProjectAllTypesData.getForm().get(i).getTasks() !=null) {
                        getAllTask(mProjectAllTypesData.getForm().get(i).getTasks());
-
                    }
                 } else if (mProjectAllTypesData.getForm().get(i).getCategory().equalsIgnoreCase(EXTERIOR)) {
                     if(mProjectAllTypesData.getForm().get(i).getTasks() !=null) {
