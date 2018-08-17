@@ -464,7 +464,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBondingAdapter() {
-        mBondingAdapter = new BondingAdapter(this, mBondings, new IAddMoreCallback() {
+        mBondingAdapter = new BondingAdapter(this, mBondings, mStates, new IAddMoreCallback() {
             @Override
             public void addMore() {
                 addBonding(null);

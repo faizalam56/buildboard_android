@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -30,13 +33,15 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iAddMoreCallback;
     private ISelectAttachment iSelectAttachment;
+    private HashMap<String, ArrayList<String>> mStateCitiesDatas;
 
-    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondings, IAddMoreCallback iAddMoreCallback,
-                          ISelectAttachment iSelectAttachment) {
+    public BondingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> bondings, HashMap<String, ArrayList<String>> stateCityValues,
+                          IAddMoreCallback iAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mBondings = bondings;
         this.iAddMoreCallback = iAddMoreCallback;
         this.iSelectAttachment = iSelectAttachment;
+        this.mStateCitiesDatas = stateCityValues;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -62,8 +67,6 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
-        @BindView(R.id.edit_state)
-        BuildBoardEditText editState;
         @BindView(R.id.edit_city)
         BuildBoardEditText editCity;
         @BindView(R.id.edit_bond_number)
@@ -76,17 +79,14 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @BindView(R.id.image_delete_row)
         ImageView imageDeleteRow;
 
+        @BindView(R.id.spinner_states)
+        Spinner spinnerStates;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            populateStatesData();
 
-            editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback() {
-
-                @Override
-                public void getValue(String value) {
-                    mBondings.get(getAdapterPosition() + 1).get(0).setValue(value);
-                }
-            }));
             editCity.addTextChangedListener(new GenericTextWatcher(editCity, new ITextWatcherCallback() {
 
                 @Override
@@ -110,12 +110,16 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
 
         private void bindData() {
             ArrayList<DocumentData> bondingDetail = mBondings.get(getAdapterPosition() + 1);
-            editState.setText(bondingDetail.get(0).getValue());
             editCity.setText(bondingDetail.get(1).getValue());
             editBondNumber.setText(bondingDetail.get(2).getValue());
             editAmount.setText(bondingDetail.get(3).getValue());
             editAttachment.setText(bondingDetail.get(4).getValue());
             imageDeleteRow.setVisibility(mBondings.size() > 1 ? View.VISIBLE : View.GONE);
+            for (int i = 0; i < spinnerStates.getCount(); i++) {
+                if (spinnerStates.getItemAtPosition(i).toString().contains(bondingDetail.get(0).getValue())) {
+                    spinnerStates.setSelection(i);
+                }
+            }
         }
 
         @OnClick(R.id.text_add_more)
@@ -137,6 +141,24 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
                     mBondings.put(i, mBondings.get(i + 1));
             }
             notifyDataSetChanged();
+        }
+
+        private void populateStatesData() {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, new ArrayList<>(mStateCitiesDatas.keySet()));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerStates.setAdapter(adapter);
+
+            spinnerStates.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    mBondings.get(getAdapterPosition() + 1).get(0).setValue(adapterView.getSelectedItem().toString());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    //TODO implement if needed
+                }
+            });
         }
     }
 }
