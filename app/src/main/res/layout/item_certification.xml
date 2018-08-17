@@ -17,6 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:typeface="robotoMedium" />
 
+    <ImageView
+        android:id="@+id/image_delete_row"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:padding="@dimen/_4sdp"
+        android:background="@drawable/ic_delete_green_circle"
+        android:visibility="visible"
+        app:layout_constraintRight_toRightOf="@+id/text_certifying_body"
+        app:layout_constraintTop_toTopOf="@+id/text_certifying_body"
+        android:tint="@color/colorGreen"
+        app:srcCompat="@drawable/close" />
+
     <com.buildboard.customviews.BuildBoardEditText
         android:id="@+id/edit_certifying_body"
         style="@style/edit_text_size_smaller"

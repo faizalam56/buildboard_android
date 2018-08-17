@@ -22,6 +22,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
@@ -56,6 +57,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 
 public class PreviousWorkActivity extends AppCompatActivity implements AppConstant, ImageUploadHelper.IImageUrlCallback {
@@ -110,6 +113,9 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -421,46 +427,46 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         saveImageRequest.setId(mUserId);
         saveImageRequest.setImageUrl(mResponseImageUrl);
 
-        ProgressHelper.start(this, getString(R.string.msg_please_wait));
+        showProgressBar(this, progressBar);
         DataManager.getInstance().saveContractorImage(this, saveImageRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 storePrevWork();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void storePrevWork() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().storePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 ArrayList<String> documentsResponse = (ArrayList<String>) response;
                 showPrevworkSuccessDialog(documentsResponse.get(0));
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void getPrevWork() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getPrevWork(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 ArrayList<PreviousWorks> previousWorksArrayList = (ArrayList<PreviousWorks>) response;
                 if (previousWorksArrayList.size() > 0) {
                     PreviousWorks previousWorks = previousWorksArrayList.get(0);
@@ -475,25 +481,25 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void updatePrevWork() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().updatePrevWork(this, getPreviousWorkRequest(), new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Toast.makeText(PreviousWorkActivity.this, stringPreviousWorkSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(PreviousWorkActivity.this, constraintRoot, error);
             }
         });

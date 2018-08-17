@@ -17,18 +17,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:typeface="robotoMedium" />
 
-    <com.buildboard.customviews.BuildBoardEditText
-        android:id="@+id/edit_state"
+    <ImageView
+        android:id="@+id/image_delete_row"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:padding="@dimen/_4sdp"
+        android:background="@drawable/ic_delete_green_circle"
+        android:visibility="visible"
+        app:layout_constraintRight_toRightOf="@+id/text_state"
+        app:layout_constraintTop_toTopOf="@+id/text_state"
+        android:tint="@color/colorGreen"
+        app:srcCompat="@drawable/close" />
+
+    <Spinner
+        android:id="@+id/spinner_states"
         style="@style/edit_text_size_smaller"
-        android:background="@drawable/green_drawable_border"
-        android:hint="@string/state"
         android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/green_drawable_border"
+        android:cursorVisible="false"
+        android:editable="false"
+        android:focusable="false"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:text="@string/state"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_state"
-        app:typeface="robotoRegular" />
+        app:layout_constraintTop_toBottomOf="@+id/text_state" />
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_city"
@@ -40,21 +53,22 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_state"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_states"
         app:typeface="robotoMedium" />
 
-    <com.buildboard.customviews.BuildBoardEditText
-        android:id="@+id/edit_city"
+    <Spinner
+        android:id="@+id/spinner_city"
         style="@style/edit_text_size_smaller"
-        android:background="@drawable/green_drawable_border"
-        android:hint="@string/city"
         android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/green_drawable_border"
+        android:cursorVisible="false"
+        android:editable="false"
+        android:focusable="false"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:text="@string/city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_city"
-        app:typeface="robotoRegular" />
+        app:layout_constraintTop_toBottomOf="@+id/text_city" />
 
     <com.buildboard.customviews.BuildBoardTextView
         android:id="@+id/text_bond_number"
@@ -66,7 +80,7 @@
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_city"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_city"
         app:typeface="robotoMedium" />
 
     <com.buildboard.customviews.BuildBoardEditText
