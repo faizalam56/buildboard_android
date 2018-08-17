@@ -443,6 +443,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBusinessLicensingAdapter() {
+        if (mStates == null) return;
+
         mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new ArrayList<>(mStates.keySet()), new IAddMoreCallback() {
             @Override
             public void addMore() {
@@ -464,6 +466,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBondingAdapter() {
+        if (mStates == null) return;
+
         mBondingAdapter = new BondingAdapter(this, mBondings, mStates, new IAddMoreCallback() {
             @Override
             public void addMore() {
