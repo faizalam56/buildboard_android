@@ -43,18 +43,17 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
     private HashMap<Integer, ArrayList<DocumentData>> mBusinessLicensings;
     private LayoutInflater mLayoutInflater;
     private IAddMoreCallback iBusinessDocumentsAddMoreCallback;
-    private int size;
     private ISelectAttachment iSelectAttachment;
-    private HashMap<String, ArrayList<String>> mStates;
+    private ArrayList<String> mStates;
 
-    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, IAddMoreCallback iBusinessDocumentsAddMoreCallback,
-                                    ISelectAttachment iSelectAttachment) {
+    public BusinessLicensingAdapter(Context context, HashMap<Integer, ArrayList<DocumentData>> businessLicensings, ArrayList<String> states,
+                                    IAddMoreCallback iBusinessDocumentsAddMoreCallback, ISelectAttachment iSelectAttachment) {
         mContext = context;
         this.mBusinessLicensings = businessLicensings;
         mLayoutInflater = LayoutInflater.from(mContext);
         this.iBusinessDocumentsAddMoreCallback = iBusinessDocumentsAddMoreCallback;
         this.iSelectAttachment = iSelectAttachment;
-        getStates();
+        this.mStates = states;
     }
 
     @Override
@@ -79,8 +78,6 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         @BindView(R.id.text_add_more)
         BuildBoardTextView textAddMore;
 
-        //        @BindView(R.id.edit_state)
-//        BuildBoardEditText editState;
         @BindView(R.id.edit_license_number)
         BuildBoardEditText editLicenceNumber;
         @BindView(R.id.edit_attachment)
@@ -95,14 +92,8 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            populateStatesData();
 
-            /*editState.addTextChangedListener(new GenericTextWatcher(editState, new ITextWatcherCallback() {
-
-                @Override
-                public void getValue(String value) {
-                    mBusinessLicensings.get(getAdapterPosition() + 1).get(0).setValue(value);
-                }
-            }));*/
             editLicenceNumber.addTextChangedListener(new GenericTextWatcher(editLicenceNumber, new ITextWatcherCallback() {
                 @Override
                 public void getValue(String value) {
@@ -112,11 +103,15 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         }
 
         private void bindData() {
-            ArrayList<DocumentData> bondingDetail = mBusinessLicensings.get(getAdapterPosition() + 1);
-//            editState.setText(bondingDetail.get(0).getValue());
-            editLicenceNumber.setText(bondingDetail.get(1).getValue());
-            editAttachment.setText(bondingDetail.get(2).getValue());
+            ArrayList<DocumentData> businessLicensingDetail = mBusinessLicensings.get(getAdapterPosition() + 1);
+            editLicenceNumber.setText(businessLicensingDetail.get(1).getValue());
+            editAttachment.setText(businessLicensingDetail.get(2).getValue());
             imageDeleteRow.setVisibility(mBusinessLicensings.size() > 1 ? View.VISIBLE : View.GONE);
+            for (int i = 0; i < spinnerStates.getCount(); i++) {
+                if (spinnerStates.getItemAtPosition(i).toString().contains(businessLicensingDetail.get(0).getValue())) {
+                    spinnerStates.setSelection(i);
+                }
+            }
         }
 
         @OnClick(R.id.text_add_more)
@@ -139,34 +134,23 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
             }
             notifyDataSetChanged();
         }
-    }
 
-    private void getStates() {
-        try {
-            JSONObject statesJson = new JSONObject(readJSONFromAsset()).getJSONObject("data").getJSONObject("states");
-            mStates = new Gson().fromJson(
-                    statesJson.toString(), new TypeToken<HashMap<String, Object>>() {
-                    }.getType()
-            );
-            mStates.keySet();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+        private void populateStatesData() {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, mStates);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerStates.setAdapter(adapter);
 
-    private String readJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = mContext.getAssets().open("State.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+            spinnerStates.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    mBusinessLicensings.get(getAdapterPosition() + 1).get(0).setValue(adapterView.getSelectedItem().toString());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    //TODO implement if needed
+                }
+            });
         }
-        return json;
     }
 }

@@ -43,8 +43,15 @@ import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 import com.buildboard.view.SnackBarFactory;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -78,6 +85,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     private HashMap<Integer, ArrayList<DocumentData>> mCertifications = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mInsurances = new HashMap<>();
     private HashMap<Integer, ArrayList<DocumentData>> mWorkmanInsurances = new HashMap<>();
+    private HashMap<String, ArrayList<String>> mStates;
 
     private BottomSheetBehavior mBehavior;
     private ImageUploadHelper mImageUploadHelper;
@@ -140,6 +148,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         title.setText(stringDocuments);
         getIntentData();
         setTermsServiceText();
+        getStates();
 
         mImageUploadHelper = ImageUploadHelper.getInstance();
         mBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -434,7 +443,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
     }
 
     private void setBusinessLicensingAdapter() {
-        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new IAddMoreCallback() {
+        mBusinessLicensingAdapter = new BusinessLicensingAdapter(this, mBusinessLicensings, new ArrayList<>(mStates.keySet()), new IAddMoreCallback() {
             @Override
             public void addMore() {
                 addBusinessLicensing(null);
@@ -681,5 +690,34 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         setInsuranceAdapter();
         setCertificationAdapter();
         setWorkmanInsuranceAdapter();
+    }
+
+    private void getStates() {
+        try {
+            JSONObject statesJson = new JSONObject(readJSONFromAsset()).getJSONObject("data").getJSONObject("states");
+            mStates = new Gson().fromJson(
+                    statesJson.toString(), new TypeToken<HashMap<String, Object>>() {
+                    }.getType()
+            );
+            mStates.keySet();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String readJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("State.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }
