@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -69,6 +70,9 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         @BindView(R.id.edit_attachment_certification)
         BuildBoardEditText editAttachment;
 
+        @BindView(R.id.image_delete_row)
+        ImageView imageDeleteRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -100,6 +104,7 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
             editCertNumber.setText(bondingDetail.get(1).getValue());
             editCertDesc.setText(bondingDetail.get(2).getValue());
             editAttachment.setText(bondingDetail.get(3).getValue());
+            imageDeleteRow.setVisibility(mCertifications.size() > 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.text_add_more)
@@ -110,6 +115,17 @@ public class CertificationAdapter extends RecyclerView.Adapter<CertificationAdap
         @OnClick(R.id.image_attachment)
         void attachmentTapped() {
             iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
+        }
+
+        @OnClick(R.id.image_delete_row)
+        void deleteRowTapped() {
+            for (int i = getAdapterPosition() + 1; i <= mCertifications.size(); i++) {
+                if (i == mCertifications.size())
+                    mCertifications.remove(mCertifications.size());
+                else
+                    mCertifications.put(i, mCertifications.get(i + 1));
+            }
+            notifyDataSetChanged();
         }
     }
 }

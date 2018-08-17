@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -69,6 +70,9 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
         @BindView(R.id.edit_attachment_insurance)
         BuildBoardEditText editAttachment;
 
+        @BindView(R.id.image_delete_row)
+        ImageView imageDeleteRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -100,6 +104,7 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
             editProvider.setText(bondingDetail.get(1).getValue());
             editAmount.setText(bondingDetail.get(2).getValue());
             editAttachment.setText(bondingDetail.get(3).getValue());
+            imageDeleteRow.setVisibility(mInsurances.size() > 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.text_add_more)
@@ -110,6 +115,17 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
         @OnClick(R.id.image_attachment)
         void attachmentTapped() {
             iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
+        }
+
+        @OnClick(R.id.image_delete_row)
+        void deleteRowTapped() {
+            for (int i = getAdapterPosition() + 1; i <= mInsurances.size(); i++) {
+                if (i == mInsurances.size())
+                    mInsurances.remove(mInsurances.size());
+                else
+                    mInsurances.put(i, mInsurances.get(i + 1));
+            }
+            notifyDataSetChanged();
         }
     }
 }

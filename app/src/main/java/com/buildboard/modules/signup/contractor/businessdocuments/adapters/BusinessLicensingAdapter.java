@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -69,6 +70,9 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         @BindView(R.id.edit_attachment)
         BuildBoardEditText editAttachment;
 
+        @BindView(R.id.image_delete_row)
+        ImageView imageDeleteRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -93,6 +97,7 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
             editState.setText(bondingDetail.get(0).getValue());
             editLicenceNumber.setText(bondingDetail.get(1).getValue());
             editAttachment.setText(bondingDetail.get(2).getValue());
+            imageDeleteRow.setVisibility(mBusinessLicensings.size() > 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.text_add_more)
@@ -103,6 +108,17 @@ public class BusinessLicensingAdapter extends RecyclerView.Adapter<BusinessLicen
         @OnClick(R.id.image_attachment)
         void attachmentTapped() {
             iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
+        }
+
+        @OnClick(R.id.image_delete_row)
+        void deleteRowTapped() {
+            for (int i = getAdapterPosition() + 1; i <= mBusinessLicensings.size(); i++) {
+                if (i == mBusinessLicensings.size())
+                    mBusinessLicensings.remove(mBusinessLicensings.size());
+                else
+                    mBusinessLicensings.put(i, mBusinessLicensings.get(i + 1));
+            }
+            notifyDataSetChanged();
         }
     }
 }

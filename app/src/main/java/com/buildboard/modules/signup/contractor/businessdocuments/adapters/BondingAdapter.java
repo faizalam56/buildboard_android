@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
@@ -72,6 +73,9 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @BindView(R.id.edit_attachment_bonding)
         BuildBoardEditText editAttachment;
 
+        @BindView(R.id.image_delete_row)
+        ImageView imageDeleteRow;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -104,13 +108,14 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
             }));
         }
 
-        private void bindData(){
-            ArrayList<DocumentData> bondingDetail = mBondings.get(getAdapterPosition()+1);
+        private void bindData() {
+            ArrayList<DocumentData> bondingDetail = mBondings.get(getAdapterPosition() + 1);
             editState.setText(bondingDetail.get(0).getValue());
             editCity.setText(bondingDetail.get(1).getValue());
             editBondNumber.setText(bondingDetail.get(2).getValue());
             editAmount.setText(bondingDetail.get(3).getValue());
             editAttachment.setText(bondingDetail.get(4).getValue());
+            imageDeleteRow.setVisibility(mBondings.size() > 1 ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.text_add_more)
@@ -121,6 +126,17 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
         @OnClick(R.id.image_attachment)
         void attachmentTapped() {
             iSelectAttachment.selectAttachment(getAdapterPosition() + 1);
+        }
+
+        @OnClick(R.id.image_delete_row)
+        void deleteRowTapped() {
+            for (int i = getAdapterPosition() + 1; i <= mBondings.size(); i++) {
+                if (i == mBondings.size())
+                    mBondings.remove(mBondings.size());
+                else
+                    mBondings.put(i, mBondings.get(i + 1));
+            }
+            notifyDataSetChanged();
         }
     }
 }
