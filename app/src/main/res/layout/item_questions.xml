@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/row_repair_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_question"
+            style="@style/textSize_smallest"
+            android:text="@string/repair_windows"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@android:color/black"
+            app:typeface="robotoMedium" />
+
+        <com.buildboard.customviews.BuildBoardEditText
+            android:id="@+id/edit_answer"
+            style="@style/edit_text_size_smaller"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/green_drawable_border"
+            android:digits="@string/special_charactor"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:layout_below="@id/text_question"
+            android:textColor="@android:color/black"
+            app:typeface="robotoRegular" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -74,19 +74,13 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
         }
     };
 
-    //TODO WORKING ON CREATE PROJECT
     @OnClick(R.id.buttonNext)
     public void nextButtonTapped(){
         if(ConnectionDetector.isNetworkConnected(this)) {
             if (radioGroup.getCheckedRadioButtonId() != -1) {
                 for (int i = 0; i < mProjectAllTypesData.getForm().size(); i++) {
                     if (mProjectAllTypesData.getForm().get(i).getCategory().equalsIgnoreCase(mSelectedMode)) {
-                        if (mProjectAllTypesData.getForm().get(i).getTasks().get(i).getTask() == null ||
-                                mProjectAllTypesData.getForm().get(i).getTasks().get(i).getQuestions() != null ) {
-
-                        } else {
-                            openActivity(ConsumerCreateProjectActivity.class,mProjectAllTypesData);
-                        }
+                        openActivity(ConsumerCreateProjectActivity.class, mProjectAllTypesData);
                     }
                 }
             } else {

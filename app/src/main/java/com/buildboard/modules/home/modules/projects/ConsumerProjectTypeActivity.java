@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
@@ -21,6 +22,7 @@ import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,8 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
 
     @BindString(R.string.create_new_project)
     String stringCreateNewProjectText;
+    @BindString(R.string.no_task)
+    String stringNoTaskAvailable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
     public void onItemClick(View view, int position, Object data) {
         if(ConnectionDetector.isNetworkConnected(this)) {
             ProjectAllType projectType = (ProjectAllType) data;
-            //getAllProjectDetails(projectType.getId());
+            getAllProjectDetails(projectType.getId());
         } else {
             ConnectionDetector.createSnackBar(this, containers);
         }
@@ -103,7 +107,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
                 if(response!=null){
-                    getProjectById(selectedProjectId);
+                   // getProjectById(selectedProjectId);
                 }
             }
 
@@ -127,7 +131,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
                 ProgressHelper.hideProgressBar();
                 if (response != null) {
                     ProjectFormDetails projectFormDetails = (ProjectFormDetails) response;
-                    if (projectFormDetails.getType().equalsIgnoreCase(getString(R.string.other))) {
+                    if (projectFormDetails.getType().equals(getString(R.string.other))) {
                         openActivity(projectFormDetails, ConsumerProjectTypeDetailsActivity.class);
                     } else {
                         openActivity(projectFormDetails, ConsumerCreateProjectActivity.class);

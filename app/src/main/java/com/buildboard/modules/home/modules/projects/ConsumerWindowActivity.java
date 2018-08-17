@@ -1,5 +1,6 @@
 package com.buildboard.modules.home.modules.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,26 +11,25 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import com.buildboard.R;
-import com.buildboard.modules.home.modules.marketplace.contractors.models.Task;
-import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
+import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
+import com.buildboard.modules.home.modules.projects.models.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
+import static com.buildboard.constants.AppConstant.INTENT_QUESTION_LIST;
 import static com.buildboard.constants.AppConstant.TASK;
 
 public class ConsumerWindowActivity extends  AppCompatActivity {
 
     private Task task;
     private String mSelectedCategory;
+    List<ProjectTypeQuestion> questions;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -51,7 +51,7 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-       // task = getIntent().getParcelableExtra(TASK);
+        task = getIntent().getParcelableExtra(TASK);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -68,6 +68,7 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
         adapter.addFragment(createProjectDescriptionFragment, getString(R.string.description));
         adapter.addFragment(new CreateProjectScheduleLocationFragment(), getString(R.string.schedule_location));
         adapter.addFragment(new CreateProjectAttachmentFragment(), getString(R.string.attachements));
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
     }
 

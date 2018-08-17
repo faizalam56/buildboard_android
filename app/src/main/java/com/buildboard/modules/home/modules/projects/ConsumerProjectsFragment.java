@@ -134,7 +134,7 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
 
     @OnClick(R.id.button_create_new_projects)
-    void navigateToFragment() {
+    void navigateToActivity() {
        startActivity(new Intent(getActivity(), ConsumerProjectTypeActivity.class));
     }
 
