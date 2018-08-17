@@ -134,6 +134,8 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
 
         mMenuArray.add(TEXT_ATTACHMENT);
         mMenuArray.add(TEXT_REQUIREMENTS);
+        mMenuArray.add(TEXT_DOCUMENTS);
+
         ProjectDetailsFooterAdapter projectDetailsFooterAdapter = new ProjectDetailsFooterAdapter(this, mMenuArray, contractorByProjectTypeData);
         recyclerFooter.setLayoutManager(new LinearLayoutManager(this));
         recyclerFooter.addItemDecoration(new SimpleDividerItemDecoration(this));
