@@ -1,25 +1,18 @@
 package com.buildboard.modules.home.modules.projects.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
-import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
-import com.buildboard.modules.home.modules.projects.models.ProjectTypeForm;
 import com.buildboard.modules.home.modules.projects.models.Task;
-import com.buildboard.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,7 +25,7 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
     private Context mContext;
     private IRecyclerItemClickListener mClickListener;
 
-    public ConsumerSelectedTaskAdapter(FragmentActivity activity, List<Task> taskList, IRecyclerItemClickListener clickListener) {
+    public ConsumerSelectedTaskAdapter(Activity activity, List<Task> taskList, IRecyclerItemClickListener clickListener) {
         this.mContext = activity;
         this.taskList = taskList;
         mClickListener = clickListener;
@@ -60,10 +53,6 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
         BuildBoardTextView textTask;
         @BindView(R.id.container_root)
         ConstraintLayout constraintLayout;
-        @BindView(R.id.image_arrow)
-        ImageView imageArrow;
-        @BindView(R.id.divider_project_type)
-        View view;
 
         public ViewHolder(View view) {
             super(view);
@@ -71,18 +60,14 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
         }
 
         public void setData(Task task) {
-            if (task.getTask() != null) {
+            if (task != null) {
                 textTask.setText(task.getTask());
-            } else {
-                textTask.setText(mContext.getString(R.string.no_task));
-                imageArrow.setVisibility(View.GONE);
-                view.setVisibility(View.GONE);
             }
         }
 
         @OnClick(R.id.container_root)
         void rowTapped(View view) {
-           mClickListener.onItemClick(view, getAdapterPosition(), taskList.get(getAdapterPosition()));
+            mClickListener.onItemClick(view, getAdapterPosition(), taskList.get(getAdapterPosition()));
         }
     }
 }
