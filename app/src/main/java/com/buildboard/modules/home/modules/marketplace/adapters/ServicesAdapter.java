@@ -48,7 +48,12 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     @Override
     public ServicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_services, parent, false);
+        View view;
+
+        if (AppPreference.getAppPreference(mContext).getBoolean(IS_CONTRACTOR))
+            view = mLayoutInflater.inflate(R.layout.item_projects_for_contractor, parent, false);
+        else view = mLayoutInflater.inflate(R.layout.item_services, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -64,6 +69,8 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TrendingService mTrendingService;
+
         @BindView(R.id.text_name)
         TextView textServiceName;
         @BindView(R.id.image_service)
@@ -72,7 +79,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         BuildBoardTextView textRatingBar;
         @BindString(R.string.not_available)
         String stringNotAvailable;
-        private TrendingService mTrendingService;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,7 +89,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         @OnClick(R.id.card_service)
         void cardTapped() {
             if (!ConnectionDetector.isNetworkConnected(mContext)) {
-                //ConnectionDetector.createSnackBar(mContext, mCoordinatorLayout);
                 return;
             }
 
