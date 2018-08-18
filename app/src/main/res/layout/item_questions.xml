@@ -17,7 +17,7 @@
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_question"
             style="@style/textSize_smallest"
-            android:text="@string/repair_windows"
+            android:text="@string/repair"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@android:color/black"

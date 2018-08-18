@@ -45,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -224,5 +225,20 @@ public class Utils {
             e.printStackTrace();
         }
         return formatted_date;
+    }
+
+    public static String loadJsonFromAsset(Activity activity, String jsonFile){
+        String json = null;
+        try {
+            InputStream inputStream = activity.getAssets().open(jsonFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

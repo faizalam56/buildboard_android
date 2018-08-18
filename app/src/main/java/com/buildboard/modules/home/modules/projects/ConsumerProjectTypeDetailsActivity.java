@@ -61,7 +61,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 
         title.setText(stringCreateNewProjectText);
 
-        mProjectAllTypesData= (ProjectFormDetails) getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
+        mProjectAllTypesData= getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
         radioGroup.setOnCheckedChangeListener(checkedChangeListener);
     }
 
@@ -98,6 +98,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
     }
 
     public void openActivity(Class classToReplace,ProjectFormDetails projectFormDetails){

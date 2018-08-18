@@ -46,7 +46,6 @@
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_gravity="end"
             android:visibility="gone"
-            android:background="?android:selectableItemBackgroundBorderless"
             android:contentDescription="@null"
             android:src="@drawable/settings"
             android:layout_marginEnd="@dimen/_20sdp" />

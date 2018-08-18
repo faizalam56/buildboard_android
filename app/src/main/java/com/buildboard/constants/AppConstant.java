@@ -48,6 +48,7 @@ public interface AppConstant {
     String EXTERIOR = "exterior";
     String TASK = "task";
     String QUESTION = "question";
+    String QUESTION_LOCAL_JSON =  "Questionare.json";
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
