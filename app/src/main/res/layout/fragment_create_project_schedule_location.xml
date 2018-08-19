@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
+<android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -11,30 +14,28 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_question"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_70sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
             android:nestedScrollingEnabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.buildboard.customviews.BuildBoardButton
-            style="@style/button_style"
-            android:background="@drawable/green_button_background"
             android:id="@+id/button_next"
-            android:imeOptions="actionDone"
+            style="@style/button_style"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/green_button_background"
+            android:imeOptions="actionDone"
             android:text="@string/next"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_question" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_question"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
             style="?android:attr/progressBarStyleSmall"
@@ -47,4 +48,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

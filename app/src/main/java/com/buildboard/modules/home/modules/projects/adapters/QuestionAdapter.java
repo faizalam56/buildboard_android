@@ -10,17 +10,23 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.buildboard.constants.AppConstant.TYPE_SELECT;
+import static com.buildboard.constants.AppConstant.TYPE_TEXT;
 import static com.buildboard.utils.Utils.setStarToLabel;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
@@ -63,6 +69,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         BuildBoardEditText editAnswer;
         @BindView(R.id.container_root)
         ConstraintLayout constraintLayout;
+        @BindView(R.id.checkbox_question_type)
+        CheckBox checkBox;
+        @BindView(R.id.text_question_choice)
+        BuildBoardTextView textQuestionChoice;
+        @BindView(R.id.linearCheckBoxLayout)
+        LinearLayout linearCheckBoxLayout;
+        Map<String, String> hashMap = new HashMap<>();
+
 
         public ViewHolder(View view) {
             super(view);
@@ -70,25 +84,42 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         }
 
         public void setData(ProjectTypeQuestion question) {
+
             if(!TextUtils.isEmpty(question.getQuestion())) {
                 textQuestion.setText(setStarToLabel(question.getQuestion()));
             }
 
             if(!TextUtils.isEmpty(question.getQuestionType())) {
-                editAnswer.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    }
+                showQuestionByType(question.getQuestionType(), question);
+            }
+        }
 
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        stringArrayAnswer[getAdapterPosition()] = charSequence.toString();
-                    }
+        private void showQuestionByType(String questionType, ProjectTypeQuestion question) {
+            switch (questionType){
+                case TYPE_TEXT:
+                    editAnswer.setVisibility(View.VISIBLE);
+                    editAnswer.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
 
-                    @Override
-                    public void afterTextChanged(Editable editable) {
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            stringArrayAnswer[getAdapterPosition()] = charSequence.toString();
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                        }
+                    });
+                    break;
+                case TYPE_SELECT:
+                    linearCheckBoxLayout.setVisibility(View.VISIBLE);
+                    List<String> questionChoicesList = question.getQuestionChoices();
+                    for(String questionChoices : questionChoicesList){
+                        textQuestionChoice.setText(questionChoices);
                     }
-                });
+                    break;
             }
         }
     }

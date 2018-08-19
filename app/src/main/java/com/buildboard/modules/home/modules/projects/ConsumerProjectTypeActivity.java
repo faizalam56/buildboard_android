@@ -121,7 +121,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finish();
     }
 
     private void getProjectById(String id) {

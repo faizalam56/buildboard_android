@@ -206,6 +206,7 @@
     <string name="add_profile_picture">Add Profile Picture</string>
     <string name="edit_profile_picture">Edit Profile Picture</string>
     <string name="save">Save</string>
+    <string name="save_project"><u>SAVE PROJECT</u></string>
     <string name="please_pick_image">Please pick image</string>
     <string name="successfullyLogout">You have successfully logged out.</string>
     <string name="please_select_image">Please select image</string>
@@ -328,11 +329,16 @@
     <string name="image_content_contractor_profile_picture">Contractor Profile Picture</string>
     <string name="msg_permission_required">Permissions required to access this feature</string>
     <string name="schedule_location">Schedule\nLocation</string>
-    <string name="attachements">Attachments</string>
+    <string name="attachments">Attachments</string>
     <string name="msg_success_worktype_update">Contractor Work Type Successfully Updated</string>
     <string name="msg_success_business_doc_update">Business Documents Successfully Updated</string>
     <string name="no_task">No task available</string>
+    <string name="post">POST</string>
     <string name="msg_success_previous_work_update">Previous Work Successfully Updated</string>
     <string name="project_title">Project Title</string>
     <string name="msg_creat_project_alert">Please answer the textual questions.</string>
+    <string name="attach_project_photos">Attach Project Photos :</string>
+    <string name="additional_attachment">Additional attachment</string>
+    <string name="preferred_attachment">Preferred Material,Example Photos,Links or Other Attachments</string>
+    <string name="measurement_heading">Print off and place the BUILDBOARD measurement reference in each photo you add to this section</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.projects;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.buildboard.R;
 import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 import com.buildboard.modules.home.modules.projects.models.Task;
 
@@ -21,8 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.buildboard.constants.AppConstant.INTENT_QUESTION_LIST;
+import com.buildboard.R;
 import static com.buildboard.constants.AppConstant.TASK;
 
 public class ConsumerWindowActivity extends  AppCompatActivity {
@@ -67,7 +64,7 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
 
         adapter.addFragment(createProjectDescriptionFragment, getString(R.string.description));
         adapter.addFragment(new CreateProjectScheduleLocationFragment(), getString(R.string.schedule_location));
-        adapter.addFragment(new CreateProjectAttachmentFragment(), getString(R.string.attachements));
+        adapter.addFragment(new CreateProjectAttachmentFragment(), getString(R.string.attachments));
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
     }
@@ -103,7 +100,7 @@ public class ConsumerWindowActivity extends  AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finish();
     }
 
     @Override

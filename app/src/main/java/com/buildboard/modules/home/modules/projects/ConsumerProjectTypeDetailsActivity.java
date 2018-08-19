@@ -97,7 +97,6 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         finish();
     }
 
