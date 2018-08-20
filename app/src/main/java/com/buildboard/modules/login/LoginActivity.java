@@ -31,6 +31,7 @@ import com.buildboard.modules.login.models.sociallogin.SocialLoginRequest;
 import com.buildboard.modules.login.models.sociallogin.SocialLoginResponse;
 import com.buildboard.modules.signup.SignUpActivity;
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
+import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
 import com.buildboard.modules.signup.models.activateuser.ActivateUserResponse;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
@@ -414,8 +415,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             @Override
             public void onError(Object response) {
                 ProgressHelper.hideProgressBar();
-                ErrorResponse errorResponse = (ErrorResponse) response;
-                SnackBarFactory.createSnackBar(LoginActivity.this, constraintRoot, String.valueOf(errorResponse.getMessage()));
+                Utils.showError(LoginActivity.this, constraintRoot, response);
             }
         });
     }
