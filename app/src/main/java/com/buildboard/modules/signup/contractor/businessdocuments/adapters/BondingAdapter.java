@@ -113,13 +113,13 @@ public class BondingAdapter extends RecyclerView.Adapter<BondingAdapter.ViewHold
             editAttachment.setText(bondingDetail.get(4).getValue());
             imageDeleteRow.setVisibility(mBondings.size() > 1 ? View.VISIBLE : View.GONE);
             for (int i = 0; i < spinnerStates.getCount(); i++) {
-                if (spinnerStates.getItemAtPosition(i).toString().contains(bondingDetail.get(0).getValue())) {
+                if (spinnerStates.getItemAtPosition(i).toString().equalsIgnoreCase(bondingDetail.get(0).getValue())) {
                     spinnerStates.setSelection(i);
                 }
             }
 
             for (int i = 0; i < spinnerCities.getCount(); i++) {
-                if (spinnerCities.getItemAtPosition(i).toString().contains(bondingDetail.get(1).getValue())) {
+                if (spinnerCities.getItemAtPosition(i).toString().equalsIgnoreCase(bondingDetail.get(1).getValue())) {
                     spinnerCities.setSelection(i);
                 }
             }
