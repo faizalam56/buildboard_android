@@ -15,12 +15,10 @@ import com.buildboard.R;
 import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.modules.projects.adapters.ConsumerSelectedTaskAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
-import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 import com.buildboard.modules.home.modules.projects.models.Task;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 import com.buildboard.view.SimpleDividerItemDecoration;
-import com.buildboard.view.SnackBarFactory;
 
 import java.util.List;
 
