@@ -277,7 +277,7 @@
             style="@style/textSize_small"
             android:gravity="center"
             android:text="@string/document"
-            android:visibility="visible"
+            android:visibility="gone"
             app:typeface="robotoRegular" />
 
         <com.buildboard.customviews.BuildBoardTextView
