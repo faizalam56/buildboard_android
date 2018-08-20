@@ -132,6 +132,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.constraint_layout)
+    ConstraintLayout constraintPrevious;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
@@ -154,6 +156,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        constraintPrevious.setVisibility(isContractor ? View.GONE : View.VISIBLE);
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
@@ -642,6 +645,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
+                constraintPrevious.setVisibility(View.VISIBLE);
                 ArrayList<BusinessDocuments> businessDocumentsArrayList = (ArrayList<BusinessDocuments>) response;
                 if (businessDocumentsArrayList.size() > 0) {
                     BusinessDocuments businessDocuments = businessDocumentsArrayList.get(0);
