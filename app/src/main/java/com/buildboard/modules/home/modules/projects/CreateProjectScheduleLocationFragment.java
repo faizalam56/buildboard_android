@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
+import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.projects.adapters.QuestionAdapter;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormResponse;
 import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
@@ -41,10 +42,10 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
 
     @BindView(R.id.container)
     ConstraintLayout container;
-    @BindView(R.id.recycler_question)
-    RecyclerView recyclerView;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.text_question)
+    BuildBoardTextView textQuestion;
 
     public static CreateProjectScheduleLocationFragment newInstance() {
         return new CreateProjectScheduleLocationFragment();
@@ -77,12 +78,4 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void setProjectsRecycler(List<ProjectTypeQuestion> questionList) {
-        ProgressHelper.hideProgressBar();
-        mQuestionAdapter = new QuestionAdapter(getActivity(), questionList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mQuestionAdapter);
-    }
 }

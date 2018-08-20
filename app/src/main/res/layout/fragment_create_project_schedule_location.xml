@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_question"
+            android:id="@+id/text_project_title"
             style="@style/textSize_smallest"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_5sdp"
@@ -34,7 +34,7 @@
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/text_question"
+            app:layout_constraintTop_toBottomOf="@+id/text_project_title"
             app:typeface="robotoRegular" />
 
         <com.buildboard.customviews.BuildBoardTextView
