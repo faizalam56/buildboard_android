@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.buildboard.R;
 import com.buildboard.http.DataManager;
@@ -22,7 +21,6 @@ import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
-import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 
@@ -35,7 +33,6 @@ import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
 public class ConsumerProjectTypeActivity extends AppCompatActivity
         implements IRecyclerItemClickListener{
 
-    private ConstraintLayout containers;
     private ArrayList<ProjectAllType> projectsData;
 
     @BindView(R.id.recycler_all_project_type)
@@ -44,6 +41,8 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
     ProgressBar progressBar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.container)
+    ConstraintLayout containers;
 
     @BindString(R.string.create_new_project)
     String stringCreateNewProjectText;

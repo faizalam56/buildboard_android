@@ -24,6 +24,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.view.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +40,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     private ContractProjectsAdapter mProjectsAdapter;
     private ArrayList<ProjectDetail> mProjectDetails = new ArrayList<>();
     private String mCurrentStatus = STATUS_CURRENT;
+
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
     @BindView(R.id.button_current_projects)
@@ -118,11 +120,6 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     public void hideProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
@@ -138,6 +135,7 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void setFonts() {
@@ -215,11 +213,11 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
                         } else {
 
                             if (mCurrentStatus.equals(AppConstant.STATUS_LOST) || mCurrentStatus.equals(AppConstant.STATUS_OPEN) || mCurrentStatus.equals(AppConstant.STATUS_SAVED)) {
-                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.quotes));
-                                textProjectsDetails.setText("No "+mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.quotes));
+                                textProjects.setText(String.format("%s%s %s", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase(), getString(R.string.quotes)));
+                                textProjectsDetails.setText(String.format("%s%s%s %s", getString(R.string.no), mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase(), getString(R.string.quotes)));
                             } else {
-                                textProjects.setText(mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() +" "+ getString(R.string.title_projects));
-                                textProjectsDetails.setText("No "+mCurrentStatus.substring(0, 1).toUpperCase() + mCurrentStatus.substring(1).toLowerCase() + " "+getString(R.string.title_projects));
+                                textProjects.setText(String.format("%s%s %s", mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase(), getString(R.string.title_projects)));
+                                textProjectsDetails.setText(String.format("%s%s%s %s", getString(R.string.no), mCurrentStatus.substring(0, 1).toUpperCase(), mCurrentStatus.substring(1).toLowerCase(), getString(R.string.title_projects)));
                             }
                         }
                     }
@@ -252,23 +250,23 @@ public class ContractorProjectsFragment extends Fragment implements AppConstant 
         switch (mCurrentStatus) {
             case AppConstant.STATUS_OPEN:
                 textProjectsDetails.setText(R.string.open_quotes_subtitle);
-                textProjects.setText(getString(R.string.open_quotes) + " (" + count + ")");
+                textProjects.setText(String.format(Locale.getDefault(), "%s (%d)", getString(R.string.open_quotes), count));
                 break;
             case AppConstant.STATUS_COMPLETED:
                 textProjectsDetails.setText(R.string.completed_projects_subtitle);
-                textProjects.setText(getString(R.string.completed_project) + " (" + count + ")");
+                textProjects.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.completed_project), count));
                 break;
             case AppConstant.STATUS_CURRENT:
                 textProjectsDetails.setText(R.string.current_projects_subtitle);
-                textProjects.setText(getString(R.string.current_project) + " (" + count + ")");
+                textProjects.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.current_project), count));
                 break;
             case AppConstant.STATUS_SAVED:
                 textProjectsDetails.setText(R.string.saved_quotes_subtitle);
-                textProjects.setText(getString(R.string.saved_quotes) + " (" + count + ")");
+                textProjects.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.saved_quotes), count));
                 break;
             case AppConstant.STATUS_LOST:
                 textProjectsDetails.setText(R.string.lost_quotes_subtitle);
-                textProjects.setText(getString(R.string.lost_quotes) + " (" + count + ")");
+                textProjects.setText(String.format(Locale.getDefault(),"%s (%d)", getString(R.string.lost_quotes), count));
                 break;
         }
     }

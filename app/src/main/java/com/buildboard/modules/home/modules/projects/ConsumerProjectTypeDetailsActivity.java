@@ -2,7 +2,6 @@ package com.buildboard.modules.home.modules.projects;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +13,7 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardButton;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
-import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 import com.buildboard.utils.ConnectionDetector;
-
-import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -26,7 +22,6 @@ import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.INTENT_PROJECT_TYPE_DATA;
 import static com.buildboard.constants.AppConstant.INTENT_SELECTED_CATEGORY;
-import static com.buildboard.constants.AppConstant.QUESTION;
 
 public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 

@@ -1,6 +1,5 @@
 package com.buildboard.modules.home.modules.projects;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -22,7 +21,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.buildboard.constants.AppConstant.INTENT_QUESTION_LIST;
 import static com.buildboard.constants.AppConstant.TASK;
 
 public class ConsumerWindowActivity extends  AppCompatActivity {
