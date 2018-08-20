@@ -31,7 +31,6 @@ public class CreateProjectAttachmentFragment extends Fragment {
     private BottomSheetBehavior mBehavior;
     private String mCurrentPhotoPath;
 
-
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.container)

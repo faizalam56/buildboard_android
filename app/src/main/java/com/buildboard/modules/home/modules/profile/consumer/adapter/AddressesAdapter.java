@@ -150,7 +150,6 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
             mClickListener.onItemClick(itemView, getAdapterPosition(), mAddressList.get(getAdapterPosition()));
         }
 
-
         @OnClick(R.id.image_location)
         void locationIconTapped() {
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());

@@ -110,15 +110,6 @@ public class CreateProjectDescriptionFragment extends Fragment{
         }
     }
 
-    private void setProjectsRecycler(List<ProjectTypeQuestion> questionList) {
-        ProgressHelper.hideProgressBar();
-        mQuestionAdapter = new QuestionAdapter(getActivity(), questionList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mQuestionAdapter);
-    }
-
     public boolean isEmptyStringArray(String array[]){
         for (String anArray : array) {
             if (anArray != null) {

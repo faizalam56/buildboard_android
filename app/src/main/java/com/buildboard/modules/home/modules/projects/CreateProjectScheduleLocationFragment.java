@@ -82,7 +82,6 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
     @BindView(R.id.checkbox_preferred_contractor_quote)
     CheckBox checkBoxPreferredContractorQuote;
 
-
     @BindString(R.string.project_title)
     String stringProjectTitle;
     @BindString(R.string.project_description)
@@ -107,8 +106,6 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
     String stringProjectEndDateErrorMsg;
     @BindString(R.string.project_address_empty_error)
     String stringProjectAddressErrorMsg;
-
-
 
     public static CreateProjectScheduleLocationFragment newInstance() {
         return new CreateProjectScheduleLocationFragment();
@@ -242,7 +239,6 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
 
         return contractorPriorityDetails;
     }
-
 
     public static void getDateAndTime(Activity activity,final EditText editText) {
         final Calendar c = Calendar.getInstance();
