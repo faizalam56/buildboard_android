@@ -40,8 +40,6 @@ public class ProjectsActivity extends AppCompatActivity implements AppConstant {
     Toolbar toolbar;
     @BindView(R.id.recycler_projects)
     RecyclerView recyclerProjects;
-    @BindView(R.id.text_project_type)
-    BuildBoardTextView textProjectType;
     @BindView(R.id.text_no_data)
     TextView textNoData;
     @BindView(R.id.constraint_root)
@@ -65,7 +63,6 @@ public class ProjectsActivity extends AppCompatActivity implements AppConstant {
 
         showProgressColor(this, progressBar);
         textTitle.setText(stringProjects);
-        setFont();
         getIntentData();
     }
 
@@ -79,10 +76,6 @@ public class ProjectsActivity extends AppCompatActivity implements AppConstant {
         mProjectsAdapter = new ProjectsAdapter(this, mProjectsData);
         recyclerProjects.setLayoutManager(new LinearLayoutManager(this));
         recyclerProjects.setAdapter(mProjectsAdapter);
-    }
-
-    private void setFont() {
-        FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, textProjectType);
     }
 
     private void getProjectsByProjectType(String projectTypeId) {

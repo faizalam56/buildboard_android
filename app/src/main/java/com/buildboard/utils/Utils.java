@@ -1,8 +1,6 @@
 package com.buildboard.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -24,32 +20,22 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.buildboard.R;
-import com.buildboard.customviews.BuildBoardEditText;
-import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.http.ErrorManager;
-import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
-import com.buildboard.view.SnackBarFactory;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import static com.buildboard.constants.AppConstant.INPUT_PATTERN;
@@ -224,5 +210,22 @@ public class Utils {
             e.printStackTrace();
         }
         return formatted_date;
+    }
+
+    /* get date format: Jan 1, 2021 */
+    public static String getFormattedDate(String stringDate) {
+        String nonFormattedDate = stringDate.split("\\s+")[0].replaceAll("-", "/");
+        String formattedDate = "";
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");
+        Date date = null;
+        try {
+            date = format1.parse(nonFormattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return nonFormattedDate;
+        }
+        formattedDate = format2.format(date);
+        return formattedDate;
     }
 }

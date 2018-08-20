@@ -76,23 +76,14 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         }
 
         private void setData(ProjectData projectData) {
-            textServiceName.setText(projectData.getConsumer().getFirstName() + projectData.getConsumer().getLastName());
+            String completeName = projectData.getConsumer().getFirstName() + " " + projectData.getConsumer().getLastName();
+            textServiceName.setText(completeName);
             textServiceType.setText(projectData.getProjectType().getTitle());
             textProjectName.setText(projectData.getTitle());
             textServiceType.setText(projectData.getProjectType().getTitle());
-            textStartDate.setText(projectData.getStartDate());
-            textEndDate.setText(projectData.getEndDate());
+            textStartDate.setText(Utils.getFormattedDate(projectData.getStartDate()));
+            textEndDate.setText(Utils.getFormattedDate(projectData.getEndDate()));
             Utils.display(mContext, projectData.getProjectType().getImage(), imageProjectType, R.mipmap.no_image_available);
-        }
-
-        @OnClick(R.id.linear_root)
-        public void onClick() {
-            if (ConnectionDetector.isNetworkConnected(mContext)) {
-                /*Intent intent = new Intent(mContext, ContractorProfile.class);
-                intent.putExtra(INTENT_TRENDING_USER_ID, mProjectList.get(getAdapterPosition()).getUserId());
-                mContext.startActivity(intent);*/
-            } else {
-            }
         }
     }
 }
