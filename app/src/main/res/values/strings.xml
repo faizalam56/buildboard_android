@@ -354,4 +354,5 @@
     <string name="project_start_date_empty_error">Please provide project start date</string>
     <string name="project_end_date_empty_error">Please provide project end date</string>
     <string name="project_address_empty_error">Please provide address</string>
+    <string name="project_start_date">Project Start Date:</string>
 </resources>

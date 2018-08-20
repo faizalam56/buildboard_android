@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,8 +36,7 @@ import static com.buildboard.utils.Utils.showProgressColor;
 
 public class ConsumerProjectsFragment extends Fragment implements AppConstant {
 
-    private  ArrayList<ProjectsData> projectsData;
-    private ConstraintLayout container;
+    private ArrayList<ProjectsData> projectsData;
     private Unbinder unbinder;
     private int mCurrentPage = 1;
     private ConsumerProjectsAdapter mProjectsAdapter;
@@ -65,6 +63,8 @@ public class ConsumerProjectsFragment extends Fragment implements AppConstant {
     BuildBoardTextView noInternetText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.container)
+    ConstraintLayout container;
 
     public static ConsumerProjectsFragment newInstance() {
         return new ConsumerProjectsFragment();

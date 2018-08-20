@@ -5,6 +5,7 @@
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context="com.buildboard.modules.home.modules.profile.contractor.EditContractorProfileActivity">
 
     <include
@@ -12,91 +13,82 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_business_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_business_info"
+        style="@style/textSize_small"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        android:drawableRight="@drawable/ic_arrow_right_18"
+        android:drawableEnd="@drawable/ic_arrow_right_18"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/business_info"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_business_info"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/business_info"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+    <View
+        android:id="@+id/divider_businessinfo"
+        style="@style/divider"
+        app:layout_constraintTop_toBottomOf="@id/text_business_info" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_type_of_work"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_type_of_work"
+        style="@style/textSize_small"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        android:drawableRight="@drawable/ic_arrow_right_18"
+        android:drawableEnd="@drawable/ic_arrow_right_18"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/type_of_work"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_business_info">
+        app:layout_constraintTop_toBottomOf="@id/divider_businessinfo"/>
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_type_of_work"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/type_of_work"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+    <View
+        android:id="@+id/divider_work_type"
+        style="@style/divider"
+        app:layout_constraintTop_toBottomOf="@id/text_type_of_work" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_documents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_documents"
+        style="@style/textSize_small"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        android:drawableRight="@drawable/ic_arrow_right_18"
+        android:drawableEnd="@drawable/ic_arrow_right_18"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/documents"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_type_of_work">
+        app:layout_constraintTop_toBottomOf="@id/divider_work_type"/>
 
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_documents"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/documents"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+    <View
+        android:id="@+id/divider_documents"
+        style="@style/divider"
+        app:layout_constraintTop_toBottomOf="@id/text_documents" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_previous_work"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.buildboard.customviews.BuildBoardTextView
+        android:id="@+id/text_previous_work"
+        style="@style/textSize_small"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        android:drawableRight="@drawable/ic_arrow_right_18"
+        android:drawableEnd="@drawable/ic_arrow_right_18"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/previous_work"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_documents">
-
-        <com.buildboard.customviews.BuildBoardTextView
-            android:id="@+id/text_previous_work"
-            style="@style/textSize_small"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:text="@string/previous_work"
-            android:textSize="@dimen/_12ssp" />
-    </android.support.v7.widget.CardView>
+        app:layout_constraintTop_toBottomOf="@id/divider_documents"/>
 </android.support.constraint.ConstraintLayout>

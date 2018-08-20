@@ -16,6 +16,7 @@ import com.buildboard.customviews.RoundedCornersTransform;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
+import com.buildboard.modules.home.modules.projects.ProjectsActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
@@ -83,7 +84,9 @@ public class ContractorByProjectTypeAdapter extends RecyclerView.Adapter<Contrac
                     intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 } else {
-                    // TODO: 8/14/2018
+                    Intent intent = new Intent(mContext, ProjectsActivity.class);
+                    intent.putExtra(DATA, mProjectTypes.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
                 }
             } else {
                 ConnectionDetector.createSnackBar(mContext,container);

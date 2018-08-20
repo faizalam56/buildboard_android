@@ -2,6 +2,7 @@ package com.buildboard.modules.home.modules.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,8 +24,10 @@ import com.buildboard.modules.home.modules.profile.consumer.LocationAddressActiv
 import com.buildboard.modules.home.modules.profile.consumer.PreferredContractorActivity;
 import com.buildboard.modules.home.modules.profile.consumer.ReviewActivity;
 import com.buildboard.modules.home.modules.profile.consumer.models.ProfileData;
+import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
+import com.buildboard.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -66,6 +69,9 @@ public class ProfileFragment extends Fragment
     @BindView(R.id.swipe_root)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
+
     public static ProfileFragment newInstance() {
         if (sFragment == null)
             sFragment = new ProfileFragment();
@@ -79,36 +85,31 @@ public class ProfileFragment extends Fragment
         unbinder = ButterKnife.bind(this, view);
         showProgressColor(getActivity(), progressBar);
 
-        if (ConnectionDetector.isNetworkConnected(getActivity())) {
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    getProfile();
-                }
-            });
-
-            if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
-                relativeLayoutPrefContractor.setVisibility(View.GONE);
-                relativeLayoutLocation.setVisibility(View.GONE);
-                dividerContractor.setVisibility(View.GONE);
-                dividerLocation.setVisibility(View.GONE);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getProfile();
             }
+        });
 
-            if (profileData != null) setProfileData(profileData);
-            else getProfile();
-
-        } else {
-            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+        if (AppPreference.getAppPreference(getActivity()).getBoolean(IS_CONTRACTOR)) {
+            relativeLayoutPrefContractor.setVisibility(View.GONE);
+            relativeLayoutLocation.setVisibility(View.GONE);
+            dividerContractor.setVisibility(View.GONE);
+            dividerLocation.setVisibility(View.GONE);
         }
+
+        if (profileData != null) setProfileData(profileData);
+        else getProfile();
 
         return view;
     }
 
-    public void showProgressBar(){
+    public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    public void hideProgressBar(){
+    public void hideProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
@@ -170,6 +171,12 @@ public class ProfileFragment extends Fragment
     }
 
     private void getProfile() {
+        if (!ConnectionDetector.isNetworkConnected(getActivity())) {
+            ConnectionDetector.createSnackBar(getActivity(), mCoordinatorLayout);
+
+            return;
+        }
+
         showProgressBar();
         DataManager.getInstance().getProfile(getActivity(), new DataManager.DataManagerListener() {
             @Override
@@ -183,8 +190,7 @@ public class ProfileFragment extends Fragment
             @Override
             public void onError(Object error) {
                 hideProgressBar();
-                ArrayList<String> errorResponse = (ArrayList<String>) error;
-                Toast.makeText(getActivity(), errorResponse.get(0), Toast.LENGTH_SHORT).show();
+                Utils.showError(getActivity(), constraintRoot, error);
             }
         });
     }

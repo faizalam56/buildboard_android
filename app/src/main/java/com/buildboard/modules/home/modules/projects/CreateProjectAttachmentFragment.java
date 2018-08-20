@@ -86,7 +86,6 @@ public class CreateProjectAttachmentFragment extends Fragment {
         Toast.makeText(getActivity(), "post tapped", Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
