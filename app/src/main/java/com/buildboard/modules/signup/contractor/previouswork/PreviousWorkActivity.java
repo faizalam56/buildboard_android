@@ -107,6 +107,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.constraint_layout)
+    ConstraintLayout constraintPrevious;
 
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
@@ -132,6 +134,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        constraintPrevious.setVisibility(isContractor ? View.GONE : View.VISIBLE);
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
@@ -145,17 +148,21 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @OnClick(R.id.button_next)
     void nextTapped() {
 
-        if (isContractor)
-            updatePrevWork();
-        else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PermissionHelper permission = new PermissionHelper(this);
-                if (!permission.checkPermission(permissions))
-                    requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-                else
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (isContractor)
+                updatePrevWork();
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PermissionHelper permission = new PermissionHelper(this);
+                    if (!permission.checkPermission(permissions))
+                        requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+                    else
+                        showImageUploadDialog();
+                } else
                     showImageUploadDialog();
-            } else
-                showImageUploadDialog();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
@@ -279,6 +286,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerPreviousWork.setLayoutManager(linearLayoutManager);
         recyclerPreviousWork.setAdapter(mPreviousWorkAdapter);
+        recyclerPreviousWork.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -467,6 +475,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
+                constraintPrevious.setVisibility(View.VISIBLE);
                 ArrayList<PreviousWorks> previousWorksArrayList = (ArrayList<PreviousWorks>) response;
                 if (previousWorksArrayList.size() > 0) {
                     PreviousWorks previousWorks = previousWorksArrayList.get(0);

@@ -126,6 +126,7 @@ public class WorkTypeActivity extends AppCompatActivity implements AppConstant {
 
         recyclerWorkType.setLayoutManager(new LinearLayoutManager(this));
         recyclerWorkType.setAdapter(mWorkTypeAdapter);
+        recyclerWorkType.setNestedScrollingEnabled(false);
     }
 
     private void getIntentData() {

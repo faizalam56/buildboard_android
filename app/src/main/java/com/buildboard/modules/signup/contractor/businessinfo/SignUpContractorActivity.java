@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +73,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.buildboard.utils.ProgressHelper.hideProgressBar;
+import static com.buildboard.utils.ProgressHelper.showProgressBar;
 import static com.buildboard.utils.Utils.getImageUri;
 import static com.buildboard.utils.Utils.resizeAndCompressImageBeforeSend;
 import static com.buildboard.utils.Utils.selectImage;
@@ -150,6 +153,9 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindString(R.string.sign_up)
     String stringSignUp;
@@ -624,7 +630,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setContractorDetails(BusinessInfoData businessInfoData) {
-        Picasso.get().load(businessInfoData.getImage()).transform(new RoundedCornersTransform()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+        Picasso.get().load(businessInfoData.getImage()).transform(new RoundedCornersTransform()).error(R.drawable.upload_profile_image).into(imageProfile);
         mResponseImageUrl = businessInfoData.getImage();
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
         editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
@@ -643,11 +649,11 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void saveBusinessInfo(BusinessInfoRequest businessInfoRequest) {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().saveBusinessInfo(this, businessInfoRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
 
                 Intent intent = new Intent(SignUpContractorActivity.this, WorkTypeActivity.class);
@@ -657,62 +663,62 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void getBusinessInfo() {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().getBusinessInfo(this, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 BusinessInfoData businessInfoData = (BusinessInfoData) response;
                 setContractorDetails(businessInfoData);
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });
     }
 
     private void updateBusinessInfo(BusinessInfoRequest businessInfoRequest) {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         DataManager.getInstance().updateBusinessInfo(this, businessInfoRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Toast.makeText(SignUpContractorActivity.this, stringBusinessInfoSuccess, Toast.LENGTH_LONG).show();
                 finish();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });
     }
 
     public void uploadImage(Activity activity, MultipartBody.Part image) {
-        ProgressHelper.start(this, stringPleaseWait);
+        showProgressBar(this, progressBar);
         RequestBody type = RequestBody.create(MediaType.parse("text/plain"), AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR) ? getString(R.string.contractor).toLowerCase() : getString(R.string.consumer).toLowerCase());
         RequestBody fileType = RequestBody.create(MediaType.parse("text/plain"), "image");
         DataManager.getInstance().uploadImage(activity, type, fileType, image, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 mResponseImageUrl = response.toString();
             }
 
             @Override
             public void onError(Object error) {
-                ProgressHelper.stop();
+                hideProgressBar();
                 Utils.showError(SignUpContractorActivity.this, constraintRoot, error);
             }
         });

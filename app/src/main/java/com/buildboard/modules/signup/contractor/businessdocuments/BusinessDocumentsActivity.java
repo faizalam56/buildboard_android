@@ -132,6 +132,8 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.constraint_layout)
+    ConstraintLayout constraintPrevious;
 
     @BindView(R.id.button_next)
     BuildBoardButton buttonNext;
@@ -154,6 +156,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        constraintPrevious.setVisibility(isContractor ? View.GONE : View.VISIBLE);
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
@@ -171,10 +174,14 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        if (isContractor)
-            updateContractorDocuments();
-        else
-            storeContractorDocuments();
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (isContractor)
+                updateContractorDocuments();
+            else
+                storeContractorDocuments();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     @OnClick(R.id.text_camera)
@@ -420,6 +427,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerInsurance.setLayoutManager(linearLayoutManager);
         recyclerInsurance.setAdapter(mInsuranceAdapter);
+        recyclerInsurance.setNestedScrollingEnabled(false);
     }
 
     private void setWorkmanInsuranceAdapter() {
@@ -440,6 +448,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerWorkmanInsurance.setLayoutManager(linearLayoutManager);
         recyclerWorkmanInsurance.setAdapter(mWorkmanInsuranceAdapter);
+        recyclerWorkmanInsurance.setNestedScrollingEnabled(false);
     }
 
     private void setBusinessLicensingAdapter() {
@@ -463,6 +472,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBusinessLicensing.setLayoutManager(linearLayoutManager);
         recyclerBusinessLicensing.setAdapter(mBusinessLicensingAdapter);
+        recyclerBusinessLicensing.setNestedScrollingEnabled(false);
     }
 
     private void setBondingAdapter() {
@@ -486,6 +496,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBonding.setLayoutManager(linearLayoutManager);
         recyclerBonding.setAdapter(mBondingAdapter);
+        recyclerBonding.setNestedScrollingEnabled(false);
     }
 
     private void setCertificationAdapter() {
@@ -506,6 +517,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCertification.setLayoutManager(linearLayoutManager);
         recyclerCertification.setAdapter(mCertificationAdapter);
+        recyclerCertification.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -633,6 +645,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
+                constraintPrevious.setVisibility(View.VISIBLE);
                 ArrayList<BusinessDocuments> businessDocumentsArrayList = (ArrayList<BusinessDocuments>) response;
                 if (businessDocumentsArrayList.size() > 0) {
                     BusinessDocuments businessDocuments = businessDocumentsArrayList.get(0);
