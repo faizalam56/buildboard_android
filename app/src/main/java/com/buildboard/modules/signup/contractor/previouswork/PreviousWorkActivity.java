@@ -107,6 +107,8 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
 
     @BindView(R.id.constraint_root)
     ConstraintLayout constraintRoot;
+    @BindView(R.id.constraint_layout)
+    ConstraintLayout constraintPrevious;
 
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
@@ -132,6 +134,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         mBehavior = BottomSheetBehavior.from(bottomSheet);
 
         isContractor = AppPreference.getAppPreference(this).getBoolean(IS_CONTRACTOR);
+        constraintPrevious.setVisibility(isContractor ? View.GONE : View.VISIBLE);
         if (isContractor) {
             textTermsOfService.setVisibility(View.GONE);
             buttonNext.setText(stringSave);
@@ -472,6 +475,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
             @Override
             public void onSuccess(Object response) {
                 hideProgressBar();
+                constraintPrevious.setVisibility(View.VISIBLE);
                 ArrayList<PreviousWorks> previousWorksArrayList = (ArrayList<PreviousWorks>) response;
                 if (previousWorksArrayList.size() > 0) {
                     PreviousWorks previousWorks = previousWorksArrayList.get(0);
