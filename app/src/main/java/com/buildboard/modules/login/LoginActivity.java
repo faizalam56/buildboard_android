@@ -118,11 +118,11 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
     String stringErrorInvalidEmail;
     @BindString(R.string.msg_please_wait)
     String stringPleaseWait;
+
     @BindArray(R.array.user_type_array)
     String[] arrayUserType;
     @BindArray(R.array.array_user_type)
     String[] arrayUsertype;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,10 +150,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mCallbackManager = CallbackManager.Factory.create();
     }
+
     private String splitApiKey() {
         Uri uri = getIntent().getData();
         String apiKey = null;
         assert uri != null;
+
         if (uri.getSchemeSpecificPart() != null) {
             schemaSpecificPart = uri.getSchemeSpecificPart();
             apiKey = schemaSpecificPart.substring(schemaSpecificPart.lastIndexOf("/") + 1);
@@ -221,13 +223,12 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick(R.id.button_signin)
     void signInTapped() {
-        if(ConnectionDetector.isNetworkConnected(this)) {
+        if (ConnectionDetector.isNetworkConnected(this)) {
             String userEmail = editUserEmail.getText().toString();
             String password = editPassword.getText().toString();
 
-            if (validateFields(userEmail, password)) {
+            if (validateFields(userEmail, password))
                 login(userEmail, password);
-            }
         } else {
             ConnectionDetector.createSnackBar(this, constraintRoot);
         }
@@ -240,7 +241,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick({R.id.button_login_facebook, R.id.login_button})
     void userFacebookLoginTapped() {
-        if(ConnectionDetector.isNetworkConnected(this)) {
+        if (ConnectionDetector.isNetworkConnected(this)) {
             loginButton.performClick();
             signInFaceBook();
         } else {
@@ -250,7 +251,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
 
     @OnClick({R.id.button_login_google, R.id.sign_in_button})
     void userGoogleLoginTapped() {
-        if(ConnectionDetector.isNetworkConnected(this)) {
+        if (ConnectionDetector.isNetworkConnected(this)) {
             signInButton.performClick();
             signInGoogle();
         } else {
@@ -305,7 +306,8 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             }
 
             @Override
-            public void onCancel() {}
+            public void onCancel() {
+            }
 
             @Override
             public void onError(FacebookException exception) {
@@ -368,13 +370,14 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
                 if (response == null) return;
+
                 SocialLoginResponse socialLoginResponse = (SocialLoginResponse) response;
                 LoginData loginData = socialLoginResponse.getDatas().get(0);
-                if (loginData.getRole().equalsIgnoreCase(stringContractor)) {
+
+                if (loginData.getRole().equalsIgnoreCase(stringContractor))
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_CONTRACTOR);
-                } else {
-                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
-                }
+                else AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
+
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
                 openActivity(HomeActivity.class, false, true, socialLoginRequest, email);
@@ -384,7 +387,7 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
             public void onError(Object error) {
                 ProgressHelper.hideProgressBar();
                 ErrorResponse errorResponse = (ErrorResponse) error;
-                if(errorResponse.getCode().equals("200")) {
+                if (errorResponse.getCode().equals("200")) {
                     Toast.makeText(LoginActivity.this, getString(R.string.user_not_signed_alert_msg), Toast.LENGTH_LONG).show();
                     redirectToSignUp(socialLoginRequest, email);
                 } else {
@@ -429,17 +432,16 @@ public class LoginActivity extends AppCompatActivity implements AppConstant, Goo
         DataManager.getInstance().login(this, loginRequest, new DataManager.DataManagerListener() {
             @Override
             public void onSuccess(Object response) {
-               ProgressHelper.hideProgressBar();
+                ProgressHelper.hideProgressBar();
                 if (response == null) return;
 
                 LoginData loginData = (LoginData) response;
                 AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_LOGIN);
 
-                if (loginData.getRole().equalsIgnoreCase(stringContractor)) {
+                if (loginData.getRole().equalsIgnoreCase(stringContractor))
                     AppPreference.getAppPreference(LoginActivity.this).setBoolean(true, IS_CONTRACTOR);
-                } else {
-                    AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
-                }
+                else AppPreference.getAppPreference(LoginActivity.this).setBoolean(false, IS_CONTRACTOR);
+
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getSessionId(), SESSION_ID);
                 AppPreference.getAppPreference(LoginActivity.this).setString(loginData.getUserId(), USER_ID);
                 openActivity(HomeActivity.class, true, false, null, null);

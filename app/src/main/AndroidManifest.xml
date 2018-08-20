@@ -168,12 +168,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".modules.home.modules.marketplace.ContractorProfile" />
-        <activity android:name=".modules.home.modules.projects.ConsumerWindowActivity"
+        <activity
+            android:name=".modules.home.modules.projects.ConsumerWindowActivity"
             android:label="@string/create_new_project"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".modules.home.modules.projects.ConsumerProjectTypeActivity" />
         <activity android:name=".modules.home.modules.projects.ConsumerProjectTypeDetailsActivity" />
         <activity android:name=".modules.home.modules.projects.ConsumerCreateProjectActivity" />
+        <activity android:name=".modules.home.modules.projects.ProjectsActivity" />
     </application>
 
 </manifest>
