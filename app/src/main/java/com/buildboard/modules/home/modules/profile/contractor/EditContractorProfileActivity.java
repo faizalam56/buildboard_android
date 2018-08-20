@@ -39,22 +39,22 @@ public class EditContractorProfileActivity extends AppCompatActivity {
         title.setText(stringEditProfile);
     }
 
-    @OnClick(R.id.card_business_info)
+    @OnClick(R.id.text_business_info)
     void businessInfoTapped() {
         gotoScreen(SignUpContractorActivity.class);
     }
 
-    @OnClick(R.id.card_type_of_work)
+    @OnClick(R.id.text_type_of_work)
     void typeOfWorkTapped() {
         gotoScreen(WorkTypeActivity.class);
     }
 
-    @OnClick(R.id.card_documents)
+    @OnClick(R.id.text_documents)
     void documentsTapped() {
         gotoScreen(BusinessDocumentsActivity.class);
     }
 
-    @OnClick(R.id.card_previous_work)
+    @OnClick(R.id.text_previous_work)
     void previousWorkTapped() {
         gotoScreen(PreviousWorkActivity.class);
     }
