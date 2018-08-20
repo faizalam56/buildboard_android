@@ -42,5 +42,4 @@ public class ProjectByProjectTypeResponse {
     public void setError(ErrorResponse error) {
         this.error = error;
     }
-
 }

@@ -139,5 +139,4 @@ public class ProjectByProjectTypeData {
     public void setTotal(Integer total) {
         this.total = total;
     }
-
 }

@@ -172,5 +172,4 @@ public class ProjectData {
     public void setQuotes(List<Object> quotes) {
         this.quotes = quotes;
     }
-
 }
