@@ -1,6 +1,8 @@
 package com.buildboard.modules.home.modules.profile.contractor;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -10,6 +12,8 @@ import com.buildboard.modules.signup.contractor.businessdocuments.BusinessDocume
 import com.buildboard.modules.signup.contractor.businessinfo.SignUpContractorActivity;
 import com.buildboard.modules.signup.contractor.previouswork.PreviousWorkActivity;
 import com.buildboard.modules.signup.contractor.worktype.WorkTypeActivity;
+import com.buildboard.permissions.PermissionHelper;
+import com.buildboard.utils.ConnectionDetector;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -20,6 +24,9 @@ public class EditContractorProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
     TextView title;
+
+    @BindView(R.id.constraint_root)
+    ConstraintLayout constraintRoot;
 
     @BindString(R.string.edit_profile)
     String stringEditProfile;
@@ -34,21 +41,28 @@ public class EditContractorProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.card_business_info)
     void businessInfoTapped() {
-        startActivity(new Intent(this, SignUpContractorActivity.class));
+        gotoScreen(SignUpContractorActivity.class);
     }
 
     @OnClick(R.id.card_type_of_work)
     void typeOfWorkTapped() {
-        startActivity(new Intent(this, WorkTypeActivity.class));
+        gotoScreen(WorkTypeActivity.class);
     }
 
     @OnClick(R.id.card_documents)
     void documentsTapped() {
-        startActivity(new Intent(this, BusinessDocumentsActivity.class));
+        gotoScreen(BusinessDocumentsActivity.class);
     }
 
     @OnClick(R.id.card_previous_work)
     void previousWorkTapped() {
-        startActivity(new Intent(this, PreviousWorkActivity.class));
+        gotoScreen(PreviousWorkActivity.class);
+    }
+
+    private void gotoScreen(Class target) {
+        if (ConnectionDetector.isNetworkConnected(this))
+            startActivity(new Intent(this, target));
+        else
+            ConnectionDetector.createSnackBar(this, constraintRoot);
     }
 }
