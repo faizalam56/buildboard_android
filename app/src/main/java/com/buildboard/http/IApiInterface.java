@@ -12,6 +12,7 @@ import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.mo
 import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
+import com.buildboard.modules.home.modules.marketplace.models.projectbyprojecttype.ProjectByProjectTypeResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
 import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
@@ -217,4 +218,7 @@ public interface IApiInterface {
 
     @PUT("contractor/profile/prev-doc")
     Call<BusinessDocumentsResponse> updatePrevWork(@Header("oauth") String oauth, @Header("session") String sessionId, @Body PreviousWorkRequest previousWorkRequest);
+
+    @GET("marketplace/by-project-type")
+    Call<ProjectByProjectTypeResponse> getProjectByProjectType(@Header("oauth") String oauth, @Header("session") String sessionId, @Query("project_type") String projectType);
 }

@@ -19,6 +19,7 @@ import com.buildboard.modules.home.modules.marketplace.contractors.models.Projec
 import com.buildboard.modules.home.modules.marketplace.models.MarketPlaceContractorResponse;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerResponse;
 import com.buildboard.modules.home.modules.marketplace.models.contractorprofile.ContractorProfileResponse;
+import com.buildboard.modules.home.modules.marketplace.models.projectbyprojecttype.ProjectByProjectTypeResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordRequest;
 import com.buildboard.modules.home.modules.profile.consumer.models.ChangePasswordResponse;
 import com.buildboard.modules.home.modules.profile.consumer.models.LogoutResponse;
@@ -1220,6 +1221,29 @@ public class DataManager implements AppConstant, AppConfiguration {
 
             @Override
             public void onFailure(@NonNull Call<BusinessDocumentsResponse> call, @NonNull Throwable t) {
+                dataManagerListener.onError(t);
+            }
+        });
+    }
+
+    public void getProjectByProjectType(Activity activity, String projectTypeId, final DataManagerListener dataManagerListener) {
+        Call<ProjectByProjectTypeResponse> call = getDataManager().getProjectByProjectType(AppPreference.getAppPreference(activity).getString(ACCESS_TOKEN),
+                AppPreference.getAppPreference(activity).getString(SESSION_ID), projectTypeId);
+        call.enqueue(new Callback<ProjectByProjectTypeResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ProjectByProjectTypeResponse> call, @NonNull Response<ProjectByProjectTypeResponse> response) {
+                if (!response.isSuccessful()) {
+                    dataManagerListener.onError(response.errorBody());
+                    return;
+                }
+
+                if (response.body().getStatus() != null && response.body().getStatus().equals(SUCCESS) && response.body().getData().size() > 0)
+                    dataManagerListener.onSuccess(response.body().getData().get(0));
+                else dataManagerListener.onError(response.body().getError());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ProjectByProjectTypeResponse> call, @NonNull Throwable t) {
                 dataManagerListener.onError(t);
             }
         });
