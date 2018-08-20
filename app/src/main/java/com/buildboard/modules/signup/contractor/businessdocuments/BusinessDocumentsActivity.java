@@ -424,6 +424,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerInsurance.setLayoutManager(linearLayoutManager);
         recyclerInsurance.setAdapter(mInsuranceAdapter);
+        recyclerInsurance.setNestedScrollingEnabled(false);
     }
 
     private void setWorkmanInsuranceAdapter() {
@@ -444,6 +445,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerWorkmanInsurance.setLayoutManager(linearLayoutManager);
         recyclerWorkmanInsurance.setAdapter(mWorkmanInsuranceAdapter);
+        recyclerWorkmanInsurance.setNestedScrollingEnabled(false);
     }
 
     private void setBusinessLicensingAdapter() {
@@ -467,6 +469,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBusinessLicensing.setLayoutManager(linearLayoutManager);
         recyclerBusinessLicensing.setAdapter(mBusinessLicensingAdapter);
+        recyclerBusinessLicensing.setNestedScrollingEnabled(false);
     }
 
     private void setBondingAdapter() {
@@ -490,6 +493,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerBonding.setLayoutManager(linearLayoutManager);
         recyclerBonding.setAdapter(mBondingAdapter);
+        recyclerBonding.setNestedScrollingEnabled(false);
     }
 
     private void setCertificationAdapter() {
@@ -510,6 +514,7 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerCertification.setLayoutManager(linearLayoutManager);
         recyclerCertification.setAdapter(mCertificationAdapter);
+        recyclerCertification.setNestedScrollingEnabled(false);
     }
 
     @Override
