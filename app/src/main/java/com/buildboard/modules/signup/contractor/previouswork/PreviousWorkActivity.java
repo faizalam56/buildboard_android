@@ -145,17 +145,21 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
     @OnClick(R.id.button_next)
     void nextTapped() {
 
-        if (isContractor)
-            updatePrevWork();
-        else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PermissionHelper permission = new PermissionHelper(this);
-                if (!permission.checkPermission(permissions))
-                    requestPermissions(permissions, REQUEST_PERMISSION_CODE);
-                else
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (isContractor)
+                updatePrevWork();
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PermissionHelper permission = new PermissionHelper(this);
+                    if (!permission.checkPermission(permissions))
+                        requestPermissions(permissions, REQUEST_PERMISSION_CODE);
+                    else
+                        showImageUploadDialog();
+                } else
                     showImageUploadDialog();
-            } else
-                showImageUploadDialog();
+            }
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
         }
     }
 
