@@ -630,7 +630,7 @@ public class SignUpContractorActivity extends AppCompatActivity implements AppCo
     }
 
     private void setContractorDetails(BusinessInfoData businessInfoData) {
-        Picasso.get().load(businessInfoData.getImage()).transform(new RoundedCornersTransform()).resize(80, 80).error(R.drawable.upload_profile_image).into(imageProfile);
+        Picasso.get().load(businessInfoData.getImage()).transform(new RoundedCornersTransform()).error(R.drawable.upload_profile_image).into(imageProfile);
         mResponseImageUrl = businessInfoData.getImage();
         editBusinessName.setText(businessInfoData.getBusinessName() != null ? businessInfoData.getBusinessName() : "");
         editBusinessAddress.setText(businessInfoData.getBusinessAddress() != null ? businessInfoData.getBusinessAddress() : "");
