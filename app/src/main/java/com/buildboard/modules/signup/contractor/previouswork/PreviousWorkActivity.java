@@ -283,6 +283,7 @@ public class PreviousWorkActivity extends AppCompatActivity implements AppConsta
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerPreviousWork.setLayoutManager(linearLayoutManager);
         recyclerPreviousWork.setAdapter(mPreviousWorkAdapter);
+        recyclerPreviousWork.setNestedScrollingEnabled(false);
     }
 
     @Override
