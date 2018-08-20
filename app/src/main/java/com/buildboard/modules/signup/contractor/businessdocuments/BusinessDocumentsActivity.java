@@ -171,10 +171,14 @@ public class BusinessDocumentsActivity extends AppCompatActivity implements AppC
 
     @OnClick(R.id.button_next)
     void nextTapped() {
-        if (isContractor)
-            updateContractorDocuments();
-        else
-            storeContractorDocuments();
+        if (ConnectionDetector.isNetworkConnected(this)) {
+            if (isContractor)
+                updateContractorDocuments();
+            else
+                storeContractorDocuments();
+        } else {
+            ConnectionDetector.createSnackBar(this, constraintRoot);
+        }
     }
 
     @OnClick(R.id.text_camera)
