@@ -126,14 +126,15 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                         public void afterTextChanged(Editable editable) {
                         }
                     });
+
                     break;
                 case TYPE_SELECT:
                     linearCheckBoxLayout.setVisibility(View.VISIBLE);
                     List<String> questionChoicesList = question.getQuestionChoices();
                     for(String questionChoices : questionChoicesList){
                         textQuestionChoice.setText(questionChoices);
-                        //linearCheckBoxLayout.addView(textQuestionChoice.setText(questionChoices));
                     }
+
                     break;
             }
         }

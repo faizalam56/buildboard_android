@@ -23,6 +23,7 @@ import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.modules.profile.consumer.adapter.AddressesAdapter;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.addaddress.AddAddressRequest;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
@@ -44,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LocationAddressActivity extends AppCompatActivity
-        implements AppConstant, AddressesAdapter.IChangePrimaryAddressListener {
+        implements AppConstant, AddressesAdapter.IChangePrimaryAddressListener, IRecyclerItemClickListener {
 
     @BindView(R.id.title)
     BuildBoardTextView textTitle;
@@ -115,7 +116,7 @@ public class LocationAddressActivity extends AppCompatActivity
     }
 
     private void setRecycler(ArrayList<AddressListData> addressListData) {
-        mAddressesAdapter = new AddressesAdapter(this, addressListData, progressBar);
+        mAddressesAdapter = new AddressesAdapter(this, addressListData, progressBar, this);
         recyclerAddresses.setLayoutManager(new LinearLayoutManager(this));
         recyclerAddresses.setAdapter(mAddressesAdapter);
         enableSwipe();
@@ -245,5 +246,14 @@ public class LocationAddressActivity extends AppCompatActivity
                 else SnackBarFactory.createSnackBar(LocationAddressActivity.this, constraintLayout, "Errr");
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object data) {
+        AddressListData mAddressList  = (AddressListData) data;
+        Intent intent=new Intent();
+        intent.putExtra(INTENT_ADDRESS,mAddressList.getAddress());
+        setResult(SCHEDULE_REQUEST_CODE,intent);
+        finish();
     }
 }

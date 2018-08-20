@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.buildboard.R;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.dialogs.PopUpHelper;
 import com.buildboard.http.DataManager;
+import com.buildboard.interfaces.IRecyclerItemClickListener;
 import com.buildboard.modules.home.modules.profile.consumer.models.addresses.getaddress.AddressListData;
 import com.buildboard.utils.ProgressHelper;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,12 +36,14 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
     private ArrayList<AddressListData> mAddressList;
     private IChangePrimaryAddressListener mPrimaryAddressListener;
     private ProgressBar mProgressBar;
+    private IRecyclerItemClickListener mClickListener;
 
-    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList, ProgressBar progressBar) {
+    public AddressesAdapter(Activity activity, ArrayList<AddressListData> addressList, ProgressBar progressBar , IRecyclerItemClickListener clickListener) {
         mActivity = activity;
         mAddressList = addressList;
         mPrimaryAddressListener = (IChangePrimaryAddressListener) activity;
         mProgressBar = progressBar;
+        mClickListener =clickListener;
         sortPrimaryTop();
     }
 
@@ -114,6 +118,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         BuildBoardTextView textAddress;
         @BindView(R.id.text_primary_address)
         BuildBoardTextView textPrimaryAddress;
+        @BindView(R.id.constraint_root)
+        ConstraintLayout constraintLayout;
 
         @BindString(R.string.confirm_primary_address)
         String stringPrimaryAddress;
@@ -138,6 +144,12 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
             textPrimaryAddress.setVisibility(address.getIsDefault() == 1 ? View.VISIBLE : View.GONE);
         }
+
+        @OnClick(R.id.constraint_root)
+        public void onRowTapped(){
+            mClickListener.onItemClick(itemView, getAdapterPosition(), mAddressList.get(getAdapterPosition()));
+        }
+
 
         @OnClick(R.id.image_location)
         void locationIconTapped() {

@@ -39,41 +39,34 @@
             android:id="@+id/linearCheckBoxLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_question"
             android:visibility="gone"
-            android:orientation="vertical">
+            android:layout_below="@id/text_question"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/checkbox_question_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:theme="@style/Checkbox"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <CheckBox
-                    android:id="@+id/checkbox_question_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:theme="@style/Checkbox"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.buildboard.customviews.BuildBoardTextView
-                    android:id="@+id/text_question_choice"
-                    style="@style/textSize_smallest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_toEndOf="@id/checkbox_question_type"
-                    android:layout_toRightOf="@id/checkbox_question_type"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkbox_question_type"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/checkbox_question_type"
-                    app:layout_constraintTop_toTopOf="@+id/checkbox_question_type"
-                    app:typeface="robotoMedium" />
-            </RelativeLayout>
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_question_choice"
+                style="@style/textSize_smallest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_question_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_question_type"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_question_type"
+                app:typeface="robotoMedium" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
