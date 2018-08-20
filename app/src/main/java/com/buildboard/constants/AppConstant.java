@@ -59,6 +59,12 @@ public interface AppConstant {
     String TEXT_DOCUMENTS = "Documents";
     String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
     String TYPE_SELECT = "select";
+    String TYPE_PROJECT_TITLE = "projectTitle";
+    String TYPE_TEXT_AREA ="textarea";
+    String TYPE_DATE_AND_TIME = "datetime";
+    String TYPE_ADDRESS = "address";
+    String TYPE_MULTI_SELECT ="multiselect";
+    String TYPE_PREFERRED_CONTRACTOR ="preferredContractors";
 
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";

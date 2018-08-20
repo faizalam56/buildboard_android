@@ -341,4 +341,11 @@
     <string name="additional_attachment">Additional attachment</string>
     <string name="preferred_attachment">Preferred Material,Example Photos,Links or Other Attachments</string>
     <string name="measurement_heading">Print off and place the BUILDBOARD measurement reference in each photo you add to this section</string>
+    <string name="project_description">Project Description</string>
+    <string name="preferred_start_date">Preferred Start Date</string>
+    <string name="preferred_end_date">Preferred End Date</string>
+    <string name="project_address">Project Address</string>
+    <string name="contractor_quote">Any verified Contractor in your area can provide a Quote</string>
+    <string name="preferred_contractor_quote">Only preferred Contractor can provide a Quote</string>
+    <string name="select_preferred_contractor">Select Preferred Contractor</string>
 </resources>

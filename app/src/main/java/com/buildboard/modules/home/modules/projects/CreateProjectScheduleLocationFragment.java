@@ -58,16 +58,7 @@ public class CreateProjectScheduleLocationFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         if(ConnectionDetector.isNetworkConnected(getActivity())){
-            ProgressHelper.showProgressBar(getActivity(), progressBar);
-            Gson gson = new Gson();
-            String json =  loadJsonFromAsset(getActivity(), QUESTION_LOCAL_JSON);
-            ProjectFormResponse mProjectFromResponse = gson.fromJson(json, ProjectFormResponse.class);
-            List<Task> tasks =mProjectFromResponse.getData().get(0).getForm().get(0).getTasks();
-            if (tasks.get(0).getTask() !=null && tasks.get(0).getQuestions() != null) {
-                ProgressHelper.hideProgressBar();
-                mQuestionList = tasks.get(0).getQuestions();
-                setProjectsRecycler(mQuestionList);
-            }
+
         } else {
             ConnectionDetector.createSnackBar(getActivity(), container);
         }

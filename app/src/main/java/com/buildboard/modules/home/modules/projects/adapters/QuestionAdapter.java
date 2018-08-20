@@ -18,6 +18,7 @@ import com.buildboard.customviews.BuildBoardEditText;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.projects.models.ProjectTypeQuestion;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,15 +35,29 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     private List<ProjectTypeQuestion> questionList;
     private Context mContext;
     private String[] stringArrayAnswer;
+    private Map<String, List<String>> answerListMap = new HashMap<>();
 
     public QuestionAdapter(FragmentActivity activity, List<ProjectTypeQuestion> questionList) {
         this.mContext = activity;
         this.questionList = questionList;
         this.stringArrayAnswer = new String[questionList.size()];
+        prepareAnswerList(questionList);
     }
 
-    public String[] getAnswer() {
-        return stringArrayAnswer;
+    private void prepareAnswerList(List<ProjectTypeQuestion> questionList) {
+        for (ProjectTypeQuestion question : questionList) {
+            answerListMap.put(question.getQuestionId(), null);
+        }
+    }
+
+    public void assignmentAnswerList(final String questionId, final List<String> answers) {
+        if (!answerListMap.isEmpty() && answerListMap.containsKey(questionId)) {
+            answerListMap.put(questionId, answers);
+        }
+    }
+
+    public Map<String, List<String>> getAnswer() {
+        return answerListMap;
     }
 
     @Override
@@ -75,8 +90,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         BuildBoardTextView textQuestionChoice;
         @BindView(R.id.linearCheckBoxLayout)
         LinearLayout linearCheckBoxLayout;
-        Map<String, String> hashMap = new HashMap<>();
-
 
         public ViewHolder(View view) {
             super(view);
@@ -94,7 +107,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             }
         }
 
-        private void showQuestionByType(String questionType, ProjectTypeQuestion question) {
+        private void showQuestionByType(String questionType, final ProjectTypeQuestion question) {
             switch (questionType){
                 case TYPE_TEXT:
                     editAnswer.setVisibility(View.VISIBLE);
@@ -105,7 +118,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            stringArrayAnswer[getAdapterPosition()] = charSequence.toString();
+                           // stringArrayAnswer[getAdapterPosition()] = charSequence.toString();
+                            assignmentAnswerList( questionList.get(getAdapterPosition()).getQuestionId(), Collections.singletonList(charSequence.toString()));
                         }
 
                         @Override
@@ -118,6 +132,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                     List<String> questionChoicesList = question.getQuestionChoices();
                     for(String questionChoices : questionChoicesList){
                         textQuestionChoice.setText(questionChoices);
+                        //linearCheckBoxLayout.addView(textQuestionChoice.setText(questionChoices));
                     }
                     break;
             }

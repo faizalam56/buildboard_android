@@ -1,26 +1,304 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:scrollbars="none"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/container"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_question"
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_question"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/project_title"
+            android:textColor="@android:color/black"
+            app:typeface="robotoMedium" />
+
+        <com.buildboard.customviews.BuildBoardEditText
+            android:id="@+id/edit_project_title"
+            style="@style/edit_text_size_smaller"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            android:hint="@string/project_title"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/text_question"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_project_description"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/project_description"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/edit_project_title"
+            app:typeface="robotoMedium" />
+
+        <com.buildboard.customviews.BuildBoardEditText
+            android:id="@+id/edit_project_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:nestedScrollingEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            android:hint="@string/project_description"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:maxLines="5"
+            android:minLines="4"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toBottomOf="@+id/text_project_description"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_preferred_start_date"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/preferred_start_date"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/edit_project_description"
+            app:typeface="robotoMedium" />
+
+        <LinearLayout
+            android:id="@+id/linear_date_start"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/text_preferred_start_date">
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_preferred_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".9"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/preferred_start_date"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12ssp"
+                app:typeface="robotoRegular" />
+
+            <ImageButton
+                android:id="@+id/image_date"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:background="@android:color/white"
+                android:src="@drawable/ic_calendar" />
+        </LinearLayout>
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_preferred_end_date"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/preferred_start_date"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/linear_date_start"
+            app:typeface="robotoMedium" />
+
+        <LinearLayout
+            android:id="@+id/linear_date_end"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@+id/text_preferred_end_date">
+
+            <com.buildboard.customviews.BuildBoardEditText
+                android:id="@+id/edit_preferred_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".9"
+                android:background="@drawable/green_drawable_border"
+                android:hint="@string/preferred_end_date"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12ssp"
+                app:typeface="robotoRegular" />
+
+            <ImageButton
+                android:id="@+id/image_end_date"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:background="@android:color/white"
+                android:src="@drawable/ic_calendar" />
+        </LinearLayout>
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_address"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/project_address"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/linear_date_end"
+            app:typeface="robotoMedium" />
+
+        <com.buildboard.customviews.BuildBoardEditText
+            android:id="@+id/edit_project_address"
+            style="@style/edit_text_size_smaller"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            android:hint="@string/project_address"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/text_address"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_contractor_priority"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/project_address"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/edit_project_address"
+            app:typeface="robotoMedium" />
+
+        <RelativeLayout
+            android:id="@+id/relative_contractor_quote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/text_contractor_priority">
+
+            <CheckBox
+                android:id="@+id/checkbox_contractor_quote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:theme="@style/Checkbox"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_contractor_quote"
+                style="@style/textSize_smallest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_11sdp"
+                android:layout_toEndOf="@id/checkbox_contractor_quote"
+                android:layout_toRightOf="@id/checkbox_contractor_quote"
+                android:text="@string/contractor_quote"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_contractor_quote"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_contractor_quote"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_contractor_quote"
+                app:typeface="robotoMedium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_preferred_contractor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/relative_contractor_quote">
+
+            <CheckBox
+                android:id="@+id/checkbox_preferred_contractor_quote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:theme="@style/Checkbox"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.buildboard.customviews.BuildBoardTextView
+                android:id="@+id/text_preferred_contractor_quote"
+                style="@style/textSize_smallest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_11sdp"
+                android:layout_toEndOf="@id/checkbox_preferred_contractor_quote"
+                android:layout_toRightOf="@id/checkbox_preferred_contractor_quote"
+                android:text="@string/preferred_contractor_quote"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_preferred_contractor_quote"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_preferred_contractor_quote"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_preferred_contractor_quote"
+                app:typeface="robotoMedium" />
+        </RelativeLayout>
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_select_preferred_contractor"
+            style="@style/textSize_smallest"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/select_preferred_contractor"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/relative_preferred_contractor"
+            app:typeface="robotoMedium" />
+
+        <com.buildboard.customviews.BuildBoardEditText
+            android:id="@+id/edit_select_preferred_contractor"
+            style="@style/edit_text_size_smaller"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/green_drawable_border"
+            android:hint="@string/select_preferred_contractor"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@+id/text_select_preferred_contractor"
+            app:typeface="robotoRegular" />
 
         <com.buildboard.customviews.BuildBoardButton
             android:id="@+id/button_next"
@@ -34,14 +312,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_question"
+            app:layout_constraintTop_toBottomOf="@+id/edit_select_preferred_contractor"
             app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
             android:id="@+id/progressBar"
-            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
