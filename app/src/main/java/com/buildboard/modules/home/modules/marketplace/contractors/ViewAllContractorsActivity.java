@@ -14,7 +14,6 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ViewAllNearByContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ViewAllTrendingContractorAdapter;
 import com.buildboard.modules.home.modules.marketplace.models.NearByContractor;

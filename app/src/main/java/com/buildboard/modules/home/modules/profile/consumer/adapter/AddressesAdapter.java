@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.profile.consumer.adapter;
 
 import android.app.Activity;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.constraint.ConstraintLayout;

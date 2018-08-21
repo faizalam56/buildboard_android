@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.modules.home.modules.marketplace.contractors.adapters.ContractorProjectAttachmetsAdapter;
-import com.buildboard.view.AutoFitGridLayoutManager;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,7 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
     @BindView(R.id.title)
     BuildBoardTextView toolbarTitle;
     @BindView(R.id.recycler_attachment)
-    RecyclerView recyclerAttachmets;
+    RecyclerView recyclerAttachments;
     @BindView(R.id.text_noattachmets)
     TextView textNoAttachment;
 
@@ -54,7 +52,7 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
 
             if (mAttachmentArray == null || mAttachmentArray.isEmpty()) {
                 textNoAttachment.setVisibility(View.VISIBLE);
-                recyclerAttachmets.setVisibility(View.GONE);
+                recyclerAttachments.setVisibility(View.GONE);
             }
 
             setNearbyContractorsRecycler(mAttachmentArray);
@@ -63,7 +61,7 @@ public class ContractorProjectsAttachmentActivity extends AppCompatActivity {
 
     private void setNearbyContractorsRecycler(ArrayList<String> AttachmentArray) {
         ContractorProjectAttachmetsAdapter selectionAdapter = new ContractorProjectAttachmetsAdapter(mContext, AttachmentArray);
-        recyclerAttachmets.setLayoutManager(new GridLayoutManager(mContext, 2));
-        recyclerAttachmets.setAdapter(selectionAdapter);
+        recyclerAttachments.setLayoutManager(new GridLayoutManager(mContext, 2));
+        recyclerAttachments.setAdapter(selectionAdapter);
     }
 }

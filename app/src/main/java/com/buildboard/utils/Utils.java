@@ -232,12 +232,13 @@ public class Utils {
         }
         return json;
     }
+
     /* get date format: Jan 1, 2021 */
     public static String getFormattedDate(String stringDate) {
         String nonFormattedDate = stringDate.split("\\s+")[0].replaceAll("-", "/");
         String formattedDate = "";
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy",Locale.getDefault());
         Date date = null;
         try {
             date = format1.parse(nonFormattedDate);
@@ -248,4 +249,5 @@ public class Utils {
         formattedDate = format2.format(date);
         return formattedDate;
     }
+
 }

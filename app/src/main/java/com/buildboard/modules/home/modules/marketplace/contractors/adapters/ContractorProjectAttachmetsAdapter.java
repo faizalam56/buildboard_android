@@ -8,26 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.buildboard.R;
-import com.buildboard.customviews.BuildBoardTextView;
-import com.buildboard.fonts.FontHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ContractorProjectAttachmetsAdapter extends RecyclerView.Adapter<ContractorProjectAttachmetsAdapter.ViewHolder> {
 
-    private Context mContext;
     private ArrayList<String> mAttachmentArray;
     private LayoutInflater mLayoutInflater;
 
     public ContractorProjectAttachmetsAdapter(Context context, ArrayList<String> attachmentArray) {
-        mContext = context;
         mAttachmentArray = attachmentArray;
-        mLayoutInflater = LayoutInflater.from(mContext);
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
