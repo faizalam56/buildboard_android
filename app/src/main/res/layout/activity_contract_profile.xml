@@ -202,7 +202,8 @@
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_toStartOf="@id/image_location"
                         android:gravity="start"
-                        app:typeface="robotoRegular" />
+                        app:typeface="robotoRegular"
+                        android:layout_toLeftOf="@id/image_location" />
 
                     <ImageView
                         android:id="@+id/image_location"
@@ -332,7 +333,7 @@
                     android:orientation="vertical">
 
                     <com.buildboard.customviews.BuildBoardTextView
-                        android:id="@+id/text_type_of_work_label"
+                        android:id="@+id/text_rating"
                         style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -420,6 +421,41 @@
                     android:layout_marginStart="@dimen/_15sdp"
                     android:background="?android:selectableItemBackground"
                     android:text="@string/documents"
+                    app:typeface="robotoRegular" />
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    app:srcCompat="@drawable/ic_arrow_right_36" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/divider_drawable" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:orientation="horizontal">
+
+                <com.buildboard.customviews.BuildBoardTextView
+                    android:id="@+id/text_previous_work"
+                    style="@style/textSize_smaller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/previous_work"
                     app:typeface="robotoRegular" />
 
                 <ImageView

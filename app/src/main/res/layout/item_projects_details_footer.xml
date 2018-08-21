@@ -2,21 +2,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraint_drafts_row_footer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_50sdp"
     android:background="?android:selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:clickable="false"
         android:focusable="false"
+        android:background="?android:selectableItemBackground"
         android:orientation="horizontal">
 
         <com.buildboard.customviews.BuildBoardTextView
             android:id="@+id/text_title"
-            style="@style/textSize_small"
+            style="@style/textSize_smaller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,7 +25,8 @@
             android:paddingBottom="@dimen/_10sdp"
             android:paddingTop="@dimen/_10sdp"
             android:text="@string/no_records_found"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_12ssp"
+            app:typeface="robotoRegular" />
 
         <Space
             android:layout_width="0dp"

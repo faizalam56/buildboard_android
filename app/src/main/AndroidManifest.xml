@@ -176,6 +176,7 @@
         <activity android:name=".modules.home.modules.projects.ConsumerProjectTypeDetailsActivity" />
         <activity android:name=".modules.home.modules.projects.ConsumerCreateProjectActivity" />
         <activity android:name=".modules.home.modules.projects.ProjectsActivity" />
+        <activity android:name=".modules.home.modules.marketplace.NearByContractorViewDocumentsActivity"></activity>
     </application>
 
 </manifest>
