@@ -68,6 +68,8 @@ public class ViewAllTrendingContractorAdapter extends RecyclerView.Adapter<ViewA
         ImageView imageContractor;
         @BindView(R.id.linear_root)
         LinearLayout constraintLayout;
+        @BindView(R.id.image_verified)
+        ImageView imageVerified;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -80,11 +82,13 @@ public class ViewAllTrendingContractorAdapter extends RecyclerView.Adapter<ViewA
 
         private void setData() {
             TrendingService contractorData = mContractorList.get(getAdapterPosition());
-            textContractorName.setText(contractorData.getBusinessName().substring(0, 1).toUpperCase()
-                    + contractorData.getBusinessName().substring(1));
+            textContractorName.setText(String.format("%s%s", contractorData.getBusinessName().substring(0, 1).toUpperCase(), contractorData.getBusinessName().substring(1)));
             textCompanyAddress.setText(contractorData.getBusinessAddress());
             Utils.display(mContext, contractorData.getImage(), imageContractor, R.mipmap.no_image_available);
             ratingBar.setVisibility(View.GONE);
+            if(contractorData.getVerified() == 1){
+                imageVerified.setVisibility(View.VISIBLE);
+            }
         }
 
         @OnClick(R.id.linear_root)

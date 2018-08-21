@@ -179,6 +179,13 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
         startActivity(intent);
     }
 
+    @OnClick(R.id.text_documents)
+    public void documentsTapped(){ }
+
+    @OnClick(R.id.text_previous_work)
+    public void previousWorkTapped(){ }
+
+
     @OnClick(R.id.image_location)
     void locationIconTapped() {
         Utils.openAddressInMap(ContractorProfile.this, mLatLng, "");
