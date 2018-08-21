@@ -200,7 +200,7 @@
 
                     <com.buildboard.customviews.BuildBoardTextView
                         android:id="@+id/button_showonmap"
-                        style="@style/button_style"
+                        style="@style/textSize_smaller"
                         android:layout_width="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginTop="@dimen/_12sdp"
@@ -209,7 +209,8 @@
                         android:text="@string/view_on_map"
                         android:textAllCaps="false"
                         android:textColor="@color/colorGreen"
-                        android:textSize="@dimen/_10sdp" />
+                        app:typeface="robotoRegular"
+                        android:paddingEnd="@dimen/_10sdp" />
 
                 </LinearLayout>
 
@@ -238,7 +239,7 @@
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:layout_constraintBottom_toTopOf="@id/edit_write_msg"
                 app:layout_constraintLeft_toLeftOf="parent"

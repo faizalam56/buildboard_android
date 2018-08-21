@@ -66,14 +66,12 @@ public class ViewAllNearByContractorAdapter extends RecyclerView.Adapter<ViewAll
         ImageView imageContractor;
         @BindView(R.id.linear_root)
         LinearLayout constraintLayout;
+        @BindView(R.id.image_verified)
+        ImageView imageVerified;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textContractorName, textCompanyAddress);
         }
 
         private void setData() {
@@ -82,6 +80,9 @@ public class ViewAllNearByContractorAdapter extends RecyclerView.Adapter<ViewAll
             textCompanyAddress.setText(contractorData.getBusinessAddress());
             Utils.display(mContext, contractorData.getImage(), imageContractor, R.mipmap.no_image_available);
             ratingBar.setVisibility(View.GONE);
+            if(contractorData.getVerified() == 1){
+                imageVerified.setVisibility(View.VISIBLE);
+            }
         }
 
         @OnClick(R.id.linear_root)

@@ -65,15 +65,10 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            setFont();
         }
 
         private void setData(int position) {
             textTitle.setText(mArrayList.get(position));
-        }
-
-        private void setFont() {
-            FontHelper.setFontFace(FontHelper.FontType.FONT_LIGHT, textTitle);
         }
 
         private ArrayList<String> getAttachmentArray(int position) {

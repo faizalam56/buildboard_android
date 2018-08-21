@@ -26,7 +26,7 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.mailbox.inbox.adapters.InboxAdapter;
-import com.buildboard.modules.home.modules.mailbox.inbox.models.Data;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxData;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
 import com.buildboard.preferences.AppPreference;
@@ -48,12 +48,12 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
 
     private InboxAdapter inboxAdapter;
     private Context mContext;
-    private ArrayList<Data> mMessagesList = new ArrayList<>();
+    private ArrayList<InboxData> mMessagesList = new ArrayList<>();
     private int mCurrentPage = 1;
     private String mUserId = null;
     private InboxMessagesResponse mMessagesResponse;
     private String mSelfUserId;
-    private boolean isRefreshed =false;
+    private boolean isRefreshed = false;
 
     @BindView(R.id.title)
     TextView title;
@@ -91,6 +91,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         mContext = this;
         mSelfUserId = AppPreference.getAppPreference(mContext).getString(AppConstant.USER_ID);
         title.setText(stringInbox);
+
         setFonts();
         getIntentData();
     }
@@ -99,9 +100,8 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     void replyTapped() {
         if (ConnectionDetector.isNetworkConnected(mContext)) {
             if (!TextUtils.isEmpty(editWriteMsg.getText())) {
-
-                List<Data> messageData = new ArrayList<>();
-                Data data = new Data();
+                List<InboxData> messageData = new ArrayList<>();
+                InboxData data = new InboxData();
                 data.setBody(editWriteMsg.getText().toString());
                 data.setRecipientId(mUserId);
                 data.setType(textMessageType);
@@ -115,7 +115,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                     textErrorMessage.setVisibility(View.GONE);
                     setInboxRecycler(messageData, mCurrentPage);
                 } else {
-                    mMessagesList.addAll(0,messageData);
+                    mMessagesList.addAll(0, messageData);
                     inboxAdapter.notifyDataSetChanged();
                     recyclerMessages.smoothScrollToPosition(mMessagesList.size() - 1);
                 }
@@ -125,10 +125,87 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.inboxmenu, menu);
+        Drawable drawable = menu.getItem(0).getIcon();
+
+        if (drawable != null) {
+            drawable.mutate();
+            drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (ConnectionDetector.isNetworkConnected(InboxActivity.this)) {
+                    isRefreshed = true;
+                    mMessagesList = new ArrayList<>();
+                    getMessages(mUserId, mCurrentPage);
+                } else {
+                    ConnectionDetector.createSnackBar(mContext, constraintLayout);
+                }
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    private void getMessages(String userId, int pageNumber) {
+
+        ProgressHelper.showProgressBar(InboxActivity.this, progressBar);
+        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, pageNumber, new DataManager.DataManagerListener() {
+            @Override
+            public void onSuccess(Object response) {
+                ProgressHelper.hideProgressBar();
+                if (response == null) return;
+
+                if (isRefreshed) inboxAdapter = null;
+                isRefreshed = false;
+
+                mMessagesResponse = (InboxMessagesResponse) response;
+
+                boolean isMessageAvailable;
+                if (mMessagesResponse.getData().isEmpty()) {
+                    isMessageAvailable = false;
+                    textErrorMessage.setText(textNoChatMessage);
+                } else {
+                    isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
+                }
+
+                recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
+                textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
+
+                if (!mMessagesResponse.getData().isEmpty()) {
+                    if (mMessagesResponse != null && mMessagesResponse.getData().get(0).getData() != null &&
+                            mMessagesResponse.getData().get(0).getData().size() > 0) {
+                        setInboxRecycler(mMessagesResponse.getData().get(0).getData(),
+                                mMessagesResponse.getData().get(0).getLastPage());
+                    } else {
+                        textErrorMessage.setText(textNoChatMessage);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Object error) {
+                ProgressHelper.hideProgressBar();
+                Utils.showError(InboxActivity.this, constraintLayout, error);
+            }
+        });
+    }
+
     private void getIntentData() {
         if (getIntent().hasExtra(DATA)) {
             mUserId = getIntent().getStringExtra(DATA);
-            getMessages(mUserId,mCurrentPage);
+            getMessages(mUserId, mCurrentPage);
         }
     }
 
@@ -142,7 +219,9 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 if (response == null) return;
-                //TODO Handle Response
+                mMessagesList.clear();
+                getMessages(mUserId, mCurrentPage);
+                inboxAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -152,89 +231,16 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.inboxmenu , menu);
-        Drawable drawable = menu.getItem(0).getIcon();
-        if(drawable != null) {
-            drawable.mutate();
-            drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                if (ConnectionDetector.isNetworkConnected(InboxActivity.this)) {
-                    isRefreshed = true;
-                    mMessagesList=new ArrayList<>();
-                    getMessages(mUserId, mCurrentPage);
-                } else {
-                    ConnectionDetector.createSnackBar(mContext, constraintLayout);
-                }
-                break;
-             default:
-                break;
-        }
-
-        return true;
-    }
-
-    private String getCurrentTime() {
-        String currentTime = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        currentTime = sdf.format(new Date());
-        return currentTime;
-    }
-
-    private void getMessages(String userId, int pageNumber) {
-
-        ProgressHelper.showProgressBar(InboxActivity.this, progressBar);
-        DataManager.getInstance().getInboxMessages(InboxActivity.this, userId, pageNumber, new DataManager.DataManagerListener() {
-            @Override
-            public void onSuccess(Object response) {
-                ProgressHelper.hideProgressBar();
-                if (isRefreshed) inboxAdapter = null;
-
-                isRefreshed = false;
-
-                if (response == null) return;
-
-                mMessagesResponse = (InboxMessagesResponse) response;
-                boolean isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
-                recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
-                textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
-
-                if (mMessagesResponse != null && mMessagesResponse.getData().get(0).getData() != null &&
-                        mMessagesResponse.getData().get(0).getData().size() > 0) {
-                    setInboxRecycler(mMessagesResponse.getData().get(0).getData(),
-                            mMessagesResponse.getData().get(0).getLastPage());
-                } else {
-                    textErrorMessage.setText(textNoChatMessage);
-                }
-            }
-
-            @Override
-            public void onError(Object error) {
-                ProgressHelper.hideProgressBar();
-                Utils.showError(InboxActivity.this, constraintLayout, error);
-            }
-        });
-    }
-
-    private void setInboxRecycler(List<Data> inboxData, int lastPage) {
-        mMessagesList.addAll(0,inboxData);
+    private void setInboxRecycler(List<InboxData> inboxData, int lastPage) {
+        mMessagesList.addAll(0, inboxData);
 
         if (inboxAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(InboxActivity.this);
-            mLinearLayoutManager.setStackFromEnd(true);
             recyclerMessages.setLayoutManager(mLinearLayoutManager);
             inboxAdapter = new InboxAdapter(InboxActivity.this, mMessagesList, recyclerMessages);
             recyclerMessages.setAdapter(inboxAdapter);
             recyclerMessages.smoothScrollToPosition(inboxData.size() - 1);
+
             inboxAdapter.setOnLoadMoreListener(new InboxAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
@@ -257,5 +263,12 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     private void setFonts() {
         FontHelper.setFontFace(FontHelper.FontType.FONT_REGULAR, editWriteMsg, buttonSaveAsDraft);
         FontHelper.setFontFace(FontHelper.FontType.FONT_BOLD, buttonSaveAsDraft);
+    }
+
+    private String getCurrentTime() {
+        String currentTime = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        currentTime = sdf.format(new Date());
+        return currentTime;
     }
 }

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".modules.home.modules.marketplace.NearByContractorViewDocumentsActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_business_licensing"
+            style="@style/textSize_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="start"
+            android:text="@string/business_licensing"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:typeface="robotoLight" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_state"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/state"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_business_licensing"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_state_name"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_state"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_state_name"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_license"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/license_number"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_license_number"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_license"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_two"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_license_number"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_attachment"
+            style="@style/textSize_smaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:text="@string/attachment"
+            android:textColor="@color/colorGreen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_two"
+            app:typeface="robotoRegular" />
+
+        <ImageView
+            android:id="@+id/image_contractor"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/carpenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_two"
+            android:layout_marginRight="@dimen/_10sdp" />
+        <View
+            android:id="@+id/view_3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/image_contractor"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_bonding"
+            style="@style/textSize_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="start"
+            android:text="@string/bonding"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_3"
+            app:typeface="robotoLight" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_state_bonding"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/state"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_bonding"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_state_bonding_name"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_state_bonding"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_4"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_state_bonding_name"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_city"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/city"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/view_4"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_city_name"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_city"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_5"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_city_name"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_bond_number"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/city"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/view_4"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_bond_number_value"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_bond_number"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_6"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_bond_number_value"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_bond_dollar"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/city"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/view_6"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_bond_dollar_amount"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_bond_dollar"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_7"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_bond_dollar_amount"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_attachment_two"
+            style="@style/textSize_smaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:text="@string/attachment"
+            android:textColor="@color/colorGreen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_7"
+            app:typeface="robotoRegular" />
+
+        <ImageView
+            android:id="@+id/image_contractor_image"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/carpenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_7"
+            android:layout_marginRight="@dimen/_10sdp" />
+        <View
+            android:id="@+id/view_8"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/image_contractor"
+            android:background="@drawable/divider_drawable" />
+
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_certification"
+            style="@style/textSize_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="start"
+            android:text="@string/certification"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_8"
+            app:typeface="robotoLight" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_certification_body"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/state"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_certification"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_certification_body_value"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_certification_body"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_9"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_certification_body_value"
+            android:background="@drawable/divider_drawable" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_certification_number"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/state"
+            android:textColor="@color/colorGreen"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/view_9"
+            app:typeface="robotoRegular" />
+
+        <com.buildboard.customviews.BuildBoardTextView
+            android:id="@+id/text_certification_number_value"
+            style="@style/textSize_smaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/state"
+            android:textColor="@android:color/black"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@+id/text_certification_number"
+            app:typeface="robotoRegular" />
+
+        <View
+            android:id="@+id/view_10"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/text_certification_number_value"
+            android:background="@drawable/divider_drawable" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
