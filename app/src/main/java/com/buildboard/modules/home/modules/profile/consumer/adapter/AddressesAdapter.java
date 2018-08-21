@@ -42,7 +42,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         mAddressList = addressList;
         mPrimaryAddressListener = (IChangePrimaryAddressListener) activity;
         mProgressBar = progressBar;
-        mClickListener =clickListener;
+        mClickListener = clickListener;
         sortPrimaryTop();
     }
 

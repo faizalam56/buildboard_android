@@ -90,11 +90,6 @@ public class CreateProjectDescriptionFragment extends Fragment{
         if (ConnectionDetector.isNetworkConnected(getActivity())){
             Map<String, List<String>> answerListMap = mQuestionAdapter.getAnswer();
             if (!validateAnswerList(mQuestionAdapter.getAnswer())) {
-                /*for (int i = 0; i < mQuestionList.size(); i++) {
-                    if (!TextUtils.isEmpty(stringAnswer[i])) {
-                        Toast.makeText(getActivity(), stringAnswer[i], Toast.LENGTH_SHORT).show();
-                    }
-                }*/
                 for (Map.Entry<String,List<String>> entry : answerListMap.entrySet())
                 Toast.makeText(getActivity(), "Key = " + entry.getKey() +
                         ", Value = " + entry.getValue(), Toast.LENGTH_SHORT).show();
@@ -120,9 +115,9 @@ public class CreateProjectDescriptionFragment extends Fragment{
         return true;
     }
 
-    public boolean validateAnswerList(final Map<String, List<String>> answerListMap){
-        if(answerListMap.keySet()!=null && answerListMap.values()!= null) {
-            if(answerListMap.keySet().size() == answerListMap.values().size()){
+    public boolean validateAnswerList(final Map<String, List<String>> answerListMap) {
+        if (answerListMap.keySet() != null && answerListMap.values() != null) {
+            if (answerListMap.keySet().size() == answerListMap.values().size()) {
                 return true;
             }
         }

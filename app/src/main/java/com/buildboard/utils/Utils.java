@@ -237,8 +237,8 @@ public class Utils {
     public static String getFormattedDate(String stringDate) {
         String nonFormattedDate = stringDate.split("\\s+")[0].replaceAll("-", "/");
         String formattedDate = "";
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy",Locale.getDefault());
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy");
         Date date = null;
         try {
             date = format1.parse(nonFormattedDate);

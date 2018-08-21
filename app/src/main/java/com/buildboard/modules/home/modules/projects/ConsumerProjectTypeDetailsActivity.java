@@ -56,7 +56,7 @@ public class ConsumerProjectTypeDetailsActivity extends AppCompatActivity {
 
         title.setText(stringCreateNewProjectText);
 
-        mProjectAllTypesData= getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
+        mProjectAllTypesData = getIntent().getParcelableExtra(INTENT_PROJECT_TYPE_DATA);
         radioGroup.setOnCheckedChangeListener(checkedChangeListener);
     }
 

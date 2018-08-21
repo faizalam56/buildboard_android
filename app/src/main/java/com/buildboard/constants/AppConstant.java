@@ -70,7 +70,6 @@ public interface AppConstant {
     String TYPE_MULTI_SELECT ="multiselect";
     String TYPE_PREFERRED_CONTRACTOR ="preferredContractors";
 
-
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
     String KEY_ATTACHMENT_INSURANCE = "Attachment(Pdf/Document/Photo Of Insurence Document)";
     String KEY_LIABILITY = "Liability Insurance";

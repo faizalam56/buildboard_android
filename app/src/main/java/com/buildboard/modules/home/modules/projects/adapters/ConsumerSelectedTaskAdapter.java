@@ -65,7 +65,7 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
         }
 
         public void setData(Task task) {
-            if (task != null ) {
+            if (task != null) {
                 textTask.setText(!TextUtils.isEmpty(task.getTask()) ? task.getTask() : stringRepairText);
             }
         }

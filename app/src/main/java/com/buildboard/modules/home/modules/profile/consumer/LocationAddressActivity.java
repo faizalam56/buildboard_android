@@ -250,10 +250,10 @@ public class LocationAddressActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(View view, int position, Object data) {
-        AddressListData mAddressList  = (AddressListData) data;
-        Intent intent=new Intent();
-        intent.putExtra(INTENT_ADDRESS,mAddressList.getAddress());
-        setResult(SCHEDULE_REQUEST_CODE,intent);
+        AddressListData mAddressList = (AddressListData) data;
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_ADDRESS, mAddressList.getAddress());
+        setResult(SCHEDULE_REQUEST_CODE, intent);
         finish();
     }
 }

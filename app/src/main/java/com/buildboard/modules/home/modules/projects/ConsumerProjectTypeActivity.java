@@ -140,11 +140,11 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
                                     openActivity(projectFormDetails, ConsumerCreateProjectActivity.class);
                                 }
                             } else {
-                                SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this,containers,stringNoTaskAvailable);
+                                SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this, containers,stringNoTaskAvailable);
                             }
                         }
                     } else {
-                        SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this,containers,stringNoTaskAvailable);
+                        SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this, containers,stringNoTaskAvailable);
                     }
                 }
             }
