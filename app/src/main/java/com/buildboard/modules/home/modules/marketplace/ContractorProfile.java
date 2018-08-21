@@ -180,14 +180,10 @@ public class ContractorProfile extends AppCompatActivity implements AppConstant 
     }
 
     @OnClick(R.id.text_documents)
-    public void documentsTapped(){
-
-    }
+    public void documentsTapped(){ }
 
     @OnClick(R.id.text_previous_work)
-    public void previousWorkTapped(){
-
-    }
+    public void previousWorkTapped(){ }
 
 
     @OnClick(R.id.image_location)
