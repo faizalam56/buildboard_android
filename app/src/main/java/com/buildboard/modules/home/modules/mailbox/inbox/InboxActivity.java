@@ -139,7 +139,9 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 if (response == null) return;
-                //TODO Handle Response
+                mMessagesList.clear();
+                getMessages(mUserId, mCurrentPage);
+                inboxAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -194,11 +196,10 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             @Override
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
-                if (isRefreshed) inboxAdapter = null;
-
-                isRefreshed = false;
-
                 if (response == null) return;
+
+                if (isRefreshed) inboxAdapter = null;
+                isRefreshed = false;
 
                 mMessagesResponse = (InboxMessagesResponse) response;
 
@@ -206,10 +207,8 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                 if (mMessagesResponse.getData().isEmpty()) {
                     isMessageAvailable = false;
                     textErrorMessage.setText(textNoChatMessage);
-                } else if (mMessagesResponse.getData().get(0).getData().size() > 0) {
-                    isMessageAvailable = true;
                 } else {
-                    isMessageAvailable = false;
+                    isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
                 }
 
                 recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
