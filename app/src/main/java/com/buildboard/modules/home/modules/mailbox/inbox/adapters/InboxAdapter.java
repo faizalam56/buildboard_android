@@ -1,7 +1,6 @@
 package com.buildboard.modules.home.modules.mailbox.inbox.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
-import com.buildboard.modules.home.modules.mailbox.adapters.MessagesAdapter;
-import com.buildboard.modules.home.modules.mailbox.inbox.InboxActivity;
-import com.buildboard.modules.home.modules.mailbox.inbox.models.Data;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxData;
 import com.buildboard.preferences.AppPreference;
 
 import java.text.ParseException;
@@ -30,7 +27,7 @@ import butterknife.ButterKnife;
 public class InboxAdapter extends RecyclerView.Adapter {
 
     private Activity mActivity;
-    private ArrayList<Data> mArrayList;
+    private ArrayList<InboxData> mArrayList;
     private LayoutInflater mLayoutInflater;
     private InboxAdapter.OnLoadMoreListener onLoadMoreListener;
     private final int VIEW_TYPE_ITEM = 0;
@@ -39,7 +36,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
     private boolean isLastPage = false;
     private LinearLayoutManager mLinearLayoutManager;
 
-    public InboxAdapter(Activity activity, ArrayList<Data> arrayList, RecyclerView recyclerView) {
+    public InboxAdapter(Activity activity, ArrayList<InboxData> arrayList, RecyclerView recyclerView) {
         mActivity = activity;
         mArrayList = arrayList;
         mLinearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -152,7 +149,7 @@ public class InboxAdapter extends RecyclerView.Adapter {
 
         private void bindData(int position) {
             String User_Id = AppPreference.getAppPreference(mActivity).getString(AppConstant.USER_ID);
-            Data messageModel = mArrayList.get(getAdapterPosition());
+            InboxData messageModel = mArrayList.get(getAdapterPosition());
             layoutMessageSent.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.VISIBLE : View.GONE);
             layoutMessageReceive.setVisibility(!messageModel.getRecipientId().equals(User_Id) ? View.GONE : View.VISIBLE);
 

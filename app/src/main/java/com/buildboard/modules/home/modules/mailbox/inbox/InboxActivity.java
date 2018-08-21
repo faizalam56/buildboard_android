@@ -26,7 +26,7 @@ import com.buildboard.customviews.BuildBoardTextView;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.http.DataManager;
 import com.buildboard.modules.home.modules.mailbox.inbox.adapters.InboxAdapter;
-import com.buildboard.modules.home.modules.mailbox.inbox.models.Data;
+import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxData;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.InboxMessagesResponse;
 import com.buildboard.modules.home.modules.mailbox.inbox.models.SendMessageRequest;
 import com.buildboard.preferences.AppPreference;
@@ -46,15 +46,6 @@ import butterknife.OnClick;
 
 public class InboxActivity extends AppCompatActivity implements AppConstant {
 
-    private InboxAdapter inboxAdapter;
-    private Context mContext;
-    private ArrayList<Data> mMessagesList = new ArrayList<>();
-    private int mCurrentPage = 1;
-    private String mUserId = null;
-    private InboxMessagesResponse mMessagesResponse;
-    private String mSelfUserId;
-    private boolean isRefreshed =false;
-
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.recycler_messages)
@@ -73,13 +64,20 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     ProgressBar progressBar;
     @BindView(R.id.text_error_message)
     BuildBoardTextView textErrorMessage;
-
     @BindString(R.string.inbox)
     String stringInbox;
     @BindString(R.string.no_chat_yet)
     String textNoChatMessage;
     @BindString(R.string.text)
     String textMessageType;
+    private InboxAdapter inboxAdapter;
+    private Context mContext;
+    private ArrayList<InboxData> mMessagesList = new ArrayList<>();
+    private int mCurrentPage = 1;
+    private String mUserId = null;
+    private InboxMessagesResponse mMessagesResponse;
+    private String mSelfUserId;
+    private boolean isRefreshed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +97,8 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     void replyTapped() {
         if (ConnectionDetector.isNetworkConnected(mContext)) {
             if (!TextUtils.isEmpty(editWriteMsg.getText())) {
-
-                List<Data> messageData = new ArrayList<>();
-                Data data = new Data();
+                List<InboxData> messageData = new ArrayList<>();
+                InboxData data = new InboxData();
                 data.setBody(editWriteMsg.getText().toString());
                 data.setRecipientId(mUserId);
                 data.setType(textMessageType);
@@ -115,7 +112,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                     textErrorMessage.setVisibility(View.GONE);
                     setInboxRecycler(messageData, mCurrentPage);
                 } else {
-                    mMessagesList.addAll(0,messageData);
+                    mMessagesList.addAll(0, messageData);
                     inboxAdapter.notifyDataSetChanged();
                     recyclerMessages.smoothScrollToPosition(mMessagesList.size() - 1);
                 }
@@ -128,7 +125,7 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     private void getIntentData() {
         if (getIntent().hasExtra(DATA)) {
             mUserId = getIntent().getStringExtra(DATA);
-            getMessages(mUserId,mCurrentPage);
+            getMessages(mUserId, mCurrentPage);
         }
     }
 
@@ -155,9 +152,9 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.inboxmenu , menu);
+        inflater.inflate(R.menu.inboxmenu, menu);
         Drawable drawable = menu.getItem(0).getIcon();
-        if(drawable != null) {
+        if (drawable != null) {
             drawable.mutate();
             drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         }
@@ -170,13 +167,13 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
             case R.id.action_refresh:
                 if (ConnectionDetector.isNetworkConnected(InboxActivity.this)) {
                     isRefreshed = true;
-                    mMessagesList=new ArrayList<>();
+                    mMessagesList = new ArrayList<>();
                     getMessages(mUserId, mCurrentPage);
                 } else {
                     ConnectionDetector.createSnackBar(mContext, constraintLayout);
                 }
                 break;
-             default:
+            default:
                 break;
         }
 
@@ -204,16 +201,28 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
                 if (response == null) return;
 
                 mMessagesResponse = (InboxMessagesResponse) response;
-                boolean isMessageAvailable = mMessagesResponse.getData().get(0).getData().size() > 0;
+
+                boolean isMessageAvailable;
+                if (mMessagesResponse.getData().isEmpty()) {
+                    isMessageAvailable = false;
+                    textErrorMessage.setText(textNoChatMessage);
+                } else if (mMessagesResponse.getData().get(0).getData().size() > 0) {
+                    isMessageAvailable = true;
+                } else {
+                    isMessageAvailable = false;
+                }
+
                 recyclerMessages.setVisibility(isMessageAvailable ? View.VISIBLE : View.INVISIBLE);
                 textErrorMessage.setVisibility(isMessageAvailable ? View.INVISIBLE : View.VISIBLE);
 
-                if (mMessagesResponse != null && mMessagesResponse.getData().get(0).getData() != null &&
-                        mMessagesResponse.getData().get(0).getData().size() > 0) {
-                    setInboxRecycler(mMessagesResponse.getData().get(0).getData(),
-                            mMessagesResponse.getData().get(0).getLastPage());
-                } else {
-                    textErrorMessage.setText(textNoChatMessage);
+                if (!mMessagesResponse.getData().isEmpty()) {
+                    if (mMessagesResponse != null && mMessagesResponse.getData().get(0).getData() != null &&
+                            mMessagesResponse.getData().get(0).getData().size() > 0) {
+                        setInboxRecycler(mMessagesResponse.getData().get(0).getData(),
+                                mMessagesResponse.getData().get(0).getLastPage());
+                    } else {
+                        textErrorMessage.setText(textNoChatMessage);
+                    }
                 }
             }
 
@@ -225,8 +234,8 @@ public class InboxActivity extends AppCompatActivity implements AppConstant {
         });
     }
 
-    private void setInboxRecycler(List<Data> inboxData, int lastPage) {
-        mMessagesList.addAll(0,inboxData);
+    private void setInboxRecycler(List<InboxData> inboxData, int lastPage) {
+        mMessagesList.addAll(0, inboxData);
 
         if (inboxAdapter == null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(InboxActivity.this);

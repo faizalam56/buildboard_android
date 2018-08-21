@@ -11,7 +11,7 @@ public class InboxMessageData {
     private Integer currentPage;
     @SerializedName("data")
     @Expose
-    private List<Data> data = null;
+    private List<InboxData> data = null;
     @SerializedName("first_page_url")
     @Expose
     private String firstPageUrl;
@@ -51,11 +51,11 @@ public class InboxMessageData {
         this.currentPage = currentPage;
     }
 
-    public List<Data> getData() {
+    public List<InboxData> getData() {
         return data;
     }
 
-    public void setData(List<Data> data) {
+    public void setData(List<InboxData> data) {
         this.data = data;
     }
 
