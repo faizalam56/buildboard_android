@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.buildboard.modules.home.modules.projects.models.Task;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,6 +56,9 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
         @BindView(R.id.container_root)
         ConstraintLayout constraintLayout;
 
+        @BindString(R.string.repair)
+        String stringRepairText;
+
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
@@ -61,7 +66,7 @@ public class ConsumerSelectedTaskAdapter extends RecyclerView.Adapter<ConsumerSe
 
         public void setData(Task task) {
             if (task != null) {
-                textTask.setText(task.getTask());
+                textTask.setText(!TextUtils.isEmpty(task.getTask()) ? task.getTask() : stringRepairText);
             }
         }
 

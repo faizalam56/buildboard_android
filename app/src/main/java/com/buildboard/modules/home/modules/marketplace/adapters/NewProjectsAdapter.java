@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,7 +85,7 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
             NewProject nearByProjects = mNewProjects.get(getAdapterPosition());
             if (nearByProjects == null) return;
             Picasso.get().load(nearByProjects.getProjectType().getImage()).placeholder(R.mipmap.no_image_available).into(imageService);
-            textName.setText(nearByProjects.getTitle().substring(0,1).toUpperCase() + nearByProjects.getTitle().substring(1));
+            textName.setText(String.format("%s%s", nearByProjects.getTitle().substring(0, 1).toUpperCase(), nearByProjects.getTitle().substring(1)));
             textRatingbar.setVisibility(View.INVISIBLE);
             textMessageDate.setText(ConvertTime(nearByProjects.getStartDate().replaceAll("-", "/")));
         }
@@ -104,8 +105,8 @@ public class NewProjectsAdapter extends RecyclerView.Adapter<NewProjectsAdapter.
     }
 
     private String ConvertTime(String strDate) {
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy"); // TODO: 8/13/2018
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault()); // TODO: 8/13/2018
         Date date = null;
         try {
             date = format1.parse(strDate);

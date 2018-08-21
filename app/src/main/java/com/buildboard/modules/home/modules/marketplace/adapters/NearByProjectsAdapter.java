@@ -78,7 +78,7 @@ public class NearByProjectsAdapter extends RecyclerView.Adapter<NearByProjectsAd
             NearByProjects nearByProjects = mNearByProjects.get(getAdapterPosition());
             if (nearByProjects == null) return;
             Picasso.get().load(nearByProjects.getProjectType().getImage()).placeholder(R.mipmap.no_image_available).into(imageService);
-            textName.setText(nearByProjects.getTitle().substring(0,1).toUpperCase() + nearByProjects.getTitle().substring(1));
+            textName.setText(String.format("%s%s", nearByProjects.getTitle().substring(0, 1).toUpperCase(), nearByProjects.getTitle().substring(1)));
             textRatingbar.setVisibility(View.INVISIBLE);
         }
 

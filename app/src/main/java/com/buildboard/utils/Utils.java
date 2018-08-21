@@ -1,6 +1,7 @@
 package com.buildboard.utils;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,8 +35,12 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -212,6 +218,21 @@ public class Utils {
         return formatted_date;
     }
 
+    public static String loadJsonFromAsset(Activity activity, String jsonFile){
+        String json = null;
+        try {
+            InputStream inputStream = activity.getAssets().open(jsonFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
     /* get date format: Jan 1, 2021 */
     public static String getFormattedDate(String stringDate) {
         String nonFormattedDate = stringDate.split("\\s+")[0].replaceAll("-", "/");
@@ -228,4 +249,5 @@ public class Utils {
         formattedDate = format2.format(date);
         return formattedDate;
     }
+
 }

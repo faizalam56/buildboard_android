@@ -26,13 +26,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.buildboard.constants.AppConstant.DATA;
 import static com.buildboard.utils.Utils.showProgressColor;
 
 public class ProjectsDetailActivity extends AppCompatActivity implements AppConstant {
@@ -93,10 +93,10 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
         }
     }
 
-    private void setProgressBar(Boolean visiblity) {
-        progressBar.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        scrollView.setVisibility(visiblity ? View.GONE : View.VISIBLE);
-        toolbar.setVisibility(visiblity ? View.GONE : View.VISIBLE);
+    private void setProgressBar(Boolean visibility) {
+        progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        scrollView.setVisibility(visibility ? View.GONE : View.VISIBLE);
+        toolbar.setVisibility(visibility ? View.GONE : View.VISIBLE);
     }
 
     private void getNearByProjectsByProjectId(String projectId) {
@@ -144,8 +144,8 @@ public class ProjectsDetailActivity extends AppCompatActivity implements AppCons
 
     private String convertTime(String strDate) {
         String converted_time = "";
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy"); // TODO: 8/13/2018  
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault()); // TODO: 8/13/2018
         Date date = null;
         try {
             date = format1.parse(strDate);

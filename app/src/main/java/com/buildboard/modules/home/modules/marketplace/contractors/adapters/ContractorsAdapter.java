@@ -2,7 +2,6 @@ package com.buildboard.modules.home.modules.marketplace.contractors.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,8 +77,7 @@ public class ContractorsAdapter extends RecyclerView.Adapter<ContractorsAdapter.
 
         private void setData() {
             ContractorByProjectTypeListData contractorData = mContractorList.get(getAdapterPosition());
-            textContractorName.setText(contractorData.getBusinessName().substring(0, 1).toUpperCase()
-                    + contractorData.getBusinessName().substring(1));
+            textContractorName.setText(String.format("%s%s", contractorData.getBusinessName().substring(0, 1).toUpperCase(), contractorData.getBusinessName().substring(1)));
             textCompanyAddress.setText(contractorData.getBusinessAddress());
             Utils.display(mContext, contractorData.getImage(), imageContractor, R.mipmap.no_image_available);
             ratingBar.setVisibility(View.GONE);

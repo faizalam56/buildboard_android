@@ -1,6 +1,7 @@
 package com.buildboard.modules.home.modules.marketplace;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.customviews.BuildBoardTextView;
@@ -23,7 +24,6 @@ import com.buildboard.modules.home.modules.marketplace.adapters.NearByProjectsAd
 import com.buildboard.modules.home.modules.marketplace.adapters.NewProjectsAdapter;
 import com.buildboard.modules.home.modules.marketplace.adapters.ServicesAdapter;
 import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.ContractorByProjectTypeActivity;
-import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.ViewAllContractorsActivity;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.NewProject;
 import com.buildboard.modules.home.modules.marketplace.models.MarketplaceConsumerData;
@@ -35,12 +35,15 @@ import com.buildboard.modules.home.modules.marketplace.models.TrendingService;
 import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.view.SimpleDividerItemDecoration;
+
 import java.util.ArrayList;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
 import static com.buildboard.utils.Utils.showProgressColor;
 
 public class MarketPlaceFragment extends Fragment implements AppConstant {
@@ -118,7 +121,7 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_place, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
@@ -291,19 +294,19 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         });
     }
 
-    private void hideNewProjectsView(boolean visiblity) {
-        textNewProjectsNoRecords.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        progressNewProject.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        recyclerNewProjects.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        textNewProjectsTitle.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        textViewAllNewProjects.setVisibility(visiblity ? View.VISIBLE : View.GONE);
+    private void hideNewProjectsView(boolean visibility) {
+        textNewProjectsNoRecords.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        progressNewProject.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        recyclerNewProjects.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textNewProjectsTitle.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        textViewAllNewProjects.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
-    private void setProgressBar(Boolean visiblity, boolean isContractor) {
-        progressNearby.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        progressProjectType.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        progressService.setVisibility(visiblity ? View.VISIBLE : View.GONE);
-        progressNewProject.setVisibility(visiblity && isContractor ? View.VISIBLE : View.GONE);
+    private void setProgressBar(Boolean visibility, boolean isContractor) {
+        progressNearby.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        progressProjectType.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        progressService.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        progressNewProject.setVisibility(visibility && isContractor ? View.VISIBLE : View.GONE);
     }
 
     private void updateUi(boolean visibility) {
@@ -318,14 +321,14 @@ public class MarketPlaceFragment extends Fragment implements AppConstant {
         scrollView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
-    private void setNoRecordFoundTextVisiblity(boolean visiblity , boolean isContractor) {
-        textServicesNoRecord.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
-        textNearbyContractorsNorecord.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
-        textContractorsByProjecttypeNorecords.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
+    private void setNoRecordFoundTextVisiblity(boolean visibility , boolean isContractor) {
+        textServicesNoRecord.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+        textNearbyContractorsNorecord.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+        textContractorsByProjecttypeNorecords.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
         if (isContractor) {
-            textNewProjectsNoRecords.setVisibility(visiblity ? View.VISIBLE : View.INVISIBLE);
+            textNewProjectsNoRecords.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
         } else {
-            textNewProjectsNoRecords.setVisibility(visiblity && isContractor ? View.VISIBLE : View.GONE);
+            textNewProjectsNoRecords.setVisibility(visibility && isContractor ? View.VISIBLE : View.GONE);
         }
     }
 }

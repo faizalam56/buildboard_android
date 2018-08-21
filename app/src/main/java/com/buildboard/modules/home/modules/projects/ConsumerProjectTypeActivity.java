@@ -21,6 +21,7 @@ import com.buildboard.modules.home.modules.projects.models.ProjectAllType;
 import com.buildboard.modules.home.modules.projects.models.ProjectFormDetails;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
+import com.buildboard.view.SnackBarFactory;
 
 import java.util.ArrayList;
 
@@ -106,7 +107,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
             public void onSuccess(Object response) {
                 ProgressHelper.hideProgressBar();
                 if(response!=null){
-                   // getProjectById(selectedProjectId);
+                   getProjectById(selectedProjectId);
                 }
             }
 
@@ -119,7 +120,7 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finish();
     }
 
     private void getProjectById(String id) {
@@ -130,10 +131,20 @@ public class ConsumerProjectTypeActivity extends AppCompatActivity
                 ProgressHelper.hideProgressBar();
                 if (response != null) {
                     ProjectFormDetails projectFormDetails = (ProjectFormDetails) response;
-                    if (projectFormDetails.getType().equals(getString(R.string.other))) {
-                        openActivity(projectFormDetails, ConsumerProjectTypeDetailsActivity.class);
+                    if(projectFormDetails.getForm() != null) {
+                        for(int i =0; i< projectFormDetails.getForm().size() ; i++) {
+                            if(projectFormDetails.getForm().get(i).getTasks() != null) {
+                                if (projectFormDetails.getType().equals(getString(R.string.other))) {
+                                    openActivity(projectFormDetails, ConsumerProjectTypeDetailsActivity.class);
+                                } else {
+                                    openActivity(projectFormDetails, ConsumerCreateProjectActivity.class);
+                                }
+                            } else {
+                                SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this, containers,stringNoTaskAvailable);
+                            }
+                        }
                     } else {
-                        openActivity(projectFormDetails, ConsumerCreateProjectActivity.class);
+                        SnackBarFactory.createSnackBar(ConsumerProjectTypeActivity.this, containers,stringNoTaskAvailable);
                     }
                 }
             }

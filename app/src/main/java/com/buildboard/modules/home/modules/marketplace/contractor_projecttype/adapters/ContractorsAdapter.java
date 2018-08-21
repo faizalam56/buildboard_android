@@ -16,12 +16,10 @@ import butterknife.ButterKnife;
 
 public class ContractorsAdapter extends RecyclerView.Adapter<ContractorsAdapter.ViewHolder> {
 
-    private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public ContractorsAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(mContext);
+    ContractorsAdapter(Context context) {
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override

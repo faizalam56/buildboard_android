@@ -24,6 +24,7 @@ import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.ProgressHelper;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -74,17 +75,24 @@ public class CreateProjectDescriptionFragment extends Fragment{
         unbinder.unbind();
     }
 
+    private void setProjectsRecycler(List<ProjectTypeQuestion> questionList) {
+        ProgressHelper.hideProgressBar();
+        mQuestionAdapter = new QuestionAdapter(getActivity(), questionList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mQuestionAdapter);
+    }
+
     @OnClick(R.id.button_next)
     public void nextButtonTapped() {
-        if (ConnectionDetector.isNetworkConnected(getActivity())) {
-
-            String stringAnswer[] = mQuestionAdapter.getAnswer();
-            if (!isEmptyStringArray(stringAnswer)) {
-                for (int i = 0; i < mQuestionList.size(); i++) {
-                    if (!TextUtils.isEmpty(stringAnswer[i])) {
-                        Toast.makeText(getActivity(), stringAnswer[i], Toast.LENGTH_SHORT).show();
-                    }
-                }
+        if (ConnectionDetector.isNetworkConnected(getActivity())){
+            Map<String, List<String>> answerListMap = mQuestionAdapter.getAnswer();
+            if (!validateAnswerList(mQuestionAdapter.getAnswer())) {
+                for (Map.Entry<String,List<String>> entry : answerListMap.entrySet())
+                Toast.makeText(getActivity(), "Key = " + entry.getKey() +
+                        ", Value = " + entry.getValue(), Toast.LENGTH_SHORT).show();
             } else {
                 PopUpHelper.showInfoAlertPopup(getActivity(), showAlertMsg, new PopUpHelper.InfoPopupListener() {
                     @Override
@@ -97,15 +105,6 @@ public class CreateProjectDescriptionFragment extends Fragment{
         }
     }
 
-    private void setProjectsRecycler(List<ProjectTypeQuestion> questionList) {
-        ProgressHelper.hideProgressBar();
-        mQuestionAdapter = new QuestionAdapter(getActivity(), questionList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mQuestionAdapter);
-    }
-
     public boolean isEmptyStringArray(String array[]){
         for (String anArray : array) {
             if (anArray != null) {
@@ -114,5 +113,14 @@ public class CreateProjectDescriptionFragment extends Fragment{
         }
 
         return true;
+    }
+
+    public boolean validateAnswerList(final Map<String, List<String>> answerListMap) {
+        if (answerListMap.keySet() != null && answerListMap.values() != null) {
+            if (answerListMap.keySet().size() == answerListMap.values().size()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

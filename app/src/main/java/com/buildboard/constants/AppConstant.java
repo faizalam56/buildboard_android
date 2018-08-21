@@ -1,5 +1,7 @@
 package com.buildboard.constants;
 
+import com.buildboard.modules.home.modules.projects.models.ProjectScheduleLocation;
+
 public interface AppConstant {
     String INTENT_SELECTED_ITEM = "intent_selected_item";
     String INTENT_TITLE = "intent_title";
@@ -14,6 +16,7 @@ public interface AppConstant {
     int REQUEST_PERMISSION_CODE = 300;
     int FILE_SELECT_CODE = 0;
     int ERROR_CODE = 200;
+    int SCHEDULE_REQUEST_CODE = 1002;
 
     String SUCCESS = "success";
     String ACCESS_TOKEN = "access_token";
@@ -48,6 +51,8 @@ public interface AppConstant {
     String EXTERIOR = "exterior";
     String TASK = "task";
     String QUESTION = "question";
+    String QUESTION_LOCAL_JSON =  "Questionare.json";
+    String PROJECT_SCHEDULE_LOCATION = "project_schedule_location";
 
     String TYPE_DROPDOWN = "dropDown";
     String TYPE_TEXT = "text";
@@ -57,6 +62,13 @@ public interface AppConstant {
     String TEXT_REQUIREMENTS = "Requirements";
     String TEXT_DOCUMENTS = "Documents";
     String TYPE_MULTIPLE_ATTACHMENT = "multiple_attachment";
+    String TYPE_SELECT = "select";
+    String TYPE_PROJECT_TITLE = "projectTitle";
+    String TYPE_TEXT_AREA ="textarea";
+    String TYPE_DATE_AND_TIME = "datetime";
+    String TYPE_ADDRESS = "address";
+    String TYPE_MULTI_SELECT ="multiselect";
+    String TYPE_PREFERRED_CONTRACTOR ="preferredContractors";
 
     String KEY_INSURANCE_DOLLAR_AMOUNT = "Insurance Dollar Amount";
     String KEY_ATTACHMENT_INSURANCE = "Attachment(Pdf/Document/Photo Of Insurence Document)";
@@ -98,4 +110,5 @@ public interface AppConstant {
     String INTENT_CREATE_PROJECT_TASK = "intent_selected_task";
     String INTENT_SELECTED_PROJECT_SUB_CATEGORY = "intent_selected_project_sub_category";
     String INTENT_QUESTION_LIST = "intent_question_list";
+    String INTENT_ADDRESS = "address";
 }

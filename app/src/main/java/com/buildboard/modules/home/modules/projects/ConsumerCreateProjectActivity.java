@@ -108,7 +108,7 @@ public class ConsumerCreateProjectActivity extends AppCompatActivity implements 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        this.finish();
     }
 
     @Override
