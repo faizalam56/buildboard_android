@@ -13,16 +13,21 @@ import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsAttachmentActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorProjectsRequirementsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectForm;
 import com.buildboard.modules.home.modules.marketplace.contractors.models.ProjectsDetailData;
+import com.buildboard.modules.home.modules.marketplace.contractors.models.Task;
 import com.buildboard.utils.ConnectionDetector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.buildboard.constants.AppConstant.TEXT_ATTACHMENT;
+import static com.buildboard.constants.AppConstant.TEXT_REQUIREMENTS;
 
 public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDetailsFooterAdapter.ViewHolder> {
 
@@ -97,10 +102,24 @@ public class ProjectDetailsFooterAdapter extends RecyclerView.Adapter<ProjectDet
                         intent.putExtra(AppConstant.DATA, getAttachmentArray(getAdapterPosition()));
                         mContext.startActivity(intent);
                         break;
+                    case TEXT_REQUIREMENTS:
+                        gotoRequirements();
+                        break;
                 }
             } else {
                 ConnectionDetector.createSnackBar(mContext, linearRootLayout);
             }
+        }
+
+        private void gotoRequirements(){
+            /*List<ProjectForm> data =mNearByProjectDetailsData.getProjectForm();
+            List<Task> taskList = data.get(getAdapterPosition()).getTasks();*/
+
+            Intent intentRequirement = new Intent(mContext, ContractorProjectsRequirementsActivity.class);
+            intentRequirement.putExtra("projectDetailsData",mNearByProjectDetailsData);
+            mContext.startActivity(intentRequirement);
+
+
         }
     }
 }

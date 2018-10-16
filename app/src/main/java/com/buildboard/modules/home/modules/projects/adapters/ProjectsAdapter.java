@@ -7,13 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.buildboard.R;
 import com.buildboard.constants.AppConstant;
 import com.buildboard.fonts.FontHelper;
 import com.buildboard.modules.home.modules.marketplace.ContractorProfile;
+import com.buildboard.modules.home.modules.marketplace.contractors.ContractorsActivity;
+import com.buildboard.modules.home.modules.marketplace.contractors.ProjectsDetailActivity;
 import com.buildboard.modules.home.modules.marketplace.models.projectbyprojecttype.ProjectData;
+import com.buildboard.modules.home.modules.projects.ProjectsActivity;
+import com.buildboard.preferences.AppPreference;
 import com.buildboard.utils.ConnectionDetector;
 import com.buildboard.utils.Utils;
 
@@ -65,6 +70,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         TextView textEndDate;
         @BindView(R.id.image_project_type)
         ImageView imageProjectType;
+        @BindView(R.id.row_item_project_type)
+        LinearLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -85,5 +92,18 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
             textEndDate.setText(Utils.getFormattedDate(projectData.getEndDate()));
             Utils.display(mContext, projectData.getProjectType().getImage(), imageProjectType, R.mipmap.no_image_available);
         }
+
+       @OnClick(R.id.row_item_project_type)
+        public void rowTapped(){
+
+           if (ConnectionDetector.isNetworkConnected(mContext)) {
+               Intent intent = new Intent(mContext, ProjectsDetailActivity.class);
+               intent.putExtra(DATA, mProjectList.get(getAdapterPosition()).getId());
+               mContext.startActivity(intent);
+           } else {
+               ConnectionDetector.createSnackBar(mContext, container);
+           }
+        }
     }
 }
+

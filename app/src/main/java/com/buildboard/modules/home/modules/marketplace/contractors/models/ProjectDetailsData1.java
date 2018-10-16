@@ -1,120 +1,98 @@
 package com.buildboard.modules.home.modules.marketplace.contractors.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.buildboard.modules.home.modules.marketplace.contractor_projecttype.models.ContractorByProjectTypeListData;
 import com.buildboard.modules.home.modules.marketplace.models.Consumer;
 import com.buildboard.modules.home.modules.marketplace.models.ProjectType;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectsDetailData implements Parcelable{
+/**
+ * Created by faiz on 24/8/18.
+ */
+
+public class ProjectDetailsData1 {
     @SerializedName("id")
+    @Expose
     private String id;
     @SerializedName("title")
+    @Expose
     private String title;
     @SerializedName("any_varified_contractor_in_area_can_quote")
+    @Expose
     private Integer anyVarifiedContractorInAreaCanQuote;
     @SerializedName("only_pref_contractor_can_quote")
+    @Expose
     private Integer onlyPrefContractorCanQuote;
     @SerializedName("preferred_contractors")
-    private List<Object> preferredContractors = null;
+    @Expose
+    private List<PreferredContractor> preferredContractors = null;
     @SerializedName("description")
+    @Expose
     private String description;
-    @SerializedName("image")
-    private String image;
     @SerializedName("project_form")
-    private List<ProjectForm> projectForm = null;
+    @Expose
+    private List<ProjectForm1> projectForm = null;
     @SerializedName("status")
+    @Expose
     private String status;
     @SerializedName("category")
+    @Expose
     private String category;
     @SerializedName("latitude")
-    private Float latitude;
+    @Expose
+    private Double latitude;
     @SerializedName("longitude")
-    private Float longitude;
+    @Expose
+    private Double longitude;
     @SerializedName("address")
+    @Expose
     private String address;
     @SerializedName("project_photo")
+    @Expose
     private List<String> projectPhoto = null;
     @SerializedName("additional_attachment")
+    @Expose
     private List<String> additionalAttachment = null;
     @SerializedName("preffered_material_description")
+    @Expose
     private String prefferedMaterialDescription;
     @SerializedName("preffered_material_attachment")
+    @Expose
     private List<String> prefferedMaterialAttachment = null;
     @SerializedName("contractor")
+    @Expose
     private Object contractor;
     @SerializedName("start_date")
+    @Expose
     private String startDate;
     @SerializedName("end_date")
+    @Expose
     private String endDate;
     @SerializedName("created_at")
+    @Expose
     private String createdAt;
     @SerializedName("updated_at")
+    @Expose
     private String updatedAt;
+    @SerializedName("reviews_count")
+    @Expose
+    private Integer reviewsCount;
+    @SerializedName("quotes_count")
+    @Expose
+    private Integer quotesCount;
     @SerializedName("project_type")
+    @Expose
     private ProjectType projectType;
-    @SerializedName("consumer")
-    private Consumer consumer;
+    @SerializedName("change_requests")
+    @Expose
+    private List<Object> changeRequests = null;
     @SerializedName("quotes")
+    @Expose
     private List<Object> quotes = null;
-
-    protected ProjectsDetailData(Parcel in) {
-        id = in.readString();
-        title = in.readString();
-        if (in.readByte() == 0) {
-            anyVarifiedContractorInAreaCanQuote = null;
-        } else {
-            anyVarifiedContractorInAreaCanQuote = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            onlyPrefContractorCanQuote = null;
-        } else {
-            onlyPrefContractorCanQuote = in.readInt();
-        }
-        description = in.readString();
-        image = in.readString();
-        status = in.readString();
-        category = in.readString();
-        if (in.readByte() == 0) {
-            latitude = null;
-        } else {
-            latitude = in.readFloat();
-        }
-        if (in.readByte() == 0) {
-            longitude = null;
-        } else {
-            longitude = in.readFloat();
-        }
-        address = in.readString();
-        projectPhoto = in.createStringArrayList();
-        additionalAttachment = in.createStringArrayList();
-        prefferedMaterialDescription = in.readString();
-        prefferedMaterialAttachment = in.createStringArrayList();
-        startDate = in.readString();
-        endDate = in.readString();
-        createdAt = in.readString();
-        updatedAt = in.readString();
-        projectType = in.readParcelable(ProjectType.class.getClassLoader());
-    }
-
-    public static final Creator<ProjectsDetailData> CREATOR = new Creator<ProjectsDetailData>() {
-        @Override
-        public ProjectsDetailData createFromParcel(Parcel in) {
-            return new ProjectsDetailData(in);
-        }
-
-        @Override
-        public ProjectsDetailData[] newArray(int size) {
-            return new ProjectsDetailData[size];
-        }
-    };
+    @SerializedName("consumer")
+    @Expose
+    private Consumer consumer;
 
     public String getId() {
         return id;
@@ -148,11 +126,11 @@ public class ProjectsDetailData implements Parcelable{
         this.onlyPrefContractorCanQuote = onlyPrefContractorCanQuote;
     }
 
-    public List<Object> getPreferredContractors() {
+    public List<PreferredContractor> getPreferredContractors() {
         return preferredContractors;
     }
 
-    public void setPreferredContractors(List<Object> preferredContractors) {
+    public void setPreferredContractors(List<PreferredContractor> preferredContractors) {
         this.preferredContractors = preferredContractors;
     }
 
@@ -164,19 +142,11 @@ public class ProjectsDetailData implements Parcelable{
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public List<ProjectForm> getProjectForm() {
+    public List<ProjectForm1> getProjectForm() {
         return projectForm;
     }
 
-    public void setProjectForm(List<ProjectForm> projectForm) {
+    public void setProjectForm(List<ProjectForm1> projectForm) {
         this.projectForm = projectForm;
     }
 
@@ -196,19 +166,19 @@ public class ProjectsDetailData implements Parcelable{
         this.category = category;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -292,6 +262,22 @@ public class ProjectsDetailData implements Parcelable{
         this.updatedAt = updatedAt;
     }
 
+    public Integer getReviewsCount() {
+        return reviewsCount;
+    }
+
+    public void setReviewsCount(Integer reviewsCount) {
+        this.reviewsCount = reviewsCount;
+    }
+
+    public Integer getQuotesCount() {
+        return quotesCount;
+    }
+
+    public void setQuotesCount(Integer quotesCount) {
+        this.quotesCount = quotesCount;
+    }
+
     public ProjectType getProjectType() {
         return projectType;
     }
@@ -300,12 +286,12 @@ public class ProjectsDetailData implements Parcelable{
         this.projectType = projectType;
     }
 
-    public Consumer getConsumer() {
-        return consumer;
+    public List<Object> getChangeRequests() {
+        return changeRequests;
     }
 
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
+    public void setChangeRequests(List<Object> changeRequests) {
+        this.changeRequests = changeRequests;
     }
 
     public List<Object> getQuotes() {
@@ -316,52 +302,11 @@ public class ProjectsDetailData implements Parcelable{
         this.quotes = quotes;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Consumer getConsumer() {
+        return consumer;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(title);
-        if (anyVarifiedContractorInAreaCanQuote == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(anyVarifiedContractorInAreaCanQuote);
-        }
-        if (onlyPrefContractorCanQuote == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(onlyPrefContractorCanQuote);
-        }
-        dest.writeString(description);
-        dest.writeString(image);
-        dest.writeString(status);
-        dest.writeString(category);
-        if (latitude == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeFloat(latitude);
-        }
-        if (longitude == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeFloat(longitude);
-        }
-        dest.writeString(address);
-        dest.writeStringList(projectPhoto);
-        dest.writeStringList(additionalAttachment);
-        dest.writeString(prefferedMaterialDescription);
-        dest.writeStringList(prefferedMaterialAttachment);
-        dest.writeString(startDate);
-        dest.writeString(endDate);
-        dest.writeString(createdAt);
-        dest.writeString(updatedAt);
-        dest.writeParcelable(projectType, flags);
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 }
